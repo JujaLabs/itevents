@@ -1,4 +1,4 @@
-package ua.com.juja;
+package ua.com.juja.itevents;
 
 import org.junit.Test;
 
