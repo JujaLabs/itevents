@@ -1,0 +1,6 @@
+rootProject.name = 'itevents'
+
+include 'website'
+
+include 'website'
+
