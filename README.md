@@ -1,7 +1,7 @@
 # itevents
 Resource to subscribe on it events 
 
-        Instructions about deploying REST service
+<b>Instructions about deploying REST service</b>
 
 1. Open Command line in directory 'restservice'.
 
@@ -36,3 +36,10 @@ and test page of our application should be shown.
         
 where number is from 1 to 4.
 Page with xml structure of Event should be shown.
+
+6. To stop Jetty correctly open another Command line in directory 'restservice'.
+Start the following command: 
+        
+        gradle jettyStop
+        
+7. Now you can close both instances of Command line.
