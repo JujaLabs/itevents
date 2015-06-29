@@ -1,6 +1,3 @@
 rootProject.name = 'itevents'
 
-include 'website'
-
-include 'website'
-
+include ':website', ':restservice'
