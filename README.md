@@ -3,19 +3,19 @@ Resource to subscribe on it events
 
 <b>Instructions about deploying REST service</b>
 
-1. Open Command line in directory 'restservice'.
+-- Open Command line in directory 'restservice'.
 
-2. Start the following command: 
+-- Start the following command: 
         
         gradle build
 
 You should see 'BUILD SUCCESSFUL' after process end.
 
-3. Start the next command: 
+-- Start the next command: 
         
         gradle jettyRun
 
-4. After moment that you see about that:
+-- After moment that you see about that:
         BUILD SUCCESSFUL
         Total time: 11.802 secs
         D:\Java\Work\itevents\restservice>gradle jettyRun
@@ -30,16 +30,16 @@ you can run the following in browser command line:
         
 and test page of our application should be shown.
 
-5. Run the next in browser command line:
+-- Run the next in browser command line:
 
         http://localhost:8080/restservice/events/{number}
         
 where number is from 1 to 4.
 Page with xml structure of Event should be shown.
 
-6. To stop Jetty correctly open another Command line in directory 'restservice'.
+-- To stop Jetty correctly open another Command line in directory 'restservice'.
 Start the following command: 
         
         gradle jettyStop
         
-7. Now you can close both instances of Command line.
+-- Now you can close both instances of Command line.
