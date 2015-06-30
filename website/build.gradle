@@ -1,12 +1,9 @@
-apply plugin: 'java'
+group 'org.itevents'
+version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.7
-version = '1.0'
-
-repositories {
-    mavenCentral()
-}
+targetCompatibility = 1.7
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'junit:junit:4.12'
 }
