@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="3" author="garazd">
+        <sql>
+            create table public.EVENTS (
+            ID int8 NOT NULL,
+            title varchar(30) not null,
+            LAST_NAME varchar(30) not null,
+            primary key (ID));
+        </sql>
+        <rollback>
+            drop table public.PERSON;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
