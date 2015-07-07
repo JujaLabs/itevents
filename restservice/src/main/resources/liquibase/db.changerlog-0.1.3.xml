@@ -7,13 +7,18 @@
     <changeSet id="3" author="garazd">
         <sql>
             create table public.EVENTS (
-            ID int8 NOT NULL,
-            title varchar(30) not null,
-            LAST_NAME varchar(30) not null,
+            id int8 NOT NULL,
+            title varchar(50) not null,
+            eventDate timestamp (30) not null,
+            createDate timestamp (30) default null,
+            regLink varchar(30),
+            address varchar(30),
+            location varchar(30),
+            contact varchar(30),
             primary key (ID));
         </sql>
         <rollback>
-            drop table public.PERSON;
+            drop table public.EVENTS;
         </rollback>
     </changeSet>
 </databaseChangeLog>
