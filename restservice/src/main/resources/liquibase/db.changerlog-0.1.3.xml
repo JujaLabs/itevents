@@ -13,7 +13,7 @@
             createDate timestamp default null,
             regLink text,
             address text,
-            point not null,
+            point geometry(Point),
             contact text);
         </sql>
         <rollback>
