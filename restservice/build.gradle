@@ -43,10 +43,10 @@ task liquibaseUpdate(type: JavaExec) {
         project.hasProperty("password") &&
         project.hasProperty("url")
     ){
-        Map<String,?> args = project.getProperties()
-        args "--username=${args['username']}"
-        args "--password=${args['password']}"
-        args "--url=${args['url']}"
+        Map<String,?> propertyMap = project.getProperties()
+        args "--username=${propertyMap['username']}"
+        args "--password=${propertyMap['password']}"
+        args "--url=${propertyMap['url']}"
     }
     args 'update'
 }
