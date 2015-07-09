@@ -12,7 +12,7 @@ public interface EventMapper {
     @Select("SELECT id, name, date, from event WHERE id = #{id}")
     Event selectEvent(long id);
 
-    @Insert("INSERT into event(name, date) VALUES(#{name}, #{date}, #{location.latitude}, #{location.longitude})")
+    @Insert("INSERT into event(name, date) VALUES(#{name}, #{date})")
     void insertEvent(Event event);
 
     @Update("UPDATE event SET name=#{name}, date =#{date}  WHERE id =#{id}")
