@@ -7,14 +7,14 @@
     <changeSet id="0" author="garazd">
         <sql>
             create table EVENTS (
-            id int8 primary key not null,
-            title text not null,
-            eventDate timestamp not null,
-            createDate timestamp default null,
-            regLink text,
-            address text,
-            point geometry(Point),
-            contact text);
+            IDEvents int8 primary key not null,
+            Title text not null,
+            EventDate timestamp not null,
+            CreateDate timestamp default null,
+            RegLink text,
+            Address text,
+            Point geometry(Point),
+            Contact text);
         </sql>
         <rollback>
             drop table EVENTS;
