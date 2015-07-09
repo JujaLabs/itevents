@@ -14,7 +14,7 @@
                                       expression="org.springframework.web.bind.annotation.RestController"/>
        </context:component-scan>-->
 
-    <bean name="dataStore" class="org.itevents.datastore.MapDataStore"/>
+    <bean name="dataStore" class="org.itevents.datastore.RealDataStore"/>
 
     <bean name="initDataStoreService" class="org.itevents.service.InitDataStoreService"
             init-method="init">
