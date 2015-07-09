@@ -14,4 +14,5 @@ public interface DataStore {
 
     Event removeEvent(Long id);
 
+    List<Event> getEventsWithinLocation(float latitude, float longitude);
 }

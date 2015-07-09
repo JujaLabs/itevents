@@ -29,6 +29,12 @@ public class EventServiceImpl implements EventService {
         return dataStore.removeEvent(id);
     }
 
+    @Override
+    public List<Event> getAllEventsWithinLocation(float latitude, float longitude) {
+        List<Event> events = dataStore.getEventsWithinLocation(latitude, longitude);
+        return events;
+    }
+
     public void setDataStore(DataStore dataStore) {
         this.dataStore = dataStore;
     }

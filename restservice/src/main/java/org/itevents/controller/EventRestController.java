@@ -7,9 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class EventRestController {
@@ -26,5 +26,14 @@ public class EventRestController {
         return new ResponseEntity<Event>(event, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    public ResponseEntity<List<Event>> getEventsAtLocation(@RequestParam(value = "page") int page,
+                                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
+                                                           @RequestParam(value = "lat") float latitude,
+                                                           @RequestParam(value = "lon") float longitude) {
+        List<Event> events = eventService.getAllEventsWithinLocation(latitude, longitude);
 
+        // TODO: we need figure out how to make more appropriate response.
+        return new ResponseEntity<List<Event>>(events, HttpStatus.OK);
+    }
 }
