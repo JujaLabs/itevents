@@ -1,9 +1,5 @@
 package org.itevents.controller;
 
-/**
- * Created by Well on 08.07.2015.
- */
-
     import java.lang.annotation.Annotation;
     import java.lang.reflect.Method;
     import java.util.List;
@@ -39,11 +35,9 @@ package org.itevents.controller;
     import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
     import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-
-public class TestController {
     @Controller
     @RequestMapping("/v2/application.wadl")
-    public class WADLControllerV2 {
+    public class WADLController {
         String xs_namespace="http://www.w3.org/2001/XMLSchema" ;
         @Autowired
         private RequestMappingHandlerMapping handlerMapping;
@@ -199,4 +193,3 @@ public class TestController {
         }
     }
 
-}
