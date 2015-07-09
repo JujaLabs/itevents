@@ -9,7 +9,7 @@ import org.itevents.service.MyBatisUtil;
 
 import java.util.List;
 
-public class RealDataStore implements DataStore{
+public class MyBatisEventStore implements DataStore{
     @Override
     public void addEvent(Event event) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
