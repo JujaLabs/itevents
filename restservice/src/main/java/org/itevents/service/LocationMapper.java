@@ -11,6 +11,6 @@ public interface LocationMapper {
             @Result(property = "longitude", column = "longitude"),
             @Result(property = "latitude", column = "latitude")
     })
-    @Select("SELECT point[0] as longitude, point[1] as latitude from event WHERE id = #{id}")
+    @Select("SELECT point[0] AS longitude, point[1] AS latitude FROM event WHERE id = #{id}")
     Location selectLocation(long id);
 }

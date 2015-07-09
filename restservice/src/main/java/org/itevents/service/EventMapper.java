@@ -9,10 +9,10 @@ public interface EventMapper {
             @Result(property = "name", column = "name"),
             @Result(property = "date", column = "date")
     })
-    @Select("SELECT id, name, date from event WHERE id = #{id}")
+    @Select("SELECT id, name, date FROM event WHERE id = #{id}")
     Event selectEvent(long id);
 
-    @Insert("INSERT into event(name, date, point) VALUES(#{name}, #{date}, point(#{location.longitude},#{location.latitude}))")
+    @Insert("INSERT INTO event(name, date, point) VALUES(#{name}, #{date}, point(#{location.longitude},#{location.latitude}))")
     void insertEvent(Event event);
 
     @Update("UPDATE event SET name=#{name}, date =#{date}, point= point(#{location.longitude},#{location.latitude}) WHERE id =#{id}")
