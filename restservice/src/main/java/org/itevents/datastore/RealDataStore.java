@@ -2,7 +2,9 @@ package org.itevents.datastore;
 
 import org.apache.ibatis.session.SqlSession;
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 import org.itevents.service.EventMapper;
+import org.itevents.service.LocationMapper;
 import org.itevents.service.MyBatisUtil;
 
 import java.util.List;
@@ -20,8 +22,12 @@ public class RealDataStore implements DataStore{
     @Override
     public Event getEvent(Long id) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-        EventMapper mapper = session.getMapper(EventMapper.class);
-        Event event = mapper.selectEvent(id);
+        EventMapper eventMapper = session.getMapper(EventMapper.class);
+        Event event = eventMapper.selectEvent(id);
+        LocationMapper locationMapper = session.getMapper(LocationMapper.class);
+        Location location = locationMapper.selectLocation(id);
+        event.setLocation(location);
+        System.out.println(location);
         session.close();
         return event;
     }

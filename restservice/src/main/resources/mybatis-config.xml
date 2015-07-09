@@ -16,5 +16,6 @@
     </environments>
     <mappers>
         <mapper class="org.itevents.service.EventMapper" />
+        <mapper class="org.itevents.service.LocationMapper" />
     </mappers>
 </configuration>

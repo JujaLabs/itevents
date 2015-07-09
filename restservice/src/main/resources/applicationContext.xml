@@ -24,6 +24,4 @@
     <bean name="eventService" class="org.itevents.service.EventServiceImpl">
         <property name="dataStore" ref="dataStore"/>
     </bean>
-
-
 </beans>
