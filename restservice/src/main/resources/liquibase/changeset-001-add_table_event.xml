@@ -4,7 +4,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="0" author="garazd">
+    <changeSet id="1" author="garazd">
         <sql>
             CREATE TABLE events (
             id_events INT8 PRIMARY KEY NOT NULL,

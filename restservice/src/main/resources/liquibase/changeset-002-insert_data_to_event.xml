@@ -4,7 +4,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="1" author="garazd">
+    <changeSet id="2" author="garazd">
         <sql>
             INSERT INTO events (id_events, title, event_date, create_date, reg_link, address, point, contact) VALUES
             (1, 'Java', '10.07.2015', null, 'www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com'),
