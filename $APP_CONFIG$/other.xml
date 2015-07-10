@@ -143,7 +143,10 @@
     </filter>
   </component>
   <component name="ExternalResourceManagerImpl">
+    <resource url="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" location="$USER_HOME$/.IdeaIC14/system/extResources/ebb69b6c_web-app_2_4.xsd" />
+    <resource url="http://www.ibm.com/webservices/xsd/j2ee_web_services_client_1_1.xsd" location="$USER_HOME$/.IdeaIC14/system/extResources/a3d13bdd_j2ee_web_services_client_1_1.xsd" />
     <resource url="http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd" location="$USER_HOME$/.IdeaIC14/system/extResources/fdbcb8f6_dbchangelog-2.0.xsd" />
+    <resource url="http://www.w3.org/2001/xml.xsd" location="$USER_HOME$/.IdeaIC14/system/extResources/9b192256_xml.xsd" />
   </component>
   <component name="JavaFxSettings">
     <option name="pathToSceneBuilder" value="D:/Program Files (x86)/Oracle/JavaFX Scene Builder 2.0/JavaFX Scene Builder 2.0.exe" />
