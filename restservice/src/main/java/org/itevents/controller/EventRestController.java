@@ -27,13 +27,11 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public ResponseEntity<List<Event>> getEventsAtLocation(@RequestParam(value = "page") int page,
+    public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
                                                            @RequestParam(value = "itemsPerPage") int itemsPerPage,
                                                            @RequestParam(value = "lat") float latitude,
                                                            @RequestParam(value = "lon") float longitude) {
         List<Event> events = eventService.getAllEventsWithinLocation(latitude, longitude);
-
-        // TODO: we need figure out how to make more appropriate response.
-        return new ResponseEntity<List<Event>>(events, HttpStatus.OK);
+        return events;
     }
 }
