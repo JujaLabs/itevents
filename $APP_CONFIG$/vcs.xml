@@ -6,8 +6,12 @@
           <option name="url" value="https://github.com/JuniorsJava/itevents-bootstrap.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://AlexVlasov@bitbucket.org/javastudy1/test.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\GitHubLocalRepository" />
+    <option name="cloneParentDir" value="D:\BitBucketRepository" />
   </component>
 </application>
