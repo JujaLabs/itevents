@@ -6,18 +6,18 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="0" author="garazd">
         <sql>
-            create table EVENTS (
-            IDEvents int8 primary key not null,
-            Title text not null,
-            EventDate timestamp not null,
-            CreateDate timestamp default null,
-            RegLink text,
-            Address text,
-            Point geometry(Point),
-            Contact text);
+            CREATE TABLE events (
+            id_events INT8 PRIMARY KEY NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            event_date TIMESTAMP NOT NULL,
+            create_date TIMESTAMP DEFAULT NULL,
+            reg_link VARCHAR(255),
+            address VARCHAR(255),
+            point GEOMETRY(Point),
+            contact VARCHAR(255));
         </sql>
         <rollback>
-            drop table EVENTS;
+            DROP TABLE events;
         </rollback>
     </changeSet>
 </databaseChangeLog>
