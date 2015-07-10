@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="002" author="garazd">
         <sql>
-            INSERT INTO events (id_events, title, event_date, create_date, reg_link, address, point, contact) VALUES
+            INSERT INTO events (id, title, event_date, create_date, reg_link, address, point, contact) VALUES
             (1, 'Java', '10.07.2015', null, 'www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com'),
             (2, 'PHP', '20.07.2015', null, 'www.php.com.ua', 'Shulyavska', 'POINT(30.445495 50.454605)', 'php@gmail.com'),
             (3, 'JS', '30.07.2015', null, 'www.js.com.ua', 'Nyvky', 'POINT(30.403965 50.458651)', 'js@gmail.com'),

@@ -7,9 +7,10 @@
     <changeSet id="12_01" author="vaa25">
         <sql>
             CREATE TABLE statistic (
-            id INT SERIAL PRIMARY KEY,
-            event_id INT FOREIGN KEY NOT NULL,
-            count INT
+            id SERIAL PRIMARY KEY,
+            event_id INT8 NOT NULL,
+            count INT,
+            FOREIGN KEY (event_id) REFERENCES events (id)
             );
         </sql>
         <rollback>
