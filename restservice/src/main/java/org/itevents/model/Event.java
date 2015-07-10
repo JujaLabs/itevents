@@ -19,15 +19,18 @@ public class Event implements Serializable {
     private Location location;
     @XmlElement
     private Date date;
+    @XmlElement
+    private String regLink;
 
     public Event() {
     }
 
-    public Event(long id, String name, Location location, Date date) {
+    public Event(long id, String name, Location location, Date date, String regLink) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.date = date;
+        this.regLink = regLink;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class Event implements Serializable {
         sb.append(", name='").append(name).append('\'');
         sb.append(", location=").append(location);
         sb.append(", date=").append(date);
+        sb.append(", regLink=").append(regLink);
         return sb.toString();
     }
 
@@ -70,5 +74,13 @@ public class Event implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getRegLink() {
+        return regLink;
+    }
+
+    public void setRegLink(String regLink) {
+        this.regLink = regLink;
     }
 }
