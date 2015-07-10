@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <include file="src/main/resources/liquibase/db.changelog-0.1.0.xml"/>
     <include file="src/main/resources/liquibase/db.changelog-0.1.1.xml"/>
     <include file="src/main/resources/liquibase/db.changelog-0.1.2.xml"/>
+    <include file="src/main/resources/liquibase/itevents12.add.table.statistic.xml"/>
 
 </databaseChangeLog>

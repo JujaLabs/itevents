@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="12_01" author="vaa25">
+        <sql>
+            CREATE TABLE statistic (
+            id INT SERIAL PRIMARY KEY,
+            event_id INT FOREIGN KEY NOT NULL,
+            count INT
+            );
+        </sql>
+        <rollback>
+            DROP TABLE statistic;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
