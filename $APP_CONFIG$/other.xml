@@ -142,6 +142,9 @@
       <option name="ENABLED" value="true" />
     </filter>
   </component>
+  <component name="ExternalResourceManagerImpl">
+    <resource url="http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd" location="$USER_HOME$/.IdeaIC14/system/extResources/fdbcb8f6_dbchangelog-2.0.xsd" />
+  </component>
   <component name="JavaFxSettings">
     <option name="pathToSceneBuilder" value="D:/Program Files (x86)/Oracle/JavaFX Scene Builder 2.0/JavaFX Scene Builder 2.0.exe" />
     <option name="myPathToSceneBuilder" value="D:/Program Files (x86)/Oracle/JavaFX Scene Builder 2.0/JavaFX Scene Builder 2.0.exe" />
