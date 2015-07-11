@@ -13,31 +13,39 @@ public class Location implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private float latitude;
+    private Double latitude;
     @XmlElement
-    private float longitude;
+    private Double longitude;
 
     public Location() {
     }
 
-    public Location(float latitude, float longitude) {
+    public Location(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Event ");
+        sb.append("latitude=").append(latitude);
+        sb.append("longitude=").append(longitude);
+        return sb.toString();
     }
 }
