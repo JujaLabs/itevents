@@ -4,20 +4,17 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="003" author="vaa25">
+    <changeSet id="004" author="vaa25">
         <sql>
-            CREATE TABLE statistic (
+            CREATE TABLE user (
             id SERIAL UNIQUE PRIMARY KEY NOT NULL,
-            event_id INT NOT NULL,
-            date TIMESTAMP,
-            user_id INT,
-            FOREIGN KEY (event_id) REFERENCES events (id)
-            FOREIGN KEY (user_id) REFERENCES users (id)
+            name VARCHAR(30) NOT NULL
             );
         </sql>
         <rollback>
-            DROP TABLE statistic;
+            DROP TABLE user;
         </rollback>
     </changeSet>
+
 
 </databaseChangeLog>
