@@ -36,7 +36,7 @@ package org.itevents.controller;
     import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
     @Controller
-    @RequestMapping("/v2/application.wadl")
+    @RequestMapping("application.wadl")
     public class WADLController {
         String xs_namespace="http://www.w3.org/2001/XMLSchema" ;
         @Autowired
