@@ -1,6 +1,7 @@
 package org.itevents.datastore;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface DataStore {
     Event getEvent(Long id);
 
     List<Event> getAllEvents();
+
+    List<Event> getAllEventsInRadius(Location location, Long radius);
 
     Event removeEvent(Long id);
 

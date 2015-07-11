@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.datastore.DataStore;
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.List;
 
@@ -22,6 +23,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return dataStore.getAllEvents();
+    }
+
+    @Override
+    public List<Event> getAllEventsInRadius(Location location, long radius) {
+        return dataStore.getAllEventsInRadius(location, radius);
     }
 
     @Override

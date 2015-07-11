@@ -1,6 +1,7 @@
 package org.itevents.datastore;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class MapDataStore implements DataStore {
     @Override
     public List<Event> getAllEvents() {
         return new ArrayList<Event>(storage.values());
+    }
+
+    @Override
+    public List<Event> getAllEventsInRadius(Location location, Long radius) {
+        return null;
     }
 
     @Override

@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.EventMapper;
-import org.itevents.service.LocationMapper;
 import org.itevents.service.MyBatisUtil;
 
 import java.util.List;
@@ -24,18 +23,27 @@ public class MyBatisEventStore implements DataStore{
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper eventMapper = session.getMapper(EventMapper.class);
         Event event = eventMapper.selectEvent(id);
-        LocationMapper locationMapper = session.getMapper(LocationMapper.class);
-        Location location = locationMapper.selectLocation(id);
-        event.setLocation(location);
-        System.out.println(location);
         session.close();
         return event;
     }
 
     @Override
     public List<Event> getAllEvents() {
-        // Not implemented yet
-        return null;
+        SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+        EventMapper eventMapper = session.getMapper(EventMapper.class);
+        List<Event> events = eventMapper.selectAllEvents();
+        session.close();
+        return events;
+    }
+
+    @Override
+    public List<Event> getAllEventsInRadius(Location location, Long radius) {
+        SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+        EventMapper eventMapper = session.getMapper(EventMapper.class);
+        List<Event> events = eventMapper.selectAllEventsInRadius(location, radius);
+        System.out.println(events);//fixme
+        session.close();
+        return events;
     }
 
     @Override
