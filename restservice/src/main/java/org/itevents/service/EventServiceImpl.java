@@ -1,5 +1,6 @@
 package org.itevents.service;
 
+import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 
