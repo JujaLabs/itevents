@@ -37,7 +37,7 @@ public interface EventMapper {
     })
     List<Event> getFutureEventsInRadius(@Param("location")Location location, @Param("radius")long radius);
 
-    @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(#{name}, #{eventDate}, #{createDate}, #{regLink}, #{address}, point(#{location.longitude},#{location.latitude}), #{contact})")
+    @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact})")
     void addEvent(Event event);
 
     @Update("UPDATE events SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, reg_link=#{regLink}, address=#{address}, point= point(#{location.longitude},#{location.latitude}), contact=#{contact} WHERE id =#{id}")
