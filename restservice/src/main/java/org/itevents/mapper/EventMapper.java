@@ -11,7 +11,7 @@ public interface EventMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
     })
-    Event selectEvent(Long id);
+    Event getEvent(long id);
 
     @Select("SELECT id, name, date FROM events")
     @Results(value = {
@@ -20,7 +20,7 @@ public interface EventMapper {
     })
     List<Event> getAllEvents();
 
-    @Select("SELECT id, name, date FROM event WHERE ST_DWithin(ST_MakePoint(point[0],point[1])::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
+    @Select("SELECT id, name, date FROM events WHERE ST_DWithin(ST_MakePoint(point[0],point[1])::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
     @Results(value = {
             @Result(property = "id", column = "id"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
@@ -33,14 +33,14 @@ public interface EventMapper {
             @Result(property = "latitude", column = "latitude")
     })
     @Select("SELECT point[0] AS longitude, point[1] AS latitude FROM events WHERE id = #{id}")
-    Location selectLocation(Long id);
+    Location selectLocation(long id);
 
     @Insert("INSERT INTO events(name, date, point) VALUES(#{name}, #{date}, point(#{location.longitude},#{location.latitude}))")
-    void insertEvent(Event event);
+    void addEvent(Event event);
 
     @Update("UPDATE events SET name=#{name}, date =#{date}, point= point(#{location.longitude},#{location.latitude}) WHERE id =#{id}")
     void updateEvent(Event event);
 
     @Delete("DELETE FROM events WHERE id =#{id}")
-    void deleteEvent(Long id);
+    void removeEvent(long id);
 }
