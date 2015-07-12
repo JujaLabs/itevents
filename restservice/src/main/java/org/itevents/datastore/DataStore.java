@@ -13,7 +13,7 @@ public interface DataStore {
 
     List<Event> getAllEvents();
 
-    List<Event> getAllEventsInRadius(Location location, Long radius);
+    List<Event> getAllEventsInRadius(Location location, long radius);
 
     Event removeEvent(Long id);
 

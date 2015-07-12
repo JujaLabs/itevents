@@ -13,7 +13,7 @@ public class MyBatisEventStore implements DataStore{
     public void addEvent(Event event) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper mapper = session.getMapper(EventMapper.class);
-        mapper.insertEvent(event);
+        /*mapper.insertEvent(event);    */
         session.commit();
         session.close();
     }
@@ -22,38 +22,37 @@ public class MyBatisEventStore implements DataStore{
     public Event getEvent(Long id) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper eventMapper = session.getMapper(EventMapper.class);
-        Event event = eventMapper.selectEvent(id);
+        /*Event event = eventMapper.selectEvent(id); */
         session.close();
-        return event;
+        return null;
     }
 
     @Override
     public List<Event> getAllEvents() {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper eventMapper = session.getMapper(EventMapper.class);
-        List<Event> events = eventMapper.selectAllEvents();
+        //List<Event> events = eventMapper.selectAllEvents();
         session.close();
-        return events;
+        return null;
     }
 
     @Override
-    public List<Event> getAllEventsInRadius(Location location, Long radius) {
+    public List<Event> getAllEventsInRadius(Location location, long radius) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper eventMapper = session.getMapper(EventMapper.class);
-        List<Event> events = eventMapper.selectAllEventsInRadius(location, radius);
-        System.out.println(events);//fixme
+        //List<Event> events = eventMapper.selectAllEventsInRadius(location, radius);
         session.close();
-        return events;
+        return null;
     }
 
     @Override
     public Event removeEvent(Long id) {
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EventMapper mapper = session.getMapper(EventMapper.class);
-        Event event = mapper.selectEvent(id);
-        mapper.deleteEvent(id);
+        //Event event = mapper.selectEvent(id);
+        //mapper.deleteEvent(id);
         session.commit();
         session.close();
-        return event;
+        return null;
     }
 }

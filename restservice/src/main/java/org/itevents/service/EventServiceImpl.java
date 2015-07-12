@@ -1,6 +1,5 @@
 package org.itevents.service;
 
-import org.itevents.datastore.DataStore;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 
@@ -8,34 +7,34 @@ import java.util.List;
 
 public class EventServiceImpl implements EventService {
 
-    private DataStore dataStore;
+    private EventMapper eventMapper;
 
     @Override
     public void addEvent(Event event) {
-        dataStore.addEvent(event);
+        eventMapper.addEvent(event);
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return dataStore.getEvent(id);
+    public Event getEvent(long id) {
+        return eventMapper.getEvent(id);
     }
 
     @Override
     public List<Event> getAllEvents() {
-        return dataStore.getAllEvents();
+        return eventMapper.getAllEvents();
     }
 
     @Override
-    public List<Event> getAllEventsInRadius(Location location, long radius) {
-        return dataStore.getAllEventsInRadius(location, radius);
+    public List<Event> getFutureEventsInRadius(Location location, long radius) {
+        return eventMapper.getFutureEventsInRadius(location, radius);
     }
 
     @Override
-    public Event removeEvent(Long id) {
-        return dataStore.removeEvent(id);
+    public void removeEvent(long id) {
+        eventMapper.removeEvent(id);
     }
 
-    public void setDataStore(DataStore dataStore) {
-        this.dataStore = dataStore;
+    public void setEventMapper(EventMapper eventMapper) {
+        this.eventMapper = eventMapper;
     }
 }

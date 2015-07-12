@@ -7,21 +7,25 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <!--<context:component-scan base-package="org.itevents" >
-              <context:exclude-filter type="annotation"
-                                      expression="org.springframework.stereotype.Controller"/>
-              <context:exclude-filter type="annotation"
-                                      expression="org.springframework.web.bind.annotation.RestController"/>
-       </context:component-scan>-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
-    <bean name="dataStore" class="org.itevents.datastore.MyBatisEventStore"/>
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/test" />
+        <property name="username" value="postgres" />
+        <property name="password" value="romaadmin" />
+    </bean>
 
-    <bean name="initDataStoreService" class="org.itevents.service.InitDataStoreService"
-            init-method="init">
-        <property name="dataStore" ref="dataStore"/>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="eventMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.service.EventMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean name="eventService" class="org.itevents.service.EventServiceImpl">
-        <property name="dataStore" ref="dataStore"/>
+        <property name="eventMapper" ref="eventMapper"/>
     </bean>
 </beans>

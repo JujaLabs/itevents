@@ -32,7 +32,7 @@ public class MapDataStore implements DataStore {
     }
 
     @Override
-    public List<Event> getAllEventsInRadius(Location location, Long radius) {
+    public List<Event> getAllEventsInRadius(Location location, long radius) {
         return null;
     }
 
