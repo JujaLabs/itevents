@@ -9,11 +9,11 @@ public interface EventService {
 
     void addEvent(Event event);
 
-    Event getEvent(Long id);
+    Event getEvent(long id);
 
     List<Event> getAllEvents();
 
-    List<Event> getAllEventsInRadius(Location location, long radius);
+    List<Event> getFutureEventsInRadius(Location location, long radius);
 
-    Event removeEvent(Long id);
+    void removeEvent(long id);
 }

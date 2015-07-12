@@ -19,17 +19,14 @@ public interface EventMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
     })
-    List<Event> selectAllEvents();
+    List<Event> getAllEvents();
 
-    /*@Select("SELECT id, name, date FROM event WHERE ST_DWithin(ST_GeogFromText('SRID=4326;POINT(' || point[0] || ' '
-    || point[1] || ')'), ST_GeogFromText('SRID=4326;POINT(#{location.longitude} #{location.latitude})'), #{radius});")*/
-    @Select("SELECT id, name, date FROM events WHERE ST_DWithin(ST_MakePoint(point[0],point[1])::geography, " +
-            "ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
+    @Select("SELECT id, name, date FROM event WHERE ST_DWithin(ST_MakePoint(point[0],point[1])::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
     @Results(value = {
             @Result(property = "id", column = "id"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
     })
-    List<Event> selectAllEventsInRadius(@Param("location")Location location, @Param("radius")Long radius);
+    List<Event> getFutureEventsInRadius(@Param("location")Location location, @Param("radius")long radius);
 
     @Results({
             @Result(property = "id", column = "id"),
