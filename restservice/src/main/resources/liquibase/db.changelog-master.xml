@@ -8,6 +8,5 @@
 
     <include file="src/main/resources/liquibase/changeset-001-add_table_event.xml"/>
     <include file="src/main/resources/liquibase/changeset-002-insert_data_to_event.xml"/>
-    <include file="src/main/resources/liquibase/db.changelog-0.1.2.xml"/>
 
 </databaseChangeLog>
