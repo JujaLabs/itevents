@@ -10,6 +10,10 @@ gen/
 *.ipr
 *.iws
 .idea/
+_windows/
+bootstrap/
+$APP_CONFIG$/
+$ROOT_CONFIG$/
  
 #Gradle
 .gradletasknamecache
