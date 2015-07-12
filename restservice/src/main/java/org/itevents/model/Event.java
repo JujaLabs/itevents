@@ -12,7 +12,7 @@ public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private long id;
+    private int id;
     @XmlElement
     private String name;
     @XmlElement
@@ -29,7 +29,7 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    public Event(long id, String name, Location location, Date date, Date createDate, String regLink, String contact) {
+    public Event(int id, String name, Location location, Date date, Date createDate, String regLink, String contact) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -43,7 +43,7 @@ public class Event implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

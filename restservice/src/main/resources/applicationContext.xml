@@ -40,7 +40,7 @@
     </bean>
 
     <bean id="statisticMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="org.itevents.service.StatisticMapper"/>
+        <property name="mapperInterface" value="org.itevents.mapper.StatisticMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 </beans>

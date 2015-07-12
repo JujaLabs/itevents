@@ -1,5 +1,4 @@
-package org.itevents.service;
-
+package org.itevents.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.model.Event;
 import org.itevents.model.Location;

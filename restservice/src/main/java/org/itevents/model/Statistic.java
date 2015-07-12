@@ -2,7 +2,7 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 @XmlRootElement(name = "statistic")
 @XmlAccessorType(XmlAccessType.NONE)

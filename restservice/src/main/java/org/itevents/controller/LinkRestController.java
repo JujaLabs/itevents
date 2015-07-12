@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EventRestController {
+public class LinkRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
 
-    @RequestMapping(value = "/events/{id}")
-    public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
+    @RequestMapping(value = "/link/{id}")
+    public ResponseEntity<String> getEvent(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Event>(event, HttpStatus.OK);
+        return new ResponseEntity<String>(event.getRegLink(), HttpStatus.OK);
     }
 
 
