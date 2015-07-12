@@ -4,25 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--<context:component-scan base-package="org.itevents" >-->
-    <!--<context:exclude-filter type="annotation"-->
-    <!--expression="org.springframework.stereotype.Controller"/>-->
-    <!--<context:exclude-filter type="annotation"-->
-    <!--expression="org.springframework.web.bind.annotation.RestController"/>-->
-    <!--</context:component-scan>-->
-
-    <bean name="dataStore" class="org.itevents.datastore.MyBatisEventStore"/>
-
-    <bean name="initDataStoreService" class="org.itevents.service.InitDataStoreService"
-            init-method="init">
-        <property name="dataStore" ref="dataStore"/>
-    </bean>
-
-    <bean name="eventService" class="org.itevents.service.EventServiceImpl">
-        <property name="dataStore" ref="dataStore"/>
-    </bean>
-
-
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:database.properties"/>
     </bean>
@@ -39,8 +20,22 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="eventMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.EventMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean name="eventService" class="org.itevents.service.EventServiceImpl">
+        <property name="eventMapper" ref="eventMapper"/>
+    </bean>
+
     <bean id="statisticMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="org.itevents.mapper.StatisticMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+
+    <bean name="statisticService" class="org.itevents.service.StatisticServiceImpl">
+        <property name="statisticMapper" ref="statisticMapper"/>
+    </bean>
+
 </beans>

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.model.Statistic;
 
 public interface StatisticMapper {
+
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "event_id", column = "event_id"),
