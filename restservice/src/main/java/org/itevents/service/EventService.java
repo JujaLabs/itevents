@@ -1,6 +1,7 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.List;
 
@@ -8,9 +9,11 @@ public interface EventService {
 
     void addEvent(Event event);
 
-    Event getEvent(Long id);
+    Event getEvent(long id);
 
     List<Event> getAllEvents();
 
-    Event removeEvent(Long id);
+    List<Event> getFutureEventsInRadius(Location location, long radius);
+
+    void removeEvent(long id);
 }
