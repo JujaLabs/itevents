@@ -6,15 +6,18 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="005" author="vaa25">
         <sql>
-            CREATE TABLE user (
+            CREATE TABLE statistic (
             id SERIAL UNIQUE PRIMARY KEY NOT NULL,
-            name VARCHAR(30) NOT NULL
+            event_id INT NOT NULL,
+            date TIMESTAMP,
+            user_id INT NOT NULL,
+            FOREIGN KEY (event_id) REFERENCES events (id),
+            FOREIGN KEY (user_id) REFERENCES users (id)
             );
         </sql>
         <rollback>
-            DROP TABLE user;
+            DROP TABLE statistic;
         </rollback>
     </changeSet>
-
 
 </databaseChangeLog>
