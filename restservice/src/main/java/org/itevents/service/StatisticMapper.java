@@ -7,17 +7,15 @@ public interface StatisticMapper {
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "event_id", column = "event_id"),
-            @Result(property = "count", column = "count")
+            @Result(property = "date", column = "date"),
+            @Result(property = "user_id", column = "user_id")
     })
-    @Select("SELECT id, event_id, event_id FROM statistic WHERE event_id = #{event_id}")
-    Statistic selectStatistic(long event_id);
+    @Select("SELECT id, event_id, date, user_id FROM statistic WHERE event_id = #{event_id}")
+    Statistic selectStatistic(int event_id);
 
-    @Insert("INSERT INTO statistic(event_id, count) VALUES(#{id}, 0)")
-    void addStatistic(long event_id);
+    @Insert("INSERT INTO statistic(event_id, user_id) VALUES(#{event_id}, CURDATE(),  user_id)")
+    void addStatistic(int event_id, int user_id);
 
-    @Update("UPDATE statistic SET count=count+1 WHERE event_id =#{event_id}")
-    void incCounter(long event_id);
-
-    @Delete("DELETE FROM statistic WHERE event_id =#{event_id}")
-    void deleteEvent(long event_id);
+    @Delete("DELETE FROM statistic WHERE id =#{id}")
+    void deleteEvent(int id);
 }
