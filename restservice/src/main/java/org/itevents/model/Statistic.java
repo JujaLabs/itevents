@@ -2,28 +2,32 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 @XmlRootElement(name = "statistic")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "event_id", "count"})
+@XmlType(propOrder = {"id", "event_id", "date", "user_id"})
 public class Statistic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private long id;
+    private int id;
     @XmlElement
-    private long event_id;
+    private int event_id;
     @XmlElement
-    private int count;
+    private Date date;
+    @XmlElement
+    private int user_id;
 
     public Statistic() {
     }
 
-    public Statistic(long id, long event_id, int count) {
+    public Statistic(int id, int event_id, Date date, int user_id) {
         this.id = id;
         this.event_id = event_id;
-        this.count = count;
+        this.date = date;
+        this.user_id = user_id;
     }
 
     @Override
@@ -31,31 +35,40 @@ public class Statistic implements Serializable {
         return "Statistic{" +
                 "id=" + id +
                 ", event_id=" + event_id +
-                ", count=" + count +
+                ", date=" + date +
+                ", user_id=" + user_id +
                 '}';
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getEvent_id() {
+    public int getEvent_id() {
         return event_id;
     }
 
-    public void setEvent_id(long event_id) {
+    public void setEvent_id(int event_id) {
         this.event_id = event_id;
     }
 
-    public int getCount() {
-        return count;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

@@ -8,10 +8,10 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://localhost:5432/test"/> <!-- Fixme-->
-                <property name="username" value="${username}"/>
-                <property name="password" value="${password}"/>
+                <property name="driver" value="${database.driver}"/>
+                <property name="url" value="${database.url}"/>
+                <property name="username" value="${database.username}"/>
+                <property name="password" value="${database.password}"/>
             </dataSource>
         </environment>
     </environments>
