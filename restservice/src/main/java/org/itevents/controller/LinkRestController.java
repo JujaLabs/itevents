@@ -30,5 +30,4 @@ public class LinkRestController {
         return new ResponseEntity<String>(event.getRegLink(), HttpStatus.OK);
     }
 
-
 }
