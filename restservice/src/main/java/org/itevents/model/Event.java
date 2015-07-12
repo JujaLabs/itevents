@@ -54,7 +54,7 @@ public class Event implements Serializable {
         return title;
     }
 
-    public void setTitle(String name) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -119,4 +119,37 @@ public class Event implements Serializable {
         sb.append(", contact=").append(contact);
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (id != event.id) return false;
+        if (address != null ? !address.equals(event.address) : event.address != null) return false;
+        if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
+        if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
+        if (!eventDate.equals(event.eventDate)) return false;
+        if (location != null ? !location.equals(event.location) : event.location != null) return false;
+        if (regLink != null ? !regLink.equals(event.regLink) : event.regLink != null) return false;
+        if (!title.equals(event.title)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + title.hashCode();
+        result = 31 * result + eventDate.hashCode();
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+        result = 31 * result + (regLink != null ? regLink.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        return result;
+    }
+
 }
