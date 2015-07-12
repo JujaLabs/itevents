@@ -19,5 +19,4 @@ $ROOT_CONFIG$/
 .gradletasknamecache
 .gradle/
 build/
-bin/
 classes/
