@@ -6,36 +6,39 @@ import java.util.Date;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder={"id", "name", "location", "date", "createDate", "regLink", "contact"})
+@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact"})
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private int id;
+    private long id;
     @XmlElement
-    private String name;
+    private String title;
     @XmlElement
-    private Location location;
-    @XmlElement
-    private Date date;
+    private Date eventDate;
     @XmlElement
     private Date createDate;
     @XmlElement
     private String regLink;
+    @XmlElement
+    private String address;
+    @XmlElement
+    private Location location;
     @XmlElement
     private String contact;
 
     public Event() {
     }
 
-    public Event(int id, String name, Location location, Date date, Date createDate, String regLink, String contact) {
+    public Event(long id, String title, Date eventDate, Date createDate, String regLink, String address, Location location,  String contact) {
         this.id = id;
-        this.name = name;
-        this.location = location;
-        this.date = date;
+        this.title = title;
+        this.eventDate = eventDate;
         this.createDate = createDate;
         this.regLink = regLink;
+        this.address = address;
+        this.location = location;
         this.contact = contact;
     }
 
@@ -43,32 +46,24 @@ public class Event implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = title;
     }
 
-    public Location getLocation() {
-        return location;
+    public Date getEventDate() {
+        return eventDate;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
     }
 
     public Date getCreateDate() {
@@ -87,6 +82,22 @@ public class Event implements Serializable {
         this.regLink = regLink;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public String getContact() {
         return contact;
     }
@@ -99,11 +110,12 @@ public class Event implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Event ");
         sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", location=").append(location);
-        sb.append(", date=").append(date);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", eventDate=").append(eventDate);
         sb.append(", createDate=").append(createDate);
         sb.append(", regLink=").append(regLink);
+        sb.append(", address=").append(address);
+        sb.append(", location=").append(location);
         sb.append(", contact=").append(contact);
         return sb.toString();
     }
