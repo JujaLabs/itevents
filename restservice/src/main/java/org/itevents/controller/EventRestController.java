@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
 import org.springframework.context.ApplicationContext;
@@ -26,12 +27,26 @@ public class EventRestController {
         return new ResponseEntity<Event>(event, HttpStatus.OK);
     }
 
+    /**
+     * REST-method GET that returns list of all events at the location with pagination
+     *
+     * @param page number of page of events' list
+     * @param itemsPerPage number of events placed on the page
+     * @param latitude latitude of the area center
+     * @param longitude longitude of the area center
+     * @param radius radius of the are
+     * @return list of events at the location
+     */
+
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
-                                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
-                                                           @RequestParam(value = "lat") float latitude,
-                                                           @RequestParam(value = "lon") float longitude) {
-        List<Event> events = eventService.getAllEventsWithinLocation(latitude, longitude);
+                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
+                                           @RequestParam(value = "lat") double latitude,
+                                           @RequestParam(value = "lon") double longitude,
+                                           @RequestParam(value = "radius")long radius) {
+        Location location = new Location(latitude, longitude);
+        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
         return events;
     }
+
 }
