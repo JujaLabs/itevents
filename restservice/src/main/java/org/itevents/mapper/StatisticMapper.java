@@ -7,15 +7,15 @@ public interface StatisticMapper {
 
     @Results({
             @Result(property = "id", column = "id"),
-            @Result(property = "event_id", column = "event_id"),
+            @Result(property = "eventId", column = "event_id"),
             @Result(property = "date", column = "date"),
-            @Result(property = "user_id", column = "user_id")
+            @Result(property = "userId", column = "user_id")
     })
     @Select("SELECT id, event_id, date, user_id FROM statistic WHERE event_id = #{event_id}")
-    Statistic selectStatistic(@Param("event_id") int event_id);
+    Statistic selectStatistic(@Param("event_id") int eventId);
 
     @Insert("INSERT INTO statistic(event_id, date, user_id) VALUES(#{event_id}, NOW(),  #{user_id})")
-    void addClick(@Param("event_id") int event_id, @Param("user_id") int user_id);
+    void addClick(@Param("event_id") int eventId, @Param("user_id") int userId);
 
     @Delete("DELETE FROM statistic WHERE id =#{id}")
     void deleteClick(@Param("id") int id);

@@ -6,7 +6,7 @@ import java.util.Date;
 
 @XmlRootElement(name = "statistic")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "event_id", "date", "user_id"})
+@XmlType(propOrder = {"id", "eventId", "date", "userId"})
 public class Statistic implements Serializable {
 
     private static final long serialVersionUID = "Statistic".hashCode();
@@ -14,29 +14,29 @@ public class Statistic implements Serializable {
     @XmlElement
     private int id;
     @XmlElement
-    private int event_id;
+    private int eventId;
     @XmlElement
     private Date date;
     @XmlElement
-    private int user_id;
+    private int userId;
 
     public Statistic() {
     }
 
-    public Statistic(int id, int event_id, Date date, int user_id) {
+    public Statistic(int id, int eventId, Date date, int userId) {
         this.id = id;
-        this.event_id = event_id;
+        this.eventId = eventId;
         this.date = date;
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
         return "Statistic{" +
                 "id=" + id +
-                ", event_id=" + event_id +
+                ", eventId=" + eventId +
                 ", date=" + date +
-                ", user_id=" + user_id +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -48,12 +48,12 @@ public class Statistic implements Serializable {
         this.id = id;
     }
 
-    public int getEvent_id() {
-        return event_id;
+    public int getEventId() {
+        return eventId;
     }
 
-    public void setEvent_id(int event_id) {
-        this.event_id = event_id;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
     public Date getDate() {
@@ -64,11 +64,11 @@ public class Statistic implements Serializable {
         this.date = date;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

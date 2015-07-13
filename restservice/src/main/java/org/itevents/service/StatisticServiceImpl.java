@@ -18,7 +18,7 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
-    public void addClick(int event_id, int user_id) {
-        statisticMapper.addClick(event_id, user_id);
+    public void addClick(int eventId, int userId) {
+        statisticMapper.addClick(eventId, userId);
     }
 }
