@@ -7,11 +7,11 @@
     <changeSet id="004" author="vaa25">
         <sql>
             CREATE TABLE users(
-            id SERIAL UNIQUE NOT NULL,
-            login VARCHAR(20) NOT NULL,
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            login VARCHAR(50) NOT NULL,
             password VARCHAR(30) NOT NULL,
-            roles_id INTEGER REFERENCES roles(id),
-            PRIMARY KEY (id)
+            roles_id INT NOT NULL,
+            FOREIGN KEY (roles_id) REFERENCES roles(id)
             );
         </sql>
         <rollback>
