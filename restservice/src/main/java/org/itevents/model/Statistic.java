@@ -9,7 +9,7 @@ import java.util.Date;
 @XmlType(propOrder = {"id", "event_id", "date", "user_id"})
 public class Statistic implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = "Statistic".hashCode();
 
     @XmlElement
     private int id;
