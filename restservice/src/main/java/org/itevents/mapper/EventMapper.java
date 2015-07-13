@@ -15,7 +15,7 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
     })
-    Event getEvent(long id);
+    Event getEvent(int id);
 
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events")
     @Results(value = {
@@ -44,7 +44,7 @@ public interface EventMapper {
     void updateEvent(Event event);
 
     @Delete("DELETE FROM events WHERE id =#{id}")
-    void removeEvent(long id);
+    void removeEvent(int id);
 
     @Results({
             @Result(property = "id", column = "id"),
@@ -52,5 +52,5 @@ public interface EventMapper {
             @Result(property = "latitude", column = "latitude")
     })
     @Select("SELECT ST_X(point) AS longitude, ST_Y(point) AS latitude FROM events WHERE id = #{id}")
-    Location selectLocation(long id);
+    Location selectLocation(int id);
 }

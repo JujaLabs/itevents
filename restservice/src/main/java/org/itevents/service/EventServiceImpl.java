@@ -16,7 +16,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(long id) {
+    public Event getEvent(int id) {
         return eventMapper.getEvent(id);
     }
 
@@ -31,7 +31,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void removeEvent(long id) {
+    public void removeEvent(int id) {
         eventMapper.removeEvent(id);
     }
 
