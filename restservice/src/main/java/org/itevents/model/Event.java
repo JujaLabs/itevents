@@ -12,7 +12,7 @@ public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private long id;
+    private int id;
     @XmlElement
     private String title;
     @XmlElement
@@ -31,7 +31,7 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    public Event(long id, String title, Date eventDate, Date createDate, String regLink, String address, Location location,  String contact) {
+    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -42,11 +42,11 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -134,14 +134,13 @@ public class Event implements Serializable {
         if (!eventDate.equals(event.eventDate)) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (regLink != null ? !regLink.equals(event.regLink) : event.regLink != null) return false;
-        if (!title.equals(event.title)) return false;
+        return title.equals(event.title);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id ^ (id >>> 32);
         result = 31 * result + title.hashCode();
         result = 31 * result + eventDate.hashCode();
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
