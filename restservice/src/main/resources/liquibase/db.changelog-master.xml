@@ -14,6 +14,8 @@
     <include file="src/main/resources/liquibase/changeset-005-insert_data_to_roles.xml"/>
     <include file="src/main/resources/liquibase/changeset-007-insert_data_to_users.xml"/>
     <include file="src/main/resources/liquibase/changeset-008-add_table_statistic.xml"/>
+    <include file="src/main/resources/liquibase/changeset-009-create_table_cities.xml"/>
+    <include file="src/main/resources/liquibase/changeset-010-insert_data_to_cities.xml"/>
 
 
 </databaseChangeLog>
