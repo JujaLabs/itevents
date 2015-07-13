@@ -10,7 +10,7 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Location implements Serializable {
 
-    private static final long serialVersionUID = "Location".hashCode();
+    private static final long serialVersionUID = 1L;
 
     @XmlElement
     private Double latitude;
