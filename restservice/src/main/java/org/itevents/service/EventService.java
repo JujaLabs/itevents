@@ -13,7 +13,7 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    List<Event> getFutureEventsInRadius(Location location, long radius);
+    List<Event> getFutureEventsInRadius(Location location, int radius);
 
     void removeEvent(int id);
 }

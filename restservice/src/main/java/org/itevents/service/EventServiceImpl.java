@@ -26,7 +26,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFutureEventsInRadius(Location location, long radius) {
+    public List<Event> getFutureEventsInRadius(Location location, int radius) {
         return eventMapper.getFutureEventsInRadius(location, radius);
     }
 
