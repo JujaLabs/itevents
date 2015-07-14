@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-public interface StatisticService {
+public interface RegLinkClickService {
 
     void addClick(int eventId, int userId);
 }

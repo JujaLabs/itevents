@@ -6,7 +6,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="008" author="vaa25">
         <sql>
-            CREATE TABLE statistic (
+            CREATE TABLE reg_link_clicks (
             id SERIAL UNIQUE PRIMARY KEY NOT NULL,
             event_id INT NOT NULL,
             date DATE NOT NULL,
@@ -16,7 +16,7 @@
             );
         </sql>
         <rollback>
-            DROP TABLE statistic;
+            DROP TABLE reg_link_clicks;
         </rollback>
     </changeSet>
 
