@@ -13,4 +13,6 @@ public interface EventService {
     List<Event> getAllEvents();
 
     Event removeEvent(Long id);
+
+    List<Event> getAllEventsWithinLocation(float latitude, float longitude);
 }

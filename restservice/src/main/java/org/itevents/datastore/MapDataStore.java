@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class MapDataStore implements DataStore {
 
+    private static final float AREA_RADIUS = 0.500f;
     private final Map<Long, Event> storage;
 
     public MapDataStore() {
@@ -33,5 +34,16 @@ public class MapDataStore implements DataStore {
     @Override
     public Event removeEvent(Long id) {
         return storage.remove(id);
+    }
+
+    @Override
+    public List<Event> getEventsWithinLocation(float latitude, float longitude) {
+        List<Event> allEvents = getAllEvents();
+        /**
+         * There must be realisation of the selection from data store.
+         * We need to return List of Events within defined location
+         */
+
+        return allEvents;
     }
 }
