@@ -27,11 +27,8 @@ public class RegLinkClickRestController {
 
 
     @RequestMapping(value = "/regLinks/{event_id}/{user_id}")
-    public ResponseEntity<String> getEvent(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
+    public ResponseEntity getEvent(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
         Event event = eventService.getEvent(eventId);
-        if (event == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
         HttpHeaders headers = new HttpHeaders();
         if (!setLocation(event, headers)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -47,6 +44,9 @@ public class RegLinkClickRestController {
             e.printStackTrace();
             return false;
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NullPointerException e) {
             e.printStackTrace();
             return false;
         }
