@@ -8,7 +8,12 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
+    mavenLocal()
     mavenCentral()
+}
+
+configurations {
+    liquibase
 }
 
 dependencies {
@@ -18,8 +23,40 @@ dependencies {
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-test:4.1.6.RELEASE'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
+    liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
+    liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
 
 httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
+
+defaultTasks 'liquibaseUpdate'
+
+task liquibaseUpdate(type: JavaExec) {
+    description 'Liquibase updates DB by all not used changesets'
+    group = 'Liquibase'
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    if ( 
+        project.hasProperty("username") &&
+        project.hasProperty("password") &&
+        project.hasProperty("url")
+    ){
+        Map<String,?> propertyMap = project.getProperties()
+        args "--username=${propertyMap['username']}"
+        args "--password=${propertyMap['password']}"
+        args "--url=${propertyMap['url']}"
+    }
+    args 'update'
+}
+
+
+task liquibaseRollback(type: JavaExec) {
+    description 'Liquibase rollbacks DB by specified number of changesets'
+    group = "Liquibase"
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    args 'rollbackCount'
+    args '0'
+}
