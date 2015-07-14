@@ -1,4 +1,6 @@
 # itevents
+
+[![Join the chat at https://gitter.im/JuniorsJava/itevents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/JuniorsJava/itevents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Resource to subscribe on it events 
 
 <b>Instructions about deploying REST service</b>
