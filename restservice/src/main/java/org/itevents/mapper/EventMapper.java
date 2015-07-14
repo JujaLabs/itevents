@@ -56,7 +56,6 @@ public interface EventMapper {
     void removeEvent(int id);
 
     @Results({
-            @Result(property = "id", column = "id"),
             @Result(property = "longitude", column = "longitude"),
             @Result(property = "latitude", column = "latitude")
     })
