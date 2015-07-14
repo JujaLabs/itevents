@@ -7,11 +7,8 @@
     <changeSet id="005" author="vaa25">
         <sql>
             INSERT INTO roles(name) VALUES ('guest'),
-            ('user'),
-            ('developer'),
-            ('teamlead'),
-            ('owner');
-
+            ('admin'),
+            ('subscriber');
         </sql>
         <rollback>
             DELETE * FROM roles;

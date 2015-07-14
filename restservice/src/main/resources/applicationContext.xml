@@ -29,13 +29,13 @@
         <property name="eventMapper" ref="eventMapper"/>
     </bean>
 
-    <bean id="statisticMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="org.itevents.mapper.StatisticMapper"/>
+    <bean id="regLinkClickMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.RegLinkClickMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean name="statisticService" class="org.itevents.service.StatisticServiceImpl">
-        <property name="statisticMapper" ref="statisticMapper"/>
+    <bean name="regLinkClickService" class="org.itevents.service.RegLinkClickServiceImpl">
+        <property name="regLinkClickMapper" ref="regLinkClickMapper"/>
     </bean>
 
 </beans>
