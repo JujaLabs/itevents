@@ -3,7 +3,7 @@ package org.itevents.controller;
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
-import org.itevents.service.RegLinkClickService;
+import org.itevents.service.VisitLogService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpHeaders;
@@ -19,21 +19,21 @@ import java.net.URL;
 
 
 @RestController
-public class RegLinkClickRestController {
+public class VisitLogRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
-    private RegLinkClickService regLinkClickService = context.getBean("regLinkClickService", RegLinkClickService.class);
+    private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
 
 
-    @RequestMapping(value = "/regLinks/{event_id}/{user_id}")
+    @RequestMapping(value = "/events/{event_id}/users/{user_id}")
     public ResponseEntity getEvent(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
         if (!setLocation(event, headers)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        regLinkClickService.addClick(eventId, userId);
+        visitLogService.addVisit(eventId, userId);
         return new ResponseEntity(null, headers, HttpStatus.FOUND);
     }
 

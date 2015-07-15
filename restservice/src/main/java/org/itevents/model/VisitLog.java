@@ -7,7 +7,7 @@ import java.util.Date;
 @XmlRootElement(name = "statistic")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = {"id", "eventId", "date", "userId"})
-public class RegLinkClick implements Serializable {
+public class VisitLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,10 +20,10 @@ public class RegLinkClick implements Serializable {
     @XmlElement
     private int userId;
 
-    public RegLinkClick() {
+    public VisitLog() {
     }
 
-    public RegLinkClick(int id, int eventId, Date date, int userId) {
+    public VisitLog(int id, int eventId, Date date, int userId) {
         this.id = id;
         this.eventId = eventId;
         this.date = date;
@@ -32,7 +32,7 @@ public class RegLinkClick implements Serializable {
 
     @Override
     public String toString() {
-        return "RegLinkClick{" +
+        return "VisitLog{" +
                 "id=" + id +
                 ", eventId=" + eventId +
                 ", date=" + date +
