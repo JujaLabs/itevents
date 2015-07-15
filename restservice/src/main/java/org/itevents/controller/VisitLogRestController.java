@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 
@@ -27,30 +25,15 @@ public class VisitLogRestController {
 
 
     @RequestMapping(value = "/events/{event_id}/users/{user_id}")
-    public ResponseEntity getEvent(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
+    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
-        if (!setLocation(event, headers)) {
+        try {
+            headers.setLocation(new URL(event.getRegLink()).toURI());
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         visitLogService.addVisit(eventId, userId);
-        return new ResponseEntity(null, headers, HttpStatus.FOUND);
+        return new ResponseEntity(headers, HttpStatus.FOUND);
     }
-
-    private boolean setLocation(Event event, HttpHeaders headers) {
-        try {
-            headers.setLocation(new URL(event.getRegLink()).toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return false;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
 }
