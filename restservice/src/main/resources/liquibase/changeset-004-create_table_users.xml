@@ -4,13 +4,18 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-
-    <changeSet id="000" author="vaa25">
+    <changeSet id="004" author="vaa25">
         <sql>
-            CREATE EXTENSION POSTGIS;
+            CREATE TABLE users(
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            login VARCHAR(50) NOT NULL,
+            password VARCHAR(30) NOT NULL,
+            roles_id INT NOT NULL,
+            FOREIGN KEY (roles_id) REFERENCES roles(id)
+            );
         </sql>
         <rollback>
-            DROP EXTENSION POSTGIS;
+            DROP TABLE users;
         </rollback>
     </changeSet>
 </databaseChangeLog>
