@@ -4,9 +4,9 @@ import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@XmlRootElement(name = "statistic")
+@XmlRootElement(name = "visitLog")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "eventId", "date", "userId"})
+@XmlType(propOrder = {"id", "event", "date", "user"})
 public class VisitLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,29 +14,29 @@ public class VisitLog implements Serializable {
     @XmlElement
     private int id;
     @XmlElement
-    private int eventId;
+    private Event event;
     @XmlElement
     private Date date;
     @XmlElement
-    private int userId;
+    private User user;
 
     public VisitLog() {
     }
 
-    public VisitLog(int id, int eventId, Date date, int userId) {
+    public VisitLog(int id, Event event, Date date, User user) {
         this.id = id;
-        this.eventId = eventId;
+        this.event = event;
         this.date = date;
-        this.userId = userId;
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "VisitLog{" +
                 "id=" + id +
-                ", eventId=" + eventId +
+                ", event=" + event +
                 ", date=" + date +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 
@@ -48,12 +48,12 @@ public class VisitLog implements Serializable {
         this.id = id;
     }
 
-    public int getEventId() {
-        return eventId;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     public Date getDate() {
@@ -64,11 +64,11 @@ public class VisitLog implements Serializable {
         this.date = date;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
