@@ -25,6 +25,11 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
+    <bean id="locationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.LocationMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean name="eventService" class="org.itevents.service.EventServiceImpl">
         <property name="eventMapper" ref="eventMapper"/>
     </bean>
