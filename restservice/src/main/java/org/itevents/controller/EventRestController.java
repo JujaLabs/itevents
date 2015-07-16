@@ -21,7 +21,7 @@ public class EventRestController {
     private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
 
     @RequestMapping(value = "/events/{id}")
-    public ResponseEntity<Event> getEvent (@PathVariable("id") Long id) {
+    public ResponseEntity<Event> getEvent (@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);

@@ -1,35 +1,41 @@
 package org.itevents.service;
 
-import org.itevents.datastore.DataStore;
+import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
 
-    private DataStore dataStore;
+    private EventMapper eventMapper;
 
     @Override
     public void addEvent(Event event) {
-        dataStore.addEvent(event);
+        eventMapper.addEvent(event);
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return dataStore.getEvent(id);
+    public Event getEvent(int id) {
+        return eventMapper.getEvent(id);
     }
 
     @Override
     public List<Event> getAllEvents() {
-        return dataStore.getAllEvents();
+        return eventMapper.getAllEvents();
     }
 
     @Override
-    public Event removeEvent(Long id) {
-        return dataStore.removeEvent(id);
+    public List<Event> getFutureEventsInRadius(Location location, int radius) {
+        return eventMapper.getFutureEventsInRadius(location, radius);
     }
 
-    public void setDataStore(DataStore dataStore) {
-        this.dataStore = dataStore;
+    @Override
+    public void removeEvent(int id) {
+        eventMapper.removeEvent(id);
+    }
+
+    public void setEventMapper(EventMapper eventMapper) {
+        this.eventMapper = eventMapper;
     }
 }
