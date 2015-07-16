@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "login", "password", "roles_id"})
+@XmlType(propOrder = {"id", "login", "password", "role"})
 
 public class User implements Serializable {
 
@@ -18,16 +18,16 @@ public class User implements Serializable {
     @XmlElement
     private String password;
     @XmlElement
-    private int roles_id;
+    private int role;
 
     public User() {
     }
 
-    public User(int id, String login, String password, int roles_id) {
+    public User(int id, String login, String password, int role) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.roles_id = roles_id;
+        this.role = role;
     }
 
     public int getId() {
@@ -54,12 +54,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getRoles_id() {
-        return roles_id;
+    public int getRole() {
+        return role;
     }
 
-    public void setRoles_id(int roles_id) {
-        this.roles_id = roles_id;
+    public void setRole(int role) {
+        this.role = role;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class User implements Serializable {
         sb.append("id=").append(this.id);
         sb.append(", login=").append(this.login);
         sb.append(", password=").append(this.password);
-        sb.append(", roles_id=").append(this.roles_id);
+        sb.append(", role=").append(this.role);
         return sb.toString();
     }
 
@@ -79,18 +79,17 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        if (id != user.id) return false;
+        if (this.id != user.id) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return roles_id == user.roles_id;
+        return role == user.role;
     }
 
     @Override
     public int hashCode() {
-        int result = id ^ (id >>> 32) + roles_id ^ (roles_id >>> 32);
+        int result = id ^ (id >>> 32) + role ^ (role >>> 32);
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();
-
         return result;
     }
 }

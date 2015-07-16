@@ -1,15 +1,12 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "roles")
 @XmlAccessorType(XmlAccessType.NONE)
-//@XmlType(propOrder={"id", "name"})
+@XmlType(propOrder = {"id", "name"})
 
-public class Roles {
+public class Role {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,10 +15,10 @@ public class Roles {
     @XmlElement
     private String name;
 
-    public Roles() {
+    public Role() {
     }
 
-    public Roles(int id, String name) {
+    public Role(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -55,7 +52,7 @@ public class Roles {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Roles roles = (Roles) o;
+        Role roles = (Role) o;
 
         if (id != roles.id) return false;
         return name.equals(roles.name);
