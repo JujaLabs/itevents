@@ -2,7 +2,6 @@ package org.itevents.controller;
 
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
-import org.itevents.service.EventServiceImpl;
 import org.itevents.service.VisitLogService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,9 +19,8 @@ import java.net.URL;
 public class VisitLogRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
+    private EventService eventService = context.getBean("eventService", EventService.class);
     private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
-
 
     @RequestMapping(value = "/events/{event_id}/users/{user_id}")
     public ResponseEntity getRegLink(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {

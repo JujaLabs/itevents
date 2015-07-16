@@ -3,10 +3,13 @@ package org.itevents.service;
 import org.itevents.mapper.VisitLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Alexander Vlasov
  */
+
+@Transactional
 public class VisitLogServiceImpl implements VisitLogService {
 
     @Autowired
@@ -28,4 +31,6 @@ public class VisitLogServiceImpl implements VisitLogService {
 
         }
     }
+
+
 }
