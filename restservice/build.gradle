@@ -29,7 +29,7 @@ dependencies {
     liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
 
-httpPort = 8085
+httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
 
