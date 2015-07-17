@@ -20,8 +20,8 @@ public class IndexController {
 		log.info("=====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====");
 		log.debug("=====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====");
 
-		model.addAttribute("message1", "IT Events web application");
-		model.addAttribute("message2", "Sorry, we are under construction");
+//		model.addAttribute("message1", "IT Events web application");
+//		model.addAttribute("message2", "Sorry, we are under construction");
 		return "index";
 	}
 }

@@ -18,3 +18,11 @@
 2015-07-17 11:15:17,636 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
 2015-07-17 11:19:16,610 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
 2015-07-17 11:19:16,611 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
+2015-07-17 16:44:37,786 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
+2015-07-17 16:44:37,788 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
+2015-07-17 16:56:19,884 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
+2015-07-17 16:56:19,894 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
+2015-07-17 17:52:11,954 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
+2015-07-17 17:52:11,958 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
+2015-07-17 17:54:04,887 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
+2015-07-17 17:54:04,889 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
