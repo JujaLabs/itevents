@@ -10,12 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class IndexController {
-
-	public static final Logger log = LogManager.getLogger(IndexController.class);
-
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
-		log.info("=====>>>>> TEST LOG4J <<<<<=====");
 		model.addAttribute("message1", "IT Events web application");
 		model.addAttribute("message2", "Sorry, we are under construction");
 		return "index";

@@ -33,6 +33,7 @@
         <Root level="debug">
             <AppenderRef ref="STDOUT"/>
             <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Fatal" level="fatal"/>
         </Root>
 
     </Loggers>
