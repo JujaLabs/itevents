@@ -4,15 +4,16 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="010" author="vaa25">
+    <changeSet id="013" author="vaa25">
         <sql>
-            INSERT INTO cities (id, name, point) VALUES
-            (1, 'Kyiv', 'POINT(30.523000 50.450500)'),
-            (2, 'Odessa', 'POINT(30.73333 46.46667)');
-            (3, 'Boyarka', 'POINT(30.28861 50.32917)');
+            CREATE TABLE cross_events_technologies(
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            events_id INT NOT NULL,
+            technologies_id INT NOT NULL
+            );
         </sql>
         <rollback>
-            DELETE * FROM cities;
+            DROP TABLE cross_events_technologies;
         </rollback>
     </changeSet>
 </databaseChangeLog>

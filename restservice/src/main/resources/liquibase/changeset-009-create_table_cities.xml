@@ -5,11 +5,13 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="009" author="vaa25">
+        <!--id равен id города с картографического сервиса.
+        Подразумеваем, что в проекте используется один такой сервис-->
         <sql>
             CREATE TABLE cities(
-            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            id INT PRIMARY KEY UNIQUE NOT NULL,
             name VARCHAR(40),
-            point GEOMETRY(Point)
+            point GEOMETRY(POINT)
             );
         </sql>
         <rollback>
