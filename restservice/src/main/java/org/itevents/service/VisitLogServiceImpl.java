@@ -18,13 +18,6 @@ public class VisitLogServiceImpl implements VisitLogService {
     @Autowired
     private VisitLogMapper visitLogMapper;
 
-    public VisitLogMapper getVisitLogMapper() {
-        return visitLogMapper;
-    }
-
-    public void setVisitLogMapper(VisitLogMapper visitLogMapper) {
-        this.visitLogMapper = visitLogMapper;
-    }
 
     @Override
     public void addVisit(int eventId, int userId) {
