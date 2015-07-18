@@ -16,6 +16,10 @@
     <include file="src/main/resources/liquibase/changeset-008-add_table_visit_log.xml"/>
     <include file="src/main/resources/liquibase/changeset-009-create_table_cities.xml"/>
     <include file="src/main/resources/liquibase/changeset-010-insert_data_to_cities.xml"/>
+    <include file="src/main/resources/liquibase/changeset-011-create_table_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-012-insert_data_to_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-013-create_table_events_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-014-insert_to_events_technologies.xml"/>
 
 
 </databaseChangeLog>

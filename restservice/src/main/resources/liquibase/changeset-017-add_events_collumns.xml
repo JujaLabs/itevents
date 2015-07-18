@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="017" author="vaa25">
+        <sql>
+            ALTER TABLE events ADD price INT, currency_id INT, city_id INT ;
+        </sql>
+        <rollback>
+            ALTER TABLE events DROP COLUMN price, currency_id, city_id;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
