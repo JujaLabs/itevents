@@ -16,12 +16,6 @@ configurations {
     liquibase
 }
 
-test {
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
 dependencies {
     compile 'junit:junit:4.12'
     compile 'org.springframework:spring-core:4.1.6.RELEASE'
@@ -37,7 +31,7 @@ dependencies {
     liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
 
-httpPort = 8080
+httpPort = 8181
 stopPort = 9080
 stopKey = "stop"
 

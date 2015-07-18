@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <mybatis:scan base-package="org.itevents.mapper"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:database.properties"/>
@@ -20,22 +24,11 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="eventMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="org.itevents.mapper.EventMapper"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
+    <bean name="eventService" class="org.itevents.service.EventServiceImpl"/>
 
-    <bean name="eventService" class="org.itevents.service.EventServiceImpl">
-        <property name="eventMapper" ref="eventMapper"/>
-    </bean>
+    <bean name="visitLogService" class="org.itevents.service.VisitLogServiceImpl"/>
 
-    <bean id="regLinkClickMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="org.itevents.mapper.RegLinkClickMapper"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <bean name="regLinkClickService" class="org.itevents.service.RegLinkClickServiceImpl">
-        <property name="regLinkClickMapper" ref="regLinkClickMapper"/>
-    </bean>
-
 </beans>
