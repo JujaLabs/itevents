@@ -13,6 +13,9 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
+    Event removeEvent(Long id);
+
+    List<Event> getAllEventsWithinLocation(float latitude, float longitude);
     List<Event> getFutureEventsInRadius(Location location, int radius);
 
     void removeEvent(int id);
