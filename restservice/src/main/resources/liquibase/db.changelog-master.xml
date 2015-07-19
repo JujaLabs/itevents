@@ -12,7 +12,6 @@
     <include file="src/main/resources/liquibase/changeset-003-create_table_roles.xml"/>
     <include file="src/main/resources/liquibase/changeset-004-create_table_users.xml"/>
     <include file="src/main/resources/liquibase/changeset-005-insert_data_to_roles.xml"/>
-    <include file="src/main/resources/liquibase/changeset-006-create-event-counter.xml"/>
     <include file="src/main/resources/liquibase/changeset-007-insert_data_to_users.xml"/>
     <include file="src/main/resources/liquibase/changeset-008-add_table_visit_log.xml"/>
 
