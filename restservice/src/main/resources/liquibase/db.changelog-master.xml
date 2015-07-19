@@ -14,12 +14,16 @@
     <include file="src/main/resources/liquibase/changeset-005-insert_data_to_roles.xml"/>
     <include file="src/main/resources/liquibase/changeset-007-insert_data_to_users.xml"/>
     <include file="src/main/resources/liquibase/changeset-008-add_table_visit_log.xml"/>
-    <include file="src/main/resources/liquibase/changeset-009-create_table_cities.xml"/>
-    <include file="src/main/resources/liquibase/changeset-010-insert_data_to_cities.xml"/>
-    <include file="src/main/resources/liquibase/changeset-011-create_table_technologies.xml"/>
-    <include file="src/main/resources/liquibase/changeset-012-insert_data_to_technologies.xml"/>
-    <include file="src/main/resources/liquibase/changeset-013-create_table_events_technologies.xml"/>
-    <include file="src/main/resources/liquibase/changeset-014-insert_to_events_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-009-17create_table_cities.xml"/>
+    <include file="src/main/resources/liquibase/changeset-010-17insert_data_to_cities.xml"/>
+    <include file="src/main/resources/liquibase/changeset-011-17create_table_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-012-17insert_data_to_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-013-17create_table_events_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-014-17insert_to_events_technologies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-015-17create_table_currencies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-016-17insert_data_to_currencies.xml"/>
+    <include file="src/main/resources/liquibase/changeset-017-17add_events_collumns.xml"/>
+    <include file="src/main/resources/liquibase/changeset-018-17insert_data_to_events.xml"/>
 
 
 </databaseChangeLog>

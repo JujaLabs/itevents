@@ -4,12 +4,19 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="017" author="vaa25">
+    <changeSet id="018" author="vaa25">
         <sql>
-            ALTER TABLE events ADD price INT, currency_id INT, city_id INT ;
+            INSERT INTO events (price, currency_id, city_id) VALUES
+            ('0,1,1'),
+            ('0,2,3'),
+            ('20,3,1'),
+            ('20,3,1'),
+            ('20,3,1'),
+            ('20,3,1'),
+            ('30,1,5');
         </sql>
         <rollback>
-            ALTER TABLE events DROP COLUMN price, currency_id, city_id;
+            DELETE price, currency_id, city_id FROM events;
         </rollback>
     </changeSet>
 </databaseChangeLog>

@@ -7,6 +7,7 @@
     <changeSet id="016" author="vaa25">
         <sql>
             INSERT INTO currencies (name) VALUES
+            ('FREE'),
             ('USD'),
             ('Гривна'),
             ('Euro');

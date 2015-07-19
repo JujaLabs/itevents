@@ -4,16 +4,14 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="013" author="vaa25">
+    <changeSet id="017" author="vaa25">
         <sql>
-            CREATE TABLE cross_events_technologies(
-            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
-            events_id INT NOT NULL,
-            technologies_id INT NOT NULL
-            );
+            ALTER TABLE events ADD price INT CHECK (price>=0), currency_id INT NOT NULL, city_id INT,
+            FOREIGN KEY(currency_id) REFERENCES currencies,
+            FOREIGN KEY(city_id) REFERENCES cities;
         </sql>
         <rollback>
-            DROP TABLE cross_events_technologies;
+            ALTER TABLE events DROP COLUMN price, currency_id, city_id;
         </rollback>
     </changeSet>
 </databaseChangeLog>
