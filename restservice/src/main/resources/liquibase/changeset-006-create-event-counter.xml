@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="6" author="roman.ilnitsky">
+        <!-- TODO add REFERENCES-->
+        <sql>
+            CREATE TABLE statistic (
+              id SERIAL UNIQUE PRIMARY KEY NOT NULL,
+              event_id INT NOT NULL,
+              date DATE,
+              user_id INT NOT NULL,
+              FOREIGN KEY (event_id) REFERENCES events (id),
+              FOREIGN KEY (user_id) REFERENCES users (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE statistic;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
