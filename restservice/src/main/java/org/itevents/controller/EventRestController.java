@@ -66,4 +66,17 @@ public class EventRestController {
         paginatedEvents.setPage(page);
         return paginatedEvents.getPageList();
     }
+
+//    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=java&techTag=javascript
+
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    public List<Event> getEventsAtLocation(@RequestParam(value = "cityId") int cityId,
+                                           @RequestParam(value = "payed") boolean payed,
+                                           @RequestParam(value = "lat") double latitude,
+                                           @RequestParam(value = "lon") double longitude,
+                                           @RequestParam(value = "radius") int radius) {
+//        todo
+
+        return null;
+    }
 }

@@ -37,17 +37,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public void removeEvent(int id) {
         eventMapper.removeEvent(id);
-    @Override
-    public List<Event> getAllEventsWithinLocation(float latitude, float longitude) {
-        List<Event> events = dataStore.getEventsWithinLocation(latitude, longitude);
-        return events;
     }
 
-    public void setDataStore(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
-
-    public void setEventMapper(EventMapper eventMapper) {
-        this.eventMapper = eventMapper;
-    }
 }
