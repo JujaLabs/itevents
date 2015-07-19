@@ -74,7 +74,8 @@ public class EventRestController {
                                            @RequestParam(value = "payed") boolean payed,
                                            @RequestParam(value = "lat") double latitude,
                                            @RequestParam(value = "lon") double longitude,
-                                           @RequestParam(value = "radius") int radius) {
+                                           @RequestParam(value = "radius") int radius,
+                                           @RequestParam(value = "techTag") String[] techTags) {
 //        todo
 
         return null;
