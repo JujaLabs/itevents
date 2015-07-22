@@ -27,7 +27,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog[] getVisits(int eventId) {
+    public VisitLog getVisits(int eventId) {
         return visitLogMapper.getVisitsByEvent(eventId);
     }
 

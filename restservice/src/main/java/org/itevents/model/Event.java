@@ -27,11 +27,18 @@ public class Event implements Serializable {
     private Location location;
     @XmlElement
     private String contact;
+    @XmlElement
+    private int price;
+    @XmlElement
+    private Currency currency;
+    @XmlElement
+    private City city;
 
     public Event() {
     }
 
-    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
+    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
+                 Location location, String contact, int price, Currency currency, City city) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -40,6 +47,9 @@ public class Event implements Serializable {
         this.address = address;
         this.location = location;
         this.contact = contact;
+        this.price = price;
+        this.currency = currency;
+        this.city = city;
     }
 
     public int getId() {
@@ -106,18 +116,28 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Event ");
-        sb.append("id=").append(id);
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", eventDate=").append(eventDate);
-        sb.append(", createDate=").append(createDate);
-        sb.append(", regLink=").append(regLink);
-        sb.append(", address=").append(address);
-        sb.append(", location=").append(location);
-        sb.append(", contact=").append(contact);
-        return sb.toString();
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override
@@ -128,27 +148,50 @@ public class Event implements Serializable {
         Event event = (Event) o;
 
         if (id != event.id) return false;
-        if (address != null ? !address.equals(event.address) : event.address != null) return false;
-        if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
-        if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
+        if (price != event.price) return false;
+        if (!title.equals(event.title)) return false;
         if (!eventDate.equals(event.eventDate)) return false;
+        if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
+        if (!regLink.equals(event.regLink)) return false;
+        if (address != null ? !address.equals(event.address) : event.address != null) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
-        if (regLink != null ? !regLink.equals(event.regLink) : event.regLink != null) return false;
-        return title.equals(event.title);
+        if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
+        if (!currency.equals(event.currency)) return false;
+        return !(city != null ? !city.equals(event.city) : event.city != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id ^ (id >>> 32);
+        int result = id;
         result = 31 * result + title.hashCode();
         result = 31 * result + eventDate.hashCode();
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-        result = 31 * result + (regLink != null ? regLink.hashCode() : 0);
+        result = 31 * result + regLink.hashCode();
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        result = 31 * result + price;
+        result = 31 * result + currency.hashCode();
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Event{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", eventDate=").append(eventDate);
+        sb.append(", createDate=").append(createDate);
+        sb.append(", regLink='").append(regLink).append('\'');
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", location=").append(location);
+        sb.append(", contact='").append(contact).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", currency=").append(currency);
+        sb.append(", city=").append(city);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -44,12 +44,10 @@ public class VisitLogMapperTest {
     @Test
     public void testGetVisit() throws Exception {
 
-        VisitLog[] expected = new VisitLog[]{
-                new VisitLog(1, eventMapper.getEvent(1), new GregorianCalendar().getTime(), userMapper.getUserById(1))
-        };
-        VisitLog[] real = visitLogMapper.getVisitsByEvent(1);
-        real[0].setDate(null);
-        assertArrayEquals(expected, real);
+        VisitLog expected = new VisitLog(1, eventMapper.getEvent(1), new GregorianCalendar().getTime(), userMapper.getUserById(1));
+        VisitLog real = visitLogMapper.getVisitsByEvent(1);
+        real.setDate(null);
+        assertEquals(expected, real);
 
     }
 

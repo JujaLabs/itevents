@@ -1,6 +1,8 @@
 package org.itevents.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.model.City;
+import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 
@@ -15,9 +17,12 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation")),
+            @Result(property = "price", column = "price"),
+            @Result(property = "currency", column = "id", javaType = Currency.class, one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
+            @Result(property = "city", column = "id", javaType = City.class, one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE id = #{id}")
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, price FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
     @Results(value = {
@@ -28,9 +33,12 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one = @One(select = "org.itevents.mapper.LocationMapper.selectLocatio")),
+            @Result(property = "price", column = "price"),
+            @Result(property = "currency", column = "id", javaType = Currency.class, one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
+            @Result(property = "city", column = "id", javaType = City.class, one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events")
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, price FROM events")
     List<Event> getAllEvents();
 
     @Results(value = {
@@ -41,9 +49,13 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation")),
+            @Result(property = "price", column = "price"),
+            @Result(property = "currency", column = "id", javaType = Currency.class, one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
+            @Result(property = "city", column = "id", javaType = City.class, one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
+
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE ST_DWithin(point)::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, price FROM events WHERE ST_DWithin(point)::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
     List<Event> getFutureEventsInRadius(@Param("location") Location location, @Param("radius") int radius);
 
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact})")
