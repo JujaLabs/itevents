@@ -8,6 +8,8 @@
         <property name="location" value="classpath:database.properties"/>
     </bean>
 
+
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${database.driver}"/>
         <property name="url" value="${database.url}"/>
@@ -29,13 +31,16 @@
         <property name="eventMapper" ref="eventMapper"/>
     </bean>
 
-    <bean id="regLinkClickMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="org.itevents.mapper.RegLinkClickMapper"/>
+    <bean id="visitLogMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.VisitLogMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean name="regLinkClickService" class="org.itevents.service.RegLinkClickServiceImpl">
-        <property name="regLinkClickMapper" ref="regLinkClickMapper"/>
+    <bean name="visitLogService" class="org.itevents.service.VisitLogServiceImpl">
+        <property name="visitLogMapper" ref="visitLogMapper"/>
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 </beans>

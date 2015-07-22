@@ -10,6 +10,7 @@ targetCompatibility = 1.7
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
 }
 
 configurations {
@@ -37,7 +38,12 @@ dependencies {
     liquibase 'org.liquibase:liquibase-core:3.4.0'
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
-  }
+    compile 'com.sun.xml.bind:jaxb-impl:2.2.7'
+
+
+    compile "com.mangofactory:swagger-springmvc:1.0.0"
+
+}
 
 httpPort = 8181
 stopPort = 9080
@@ -71,4 +77,8 @@ task liquibaseRollback(type: JavaExec) {
     main = 'liquibase.integration.commandline.Main'
     args 'rollbackCount'
     args '0'
+}
+
+task Fooooo{
+
 }
