@@ -3,7 +3,7 @@ package org.itevents.model;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
-@XmlRootElement(name = "City")
+@XmlRootElement(name = "city")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = {"id", "name", "location"})
 public class City implements Serializable {

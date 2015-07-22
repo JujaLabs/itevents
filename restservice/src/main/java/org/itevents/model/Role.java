@@ -2,7 +2,7 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "roles")
+@XmlRootElement(name = "role")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = {"id", "name"})
 

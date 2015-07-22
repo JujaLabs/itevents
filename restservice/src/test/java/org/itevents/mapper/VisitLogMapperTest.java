@@ -1,5 +1,6 @@
 package org.itevents.mapper;
 
+import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 import org.junit.After;
 import org.junit.Before;
@@ -43,10 +44,10 @@ public class VisitLogMapperTest {
 
     @Test
     public void testGetVisit() throws Exception {
-
-        VisitLog expected = new VisitLog(1, eventMapper.getEvent(1), new GregorianCalendar().getTime(), userMapper.getUserById(1));
-        VisitLog real = visitLogMapper.getVisitsByEvent(1);
-        real.setDate(null);
+        Event event = eventMapper.getEvent(1);
+        VisitLog expected = new VisitLog(1, event, new GregorianCalendar().getTime(), userMapper.getUserById(1));
+        VisitLog real = visitLogMapper.getVisitsByEvent(event.getId());
+//        real.setDate(null);
         assertEquals(expected, real);
 
     }
