@@ -14,6 +14,6 @@ public interface TechTagMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "name", column = "name"),
     })
-    @Select("SELECT id, name FROM techTags WHERE id = #{id}")
+    @Select("SELECT id, name FROM technologies WHERE id = #{id}")
     TechTag getTechTag(int id);
 }
