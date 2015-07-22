@@ -15,7 +15,7 @@ public interface EventMapper {
     Event getEvent(int id);
 
     @Results(value = {
-            @Result(property = "id", column = "id"),
+            @Result(property = "id", column = "id", id = true),
             @Result(property = "title", column = "title"),
             @Result(property = "eventDate", column = "event_date"),
             @Result(property = "createDate", column = "create_date"),
