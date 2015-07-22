@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @XmlRootElement(name = "City")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "title", "location"})
+@XmlType(propOrder = {"id", "name", "location"})
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -13,16 +13,16 @@ public class City implements Serializable {
     @XmlElement
     private int id;
     @XmlElement
-    private String title;
+    private String name;
     @XmlElement
     private Location location;
 
     public City() {
     }
 
-    public City(int id, String title, Location location) {
+    public City(int id, String name, Location location) {
         this.id = id;
-        this.title = title;
+        this.name = name;
         this.location = location;
     }
 
@@ -34,12 +34,12 @@ public class City implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Location getLocation() {
@@ -58,7 +58,7 @@ public class City implements Serializable {
         City city = (City) o;
 
         if (id != city.id) return false;
-        if (!title.equals(city.title)) return false;
+        if (!name.equals(city.name)) return false;
         return location.equals(city.location);
 
     }
@@ -66,7 +66,7 @@ public class City implements Serializable {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + title.hashCode();
+        result = 31 * result + name.hashCode();
         result = 31 * result + location.hashCode();
         return result;
     }
@@ -75,7 +75,7 @@ public class City implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("City{");
         sb.append("id=").append(id);
-        sb.append(", title='").append(title).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", location=").append(location);
         sb.append('}');
         return sb.toString();

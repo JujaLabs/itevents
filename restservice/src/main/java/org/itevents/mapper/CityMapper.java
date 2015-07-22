@@ -1,26 +1,19 @@
 package org.itevents.mapper;
 
-import org.apache.ibatis.annotations.*;
-import org.itevents.model.Event;
+import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.itevents.model.City;
 import org.itevents.model.Location;
 
 public interface CityMapper {
     @Results(value = {
             @Result(property = "id", column = "id"),
-            @Result(property = "title", column = "title"),
+            @Result(property = "name", column = "name"),
             @Result(property = "location", javaType = Location.class,
-                    column = "id", one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation"))
+                    column = "id", one = @One(select = "org.itevents.mapper.LocationMapper.getCityLocation"))
     })
-    @Select("SELECT id, title FROM cities WHERE id = #{id}")
-    Event getCity(int id);
-
-
-    @Insert("INSERT INTO cities(id, title, point) VALUES(" +
-            "#{id}, " +
-            "#{title}, " +
-            "ST_MakePoint(#{location.longitude},#{location.latitude})")
-    void addCity(Event event);
-
-    @Delete("DELETE FROM cities WHERE id =#{id}")
-    void removeCity(int id);
+    @Select("SELECT id, name FROM cities WHERE id = #{id}")
+    City getCity(int id);
 }
