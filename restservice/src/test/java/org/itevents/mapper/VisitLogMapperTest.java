@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,8 +47,10 @@ public class VisitLogMapperTest {
     @Test
     public void testGetVisit() throws Exception {
         Event event = eventMapper.getEvent(1);
-        VisitLog expected = new VisitLog(1, event, new GregorianCalendar().getTime(), userMapper.getUserById(1));
-        VisitLog real = visitLogMapper.getVisitsByEvent(event.getId());
+        VisitLog visitLog = new VisitLog(1, event, new GregorianCalendar().getTime(), userMapper.getUserById(1));
+        List<VisitLog> expected = new ArrayList<>();
+        expected.add(visitLog);
+        List<VisitLog> real = visitLogMapper.getVisitsByEvent(event.getId());
 //        real.setDate(null);
         assertEquals(expected, real);
 

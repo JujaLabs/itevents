@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author Alexander Vlasov
  */
@@ -27,7 +29,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog getVisits(int eventId) {
+    public List<VisitLog> getVisits(int eventId) {
         return visitLogMapper.getVisitsByEvent(eventId);
     }
 
