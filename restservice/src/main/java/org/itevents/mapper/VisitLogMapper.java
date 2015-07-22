@@ -5,8 +5,6 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 
-import java.util.Collection;
-
 public interface VisitLogMapper {
 
     @Results({
@@ -16,13 +14,12 @@ public interface VisitLogMapper {
             @Result(property = "user", javaType = User.class, column = "user_id", one = @One(select = "org.itevents.mapper.UserMapper.getUser"))
     })
     @Select("SELECT id, event_id, date, user_id FROM visit_log WHERE event_id = #{event_id}")
-    Collection<VisitLog> selectVisitsByEvent(@Param("event_id") int eventId);
+    VisitLog[] getVisitsByEvent(@Param("event_id") int eventId);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event_id}, NOW(),  #{user_id})")
     void addVisit(@Param("event_id") int eventId, @Param("user_id") int userId);
 
-    @Delete("DELETE FROM visit_log WHERE id =#{id}")
-    void deleteVisit(int id);
-
+    @Delete("DELETE FROM visit_log ")
+    void deleteVisits();
 
 }
