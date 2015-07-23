@@ -16,8 +16,8 @@ public interface UserMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "login", column = "login"),
             @Result(property = "password", column = "password"),
-            @Result(property = "role", javaType = Role.class, column = "role_id", one = @One(select = "org.itevents.mapper.RoleMapper.getRole"))
+            @Result(property = "role", javaType = Role.class, column = "id", one = @One(select = "org.itevents.mapper.RoleMapper.getRole"))
     })
     @Select("SELECT id, login, password FROM users WHERE id = #{id}")
-    User getUser(int id);
+    User getUserById(int id);
 }

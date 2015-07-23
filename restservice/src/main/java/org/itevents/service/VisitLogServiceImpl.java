@@ -30,7 +30,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public Collection<VisitLog> getVisits(int eventId) {
-        return visitLogMapper.selectVisitsByEvent(eventId);
+        return visitLogMapper.getVisitsByEvent(eventId);
     }
 
 
