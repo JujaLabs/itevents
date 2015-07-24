@@ -35,11 +35,15 @@ public class RoleMapperTest {
     public void testAddRole() throws Exception {
         Role role = new Role("testRole");
         roleMapper.addRole(role);
-        roleMapper.getAllRoles();
+
+        assertEquals(role, roleMapper.getRole(role.getId()));
+
+        roleMapper.removeRole(role);
+
     }
 
     @Test
     public void testGetAllRoles() throws Exception {
-
+        assertEquals(3, roleMapper.getAllRoles().size());
     }
 }

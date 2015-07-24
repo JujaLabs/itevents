@@ -10,21 +10,19 @@ import java.util.List;
  */
 public interface RoleMapper {
 
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
-    })
+    @ResultType(Role.class)
     @Select("SELECT id, name FROM roles WHERE id = #{id}")
     Role getRole(int id);
 
-    @ResultMap("getRole-int")
+    @ResultType(Role.class)
     @Select("SELECT id, name FROM roles")
     List<Role> getAllRoles();
 
-    @Insert("INSERT INTO roles (name) VALUES(#{name}")
+    @Insert("INSERT INTO roles (name) VALUES(#{name})")
+    @SelectKey(statement = "SELECT id FROM roles WHERE name=#{name}",
+            keyProperty = "id", keyColumn = "id", before = false, resultType = int.class)
     void addRole(Role role);
 
-    @ResultMap("getRole-int")
     @Delete("DELETE FROM roles WHERE id =#{id}")
-    Role removeRole(Role role);
+    void removeRole(Role role);
 }
