@@ -20,6 +20,10 @@ public interface VisitLogMapper {
 
     @ResultMap("getVisit-int")
     @Select("SELECT id, date FROM visit_log WHERE event_id = #{event.id}")
+    List<VisitLog> getAllVisits();
+
+    @ResultMap("getVisit-int")
+    @Select("SELECT id, date FROM visit_log WHERE event_id = #{event.id}")
     List<VisitLog> getVisitsByEvent(@Param("event") Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, NOW(),  #{user.id})")
@@ -27,5 +31,8 @@ public interface VisitLogMapper {
 
     @Delete("DELETE FROM visit_log ")
     void removeVisits();
+
+    @Delete("DELETE FROM visit_log WHERE id=#{visitLog.id")
+    void removeVisitLog(VisitLog visitLog);
 
 }
