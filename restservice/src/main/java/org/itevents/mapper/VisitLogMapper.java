@@ -16,13 +16,13 @@ public interface VisitLogMapper {
             @Result(property = "user", javaType = User.class, column = "id", one = @One(select = "org.itevents.mapper.UserMapper.getUser"))
     })
     @Select("SELECT id, date FROM visit_log WHERE id = #{id}")
-    VisitLog getVisit(int id);
+    VisitLog getVisitLog(int id);
 
-    @ResultMap("getVisit-int")
+    @ResultMap("getVisitLog-int")
     @Select("SELECT id, date FROM visit_log WHERE event_id = #{event.id}")
     List<VisitLog> getAllVisits();
 
-    @ResultMap("getVisit-int")
+    @ResultMap("getVisitLog-int")
     @Select("SELECT id, date FROM visit_log WHERE event_id = #{event.id}")
     List<VisitLog> getVisitsByEvent(@Param("event") Event event);
 

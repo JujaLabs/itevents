@@ -21,7 +21,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     private VisitLogMapper visitLogMapper;
 
     @Override
-    public void addVisit(Event event, User user) {
+    public void addVisitLog(Event event, User user) {
         try{
             visitLogMapper.addVisit(event, user);
         }catch(DuplicateKeyException e){
@@ -35,8 +35,8 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public VisitLog getVisit(int id) {
-        return visitLogMapper.getVisit(id);
+    public VisitLog getVisitLog(int id) {
+        return visitLogMapper.getVisitLog(id);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog removeVisitLog(VisitLog visitLog) {
-        VisitLog was = visitLogMapper.getVisit(visitLog.getId());
+        VisitLog was = visitLogMapper.getVisitLog(visitLog.getId());
         if (was != null) {
             visitLogMapper.removeVisitLog(visitLog);
         }

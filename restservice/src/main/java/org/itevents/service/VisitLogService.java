@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface VisitLogService {
 
-    void addVisit(Event event, User user);
+    void addVisitLog(Event event, User user);
 
     List<VisitLog> getVisitsByEvent(Event event);
 
 
-    VisitLog getVisit(int id);
+    VisitLog getVisitLog(int id);
 
     List<VisitLog> getAllVisitLogs();
 
