@@ -29,8 +29,7 @@ public interface VisitLogMapper {
     List<VisitLog> getVisitsByEvent(Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, NOW(),  #{user.id})")
-    @SelectKey(statement = "SELECT id FROM visit_log WHERE event_id=#{event.id} AND user_id=#{user.id}",
-            keyProperty = "id", keyColumn = "id", before = false, resultType = int.class)
+    @Options(useGeneratedKeys = true)
     void addVisitLog(VisitLog visitLog);
 
     @Delete("DELETE FROM visit_log WHERE id=#{id}")

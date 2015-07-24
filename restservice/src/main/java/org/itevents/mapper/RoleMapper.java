@@ -19,8 +19,7 @@ public interface RoleMapper {
     List<Role> getAllRoles();
 
     @Insert("INSERT INTO roles (name) VALUES(#{name})")
-    @SelectKey(statement = "SELECT id FROM roles WHERE name=#{name}",
-            keyProperty = "id", keyColumn = "id", before = false, resultType = int.class)
+    @Options(useGeneratedKeys = true)
     void addRole(Role role);
 
     @Delete("DELETE FROM roles WHERE id =#{id}")

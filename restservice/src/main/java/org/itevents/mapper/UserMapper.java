@@ -26,8 +26,7 @@ public interface UserMapper {
     List<User> getAllUsers();
 
     @Insert("INSERT INTO users (login, password, roles_id) VALUES(#{login}, #{password}, #{role.id})")
-    @SelectKey(statement = "SELECT id FROM users WHERE login=#{login} AND password=#{password}",
-            keyProperty = "id", keyColumn = "id", before = false, resultType = int.class)
+    @Options(useGeneratedKeys = true)
     void addUser(User user);
 
     @Delete("DELETE FROM users WHERE id =#{id}")
