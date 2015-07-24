@@ -1,6 +1,7 @@
 package org.itevents.mapper;
 
 import org.itevents.model.Role;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,13 @@ public class RoleMapperTest {
     @Autowired
     private RoleMapper roleMapper;
 
+    private Role testRole;
+
+    @Before
+    public void setTestRole() {
+        testRole = new Role("testRole");
+    }
+
     @Test
     public void testGetRole1() throws Exception {
         Role expected = new Role("guest");
@@ -33,13 +41,22 @@ public class RoleMapperTest {
 
     @Test
     public void testAddRole() throws Exception {
-        Role role = new Role("testRole");
-        roleMapper.addRole(role);
+        roleMapper.addRole(testRole);
 
-        assertEquals(role, roleMapper.getRole(role.getId()));
+        assertEquals(testRole, roleMapper.getRole(testRole.getId()));
 
-        roleMapper.removeRole(role);
+        roleMapper.removeRole(testRole);
 
+    }
+
+    @Test
+    public void testRemoveRole() {
+        roleMapper.addRole(testRole);
+        int wasSize = roleMapper.getAllRoles().size();
+
+        roleMapper.removeRole(testRole);
+
+        assertEquals(wasSize - 1, roleMapper.getAllRoles().size());
     }
 
     @Test
