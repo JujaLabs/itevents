@@ -1,13 +1,10 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "roles")
 @XmlAccessorType(XmlAccessType.NONE)
-//@XmlType(propOrder={"id", "name"})
+@XmlType(propOrder = {"id", "name"})
 
 public class Role {
 
@@ -21,8 +18,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(int id, String name) {
-        this.id = id;
+    public Role(String name) {
         this.name = name;
     }
 

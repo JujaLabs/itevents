@@ -24,11 +24,13 @@ public class UserMapperTest {
 
     @Test
     public void testGetUser1() throws Exception {
-        assertEquals(new User(1, "guest", "guest", roleMapper.getRole(1)), userMapper.getUserById(1));
+        User expected = new User("guest", "guest", roleMapper.getRole(1));
+        expected.setId(1);
+        assertEquals(expected, userMapper.getUser(1));
     }
 
     @Test
     public void testGetUser0() throws Exception {
-        assertNull(userMapper.getUserById(0));
+        assertNull(userMapper.getUser(0));
     }
 }

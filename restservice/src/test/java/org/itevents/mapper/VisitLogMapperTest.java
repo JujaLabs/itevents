@@ -42,14 +42,14 @@ public class VisitLogMapperTest {
 
     @After
     public void deleteVisits() {
-        visitLogMapper.deleteVisits();
+        visitLogMapper.removeVisits();
     }
 
     @Test
     @Ignore
     public void testGetVisit() throws Exception {
         Event event = eventMapper.getEvent(1);
-        VisitLog visitLog = new VisitLog(1, event, new GregorianCalendar().getTime(), userMapper.getUserById(1));
+        VisitLog visitLog = new VisitLog(1, event, new GregorianCalendar().getTime(), userMapper.getUser(1));
         List<VisitLog> expected = new ArrayList<>();
         expected.add(visitLog);
         List<VisitLog> real = visitLogMapper.getVisitsByEvent(event.getId());

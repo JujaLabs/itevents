@@ -1,12 +1,21 @@
 package org.itevents.service;
 
+import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface VisitLogService {
 
-    void addVisit(int eventId, int userId);
+    void addVisit(Event event, User user);
 
-    Collection<VisitLog> getVisits(int eventId);
+    List<VisitLog> getVisitsByEvent(Event event);
+
+
+    VisitLog getVisit(int id);
+
+    List<VisitLog> getAllVisitLogs();
+
+    VisitLog removeVisitLog(VisitLog visitLog);
 }

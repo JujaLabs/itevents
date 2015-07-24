@@ -23,8 +23,7 @@ public class VisitLog implements Serializable {
     public VisitLog() {
     }
 
-    public VisitLog(int id, Event event, Date date, User user) {
-        this.id = id;
+    public VisitLog(Event event, Date date, User user) {
         this.event = event;
         this.date = date;
         this.user = user;

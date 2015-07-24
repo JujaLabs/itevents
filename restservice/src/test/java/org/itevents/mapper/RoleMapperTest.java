@@ -21,11 +21,25 @@ public class RoleMapperTest {
 
     @Test
     public void testGetRole1() throws Exception {
-        assertEquals(new Role(1, "guest"), roleMapper.getRole(1));
+        Role expected = new Role("guest");
+        expected.setId(1);
+        assertEquals(expected, roleMapper.getRole(1));
     }
 
     @Test
     public void testGetRole0() throws Exception {
         assertNull(roleMapper.getRole(0));
+    }
+
+    @Test
+    public void testAddRole() throws Exception {
+        Role role = new Role("testRole");
+        roleMapper.addRole(role);
+        roleMapper.getAllRoles();
+    }
+
+    @Test
+    public void testGetAllRoles() throws Exception {
+
     }
 }
