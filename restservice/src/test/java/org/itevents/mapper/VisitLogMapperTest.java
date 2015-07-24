@@ -5,7 +5,6 @@ import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,17 @@ public class VisitLogMapperTest {
 
     @Autowired
     private EventMapper eventMapper;
-    private final Event event1 = eventMapper.getEvent(1);
+    private Event event1;
+
     @Autowired
     private UserMapper userMapper;
-    private final User user1 = userMapper.getUser(1);
+    private User user1;
+
 
     @Before
     public void addVisit11() {
+        event1 = eventMapper.getEvent(1);
+        user1 = userMapper.getUser(1);
         visitLogMapper.addVisit(event1, user1);
     }
 
@@ -46,7 +49,7 @@ public class VisitLogMapperTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void testGetVisit() throws Exception {
         VisitLog visitLog = new VisitLog(event1, new GregorianCalendar().getTime(), user1);
         List<VisitLog> expected = new ArrayList<>();
