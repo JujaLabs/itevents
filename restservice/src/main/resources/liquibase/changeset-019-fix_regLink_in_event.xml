@@ -5,7 +5,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="000" author="vaa25">
+    <changeSet id="019" author="vladislove80">
         <sql>
             UPDATE events SET reg_link = CONCAT('http://', reg_link);
         </sql>
