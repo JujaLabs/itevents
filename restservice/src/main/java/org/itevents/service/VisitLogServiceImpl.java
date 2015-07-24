@@ -23,7 +23,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     @Override
     public void addVisitLog(Event event, User user) {
         try{
-            visitLogMapper.addVisit(event, user);
+            visitLogMapper.addVisitLog(new VisitLog(event, user));
         }catch(DuplicateKeyException e){
             System.out.println(" Repeat events/" + event.getId() + "/users/" + user.getId());
         }
@@ -41,7 +41,7 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public List<VisitLog> getAllVisitLogs() {
-        return visitLogMapper.getAllVisits();
+        return visitLogMapper.getAllVisitLogs();
     }
 
     @Override

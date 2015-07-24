@@ -1,12 +1,14 @@
 package org.itevents.mapper;
 
 import org.itevents.model.Role;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -16,6 +18,7 @@ import static org.junit.Assert.assertNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
+@Transactional
 public class RoleMapperTest {
     @Autowired
     private RoleMapper roleMapper;
@@ -25,6 +28,11 @@ public class RoleMapperTest {
     @Before
     public void setTestRole() {
         testRole = new Role("testRole");
+    }
+
+    @After
+    public void dropTestRole() {
+        testRole = null;
     }
 
     @Test

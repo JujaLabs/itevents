@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
+@Transactional
 public class UserMapperTest {
     @Autowired
     private UserMapper userMapper;
@@ -37,6 +39,7 @@ public class UserMapperTest {
     @After
     public void dropRole1() {
         role1 = null;
+        testUser = null;
     }
 
     @Test
@@ -62,6 +65,11 @@ public class UserMapperTest {
     }
 
     @Test
+    public void testGetAllUsers() throws Exception {
+        assertEquals(4, userMapper.getAllUsers().size());
+    }
+
+    @Test
     public void testRemoveUser() {
         userMapper.addUser(testUser);
         int wasSize = userMapper.getAllUsers().size();
@@ -69,10 +77,5 @@ public class UserMapperTest {
         userMapper.removeUser(testUser);
 
         assertEquals(wasSize - 1, userMapper.getAllUsers().size());
-    }
-
-    @Test
-    public void testGetAllUsers() throws Exception {
-        assertEquals(4, userMapper.getAllUsers().size());
     }
 }

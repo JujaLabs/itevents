@@ -23,9 +23,8 @@ public class VisitLog implements Serializable {
     public VisitLog() {
     }
 
-    public VisitLog(Event event, Date date, User user) {
+    public VisitLog(Event event, User user) {
         this.event = event;
-        this.date = date;
         this.user = user;
     }
 
@@ -69,5 +68,28 @@ public class VisitLog implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VisitLog visitLog = (VisitLog) o;
+
+        if (id != visitLog.id) return false;
+        if (!event.equals(visitLog.event)) return false;
+        if (date != null ? !date.equals(visitLog.date) : visitLog.date != null) return false;
+        return user.equals(visitLog.user);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + event.hashCode();
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + user.hashCode();
+        return result;
     }
 }
