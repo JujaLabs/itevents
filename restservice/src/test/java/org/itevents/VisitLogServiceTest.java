@@ -5,7 +5,10 @@ import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.VisitLogServiceImpl;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,7 +32,6 @@ public class VisitLogServiceTest {
     }
 
     @Test
-    @Ignore
     public void testGetVisitLogByEvent() {
         Event event = eventService.getEvent(1);
         Collection<VisitLog> visitLogs = visitLogService.getVisitsByEvent(event);
