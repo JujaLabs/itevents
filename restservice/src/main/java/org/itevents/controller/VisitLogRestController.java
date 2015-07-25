@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URL;
+import java.util.Random;
 
 
 @RestController
@@ -26,8 +27,8 @@ public class VisitLogRestController {
     private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
     private UserMapper userMapper = context.getBean("userMapper", UserMapper.class);
 
-    @RequestMapping(value = "/events/{event_id}/users/{user_id}")
-    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId, @PathVariable("user_id") int userId) {
+    @RequestMapping(value = "/events/{event_id}/register")
+    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -35,8 +36,12 @@ public class VisitLogRestController {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        User user = userMapper.getUser(userId);
+        User user = getUserFromSession();
         visitLogService.addVisitLog(new VisitLog(event, user));
         return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+    private User getUserFromSession() {
+        return userMapper.getUser(new Random().nextInt(3) + 1);
     }
 }

@@ -12,8 +12,7 @@
             date DATE NOT NULL,
             user_id INT NOT NULL,
             FOREIGN KEY (event_id) REFERENCES events (id),
-            FOREIGN KEY (user_id) REFERENCES users (id),
-            UNIQUE (event_id, user_id)
+            FOREIGN KEY (user_id) REFERENCES users (id)
             );
         </sql>
         <rollback>

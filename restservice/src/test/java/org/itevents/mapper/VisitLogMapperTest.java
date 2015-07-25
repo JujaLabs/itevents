@@ -30,21 +30,19 @@ public class VisitLogMapperTest {
 
     @Autowired
     private VisitLogMapper visitLogMapper;
-
     @Autowired
     private EventMapper eventMapper;
-    private Event event1;
-
     @Autowired
     private UserMapper userMapper;
-    private User user1;
 
+    private Event event1;
+    private User user1;
     private VisitLog testVisitLog;
     private Date date1;
 
 
     @Before
-    public void setSettings() {
+    public void setTemplate() {
         event1 = eventMapper.getEvent(1);
         user1 = userMapper.getUser(1);
         testVisitLog = new VisitLog(eventMapper.getEvent(3), user1);
@@ -53,7 +51,7 @@ public class VisitLogMapperTest {
     }
 
     @After
-    public void dropSettings() {
+    public void clearTemplate() {
         testVisitLog = null;
         user1 = null;
         event1 = null;
@@ -81,7 +79,9 @@ public class VisitLogMapperTest {
         expected.add(visitLogMapper.getVisitLog(2));
         expected.add(visitLogMapper.getVisitLog(7));
 
-        assertEquals(expected, visitLogMapper.getVisitsByEvent(event1));
+        List<VisitLog> returned = visitLogMapper.getVisitsByEvent(event1);
+
+        assertEquals(expected, returned);
     }
 
 
@@ -89,9 +89,9 @@ public class VisitLogMapperTest {
     public void testAddVisitLog() throws Exception {
         visitLogMapper.addVisitLog(testVisitLog);
 
-        VisitLog real = visitLogMapper.getVisitLog(testVisitLog.getId());
-        real.setDate(date1);
-        assertEquals(testVisitLog, real);
+        VisitLog returned = visitLogMapper.getVisitLog(testVisitLog.getId());
+        returned.setDate(date1);
+        assertEquals(testVisitLog, returned);
 
         visitLogMapper.removeVisitLog(testVisitLog);
     }
@@ -104,11 +104,12 @@ public class VisitLogMapperTest {
     @Test
     public void testRemoveVisitLog() {
         visitLogMapper.addVisitLog(testVisitLog);
-        int wasSize = visitLogMapper.getAllVisitLogs().size();
+        int expectedSize = visitLogMapper.getAllVisitLogs().size() - 1;
 
         visitLogMapper.removeVisitLog(testVisitLog);
+        int returnedSize = visitLogMapper.getAllVisitLogs().size();
 
-        assertEquals(wasSize - 1, visitLogMapper.getAllVisitLogs().size());
+        assertEquals(expectedSize, returnedSize);
     }
 
 }

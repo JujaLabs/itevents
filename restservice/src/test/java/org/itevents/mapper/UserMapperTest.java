@@ -23,30 +23,32 @@ import static org.junit.Assert.assertNull;
 public class UserMapperTest {
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private RoleMapper roleMapper;
 
     private Role role1;
-    private User testUser;
+    private User expectedUser;
 
     @Before
-    public void setRole1() {
+    public void setTemplate() {
         role1 = roleMapper.getRole(1);
-        testUser = new User("testUser", "testUserPassword", role1);
+        expectedUser = new User("testUser", "testUserPassword", role1);
     }
 
     @After
-    public void dropRole1() {
+    public void clearTemplate() {
         role1 = null;
-        testUser = null;
+        expectedUser = null;
     }
 
     @Test
     public void testGetUser1() throws Exception {
         User expected = new User("guest", "guest", role1);
         expected.setId(1);
-        assertEquals(expected, userMapper.getUser(1));
+
+        User returned = userMapper.getUser(1);
+
+        assertEquals(expected, returned);
     }
 
     @Test
@@ -56,26 +58,30 @@ public class UserMapperTest {
 
     @Test
     public void testAddUser() throws Exception {
-        userMapper.addUser(testUser);
+        userMapper.addUser(expectedUser);
 
-        assertEquals(testUser, userMapper.getUser(testUser.getId()));
+        User returnedUser = userMapper.getUser(expectedUser.getId());
+        assertEquals(expectedUser, returnedUser);
 
-        userMapper.removeUser(testUser);
+        userMapper.removeUser(expectedUser);
 
     }
 
     @Test
     public void testGetAllUsers() throws Exception {
-        assertEquals(4, userMapper.getAllUsers().size());
+        int expectedSize = 4;
+        int returnedSize = userMapper.getAllUsers().size();
+        assertEquals(expectedSize, returnedSize);
     }
 
     @Test
     public void testRemoveUser() {
-        userMapper.addUser(testUser);
-        int wasSize = userMapper.getAllUsers().size();
+        userMapper.addUser(expectedUser);
+        int expectedSize = userMapper.getAllUsers().size() - 1;
 
-        userMapper.removeUser(testUser);
+        userMapper.removeUser(expectedUser);
+        int returnedSize = userMapper.getAllUsers().size();
 
-        assertEquals(wasSize - 1, userMapper.getAllUsers().size());
+        assertEquals(expectedSize, returnedSize);
     }
 }

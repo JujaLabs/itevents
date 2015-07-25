@@ -1,8 +1,8 @@
 package org.itevents.mapper;
 
 import org.itevents.model.Role;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +20,26 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class RoleMapperTest {
+    private static Role expected;
     @Autowired
     private RoleMapper roleMapper;
 
-    private Role testRole;
-
-    @Before
-    public void setTestRole() {
-        testRole = new Role("testRole");
+    @BeforeClass
+    public static void setTemplate() {
+        expected = new Role("testRole");
     }
 
-    @After
-    public void dropTestRole() {
-        testRole = null;
+    @AfterClass
+    public static void clearTemplate() {
+        expected = null;
     }
 
     @Test
     public void testGetRole1() throws Exception {
         Role expected = new Role("guest");
         expected.setId(1);
-        assertEquals(expected, roleMapper.getRole(1));
+        Role returned = roleMapper.getRole(1);
+        assertEquals(expected, returned);
     }
 
     @Test
@@ -49,26 +49,28 @@ public class RoleMapperTest {
 
     @Test
     public void testAddRole() throws Exception {
-        roleMapper.addRole(testRole);
+        roleMapper.addRole(expected);
 
-        assertEquals(testRole, roleMapper.getRole(testRole.getId()));
+        Role returned = roleMapper.getRole(expected.getId());
+        assertEquals(expected, returned);
 
-        roleMapper.removeRole(testRole);
-
+        roleMapper.removeRole(expected);
     }
 
     @Test
     public void testRemoveRole() {
-        roleMapper.addRole(testRole);
+        roleMapper.addRole(expected);
         int wasSize = roleMapper.getAllRoles().size();
 
-        roleMapper.removeRole(testRole);
+        roleMapper.removeRole(expected);
 
         assertEquals(wasSize - 1, roleMapper.getAllRoles().size());
     }
 
     @Test
     public void testGetAllRoles() throws Exception {
-        assertEquals(3, roleMapper.getAllRoles().size());
+        int expectedSize = 3;
+        int returnedSize = roleMapper.getAllRoles().size();
+        assertEquals(expectedSize, returnedSize);
     }
 }
