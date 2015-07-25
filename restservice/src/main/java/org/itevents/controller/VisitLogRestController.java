@@ -3,6 +3,7 @@ package org.itevents.controller;
 import org.itevents.mapper.UserMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.VisitLogService;
 import org.springframework.context.ApplicationContext;
@@ -35,7 +36,7 @@ public class VisitLogRestController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = userMapper.getUser(userId);
-        visitLogService.addVisitLog(event, user);
+        visitLogService.addVisitLog(new VisitLog(event, user));
         return new ResponseEntity(headers, HttpStatus.FOUND);
     }
 }
