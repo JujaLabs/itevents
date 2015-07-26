@@ -40,10 +40,10 @@ public class VisitLogServiceImpl implements VisitLogService {
 
     @Override
     public VisitLog removeVisitLog(VisitLog visitLog) {
-        VisitLog was = visitLogMapper.getVisitLog(visitLog.getId());
-        if (was != null) {
+        VisitLog deletingVisitLog = visitLogMapper.getVisitLog(visitLog.getId());
+        if (deletingVisitLog != null) {
             visitLogMapper.removeVisitLog(visitLog);
         }
-        return was;
+        return deletingVisitLog;
     }
 }
