@@ -1,18 +1,8 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
-
-@XmlRootElement(name = "roles")
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "name"})
-
 public class Role {
 
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
     private int id;
-    @XmlElement
     private String name;
 
     public Role() {

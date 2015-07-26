@@ -1,23 +1,10 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
+public class User {
 
-@XmlRootElement(name = "user")
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "login", "password", "role"})
-
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
     private int id;
-    @XmlElement
     private String login;
-    @XmlElement
     private String password;
-    @XmlElement
     private Role role;
 
     public User() {
