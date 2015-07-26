@@ -23,11 +23,19 @@ public class VisitLog implements Serializable {
     public VisitLog() {
     }
 
-    public VisitLog(int id, Event event, Date date, User user) {
-        this.id = id;
+    public VisitLog(Event event, User user) {
         this.event = event;
-        this.date = date;
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "VisitLog{" +
+                "id=" + id +
+                ", event=" + event +
+                ", date=" + date +
+                ", user=" + user +
+                '}';
     }
 
     public int getId() {
@@ -70,29 +78,18 @@ public class VisitLog implements Serializable {
         VisitLog visitLog = (VisitLog) o;
 
         if (id != visitLog.id) return false;
-        if (event != null ? !event.equals(visitLog.event) : visitLog.event != null) return false;
+        if (!event.equals(visitLog.event)) return false;
         if (date != null ? !date.equals(visitLog.date) : visitLog.date != null) return false;
-        return !(user != null ? !user.equals(visitLog.user) : visitLog.user != null);
+        return user.equals(visitLog.user);
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (event != null ? event.hashCode() : 0);
+        result = 31 * result + event.hashCode();
         result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + user.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("VisitLog{");
-        sb.append("id=").append(id);
-        sb.append(", event=").append(event);
-        sb.append(", date=").append(date);
-        sb.append(", user=").append(user);
-        sb.append('}');
-        return sb.toString();
     }
 }

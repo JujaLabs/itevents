@@ -2,7 +2,7 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "role")
+@XmlRootElement(name = "roles")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = {"id", "name"})
 
@@ -18,8 +18,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(int id, String name) {
-        this.id = id;
+    public Role(String name) {
         this.name = name;
     }
 
@@ -43,7 +42,7 @@ public class Role {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Role ");
         sb.append("id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", name='").append(name).append('\'');
         return sb.toString();
     }
 

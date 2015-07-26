@@ -1,9 +1,9 @@
 package org.itevents.service;
 
 import org.itevents.mapper.VisitLogMapper;
+import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,20 +18,32 @@ public class VisitLogServiceImpl implements VisitLogService {
     @Autowired
     private VisitLogMapper visitLogMapper;
 
+    @Override
+    public void addVisitLog(VisitLog visitLog) {
+        visitLogMapper.addVisitLog(visitLog);
+    }
 
     @Override
-    public void addVisit(int eventId, int userId) {
-        try{
-            visitLogMapper.addVisit(eventId, userId);
-        }catch(DuplicateKeyException e){
-            System.out.println(" Repeat events/" + eventId + "/users/" + userId);
+    public List<VisitLog> getVisitsByEvent(Event event) {
+        return visitLogMapper.getVisitsByEvent(event);
+    }
+
+    @Override
+    public VisitLog getVisitLog(int id) {
+        return visitLogMapper.getVisitLog(id);
+    }
+
+    @Override
+    public List<VisitLog> getAllVisitLogs() {
+        return visitLogMapper.getAllVisitLogs();
+    }
+
+    @Override
+    public VisitLog removeVisitLog(VisitLog visitLog) {
+        VisitLog was = visitLogMapper.getVisitLog(visitLog.getId());
+        if (was != null) {
+            visitLogMapper.removeVisitLog(visitLog);
         }
+        return was;
     }
-
-    @Override
-    public List<VisitLog> getVisits(int eventId) {
-        return visitLogMapper.getVisitsByEvent(eventId);
-    }
-
-
 }
