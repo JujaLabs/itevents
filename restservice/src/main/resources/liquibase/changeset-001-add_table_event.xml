@@ -20,8 +20,4 @@
             DROP TABLE events;
         </rollback>
     </changeSet>
-<<<<<<< HEAD
 </databaseChangeLog>
-=======
-</databaseChangeLog>
->>>>>>> master
