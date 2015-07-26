@@ -17,15 +17,15 @@ public interface VisitLogMapper {
             @Result(property = "user", javaType = User.class, column = "user_id",
                     one = @One(select = "org.itevents.mapper.UserMapper.getUser"))
     })
-    @Select("SELECT id, event_id, date, user_id FROM visit_log WHERE id = #{id}")
+    @Select("SELECT * FROM visit_log WHERE id = #{id}")
     VisitLog getVisitLog(int id);
 
     @ResultMap("getVisitLog-int")
-    @Select("SELECT id, event_id, date, user_id FROM visit_log")
+    @Select("SELECT * FROM visit_log")
     List<VisitLog> getAllVisitLogs();
 
     @ResultMap("getVisitLog-int")
-    @Select("SELECT id, event_id, date, user_id FROM visit_log WHERE event_id = #{id}")
+    @Select("SELECT * FROM visit_log WHERE event_id = #{id}")
     List<VisitLog> getVisitsByEvent(Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, NOW(),  #{user.id})")

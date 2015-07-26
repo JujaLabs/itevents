@@ -11,11 +11,11 @@ import java.util.List;
 public interface RoleMapper {
 
     @ResultType(Role.class)
-    @Select("SELECT id, name FROM roles WHERE id = #{id}")
+    @Select("SELECT * FROM roles WHERE id = #{id}")
     Role getRole(int id);
 
     @ResultType(Role.class)
-    @Select("SELECT id, name FROM roles")
+    @Select("SELECT * FROM roles")
     List<Role> getAllRoles();
 
     @Insert("INSERT INTO roles (name) VALUES(#{name})")
