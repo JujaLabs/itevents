@@ -23,13 +23,13 @@ dependencies {
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-test:4.1.6.RELEASE'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.3'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.3'
+    compile 'org.apache.logging.log4j:log4j-api:2.3'
+    compile 'org.apache.logging.log4j:log4j-core:2.3'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
 
-httpPort = 8085
+httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
 
