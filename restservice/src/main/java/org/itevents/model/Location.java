@@ -13,58 +13,31 @@ public class Location implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private Double latitude;
+    private float latitude;
     @XmlElement
-    private Double longitude;
+    private float longitude;
 
     public Location() {
     }
 
-    public Location(Double latitude, Double longitude) {
+    public Location(float latitude, float longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public Double getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Event ");
-        sb.append("latitude=").append(latitude);
-        sb.append("longitude=").append(longitude);
-        return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Location location = (Location) o;
-
-        if (!latitude.equals(location.latitude)) return false;
-        return longitude.equals(location.longitude);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = latitude.hashCode();
-        result = 31 * result + longitude.hashCode();
-        return result;
     }
 }
