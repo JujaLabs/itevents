@@ -1,10 +1,10 @@
-package org.itevents.service;
+package org.itevents.datastore;
 
 import org.itevents.model.Event;
 
 import java.util.List;
 
-public interface EventService {
+public interface DataStore {
 
     void addEvent(Event event);
 
@@ -13,4 +13,5 @@ public interface EventService {
     List<Event> getAllEvents();
 
     Event removeEvent(Long id);
+
 }
