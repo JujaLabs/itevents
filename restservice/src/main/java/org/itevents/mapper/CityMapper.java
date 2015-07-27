@@ -14,10 +14,12 @@ public interface CityMapper {
     @Select("SELECT id, name FROM cities WHERE id = #{id}")
     City getCity(int id);
 
-    @Insert("INSERT INTO cities(id, name, point) VALUES(#{id}, #{name}, #{point}")
+    @Insert("INSERT INTO cities(id, name, point) " +
+            "VALUES(#{id}, #{name}, ST_MakePoint(#{location.longitude},#{location.latitude}")
     void addCity(City city);
 
-    @Update("UPDATE cities SET id=#{id}, name=#{name}, point=#{point} WHERE id =#{id}")
+    @Update("UPDATE cities SET id=#{id}, name=#{name}, point=ST_MakePoint(#{location.longitude},#{location.latitude} " +
+            "WHERE id =#{id}")
     void updateCity(City city);
 
     @Delete("DELETE FROM cities WHERE id =#{id}")
