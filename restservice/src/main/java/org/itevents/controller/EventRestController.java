@@ -52,7 +52,7 @@ public class EventRestController {
             return new ArrayList<>();
         }
         Location location = new Location(latitude, longitude);
-        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
+        List<Event> events = eventService.getEventsInRadius(location, radius);
         if (events.isEmpty()) {
             return events;
         }

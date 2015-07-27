@@ -44,7 +44,7 @@ public interface EventMapper {
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
     })
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE ST_DWithin(point::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
-    List<Event> getFutureEventsInRadius(@Param("location")Location location, @Param("radius")int radius);
+    List<Event> getEventsInRadius(@Param("location") Location location, @Param("radius") int radius);
 
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact})")
     void addEvent(Event event);
