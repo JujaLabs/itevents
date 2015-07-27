@@ -3,11 +3,12 @@ package org.itevents.mapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,21 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class VisitLogMapperTest {
 
-    @Autowired
-    private VisitLogMapper visitLogMapper;
-    @Autowired
-    private EventMapper eventMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private static VisitLogMapper visitLogMapper;
+    private static EventMapper eventMapper;
+    private static UserMapper userMapper;
 
-    private Event event1;
-    private User user1;
-    private VisitLog testVisitLog;
-    private Date date1;
+    private static Event event1;
+    private static User user1;
+    private static VisitLog testVisitLog;
+    private static Date date1;
 
-
-    @Before
-    public void setTemplate() {
+    @BeforeClass
+    public static void setup() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        eventMapper = context.getBean("eventMapper", EventMapper.class);
+        userMapper = context.getBean("userMapper", UserMapper.class);
+        visitLogMapper = context.getBean("visitLogMapper", VisitLogMapper.class);
         event1 = eventMapper.getEvent(1);
         user1 = userMapper.getUser(1);
         testVisitLog = new VisitLog(eventMapper.getEvent(3), user1);
@@ -50,21 +51,25 @@ public class VisitLogMapperTest {
         testVisitLog.setDate(date1);
     }
 
-    @After
-    public void clearTemplate() {
-        testVisitLog = null;
-        user1 = null;
+    @AfterClass
+    public static void teardown() {
+        userMapper = null;
+        eventMapper = null;
+        visitLogMapper = null;
         event1 = null;
+        user1 = null;
+        testVisitLog = null;
         date1 = null;
     }
 
     @Test
     public void testGetVisitLog1() {
-        VisitLog expected = new VisitLog(event1, user1);
-        expected.setDate(date1);
-        expected.setId(1);
+        VisitLog expectedVisitLog = new VisitLog(event1, user1);
+        expectedVisitLog.setDate(date1);
+        expectedVisitLog.setId(1);
 
-        assertEquals(expected, visitLogMapper.getVisitLog(1));
+        VisitLog returnedVisitLog = visitLogMapper.getVisitLog(1);
+        assertEquals(expectedVisitLog, returnedVisitLog);
     }
 
     @Test
@@ -74,25 +79,26 @@ public class VisitLogMapperTest {
 
     @Test
     public void testGetVisitLogByEvent() throws Exception {
-        List<VisitLog> expected = new ArrayList<>();
-        expected.add(visitLogMapper.getVisitLog(1));
-        expected.add(visitLogMapper.getVisitLog(2));
-        expected.add(visitLogMapper.getVisitLog(7));
+        List<VisitLog> expectedVisitLogs = new ArrayList<>();
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(1));
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(2));
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(7));
 
-        List<VisitLog> returned = visitLogMapper.getVisitsByEvent(event1);
+        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitsByEvent(event1);
 
-        assertEquals(expected, returned);
+        assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
 
 
     @Test
     public void testAddVisitLog() throws Exception {
-        visitLogMapper.addVisitLog(testVisitLog);
+        VisitLog expectedVisitLog = testVisitLog;
+        visitLogMapper.addVisitLog(expectedVisitLog);
 
-        VisitLog returned = visitLogMapper.getVisitLog(testVisitLog.getId());
-        returned.setDate(date1);
-        assertEquals(testVisitLog, returned);
+        VisitLog returnedVisitLog = visitLogMapper.getVisitLog(expectedVisitLog.getId());
+        returnedVisitLog.setDate(date1);
 
+        assertEquals(expectedVisitLog, returnedVisitLog);
         visitLogMapper.removeVisitLog(testVisitLog);
     }
 

@@ -18,11 +18,11 @@ public interface UserMapper {
             @Result(property = "role", javaType = Role.class, column = "roles_id",
                     one = @One(select = "org.itevents.mapper.RoleMapper.getRole"))
     })
-    @Select("SELECT id, login, password, roles_id FROM users WHERE id = #{id}")
+    @Select("SELECT * FROM users WHERE id = #{id}")
     User getUser(int id);
 
     @ResultMap("getUser-int")
-    @Select("SELECT id, login, password, roles_id FROM users")
+    @Select("SELECT * FROM users")
     List<User> getAllUsers();
 
     @Insert("INSERT INTO users (login, password, roles_id) VALUES(#{login}, #{password}, #{role.id})")

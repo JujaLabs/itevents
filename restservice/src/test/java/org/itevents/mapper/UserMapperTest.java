@@ -2,11 +2,12 @@ package org.itevents.mapper;
 
 import org.itevents.model.Role;
 import org.itevents.model.User;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,34 +22,39 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class UserMapperTest {
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private RoleMapper roleMapper;
 
-    private Role role1;
-    private User expectedUser;
+    private static UserMapper userMapper;
+    private static RoleMapper roleMapper;
 
-    @Before
-    public void setTemplate() {
+    private static Role role1;
+    private static User testUser;
+
+
+    @BeforeClass
+    public static void setup() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        roleMapper = context.getBean("roleMapper", RoleMapper.class);
+        userMapper = context.getBean("userMapper", UserMapper.class);
         role1 = roleMapper.getRole(1);
-        expectedUser = new User("testUser", "testUserPassword", role1);
+        testUser = new User("testUser", "testUserPassword", role1);
     }
 
-    @After
-    public void clearTemplate() {
+    @AfterClass
+    public static void teardown() {
+        userMapper = null;
+        roleMapper = null;
         role1 = null;
-        expectedUser = null;
+        testUser = null;
     }
 
     @Test
     public void testGetUser1() throws Exception {
-        User expected = new User("guest", "guest", role1);
-        expected.setId(1);
+        User expectedUser = new User("guest", "guest", role1);
+        expectedUser.setId(1);
 
-        User returned = userMapper.getUser(1);
+        User returnedUser = userMapper.getUser(1);
 
-        assertEquals(expected, returned);
+        assertEquals(expectedUser, returnedUser);
     }
 
     @Test
@@ -58,6 +64,7 @@ public class UserMapperTest {
 
     @Test
     public void testAddUser() throws Exception {
+        User expectedUser = testUser;
         userMapper.addUser(expectedUser);
 
         User returnedUser = userMapper.getUser(expectedUser.getId());
@@ -76,10 +83,10 @@ public class UserMapperTest {
 
     @Test
     public void testRemoveUser() {
-        userMapper.addUser(expectedUser);
+        userMapper.addUser(testUser);
         int expectedSize = userMapper.getAllUsers().size() - 1;
 
-        userMapper.removeUser(expectedUser);
+        userMapper.removeUser(testUser);
         int returnedSize = userMapper.getAllUsers().size();
 
         assertEquals(expectedSize, returnedSize);

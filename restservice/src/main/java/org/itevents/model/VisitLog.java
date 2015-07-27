@@ -1,23 +1,12 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
 import java.util.Date;
 
-@XmlRootElement(name = "visitLog")
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "event", "date", "user"})
-public class VisitLog implements Serializable {
+public class VisitLog {
 
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
     private int id;
-    @XmlElement
     private Event event;
-    @XmlElement
     private Date date;
-    @XmlElement
     private User user;
 
     public VisitLog() {
