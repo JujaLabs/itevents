@@ -1,9 +1,6 @@
 package org.itevents.mapper;
 
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.itevents.model.City;
 import org.itevents.model.Location;
 
@@ -16,4 +13,14 @@ public interface CityMapper {
     })
     @Select("SELECT id, name FROM cities WHERE id = #{id}")
     City getCity(int id);
+
+    @Insert("INSERT INTO cities(id, name, point) VALUES(#{id}, #{name}, #{point}")
+    void addCity(City city);
+
+    @Update("UPDATE cities SET id=#{id}, name=#{name}, point=#{point} WHERE id =#{id}")
+    void updateCity(City city);
+
+    @Delete("DELETE FROM cities WHERE id =#{id}")
+    void removeCity(int id);
+
 }
