@@ -1,8 +1,6 @@
 package org.itevents.mapper;
 
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.itevents.model.Currency;
 
 /**
@@ -16,4 +14,14 @@ public interface CurrencyMapper {
     })
     @Select("SELECT id, name FROM currencies WHERE id = #{id}")
     Currency getCurrency(int id);
+
+    @Insert("INSERT INTO currencies(id, name) VALUES(#{id}, #{name})")
+    Currency addCurrency(Currency currency);
+
+    @Update("UPDATE currencies SET id=#{id}, name=#{name} WHERE id =#{id}")
+    void updateCurrency(Currency currency);
+
+    @Delete("DELETE FROM currencies WHERE id =#{id}")
+    void removeCurrency(int id);
+
 }
