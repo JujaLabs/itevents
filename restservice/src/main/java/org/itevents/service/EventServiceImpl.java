@@ -1,5 +1,6 @@
 package org.itevents.service;
 
+import org.itevents.controller.EventFilterParams;
 import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
@@ -37,6 +38,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public void removeEvent(int id) {
         eventMapper.removeEvent(id);
+    }
+
+    @Override
+    public List<Event> getFilteredEvents(EventFilterParams params) {
+        return eventMapper.getFilteredEvents(params);
     }
 
 }

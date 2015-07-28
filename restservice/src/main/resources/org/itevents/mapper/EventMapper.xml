@@ -1,0 +1,19 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.itevents.mapper.EventMapper">
+    <cache/>
+    <select id="getFilteredEvents"
+            parameterMap="org.itevents.controller.EventFilterParams"
+            resultMap="org.itevents.mapper.EventMapper.getAllEvents-void">
+
+        SELECT * FROM events
+
+        <where>
+            <if test="cityId != null">
+                city_id = #{cityId}
+            </if>
+            <if test="techTag!=null">
+                tech_tag=#{techTag}
+            </if>
+        </where>
+    </select>
+</mapper>

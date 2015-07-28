@@ -1,5 +1,6 @@
 package org.itevents.service;
 
+import org.itevents.controller.EventFilterParams;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 
@@ -16,4 +17,6 @@ public interface EventService {
     List<Event> getFutureEventsInRadius(Location location, int radius);
 
     void removeEvent(int id);
+
+    List<Event> getFilteredEvents(EventFilterParams params);
 }

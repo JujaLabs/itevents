@@ -1,6 +1,7 @@
 package org.itevents.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.controller.EventFilterParams;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
@@ -25,9 +26,9 @@ public interface EventMapper {
             @Result(property = "location", column = "id", javaType = Location.class,
                     one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation")),
             @Result(property = "price", column = "price"),
-            @Result(property = "currency", column = "id", javaType = Currency.class,
+            @Result(property = "currency", column = "currency_id", javaType = Currency.class,
                     one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
-            @Result(property = "city", column = "id", javaType = City.class,
+            @Result(property = "city", column = "city_id", javaType = City.class,
                     one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
     })
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, price FROM events")
@@ -49,4 +50,8 @@ public interface EventMapper {
 
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(int id);
+
+    //    @ResultMap("getAllEvents-void")
+//    @Select()
+    List<Event> getFilteredEvents(EventFilterParams params);
 }

@@ -1,7 +1,6 @@
 package org.itevents.controller;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
 import org.springframework.beans.support.PagedListHolder;
@@ -28,16 +27,16 @@ public class EventRestController {
         return new ResponseEntity<Event>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
-                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
-                                           @RequestParam(value = "lat") double latitude,
-                                           @RequestParam(value = "lon") double longitude,
-                                           @RequestParam(value = "radius") int radius) {
-        Location location = new Location(latitude, longitude);
-        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
-        return getPaginatedEvents(page, itemsPerPage, events);
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/events")
+//    public List<Event> getEventsInRadius(@RequestParam(value = "page") int page,
+//                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
+//                                           @RequestParam(value = "lat") double latitude,
+//                                           @RequestParam(value = "lon") double longitude,
+//                                           @RequestParam(value = "radius") int radius) {
+//        Location location = new Location(latitude, longitude);
+//        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
+//        return getPaginatedEvents(page, itemsPerPage, events);
+//    }
 
     private List<Event> getPaginatedEvents(@RequestParam(value = "page") int page, @RequestParam(value = "itemsPerPage") int itemsPerPage, List<Event> events) {
 
@@ -61,14 +60,22 @@ public class EventRestController {
 //    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=java&techTag=javascript
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getEventsAtLocation(@RequestParam(value = "cityId") int cityId,
-                                           @RequestParam(value = "payed") boolean payed,
-                                           @RequestParam(value = "lat") double latitude,
-                                           @RequestParam(value = "lon") double longitude,
-                                           @RequestParam(value = "radius") int radius,
-                                           @RequestParam(value = "techTag") String[] techTags) {
+    public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
+                                           @RequestParam(required = false, value = "cityId") Integer cityId,
+                                           @RequestParam(required = false, value = "payed") Boolean payed,
+                                           @RequestParam(required = false, value = "lat") Double latitude,
+                                           @RequestParam(required = false, value = "lon") Double longitude,
+                                           @RequestParam(required = false, value = "radius") Integer radius,
+                                           @RequestParam(required = false, value = "techTag") String[] techTags) {
 //        todo
 
-        return null;
+        EventFilterParams params = new EventFilterParams();
+        params.setCityId(cityId);
+        params.setPayed(payed);
+        params.setTechTags(techTags);
+        params.setLatitude(latitude);
+        params.setLongitude(longitude);
+        params.setRadius(radius);
+        return eventService.getFilteredEvents(params);
     }
 }
