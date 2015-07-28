@@ -30,8 +30,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFutureEventsInRadius(Location location, int radius) {
-        return eventMapper.getFutureEventsInRadius(location, radius);
+    public List<Event> getEventsInRadius(Location location, int radius) {
+        return eventMapper.getEventsInRadius(location, radius);
     }
 
     @Override
