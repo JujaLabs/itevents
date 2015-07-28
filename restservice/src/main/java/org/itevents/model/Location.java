@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @XmlRootElement(name = "location")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Location implements Serializable {
+public class Location implement Serializable {
 
     private static final long serialVersionUID = 1L;
 
