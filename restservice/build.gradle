@@ -16,12 +16,6 @@ configurations {
     liquibase
 }
 
-test {
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
 dependencies {
     compile 'junit:junit:4.12'
     compile 'org.springframework:spring-core:4.1.6.RELEASE'

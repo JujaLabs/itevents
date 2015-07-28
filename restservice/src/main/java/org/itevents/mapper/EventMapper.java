@@ -15,7 +15,7 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
     })
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE id = #{id}")
     Event getEvent(int id);
@@ -28,7 +28,7 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
     })
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events")
     List<Event> getAllEvents();
@@ -41,10 +41,10 @@ public interface EventMapper {
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="selectLocation"))
+            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE ST_DWithin(point::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
-    List<Event> getEventsInRadius(@Param("location") Location location, @Param("radius") int radius);
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE ST_DWithin(point)::geography, ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
+    List<Event> getFutureEventsInRadius(@Param("location") Location location, @Param("radius") int radius);
 
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact})")
     void addEvent(Event event);
@@ -54,12 +54,4 @@ public interface EventMapper {
 
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(int id);
-
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "longitude", column = "longitude"),
-            @Result(property = "latitude", column = "latitude")
-    })
-    @Select("SELECT ST_X(point) AS longitude, ST_Y(point) AS latitude FROM events WHERE id = #{id}")
-    Location selectLocation(int id);
 }
