@@ -1,5 +1,4 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
 <html>
 <body>
 	<span style="float: right">
@@ -10,8 +9,7 @@
 	<h1>
 		<spring:message code="indexPage.message1" />
 	</h1>
-    <p/>
-	<h2>
+    <h2>
 		<spring:message code="indexPage.message2" />
 	</h2>
 </body>
