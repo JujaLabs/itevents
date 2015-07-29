@@ -108,15 +108,16 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Event ");
+        final StringBuilder sb = new StringBuilder("Event{");
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", eventDate=").append(eventDate);
         sb.append(", createDate=").append(createDate);
-        sb.append(", regLink=").append(regLink);
-        sb.append(", address=").append(address);
+        sb.append(", regLink='").append(regLink).append('\'');
+        sb.append(", address='").append(address).append('\'');
         sb.append(", location=").append(location);
-        sb.append(", contact=").append(contact);
+        sb.append(", contact='").append(contact).append('\'');
+        sb.append('}');
         return sb.toString();
     }
 
