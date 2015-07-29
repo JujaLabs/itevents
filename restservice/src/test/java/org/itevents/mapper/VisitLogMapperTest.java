@@ -84,7 +84,7 @@ public class VisitLogMapperTest {
         expectedVisitLogs.add(visitLogMapper.getVisitLog(2));
         expectedVisitLogs.add(visitLogMapper.getVisitLog(7));
 
-        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitsByEvent(event1);
+        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(event1);
 
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
