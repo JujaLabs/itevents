@@ -103,10 +103,17 @@ public class VisitLogMapperTest {
         visitLogMapper.removeVisitLog(testVisitLog);
     }
 
-    @Ignore
     @Test
     public void testGetAllVisitLogs() {
-        assertEquals(7, visitLogMapper.getAllVisitLogs().size());
+
+        List<VisitLog> expectedAllVisitLogs = new ArrayList<>();
+        for (int i = 0; i<visitLogMapper.getAllVisitLogs().size(); i++) {
+            expectedAllVisitLogs.add(visitLogMapper.getVisitLog(i));
+        }
+
+        List<VisitLog> returnedAllVisitLogs = visitLogMapper.getAllVisitLogs();
+        assertEquals(expectedAllVisitLogs.size(), visitLogMapper.getAllVisitLogs().size());
+
     }
 
     @Test
