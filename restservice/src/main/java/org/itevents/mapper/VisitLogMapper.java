@@ -26,7 +26,7 @@ public interface VisitLogMapper {
 
     @ResultMap("getVisitLog-int")
     @Select("SELECT * FROM visit_log WHERE event_id = #{id}")
-    List<VisitLog> getVisitsByEvent(Event event);
+    List<VisitLog> getVisitLogsByEvent(Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, NOW(),  #{user.id})")
     @Options(useGeneratedKeys = true)
