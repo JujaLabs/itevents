@@ -112,7 +112,7 @@ public class VisitLogMapperTest {
         }
 
         List<VisitLog> returnedAllVisitLogs = visitLogMapper.getAllVisitLogs();
-        assertEquals(expectedAllVisitLogs.size(), visitLogMapper.getAllVisitLogs().size());
+        assertEquals(expectedAllVisitLogs.size(), returnedAllVisitLogs.size());
 
     }
 
