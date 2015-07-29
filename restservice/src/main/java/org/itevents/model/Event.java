@@ -31,8 +31,18 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location,  String contact) {
+    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
         this.id = id;
+        this.title = title;
+        this.eventDate = eventDate;
+        this.createDate = createDate;
+        this.regLink = regLink;
+        this.address = address;
+        this.location = location;
+        this.contact = contact;
+    }
+
+    public Event( String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
         this.title = title;
         this.eventDate = eventDate;
         this.createDate = createDate;
@@ -108,15 +118,16 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Event ");
+        final StringBuilder sb = new StringBuilder("Event{");
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", eventDate=").append(eventDate);
         sb.append(", createDate=").append(createDate);
-        sb.append(", regLink=").append(regLink);
-        sb.append(", address=").append(address);
+        sb.append(", regLink='").append(regLink).append('\'');
+        sb.append(", address='").append(address).append('\'');
         sb.append(", location=").append(location);
-        sb.append(", contact=").append(contact);
+        sb.append(", contact='").append(contact).append('\'');
+        sb.append('}');
         return sb.toString();
     }
 
@@ -141,7 +152,7 @@ public class Event implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id ^ (id >>> 32);
         result = 31 * result + title.hashCode();
         result = 31 * result + eventDate.hashCode();
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
