@@ -74,3 +74,5 @@
 2015-07-28 15:07:59,801 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
 2015-07-28 23:04:03,275 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
 2015-07-28 23:04:03,278 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
+2015-07-29 13:53:19,917 INFO o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO CONSOLE <<<<<=====
+2015-07-29 13:53:19,922 DEBUG o.i.c.IndexController [Test worker] =====>>>>> TEST LOG4J INTO DEBUG.LOG <<<<<=====
