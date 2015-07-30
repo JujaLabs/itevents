@@ -6,7 +6,7 @@ import java.util.Date;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact"})
+@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact", "price", "currency", "city"})
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;

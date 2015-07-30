@@ -60,7 +60,7 @@ public class EventRestController {
 
 //    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=java&techTag=javascript
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
+/*    @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getEventsAtLocation(@RequestParam(value = "cityId") int cityId,
                                            @RequestParam(value = "payed") boolean payed,
                                            @RequestParam(value = "lat") double latitude,
@@ -70,5 +70,5 @@ public class EventRestController {
 //        todo
 
         return null;
-    }
+    }*/
 }
