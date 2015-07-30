@@ -21,11 +21,15 @@ public class CurrencyMapperTest {
 
     @Test
     public void testGetCurrency1() throws Exception {
-        assertEquals(new Currency(1, "FREE"), currencyMapper.getCurrency(1));
+        Currency expectedCurrency = new Currency("FREE");
+        expectedCurrency.setId(1);
+        Currency returnedCurrency = currencyMapper.getCurrency(1);
+        assertEquals(expectedCurrency, returnedCurrency);
     }
 
     @Test
     public void testGetCurrency0() throws Exception {
-        assertNull(currencyMapper.getCurrency(0));
+        Currency returnedCurrency = currencyMapper.getCurrency(0);
+        assertNull(returnedCurrency);
     }
 }

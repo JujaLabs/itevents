@@ -18,8 +18,7 @@ public class TechTag implements Serializable {
     public TechTag() {
     }
 
-    public TechTag(int id, String name) {
-        this.id = id;
+    public TechTag(String name) {
         this.name = name;
     }
 

@@ -50,7 +50,8 @@ public class RoleMapperTest {
 
     @Test
     public void testGetRole0() throws Exception {
-        assertNull(roleMapper.getRole(0));
+        Role returnedRole = roleMapper.getRole(0);
+        assertNull(returnedRole);
     }
 
     @Test

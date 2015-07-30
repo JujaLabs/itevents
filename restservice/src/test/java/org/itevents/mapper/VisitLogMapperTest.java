@@ -5,7 +5,6 @@ import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
@@ -19,9 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -106,17 +103,8 @@ public class VisitLogMapperTest {
 
     @Test
     public void testGetAllVisitLogs() {
-
-        List<VisitLog> expectedAllVisitLogs = new ArrayList<>();
-        int i = 0;
-        while (visitLogMapper.getVisitLog(i) != null) {
-            expectedAllVisitLogs.add(visitLogMapper.getVisitLog(i));
-            i++;
-        }
-
-        List<VisitLog> returnedAllVisitLogs = visitLogMapper.getAllVisitLogs();
-        assertTrue(expectedAllVisitLogs.size() <= returnedAllVisitLogs.size());
-
+        int returnedSize = visitLogMapper.getAllVisitLogs().size();
+        assertTrue(returnedSize > 0);
     }
 
     @Test

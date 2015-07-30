@@ -59,7 +59,8 @@ public class UserMapperTest {
 
     @Test
     public void testGetUser0() throws Exception {
-        assertNull(userMapper.getUser(0));
+        User returnedUser = userMapper.getUser(0);
+        assertNull(returnedUser);
     }
 
     @Test

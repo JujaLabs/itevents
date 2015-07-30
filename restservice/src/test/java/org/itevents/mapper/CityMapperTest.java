@@ -23,11 +23,13 @@ public class CityMapperTest {
     @Test
     public void testGetCity1() throws Exception {
         City expected = new City(1, "Kyiv", new Location(50.450500, 30.523000));
-        assertEquals(expected, cityMapper.getCity(1));
+        City returnedCity = cityMapper.getCity(1);
+        assertEquals(expected, returnedCity);
     }
 
     @Test
     public void testGetCity0() throws Exception {
-        assertNull(cityMapper.getCity(0));
+        City returnedCity = cityMapper.getCity(0);
+        assertNull(returnedCity);
     }
 }

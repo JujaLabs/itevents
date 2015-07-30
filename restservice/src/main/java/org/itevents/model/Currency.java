@@ -18,8 +18,7 @@ public class Currency {
     public Currency() {
     }
 
-    public Currency(int id, String name) {
-        this.id = id;
+    public Currency(String name) {
         this.name = name;
     }
 

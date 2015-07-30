@@ -22,12 +22,16 @@ public class TechTagMapperTest {
 
     @Test
     public void testGetTechTag1() throws Exception {
-        assertEquals(new TechTag(1, "Java"), techTagMapper.getTechTag(1));
+        TechTag expectedTechTag = new TechTag("Java");
+        expectedTechTag.setId(1);
+        TechTag returnedTechTag = techTagMapper.getTechTag(1);
+        assertEquals(expectedTechTag, returnedTechTag);
     }
 
 
     @Test
     public void testGetTechTag0() throws Exception {
-        assertNull(techTagMapper.getTechTag(0));
+        TechTag returnedTechTag = techTagMapper.getTechTag(0);
+        assertNull(returnedTechTag);
     }
 }
