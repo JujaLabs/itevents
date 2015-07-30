@@ -3,9 +3,11 @@ package org.itevents.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface EventMapper {
     @Results(value = {
             @Result(property = "id", column = "id"),
@@ -21,31 +23,11 @@ public interface EventMapper {
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
-    @Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "eventDate", column = "event_date"),
-            @Result(property = "createDate", column = "create_date"),
-            @Result(property = "regLink", column = "reg_link"),
-            @Result(property = "address", column = "address"),
-            @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class,
-                    one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
-    })
+    @ResultMap(value = "getEvent-int")
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events")
     List<Event> getAllEvents();
 
-    @Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "title", column = "title"),
-            @Result(property = "eventDate", column = "event_date"),
-            @Result(property = "createDate", column = "create_date"),
-            @Result(property = "regLink", column = "reg_link"),
-            @Result(property = "address", column = "address"),
-            @Result(property = "contact", column = "contact"),
-            @Result(property = "location", column = "id", javaType = Location.class,
-                    one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
-    })
+    @ResultMap(value = "getEvent-int")
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events" +
             " WHERE ST_DWithin(point)::geography," +
             " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")

@@ -4,8 +4,10 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<context:component-scan base-package="org.itevents.mapper" />-->
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -20,6 +22,8 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <!--<bean name="eventService" class="org.itevents.service.EventServiceImpl"/>-->
+
     <bean id="eventMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="org.itevents.mapper.EventMapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -33,4 +37,9 @@
     <bean name="eventService" class="org.itevents.service.EventServiceImpl">
         <property name="eventMapper" ref="eventMapper"/>
     </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
 </beans>

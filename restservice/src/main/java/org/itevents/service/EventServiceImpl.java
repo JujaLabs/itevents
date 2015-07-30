@@ -3,11 +3,17 @@ package org.itevents.service;
 import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Component
+@Transactional
 public class EventServiceImpl implements EventService {
 
+    @Autowired
     private EventMapper eventMapper;
 
     @Override
@@ -31,8 +37,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void removeEvent(int id) {
-        eventMapper.removeEvent(id);
+    public Event removeEvent(int id) {
+        Event deletingEvent = eventMapper.getEvent(id);
+        if (deletingEvent != null){
+            eventMapper.removeEvent(id);
+        }
+        return deletingEvent;
     }
 
     public void setEventMapper(EventMapper eventMapper) {

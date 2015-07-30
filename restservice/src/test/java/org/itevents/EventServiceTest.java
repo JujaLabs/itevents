@@ -3,7 +3,6 @@ package org.itevents;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.EventService;
-import org.itevents.service.EventServiceImpl;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +24,7 @@ public class EventServiceTest {
     @BeforeClass
     public static void setup() throws ParseException {
         ApplicationContext context = new ClassPathXmlApplicationContext("testApplicationContext.xml");
-        eventService = context.getBean("eventService", EventServiceImpl.class);
+        eventService = context.getBean("eventService", EventService.class);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         expectedEvents = new ArrayList<>(Arrays.asList(
                 new Event(1, "Java", formatter.parse("10.07.2015"), null, "www.java.com.ua", "Beresteyska",
