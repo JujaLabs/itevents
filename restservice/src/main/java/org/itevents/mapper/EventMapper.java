@@ -41,6 +41,7 @@ public interface EventMapper {
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact) VALUES(" +
             "#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, ST_MakePoint(#{location.longitude}," +
             "#{location.latitude}), #{contact})")
+    @Options(useGeneratedKeys = true)
     void addEvent(Event event);
 
     @Update("UPDATE events SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, reg_link=#{regLink}, " +

@@ -17,6 +17,7 @@ public interface TechTagMapper {
     TechTag getTechTag(int id);
 
     @Insert("INSERT INTO technologies(id, name) VALUES(#{id}, #{name})")
+    @Options(useGeneratedKeys = true)
     TechTag addTechTag(TechTag techTag);
 
     @Update("UPDATE technologies SET id=#{id}, name=#{name} WHERE id =#{id}")
