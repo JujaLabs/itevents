@@ -14,12 +14,12 @@ public interface CityMapper {
     @Select("SELECT id, name FROM cities WHERE id = #{id}")
     City getCity(int id);
 
-    @Insert("INSERT INTO cities(id, name, point) " +
-            "VALUES(#{id}, #{name}, ST_MakePoint(#{location.longitude},#{location.latitude}")
+    @Insert("INSERT INTO cities(name, point) " +
+            "VALUES(#{name}, ST_MakePoint(#{location.longitude},#{location.latitude}")
     @Options(useGeneratedKeys = true)
     void addCity(City city);
 
-    @Update("UPDATE cities SET id=#{id}, name=#{name}, point=ST_MakePoint(#{location.longitude},#{location.latitude} " +
+    @Update("UPDATE cities SET name=#{name}, point=ST_MakePoint(#{location.longitude},#{location.latitude} " +
             "WHERE id =#{id}")
     void updateCity(City city);
 
