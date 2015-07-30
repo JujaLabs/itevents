@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -107,12 +108,14 @@ public class VisitLogMapperTest {
     public void testGetAllVisitLogs() {
 
         List<VisitLog> expectedAllVisitLogs = new ArrayList<>();
-        for (int i = 0; i<visitLogMapper.getAllVisitLogs().size(); i++) {
+        int i = 0;
+        while (visitLogMapper.getVisitLog(i) != null) {
             expectedAllVisitLogs.add(visitLogMapper.getVisitLog(i));
+            i++;
         }
 
         List<VisitLog> returnedAllVisitLogs = visitLogMapper.getAllVisitLogs();
-        assertEquals(expectedAllVisitLogs.size(), returnedAllVisitLogs.size());
+        assertTrue(expectedAllVisitLogs.size() <= returnedAllVisitLogs.size());
 
     }
 
