@@ -44,29 +44,29 @@ public class EventServiceTest {
 
     @Test
     public void aTestGetEventById() throws ParseException {
-        Event actualEvent = eventService.getEvent(1);
-        Assert.assertEquals(expectedEvents.get(0), actualEvent);
+        Event returnedEvent = eventService.getEvent(1);
+        Assert.assertEquals(expectedEvents.get(0), returnedEvent);
     }
 
     @Test
     public void bTestGetAllEvents() throws ParseException {
-        List<Event> actualEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, actualEvents);
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void cTestRemoveEvent() throws ParseException {
         expectedEvents.remove(1);
         eventService.removeEvent(2);
-        List<Event> actualEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, actualEvents);
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void dTestAddEvent() throws ParseException {
         expectedEvents.add(addingEvent);
         eventService.addEvent(addingEvent);
-        List<Event> actualEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, actualEvents);
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(expectedEvents, returnedEvents);
     }
 }

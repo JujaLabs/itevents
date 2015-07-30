@@ -7,8 +7,8 @@
     <changeSet id="003" author="romach" runAlways="true">
         <sql>
             INSERT INTO events (title, event_date, create_date, reg_link, address, point, contact) VALUES
-            ('Java', '10.07.2015', null, 'www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com'),
-            ('PHP', '20.07.2015', null, 'www.php.com.ua', 'Shulyavska', 'POINT(30.445495 50.454605)', 'php@gmail.com');
+            ('Java', '10.07.2015', null, 'http://www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com'),
+            ('PHP', '20.07.2015', null, 'http://www.php.com.ua', 'Shulyavska', 'POINT(30.445495 50.454605)', 'php@gmail.com');
         </sql>
         <rollback>
             DELETE FROM events;

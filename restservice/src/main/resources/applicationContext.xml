@@ -18,11 +18,32 @@
         <property name="password" value="postgres" />
     </bean>
 
+    <bean id="testDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/daoTest" />
+        <property name="username" value="postgres" />
+        <property name="password" value="postgres" />
+    </bean>
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean name="eventService" class="org.itevents.service.EventServiceImpl"/>
+    <bean id="eventMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.EventMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean id="locationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="org.itevents.mapper.LocationMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean name="eventService" class="org.itevents.service.EventServiceImpl">
+        <property name="eventMapper" ref="eventMapper"/>
+    </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
