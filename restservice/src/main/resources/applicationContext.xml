@@ -31,4 +31,33 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+    <bean id="sendMailSubscribersTask" class="org.itevents.tasks.SendMailSubscribersTask" />
+
+
+    <bean id="sendMailSubscribersJob"
+            class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sendMailSubscribersTask" />
+        <property name="targetMethod" value="sendMails" />
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="sendMailSubscribersJob" />
+        <property name="cronExpression" value="0/5 * * * * ?" />
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="sendMailSubscribersJob" />
+            </list>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>
