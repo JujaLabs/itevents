@@ -34,7 +34,6 @@
 
     <bean id="sendMailSubscribersTask" class="org.itevents.tasks.SendMailSubscribersTask" />
 
-
     <bean id="sendMailSubscribersJob"
             class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="sendMailSubscribersTask" />

@@ -16,6 +16,7 @@ public class SendMailSubscribersTask {
 
     public void sendMails(){
         System.out.println("Send mail" + i++);
+
     }
 
 }
