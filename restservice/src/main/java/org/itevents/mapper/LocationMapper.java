@@ -4,9 +4,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.itevents.model.Location;
-import org.springframework.stereotype.Component;
 
-@Component
 public interface LocationMapper {
     @Results({
             @Result(property = "longitude", column = "longitude"),
