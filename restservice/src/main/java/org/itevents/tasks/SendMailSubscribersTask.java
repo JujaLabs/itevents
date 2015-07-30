@@ -1,10 +1,12 @@
 package org.itevents.tasks;
 
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.itevents.model.Event;
+import org.itevents.model.User;
+import org.itevents.service.SendGridService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ramax on 7/30/15.
@@ -12,11 +14,24 @@ import java.util.Date;
 
 public class SendMailSubscribersTask {
 
-    private static int i;
+    @Autowired
+    private SendGridService sendGridService;
+
+    private Map<User,Set<Event>> userEventSetMap;
 
     public void sendMails(){
-        System.out.println("Send mail" + i++);
 
+        for (Map.Entry<User,Set<Event>> entry: userEventSetMap.entrySet()){
+
+            User user = entry.getKey();
+            for (Event event: entry.getValue()) {
+                String message = getMessage(event);
+                sendGridService.sendMail(message,user);
+            }
+        }
     }
 
+    private String getMessage(Event event) {
+        return event.toString();
+    }
 }
