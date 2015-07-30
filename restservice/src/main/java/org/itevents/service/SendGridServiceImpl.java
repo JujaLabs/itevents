@@ -10,10 +10,9 @@ import java.util.Properties;
  * Created by max on 29.07.15.
  */
 public class SendGridServiceImpl implements SendGridService {
-    private String login;
-    private String password;
+    private String api_key;
     FileInputStream fis;
-    Properties sendGrid = new Properties();
+    Properties sendGridProperty = new Properties();
 
 
 
@@ -21,14 +20,13 @@ public class SendGridServiceImpl implements SendGridService {
 
         try {
             fis = new FileInputStream("src/main/resources/sendgrid.properties");
-            sendGrid.load(fis);
-            login = sendGrid.getProperty("login");
-            password = sendGrid.getProperty("password");
+            sendGridProperty.load(fis);
+            api_key = sendGridProperty.getProperty("api_key");
         } catch (IOException e) {
             System.err.println("ERROR: File sendgrid.properties not found.");
         }
 
-        SendGrid sendgrid = new SendGrid(login, password);
+        SendGrid sendgrid = new SendGrid(api_key);
         SendGrid.Email email = new SendGrid.Email();
         email.addTo(user.getLogin());
         email.setFrom("ultimax@ukr.net");
