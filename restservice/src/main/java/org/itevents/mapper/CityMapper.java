@@ -16,6 +16,7 @@ public interface CityMapper {
 
     @Insert("INSERT INTO cities(id, name, point) " +
             "VALUES(#{id}, #{name}, ST_MakePoint(#{location.longitude},#{location.latitude}")
+    @Options(useGeneratedKeys = true)
     void addCity(City city);
 
     @Update("UPDATE cities SET id=#{id}, name=#{name}, point=ST_MakePoint(#{location.longitude},#{location.latitude} " +

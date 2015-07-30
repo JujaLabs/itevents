@@ -17,12 +17,13 @@ public interface TechTagMapper {
     TechTag getTechTag(int id);
 
     @Insert("INSERT INTO technologies(id, name) VALUES(#{id}, #{name})")
-    Currency addCurrency(TechTag techTag);
+    @Options(useGeneratedKeys = true)
+    TechTag addTechTag(TechTag techTag);
 
     @Update("UPDATE technologies SET id=#{id}, name=#{name} WHERE id =#{id}")
-    void updateCurrency(TechTag techTag);
+    void updateTechTag(TechTag techTag);
 
     @Delete("DELETE FROM technologies WHERE id =#{id}")
-    void removeCurrency(int id);
+    void removeTechTag(int id);
 
 }

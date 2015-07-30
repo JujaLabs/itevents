@@ -16,6 +16,7 @@ public interface CurrencyMapper {
     Currency getCurrency(int id);
 
     @Insert("INSERT INTO currencies(id, name) VALUES(#{id}, #{name})")
+    @Options(useGeneratedKeys = true)
     Currency addCurrency(Currency currency);
 
     @Update("UPDATE currencies SET id=#{id}, name=#{name} WHERE id =#{id}")
