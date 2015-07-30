@@ -9,3 +9,6 @@
 .gradle/
 build/
 classes/
+
+#SendGrid
+restservice/src/main/resources/sendgrid.properties
