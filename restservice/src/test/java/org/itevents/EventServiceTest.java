@@ -27,11 +27,11 @@ public class EventServiceTest {
         eventService = context.getBean("eventService", EventService.class);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         expectedEvents = new ArrayList<>(Arrays.asList(
-                new Event(1, "Java", formatter.parse("10.07.2015"), null, "www.java.com.ua", "Beresteyska",
+                new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
                         new Location(50.458585, 30.742017), "java@gmail.com"),
-                new Event(2, "PHP", formatter.parse("20.07.2015"), null, "www.php.com.ua", "Shulyavska",
+                new Event(2, "PHP", formatter.parse("20.07.2015"), null, "http://www.php.com.ua", "Shulyavska",
                         new Location(50.454605, 30.445495), "php@gmail.com")));
-        addingEvent = new Event(3, "PHP", formatter.parse("20.07.2015"), null, "www.php.com.ua", "Shulyavska",
+        addingEvent = new Event(3, "PHP", formatter.parse("20.07.2015"), null, "http://www.php.com.ua", "Shulyavska",
                 new Location(50.454605, 30.445495), "php@gmail.com");
     }
 
