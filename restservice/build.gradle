@@ -28,6 +28,7 @@ dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
+    compile 'com.sendgrid:sendgrid-java:2.2.2'
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
     compile 'org.quartz-scheduler:quartz:2.2.1'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
