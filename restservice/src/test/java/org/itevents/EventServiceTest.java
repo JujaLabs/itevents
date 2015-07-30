@@ -14,59 +14,56 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventServiceTest {
 
     private static EventService eventService;
-    private static List<Event> expectedEvents;
     private static Event addingEvent;
+    private static SimpleDateFormat formatter;
 
     @BeforeClass
     public static void setup() throws ParseException {
         ApplicationContext context = new ClassPathXmlApplicationContext("testApplicationContext.xml");
         eventService = context.getBean("eventService", EventService.class);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        expectedEvents = new ArrayList<>(Arrays.asList(
-                new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
-                        new Location(50.458585, 30.742017), "java@gmail.com"),
-                new Event(2, "PHP", formatter.parse("20.07.2015"), null, "http://www.php.com.ua", "Shulyavska",
-                        new Location(50.454605, 30.445495), "php@gmail.com")));
-        addingEvent = new Event(3, "PHP", formatter.parse("20.07.2015"), null, "http://www.php.com.ua", "Shulyavska",
-                new Location(50.454605, 30.445495), "php@gmail.com");
+        formatter = new SimpleDateFormat("dd.MM.yyyy");
+        addingEvent = new Event("Ruby", formatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
+                new Location(50.454605, 30.445495), "ruby@gmail.com");
     }
 
     @AfterClass
     public static void teardown() {
         eventService = null;
-        expectedEvents = null;
         addingEvent = null;
+        formatter = null;
     }
 
     @Test
-    public void aTestGetEventById() throws ParseException {
+    public void testGetEventById() throws ParseException {
+        Event expectedEvent = new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
+                new Location(50.458585, 30.742017), "java@gmail.com");
         Event returnedEvent = eventService.getEvent(1);
-        Assert.assertEquals(expectedEvents.get(0), returnedEvent);
+        Assert.assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
-    public void bTestGetAllEvents() throws ParseException {
+    public void testGetAllEvents() throws ParseException {
         List<Event> returnedEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, returnedEvents);
+        Assert.assertEquals(returnedEvents.size(), 7);
     }
 
     @Test
-    public void cTestRemoveEvent() throws ParseException {
-        expectedEvents.remove(1);
-        eventService.removeEvent(2);
-        List<Event> returnedEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, returnedEvents);
+    public void testRemoveEvent() throws ParseException {
+        Event expectedEvent = addingEvent;
+        eventService.addEvent(expectedEvent);
+        Event returnedEvent = eventService.removeEvent(expectedEvent);
+        expectedEvent.setId(returnedEvent.getId());
+        Assert.assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
-    public void dTestAddEvent() throws ParseException {
-        expectedEvents.add(addingEvent);
+    public void testAddEvent() throws ParseException {
         eventService.addEvent(addingEvent);
-        List<Event> returnedEvents = eventService.getAllEvents();
-        Assert.assertEquals(expectedEvents, returnedEvents);
+        Event returnedEvent = eventService.getEvent(addingEvent.getId());
+        Assert.assertEquals(addingEvent, returnedEvent);
+        eventService.removeEvent(returnedEvent);
     }
 }
