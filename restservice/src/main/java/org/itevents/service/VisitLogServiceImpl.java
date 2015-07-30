@@ -24,8 +24,8 @@ public class VisitLogServiceImpl implements VisitLogService {
     }
 
     @Override
-    public List<VisitLog> getVisitsByEvent(Event event) {
-        return visitLogMapper.getVisitsByEvent(event);
+    public List<VisitLog> getVisitLogsByEvent(Event event) {
+        return visitLogMapper.getVisitLogsByEvent(event);
     }
 
     @Override

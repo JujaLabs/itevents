@@ -5,6 +5,7 @@ import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
@@ -84,7 +85,7 @@ public class VisitLogMapperTest {
         expectedVisitLogs.add(visitLogMapper.getVisitLog(2));
         expectedVisitLogs.add(visitLogMapper.getVisitLog(7));
 
-        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitsByEvent(event1);
+        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(event1);
 
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
@@ -104,7 +105,15 @@ public class VisitLogMapperTest {
 
     @Test
     public void testGetAllVisitLogs() {
-        assertEquals(7, visitLogMapper.getAllVisitLogs().size());
+
+        List<VisitLog> expectedAllVisitLogs = new ArrayList<>();
+        for (int i = 0; i<visitLogMapper.getAllVisitLogs().size(); i++) {
+            expectedAllVisitLogs.add(visitLogMapper.getVisitLog(i));
+        }
+
+        List<VisitLog> returnedAllVisitLogs = visitLogMapper.getAllVisitLogs();
+        assertEquals(expectedAllVisitLogs.size(), returnedAllVisitLogs.size());
+
     }
 
     @Test

@@ -1,8 +1,7 @@
 package org.itevents.mapper;
 
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.itevents.model.Currency;
 import org.itevents.model.TechTag;
 
 /**
@@ -16,4 +15,14 @@ public interface TechTagMapper {
     })
     @Select("SELECT id, name FROM technologies WHERE id = #{id}")
     TechTag getTechTag(int id);
+
+    @Insert("INSERT INTO technologies(id, name) VALUES(#{id}, #{name})")
+    Currency addCurrency(TechTag techTag);
+
+    @Update("UPDATE technologies SET id=#{id}, name=#{name} WHERE id =#{id}")
+    void updateCurrency(TechTag techTag);
+
+    @Delete("DELETE FROM technologies WHERE id =#{id}")
+    void removeCurrency(int id);
+
 }

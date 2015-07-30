@@ -72,7 +72,7 @@ public class VisitLogServiceTest {
         expectedVisitLogs.add(visitLogService.getVisitLog(2));
         expectedVisitLogs.add(visitLogService.getVisitLog(7));
 
-        List<VisitLog> returnedVisitLogs = visitLogService.getVisitsByEvent(event1);
+        List<VisitLog> returnedVisitLogs = visitLogService.getVisitLogsByEvent(event1);
 
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
