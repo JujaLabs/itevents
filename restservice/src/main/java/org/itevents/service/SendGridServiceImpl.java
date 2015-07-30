@@ -10,11 +10,10 @@ import java.util.Properties;
  * Created by max on 29.07.15.
  */
 public class SendGridServiceImpl implements SendGridService {
+
     private String api_key;
-    FileInputStream fis;
-    Properties sendGridProperty = new Properties();
-
-
+    private FileInputStream fis;
+    private Properties sendGridProperty = new Properties();
 
     public void sendMail(String message, User user){
 
