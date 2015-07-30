@@ -3,7 +3,6 @@ package org.itevents.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -44,5 +43,5 @@ public interface EventMapper {
     void updateEvent(Event event);
 
     @Delete("DELETE FROM events WHERE id =#{id}")
-    void removeEvent(int id);
+    void removeEvent(Event event);
 }
