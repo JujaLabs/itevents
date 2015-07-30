@@ -25,7 +25,7 @@ public class SendGridServiceImpl implements SendGridService {
             login = sendGrid.getProperty("login");
             password = sendGrid.getProperty("password");
         } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл sendgrid.properies отсуствует!");
+            System.err.println("ERROR: File sendgrid.properties not found.");
         }
 
         SendGrid sendgrid = new SendGrid(login, password);
