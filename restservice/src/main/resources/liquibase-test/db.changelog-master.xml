@@ -10,5 +10,6 @@
     <include file="src/main/resources/liquibase-test/changeset-001-enable_postgis.xml"/>
     <include file="src/main/resources/liquibase-test/changeset-002-add_table_event.xml"/>
     <include file="src/main/resources/liquibase-test/changeset-003-insert_data_to_event.xml"/>
+    <include file="src/main/resources/liquibase-test/changeset-004-modified_reg_link.xml"/>
 
 </databaseChangeLog>
