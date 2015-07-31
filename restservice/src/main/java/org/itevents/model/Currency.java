@@ -40,9 +40,10 @@ public class Currency {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Currency ");
+        final StringBuilder sb = new StringBuilder("Currency{");
         sb.append("id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
         return sb.toString();
     }
 

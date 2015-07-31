@@ -156,7 +156,7 @@ public class Event implements Serializable {
         if (address != null ? !address.equals(event.address) : event.address != null) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
-        if (!currency.equals(event.currency)) return false;
+        if (currency != null ? !currency.equals(event.currency) : event.currency != null) return false;
         return !(city != null ? !city.equals(event.city) : event.city != null);
 
     }

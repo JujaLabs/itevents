@@ -60,7 +60,8 @@ public class EventRestController {
 //    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=java&techTag=javascript
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
+    public List<Event> getEventsAtLocation(@RequestParam(required = false, value = "page") Integer page,
+                                           @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
                                            @RequestParam(required = false, value = "cityId") Integer cityId,
                                            @RequestParam(required = false, value = "payed") Boolean payed,
                                            @RequestParam(required = false, value = "lat") Double latitude,
@@ -76,6 +77,19 @@ public class EventRestController {
         params.setLatitude(latitude);
         params.setLongitude(longitude);
         params.setRadius(radius);
-        return eventService.getFilteredEvents(params);
+        itemPerPage = getItemPerPage(itemPerPage);
+        List<Event> filteredEvents = eventService.getFilteredEvents(params);
+        if (page == null) {
+            page = 0;
+        }
+        return getPaginatedEvents(page, itemPerPage, filteredEvents);
+    }
+
+    //Если в дальнейшем у пользователя будут личные настройки, то данное значение будет браться оттуда
+    private int getItemPerPage(Integer itemPerPage) {
+        if (itemPerPage == null) {
+            itemPerPage = 10;
+        }
+        return itemPerPage;
     }
 }

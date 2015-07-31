@@ -5,16 +5,17 @@ import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @Transactional
 public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventMapper eventMapper;
-
 
     @Override
     public void addEvent(Event event) {
