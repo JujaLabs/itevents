@@ -1,7 +1,7 @@
 package org.itevents.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.itevents.controller.EventFilterParams;
+import org.itevents.controller.FilterEventParams;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
@@ -52,7 +52,6 @@ public interface EventMapper {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(int id);
 
-    //    @ResultMap("getAllEvents-void")
-//    @Select()
-    List<Event> getFilteredEvents(EventFilterParams params);
+    @ResultMap("getAllEvents-void")
+    List<Event> getFilteredEvents(FilterEventParams params);
 }

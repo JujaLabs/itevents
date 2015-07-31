@@ -3,23 +3,14 @@ package org.itevents.controller;
 /**
  * Created by vaa25 on 28.07.2015.
  */
-public class EventFilterParams {
+public class FilterEventParams {
 
-    private Integer page;
     private Integer cityId;
     private Boolean payed;
     private Double latitude;
     private Double longitude;
     private Integer radius;
-    private String[] techTags;
-
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
+    private Integer[] techTags;
 
     public Integer getCityId() {
         return cityId;
@@ -61,11 +52,11 @@ public class EventFilterParams {
         this.radius = radius;
     }
 
-    public String[] getTechTags() {
+    public Integer[] getTechTags() {
         return techTags;
     }
 
-    public void setTechTags(String[] techTags) {
+    public void setTechTags(Integer[] techTags) {
         this.techTags = techTags;
     }
 }

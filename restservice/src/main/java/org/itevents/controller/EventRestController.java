@@ -66,10 +66,10 @@ public class EventRestController {
                                            @RequestParam(required = false, value = "lat") Double latitude,
                                            @RequestParam(required = false, value = "lon") Double longitude,
                                            @RequestParam(required = false, value = "radius") Integer radius,
-                                           @RequestParam(required = false, value = "techTag") String[] techTags) {
+                                           @RequestParam(required = false, value = "techTag") Integer[] techTags) {
 //        todo
 
-        EventFilterParams params = new EventFilterParams();
+        FilterEventParams params = new FilterEventParams();
         params.setCityId(cityId);
         params.setPayed(payed);
         params.setTechTags(techTags);

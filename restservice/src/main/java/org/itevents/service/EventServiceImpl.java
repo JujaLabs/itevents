@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.controller.EventFilterParams;
+import org.itevents.controller.FilterEventParams;
 import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
@@ -14,6 +14,7 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventMapper eventMapper;
+
 
     @Override
     public void addEvent(Event event) {
@@ -41,7 +42,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(EventFilterParams params) {
+    public List<Event> getFilteredEvents(FilterEventParams params) {
         return eventMapper.getFilteredEvents(params);
     }
 
