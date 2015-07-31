@@ -2,6 +2,7 @@
 <mapper namespace="org.itevents.mapper.EventMapper">
 
     <resultMap id="eventMap" type="org.itevents.model.Event" autoMapping="true">
+        <id property="id" column="id" javaType="int"/>
         <result property="eventDate" column="event_date"/>
         <result property="createDate" column="create_date"/>
         <result property="regLink" column="reg_link"/>
