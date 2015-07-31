@@ -27,18 +27,8 @@ public class EventRestController {
         return new ResponseEntity<Event>(event, HttpStatus.OK);
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/events")
-//    public List<Event> getEventsInRadius(@RequestParam(value = "page") int page,
-//                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
-//                                           @RequestParam(value = "lat") double latitude,
-//                                           @RequestParam(value = "lon") double longitude,
-//                                           @RequestParam(value = "radius") int radius) {
-//        Location location = new Location(latitude, longitude);
-//        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
-//        return getPaginatedEvents(page, itemsPerPage, events);
-//    }
 
-    private List<Event> getPaginatedEvents(@RequestParam(value = "page") int page, @RequestParam(value = "itemsPerPage") int itemsPerPage, List<Event> events) {
+    private List<Event> getPaginatedEvents(int page, int itemsPerPage, List<Event> events) {
 
         int pages = events.size()/itemsPerPage;
         if (events.size() % itemsPerPage != 0) {
@@ -68,7 +58,6 @@ public class EventRestController {
                                            @RequestParam(required = false, value = "lon") Double longitude,
                                            @RequestParam(required = false, value = "radius") Integer radius,
                                            @RequestParam(required = false, value = "techTag") Integer[] techTags) {
-//        todo
 
         FilterEventParams params = new FilterEventParams();
         params.setCityId(cityId);

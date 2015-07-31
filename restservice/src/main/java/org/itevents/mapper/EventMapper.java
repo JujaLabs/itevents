@@ -13,22 +13,6 @@ public interface EventMapper {
     @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
-    //    @Results(value = {
-//            @Result(property = "id", column = "id"),
-//            @Result(property = "title", column = "title"),
-//            @Result(property = "eventDate", column = "event_date"),
-//            @Result(property = "createDate", column = "create_date"),
-//            @Result(property = "regLink", column = "reg_link"),
-//            @Result(property = "address", column = "address"),
-//            @Result(property = "contact", column = "contact"),
-//            @Result(property = "location", column = "id", javaType = Location.class,
-//                    one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation")),
-//            @Result(property = "price", column = "price"),
-//            @Result(property = "currency", column = "currency_id", javaType = Currency.class,
-//                    one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
-//            @Result(property = "city", column = "city_id", javaType = City.class,
-//                    one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
-//    })
     @Select("SELECT * FROM events")
     @ResultMap("eventMap")
     List<Event> getAllEvents();
