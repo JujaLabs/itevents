@@ -22,7 +22,8 @@ public class EventServiceTest {
 
     @BeforeClass
     public static void setup() throws ParseException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("testApplicationContext.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] {"applicationContext.xml", "testApplicationContext.xml"});
         eventService = context.getBean("eventService", EventService.class);
         formatter = new SimpleDateFormat("dd.MM.yyyy");
         addingEvent = new Event("Ruby", formatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
