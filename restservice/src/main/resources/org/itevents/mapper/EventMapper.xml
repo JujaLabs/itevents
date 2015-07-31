@@ -29,14 +29,11 @@
             <if test="cityId != null">
                 city_id = #{cityId}
             </if>
-            <if test="payed == true">
+            <if test="payed != null">
                 AND price > 0
             </if>
-            <if test="payed == false">
-                AND price == 0
-            </if>
             <if test="radius != null">
-                AND ST_DWithin(point)::geography,
+                AND ST_DWithin((point)::geography,
                 ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})
             </if>
             <if test="techTags!=null">
