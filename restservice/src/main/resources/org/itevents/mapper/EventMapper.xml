@@ -29,8 +29,11 @@
             <if test="cityId != null">
                 city_id = #{cityId}
             </if>
-            <if test="payed != null">
-                AND payed = #{payed}
+            <if test="payed == true">
+                AND price > 0
+            </if>
+            <if test="payed == false">
+                AND price == 0
             </if>
             <if test="radius != null">
                 AND ST_DWithin(point)::geography,

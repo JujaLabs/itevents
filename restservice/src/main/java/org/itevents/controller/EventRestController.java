@@ -57,7 +57,7 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-//    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=java&techTag=javascript
+//    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=1&techTag=2
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getEventsAtLocation(@RequestParam(required = false, value = "page") Integer page,
