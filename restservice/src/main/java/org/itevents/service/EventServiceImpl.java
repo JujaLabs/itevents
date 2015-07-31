@@ -3,7 +3,6 @@ package org.itevents.service;
 import org.itevents.controller.FilterEventParams;
 import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +29,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return eventMapper.getAllEvents();
-    }
-
-    @Override
-    public List<Event> getEventsInRadius(Location location, int radius) {
-        return eventMapper.getEventsInRadius(location, radius);
     }
 
     @Override
