@@ -8,7 +8,7 @@
         <sql>
             CREATE TABLE roles(
             id SERIAL PRIMARY KEY UNIQUE NOT NULL,
-            name VARCHAR(20)
+            name VARCHAR(20) UNIQUE
             );
         </sql>
         <rollback>

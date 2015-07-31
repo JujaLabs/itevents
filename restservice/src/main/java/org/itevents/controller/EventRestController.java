@@ -30,7 +30,10 @@ public class EventRestController {
     }
 
     /**
-     * REST-method GET that returns list of all events at the location with pagination
+     * REST-method GET that returns list of all events at the location with pagination.
+     * If user send {@param page} < 0, the method returns events with {@param page} = 0 (the first page).
+     * If user send {@param page} > maximum of available pages with current sets of {@param itemsPerPage}
+     * and retrieved list of events, the method returns events with {@param page} equals to the last page number.
      *
      * @param page number of page of events' list
      * @param itemsPerPage number of events placed on the page
@@ -45,16 +48,19 @@ public class EventRestController {
                                            @RequestParam(value = "lat") double latitude,
                                            @RequestParam(value = "lon") double longitude,
                                            @RequestParam(value = "radius") int radius) {
-        if (itemsPerPage <= 0) {
+        if (itemsPerPage <= 0 || radius < 0) {
             return new ArrayList<>();
         }
         Location location = new Location(latitude, longitude);
-        List<Event> events = eventService.getFutureEventsInRadius(location, radius);
+        List<Event> events = eventService.getEventsInRadius(location, radius);
+        if (events.isEmpty()) {
+            return events;
+        }
         int pages = events.size()/itemsPerPage;
         if (events.size() % itemsPerPage != 0) {
             pages++;
         }
-        PagedListHolder<Event> paginatedEvents = new PagedListHolder<Event>(events);
+        PagedListHolder<Event> paginatedEvents = new PagedListHolder<>(events);
         paginatedEvents.setPageSize(itemsPerPage);
         if (page <= 0) {
             return paginatedEvents.getPageList();

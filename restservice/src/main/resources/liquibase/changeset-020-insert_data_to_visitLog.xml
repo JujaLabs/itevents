@@ -4,20 +4,20 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="008" author="vaa25">
+    <changeSet id="020" author="vaa25">
         <sql>
-            CREATE TABLE visit_log (
-            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
-            event_id INT NOT NULL,
-            date DATE NOT NULL,
-            user_id INT NOT NULL,
-            FOREIGN KEY (event_id) REFERENCES events (id),
-            FOREIGN KEY (user_id) REFERENCES users (id)
-            );
+            INSERT INTO visit_log(event_id, date, user_id) VALUES
+            (1,'20.07.2016',1),
+            (1,'20.07.2016',2),
+            (2,'20.07.2016',1),
+            (2,'20.08.2016',2),
+            (3,'20.09.2016',3),
+            (2,'20.08.2016',3),
+            (1,'20.09.2016',3)
+            ;
         </sql>
         <rollback>
-            DROP TABLE visit_log;
+            DELETE * FROM visit_log;
         </rollback>
     </changeSet>
-
 </databaseChangeLog>

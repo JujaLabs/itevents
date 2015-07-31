@@ -1,22 +1,11 @@
 # Java class files
 *.class
  
-# generated files
-bin/
-gen/
- 
 # Intellij project files
 *.iml
-*.ipr
-*.iws
 .idea/
-_windows/
-bootstrap/
-$APP_CONFIG$/
-$ROOT_CONFIG$/
- 
+
 #Gradle
-.gradletasknamecache
 .gradle/
 build/
 classes/
