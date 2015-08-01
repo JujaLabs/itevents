@@ -28,7 +28,7 @@ public class SendGridServiceImpl implements SendGridService {
         SendGrid sendgrid = new SendGrid(api_key);
         SendGrid.Email email = new SendGrid.Email();
         email.addTo(user.getLogin());
-        email.setFrom("ultimax@ukr.net");
+        email.setFrom("events@juja.com.ua");
         email.setSubject("IT Events of the week");
         email.setText(message);
 
