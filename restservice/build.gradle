@@ -27,6 +27,8 @@ dependencies {
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
+    compile 'org.apache.logging.log4j:log4j-api:2.3'
+    compile 'org.apache.logging.log4j:log4j-core:2.3'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
