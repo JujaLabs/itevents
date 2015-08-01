@@ -59,6 +59,13 @@ public class EventRestController {
                                            @RequestParam(required = false, value = "techTag") Integer[] techTags) {
 
         FilterEventParams params = new FilterEventParams();
+
+        if (radius == null || latitude == null || longitude == null) {
+            radius = null;
+            longitude = null;
+            latitude = null;
+        }
+
         params.setCityId(cityId);
         params.setPayed(payed);
         params.setTechTags(techTags);

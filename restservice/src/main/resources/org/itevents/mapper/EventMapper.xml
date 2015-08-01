@@ -25,12 +25,14 @@
             <if test="cityId != null">
                 city_id = #{cityId}
             </if>
+            <if test="cityId == null">
+                <if test="radius != null ">
+                    AND ST_DWithin((point)::geography,
+                    ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})
+                </if>
+            </if>
             <if test="payed != null">
                 AND price > 0
-            </if>
-            <if test="radius != null ">
-                AND ST_DWithin((point)::geography,
-                ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})
             </if>
             <if test="techTags!=null">
                 AND id IN
