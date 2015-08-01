@@ -28,6 +28,12 @@ import static org.junit.Assert.*;
 @Transactional
 public class VisitLogMapperTest {
 
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+    private final static int ID_2 = 2;
+    private final static int ID_3 = 3;
+    private final static int ID_7 = 7;
+
     private static VisitLogMapper visitLogMapper;
     private static EventMapper eventMapper;
     private static UserMapper userMapper;
@@ -43,9 +49,9 @@ public class VisitLogMapperTest {
         eventMapper = context.getBean("eventMapper", EventMapper.class);
         userMapper = context.getBean("userMapper", UserMapper.class);
         visitLogMapper = context.getBean("visitLogMapper", VisitLogMapper.class);
-        event1 = eventMapper.getEvent(1);
-        user1 = userMapper.getUser(1);
-        testVisitLog = new VisitLog(eventMapper.getEvent(3), user1);
+        event1 = eventMapper.getEvent(ID_1);
+        user1 = userMapper.getUser(ID_1);
+        testVisitLog = new VisitLog(eventMapper.getEvent(ID_3), user1);
         date1 = new GregorianCalendar(2016, 6, 20).getTime();
         testVisitLog.setDate(date1);
     }
@@ -65,26 +71,23 @@ public class VisitLogMapperTest {
     public void testGetVisitLog1() {
         VisitLog expectedVisitLog = new VisitLog(event1, user1);
         expectedVisitLog.setDate(date1);
-        expectedVisitLog.setId(1);
-
-        VisitLog returnedVisitLog = visitLogMapper.getVisitLog(1);
+        expectedVisitLog.setId(ID_1);
+        VisitLog returnedVisitLog = visitLogMapper.getVisitLog(ID_1);
         assertEquals(expectedVisitLog, returnedVisitLog);
     }
 
     @Test
     public void testGetVisitLog0() throws Exception {
-        assertNull(visitLogMapper.getVisitLog(0));
+        assertNull(visitLogMapper.getVisitLog(ID_0));
     }
 
     @Test
     public void testGetVisitLogByEvent() throws Exception {
         List<VisitLog> expectedVisitLogs = new ArrayList<>();
-        expectedVisitLogs.add(visitLogMapper.getVisitLog(1));
-        expectedVisitLogs.add(visitLogMapper.getVisitLog(2));
-        expectedVisitLogs.add(visitLogMapper.getVisitLog(7));
-
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(ID_1));
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(ID_2));
+        expectedVisitLogs.add(visitLogMapper.getVisitLog(ID_7));
         List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(event1);
-
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
 
@@ -93,10 +96,8 @@ public class VisitLogMapperTest {
     public void testAddVisitLog() throws Exception {
         VisitLog expectedVisitLog = testVisitLog;
         visitLogMapper.addVisitLog(expectedVisitLog);
-
         VisitLog returnedVisitLog = visitLogMapper.getVisitLog(expectedVisitLog.getId());
         returnedVisitLog.setDate(date1);
-
         assertEquals(expectedVisitLog, returnedVisitLog);
         visitLogMapper.removeVisitLog(testVisitLog);
     }
@@ -111,10 +112,8 @@ public class VisitLogMapperTest {
     public void testRemoveVisitLog() {
         visitLogMapper.addVisitLog(testVisitLog);
         int expectedSize = visitLogMapper.getAllVisitLogs().size() - 1;
-
         visitLogMapper.removeVisitLog(testVisitLog);
         int returnedSize = visitLogMapper.getAllVisitLogs().size();
-
         assertEquals(expectedSize, returnedSize);
     }
 

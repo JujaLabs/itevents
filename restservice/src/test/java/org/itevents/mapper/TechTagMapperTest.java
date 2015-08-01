@@ -17,21 +17,24 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class TechTagMapperTest {
 
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+
     @Autowired
     private TechTagMapper techTagMapper;
 
     @Test
     public void testGetTechTag1() throws Exception {
         TechTag expectedTechTag = new TechTag("Java");
-        expectedTechTag.setId(1);
-        TechTag returnedTechTag = techTagMapper.getTechTag(1);
+        expectedTechTag.setId(ID_1);
+        TechTag returnedTechTag = techTagMapper.getTechTag(ID_1);
         assertEquals(expectedTechTag, returnedTechTag);
     }
 
 
     @Test
     public void testGetTechTag0() throws Exception {
-        TechTag returnedTechTag = techTagMapper.getTechTag(0);
+        TechTag returnedTechTag = techTagMapper.getTechTag(ID_0);
         assertNull(returnedTechTag);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +20,10 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class EventMapperTest {
+
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+
     @Autowired
     private EventMapper eventMapper;
 
@@ -30,16 +35,23 @@ public class EventMapperTest {
 
     @Test
     public void testGetEvent1() throws Exception {
-        Event expectedEvent = new Event(1, "Java", new GregorianCalendar(2015, 6, 10).getTime(), null,
-                "http://www.java.com.ua", "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", 0,
-                currencyMapper.getCurrency(1), cityMapper.getCity(1));
-        Event returnedEvent = eventMapper.getEvent(1);
+        double eventLatitude = 50.458585;
+        double eventLongitude = 30.742017;
+        int eventYear = 2015;
+        int eventMonth = 7 - 1;
+        int eventDay = 10;
+        Date createDate = null;
+        int eventPrice = 0;
+        Event expectedEvent = new Event(ID_1, "Java", new GregorianCalendar(eventYear, eventMonth, eventDay).getTime(),
+                createDate, "http://www.java.com.ua", "Beresteyska", new Location(eventLatitude, eventLongitude),
+                "java@gmail.com", eventPrice, currencyMapper.getCurrency(ID_1), cityMapper.getCity(ID_1));
+        Event returnedEvent = eventMapper.getEvent(ID_1);
         assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
     public void testGetEvent0() {
-        Event returnedEvent = eventMapper.getEvent(0);
+        Event returnedEvent = eventMapper.getEvent(ID_0);
         assertNull(returnedEvent);
     }
 }

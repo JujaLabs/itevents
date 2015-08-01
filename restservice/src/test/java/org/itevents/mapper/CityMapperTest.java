@@ -17,19 +17,25 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CityMapperTest {
+
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+
     @Autowired
     private CityMapper cityMapper;
 
     @Test
     public void testGetCity1() throws Exception {
-        City expected = new City(1, "Kyiv", new Location(50.450500, 30.523000));
-        City returnedCity = cityMapper.getCity(1);
-        assertEquals(expected, returnedCity);
+        double kyivLatitude = 50.4505;
+        double kyivLongitude = 30.523;
+        City expectedCity = new City(ID_1, "Kyiv", new Location(kyivLatitude, kyivLongitude));
+        City returnedCity = cityMapper.getCity(ID_1);
+        assertEquals(expectedCity, returnedCity);
     }
 
     @Test
     public void testGetCity0() throws Exception {
-        City returnedCity = cityMapper.getCity(0);
+        City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
     }
 }

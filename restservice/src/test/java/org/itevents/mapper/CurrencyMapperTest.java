@@ -16,20 +16,24 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CurrencyMapperTest {
+
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+
     @Autowired
     private CurrencyMapper currencyMapper;
 
     @Test
     public void testGetCurrency1() throws Exception {
         Currency expectedCurrency = new Currency("FREE");
-        expectedCurrency.setId(1);
-        Currency returnedCurrency = currencyMapper.getCurrency(1);
+        expectedCurrency.setId(ID_1);
+        Currency returnedCurrency = currencyMapper.getCurrency(ID_1);
         assertEquals(expectedCurrency, returnedCurrency);
     }
 
     @Test
     public void testGetCurrency0() throws Exception {
-        Currency returnedCurrency = currencyMapper.getCurrency(0);
+        Currency returnedCurrency = currencyMapper.getCurrency(ID_0);
         assertNull(returnedCurrency);
     }
 }
