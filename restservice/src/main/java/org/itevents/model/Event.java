@@ -145,9 +145,8 @@ public class Event implements Serializable {
         if (!eventDate.equals(event.eventDate)) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (regLink != null ? !regLink.equals(event.regLink) : event.regLink != null) return false;
-        if (!title.equals(event.title)) return false;
+        return title.equals(event.title);
 
-        return true;
     }
 
     @Override

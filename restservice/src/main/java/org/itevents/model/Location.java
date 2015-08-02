@@ -57,9 +57,8 @@ public class Location implements Serializable {
         Location location = (Location) o;
 
         if (!latitude.equals(location.latitude)) return false;
-        if (!longitude.equals(location.longitude)) return false;
+        return longitude.equals(location.longitude);
 
-        return true;
     }
 
     @Override

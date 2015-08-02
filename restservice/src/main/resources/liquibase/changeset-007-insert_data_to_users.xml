@@ -4,13 +4,15 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-
-    <changeSet id="000" author="vaa25">
+    <changeSet id="007" author="vaa25">
         <sql>
-            CREATE EXTENSION POSTGIS;
+            INSERT INTO users(login, password, roles_id) VALUES ('guest','guest',1),
+            ('anakin@email.com','alex',2),
+            ('kuchin@email.com','viktor',2),
+            ('vlasov@email.com','alex',3);
         </sql>
         <rollback>
-            DROP EXTENSION POSTGIS;
+            DELETE * FROM users;
         </rollback>
     </changeSet>
 </databaseChangeLog>
