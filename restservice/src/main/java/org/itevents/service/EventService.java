@@ -15,5 +15,5 @@ public interface EventService {
 
     List<Event> getEventsInRadius(Location location, int radius);
 
-    void removeEvent(int id);
+    Event removeEvent(Event event);
 }
