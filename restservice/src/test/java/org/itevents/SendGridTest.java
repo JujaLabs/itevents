@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration(locations = { "/applicationContext.xml" })
 public class SendGridTest {
 
-    String userLogin ="example@it-events.org"; //Enter your e-mail, which will receive letter
+    String userLogin ="ramax@ex.ua"; //Enter your e-mail, which will receive letter
 
     @Autowired
     SendGridService sendGridService;
