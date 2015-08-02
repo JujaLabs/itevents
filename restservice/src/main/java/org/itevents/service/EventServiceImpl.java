@@ -35,8 +35,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void removeEvent(int id) {
-        eventMapper.removeEvent(id);
+    public Event removeEvent(Event event) {
+        Event deletingEvent = eventMapper.getEvent(event.getId());
+        if (deletingEvent != null){
+            eventMapper.removeEvent(event);
+        }
+        return deletingEvent;
     }
 
     public void setEventMapper(EventMapper eventMapper) {

@@ -1,33 +1,70 @@
 package org.itevents;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 import org.itevents.service.EventService;
-import org.itevents.service.EventServiceImpl;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EventServiceTest {
 
     private static EventService eventService;
+    private static Event addingEvent;
+    private static SimpleDateFormat formatter;
 
     @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        eventService = context.getBean("eventService", EventServiceImpl.class);
+    public static void setup() throws ParseException {
+        ApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] {"applicationContext.xml", "testApplicationContext.xml"});
+        eventService = context.getBean("eventService", EventService.class);
+        formatter = new SimpleDateFormat("dd.MM.yyyy");
+        addingEvent = new Event("Ruby", formatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
+                new Location(50.454605, 30.445495), "ruby@gmail.com");
     }
 
     @AfterClass
     public static void teardown() {
         eventService = null;
+        addingEvent = null;
+        formatter = null;
     }
 
     @Test
-    public void testGetEventById() {
-        Event event = eventService.getEvent(1);
-        Assert.assertNotNull(event);
+    public void testGetEventById() throws ParseException {
+        Event expectedEvent = new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
+                new Location(50.458585, 30.742017), "java@gmail.com");
+        Event returnedEvent = eventService.getEvent(1);
+        Assert.assertEquals(expectedEvent, returnedEvent);
+    }
+
+    @Test
+    public void testGetAllEvents() throws ParseException {
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(returnedEvents.size(), 7);
+    }
+
+    @Test
+    public void testRemoveEvent() throws ParseException {
+        Event expectedEvent = addingEvent;
+        eventService.addEvent(expectedEvent);
+        Event returnedEvent = eventService.removeEvent(expectedEvent);
+        expectedEvent.setId(returnedEvent.getId());
+        Assert.assertEquals(expectedEvent, returnedEvent);
+    }
+
+    @Test
+    public void testAddEvent() throws ParseException {
+        eventService.addEvent(addingEvent);
+        Event returnedEvent = eventService.getEvent(addingEvent.getId());
+        Assert.assertEquals(addingEvent, returnedEvent);
+        eventService.removeEvent(returnedEvent);
     }
 }
