@@ -27,7 +27,7 @@ public interface EventMapper {
 
     @ResultMap(value = "getEvent-int")
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events" +
-            " WHERE ST_DWithin(point)::geography," +
+            " WHERE ST_DWithin(point::geography," +
             " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
     List<Event> getEventsInRadius(@Param("location")Location location, @Param("radius")int radius);
 
