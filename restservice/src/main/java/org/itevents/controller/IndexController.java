@@ -12,7 +12,23 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
 		model.addAttribute("message1", "IT Events web application");
-		model.addAttribute("message2", "Sorry, we are under construction");
+		model.addAttribute("message2", "Log in");
+		model.addAttribute("message3", "Log out");
+		return "index";
+	}
+
+	@RequestMapping(value = "login")
+	public String adminPage(ModelMap model) {
+		model.addAttribute("title", "Spring Security Hello World");
+		model.addAttribute("message", "This is protected page!");
+		return "admin";
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(ModelMap model) {
+		model.addAttribute("message1", "IT Events web application");
+		model.addAttribute("message2", "Log in");
+		model.addAttribute("message3", "Log out");
 		return "index";
 	}
 }
