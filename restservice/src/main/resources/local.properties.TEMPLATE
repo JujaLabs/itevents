@@ -1,0 +1,10 @@
+# Copy this file to one named "local.properties" and update value
+
+# Database
+database.driver=org.postgresql.Driver
+database.url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
+database.username=DB_USERNAME
+database.password=DB_PASSWORD
+
+# Liquibase
+changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
