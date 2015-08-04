@@ -39,6 +39,11 @@ public class EventServiceImpl implements EventService {
         eventMapper.removeEvent(id);
     }
 
+    @Override
+    public List<Event> getFutureEvents(int days) {
+        return eventMapper.getFutureEvents(days);
+    }
+
     public void setEventMapper(EventMapper eventMapper) {
         this.eventMapper = eventMapper;
     }

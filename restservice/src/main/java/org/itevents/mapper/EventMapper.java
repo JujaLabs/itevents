@@ -54,4 +54,22 @@ public interface EventMapper {
 
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(int id);
+
+    @Results(value = {
+            @Result(property = "id", column = "id"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "eventDate", column = "event_date"),
+            @Result(property = "createDate", column = "create_date"),
+            @Result(property = "regLink", column = "reg_link"),
+            @Result(property = "address", column = "address"),
+            @Result(property = "contact", column = "contact"),
+            @Result(property = "rating", column = "rating"),
+            @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
+    })
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, rating FROM events WHERE" +
+            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '#{id} days')")
+    List<Event> getFutureEvents(int days);
+
+    @Update("UPDATE events SET rating=#{rating} WHERE id =#{id}")
+    void increaseRatingEvent(Event event);
 }
