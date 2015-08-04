@@ -36,7 +36,7 @@ stopPort = 9080
 stopKey = "stop"
 
 Properties props = new Properties()
-props.load(new FileInputStream("./src/main/resources/local.properties"))
+props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate', 'liquibaseTest'
 
