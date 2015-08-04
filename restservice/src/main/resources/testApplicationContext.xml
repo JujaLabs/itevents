@@ -8,10 +8,10 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/daoTest" />
-        <property name="username" value="postgres" />
-        <property name="password" value="postgres" />
+        <property name="driverClassName" value="${database.driver}"/>
+        <property name="url" value="${databaseTest.url}"/>
+        <property name="username" value="${databaseTest.username}"/>
+        <property name="password" value="${databaseTest.password}"/>
     </bean>
 
 </beans>
