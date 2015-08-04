@@ -1,4 +1,4 @@
-# Copy this file to one named "local.properties" and update value
+# Create copy of this file in same directory with name "local.properties" and update value of properties
 
 # Database
 database.driver=org.postgresql.Driver
