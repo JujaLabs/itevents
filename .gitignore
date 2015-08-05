@@ -1,6 +1,9 @@
 # Java class files
 *.class
- 
+
+# Project properies
+restservice/src/main/resources/local.properties
+
 # Intellij project files
 *.iml
 .idea/
