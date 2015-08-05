@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import com.wordnik.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.EventService;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api(value = "events", description = "Events REST API", position = 0)
 public class EventRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

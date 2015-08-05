@@ -1,42 +1,29 @@
 package org.itevents.controller;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
-
-import org.jvnet.ws.wadl.Application;
-import org.jvnet.ws.wadl.Doc;
-import org.jvnet.ws.wadl.Param;
-import org.jvnet.ws.wadl.ParamStyle;
-import org.jvnet.ws.wadl.Representation;
-import org.jvnet.ws.wadl.Request;
-import org.jvnet.ws.wadl.Resource;
-import org.jvnet.ws.wadl.Resources;
-import org.jvnet.ws.wadl.Response;
+import com.mangofactory.swagger.annotations.ApiIgnore;
+import org.jvnet.ws.wadl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.ProducesRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.namespace.QName;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Controller
 @RequestMapping("application.wadl")
+@ApiIgnore
 public class WADLController {
     String xs_namespace = "http://www.w3.org/2001/XMLSchema";
     @Autowired
