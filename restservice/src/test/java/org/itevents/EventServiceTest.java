@@ -16,6 +16,8 @@ import java.util.List;
 
 public class EventServiceTest {
 
+    private final static int ID_1 = 1;
+    private final static int SIZE_7 = 7;
     private static EventService eventService;
     private static Event addingEvent;
     private static SimpleDateFormat formatter;
@@ -39,16 +41,17 @@ public class EventServiceTest {
 
     @Test
     public void testGetEventById() throws ParseException {
-        Event expectedEvent = new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
-                new Location(50.458585, 30.742017), "java@gmail.com");
-        Event returnedEvent = eventService.getEvent(1);
+        Event expectedEvent = new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua",
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com");
+        Event returnedEvent = eventService.getEvent(ID_1);
         Assert.assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
     public void testGetAllEvents() throws ParseException {
+        int expectedSize = SIZE_7;
         List<Event> returnedEvents = eventService.getAllEvents();
-        Assert.assertEquals(returnedEvents.size(), 7);
+        Assert.assertEquals(expectedSize, returnedEvents.size());
     }
 
     @Test
