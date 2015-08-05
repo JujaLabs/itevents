@@ -1,9 +1,9 @@
-package org.itevents.controller;
+package org.itevents.parameter;
 
 /**
  * Created by vaa25 on 28.07.2015.
  */
-public class FilterEventParams {
+public class FilteredEventsParameter {
 
     private Integer cityId;
     private Boolean payed;

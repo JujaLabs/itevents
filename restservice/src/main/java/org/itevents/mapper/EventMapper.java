@@ -1,8 +1,8 @@
 package org.itevents.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.itevents.controller.FilterEventParams;
 import org.itevents.model.Event;
+import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
@@ -31,5 +31,5 @@ public interface EventMapper {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(int id);
 
-    List<Event> getFilteredEvents(FilterEventParams params);
+    List<Event> getFilteredEvents(FilteredEventsParameter params);
 }

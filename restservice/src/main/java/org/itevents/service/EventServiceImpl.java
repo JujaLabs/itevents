@@ -1,8 +1,8 @@
 package org.itevents.service;
 
-import org.itevents.controller.FilterEventParams;
 import org.itevents.mapper.EventMapper;
 import org.itevents.model.Event;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilterEventParams params) {
+    public List<Event> getFilteredEvents(FilteredEventsParameter params) {
         return eventMapper.getFilteredEvents(params);
     }
 

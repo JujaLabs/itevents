@@ -1,7 +1,7 @@
 package org.itevents;
 
-import org.itevents.controller.FilterEventParams;
 import org.itevents.model.Event;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
 import org.junit.AfterClass;
@@ -49,7 +49,7 @@ public class EventServiceTest {
         int javaId = 1;
         int kyivId = 1;
         List<Event> expectedEvents = new ArrayList<>();
-        FilterEventParams params = new FilterEventParams();
+        FilteredEventsParameter params = new FilteredEventsParameter();
         params.setTechTags(new Integer[]{javaId});
         params.setCityId(kyivId);
         expectedEvents.add(eventService.getEvent(ID_1));
@@ -61,7 +61,7 @@ public class EventServiceTest {
     public void testGetFilteredEventsBoyarkaPayed() {
         int boyarkaId = 3;
         List<Event> expectedEvents = new ArrayList<>();
-        FilterEventParams params = new FilterEventParams();
+        FilteredEventsParameter params = new FilteredEventsParameter();
         params.setCityId(boyarkaId);
         params.setPayed(true);
         expectedEvents.add(eventService.getEvent(ID_6));
@@ -75,7 +75,7 @@ public class EventServiceTest {
         int antId = 7;
         int sqlId = 10;
         List<Event> expectedEvents = new ArrayList<>();
-        FilterEventParams params = new FilterEventParams();
+        FilteredEventsParameter params = new FilteredEventsParameter();
         params.setTechTags(new Integer[]{phpId, antId, sqlId});
         expectedEvents.add(eventService.getEvent(ID_4));
         expectedEvents.add(eventService.getEvent(ID_3));
@@ -92,7 +92,7 @@ public class EventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(ID_2));
         expectedEvents.add(eventService.getEvent(ID_3));
-        FilterEventParams params = new FilterEventParams();
+        FilteredEventsParameter params = new FilteredEventsParameter();
         params.setLatitude(testLatitude);
         params.setLongitude(testLongitude);
         params.setRadius(testRadius);

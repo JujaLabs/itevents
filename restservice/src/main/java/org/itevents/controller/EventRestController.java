@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import org.itevents.model.Event;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
 import org.springframework.beans.support.PagedListHolder;
@@ -49,16 +50,16 @@ public class EventRestController {
 
 //    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=1&techTag=2
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getEventsAtLocation(@RequestParam(required = false, value = "page") Integer page,
-                                           @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
-                                           @RequestParam(required = false, value = "cityId") Integer cityId,
-                                           @RequestParam(required = false, value = "payed") Boolean payed,
-                                           @RequestParam(required = false, value = "lat") Double latitude,
-                                           @RequestParam(required = false, value = "lon") Double longitude,
-                                           @RequestParam(required = false, value = "radius") Integer radius,
-                                           @RequestParam(required = false, value = "techTag") Integer[] techTags) {
+    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
+                                         @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
+                                         @RequestParam(required = false, value = "cityId") Integer cityId,
+                                         @RequestParam(required = false, value = "payed") Boolean payed,
+                                         @RequestParam(required = false, value = "lat") Double latitude,
+                                         @RequestParam(required = false, value = "lon") Double longitude,
+                                         @RequestParam(required = false, value = "radius") Integer radius,
+                                         @RequestParam(required = false, value = "techTag") Integer[] techTags) {
 
-        FilterEventParams params = new FilterEventParams();
+        FilteredEventsParameter params = new FilteredEventsParameter();
 
         if (radius == null || latitude == null || longitude == null) {
             radius = null;

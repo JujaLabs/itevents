@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="getFilteredEvents"
-            parameterType="org.itevents.controller.FilterEventParams"
+            parameterType="org.itevents.parameter.FilteredEventsParameter"
             resultMap="eventMap"
             >
 
