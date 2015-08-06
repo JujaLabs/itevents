@@ -18,7 +18,7 @@ public class SendGridServiceImpl implements SendGridService {
     public void sendMail(String message, User user){
 
         try {
-            fis = new FileInputStream("src/main/resources/sendgrid.properties");
+            fis = new FileInputStream("src/main/resources/local.properties");
             sendGridProperty.load(fis);
             api_key = sendGridProperty.getProperty("api_key");
         } catch (IOException e) {

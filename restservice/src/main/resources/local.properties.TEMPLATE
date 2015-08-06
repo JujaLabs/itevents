@@ -1,0 +1,13 @@
+# Create copy of this file in same directory with name "local.properties" and update value of properties
+
+# Database
+database.driver=org.postgresql.Driver
+database.url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
+database.username=DB_USERNAME
+database.password=DB_PASSWORD
+
+# Liquibase
+changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+
+# SendGrid
+api_key= SEND_GRID_TOKEN
