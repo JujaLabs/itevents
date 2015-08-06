@@ -12,7 +12,7 @@
     <context:component-scan base-package="org.itevents.controller"/>
     <mvc:annotation-driven />
 
-    <bean class="org.itevents.swagger.Config"/>
+    <bean class="org.itevents.swagger.SwaggerCustomConfig"/>
 
     <mvc:resources mapping="/static/**" location="static/" />
 

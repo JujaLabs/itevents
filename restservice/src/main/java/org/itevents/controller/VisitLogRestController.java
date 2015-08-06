@@ -1,6 +1,6 @@
 package org.itevents.controller;
 
-import com.wordnik.swagger.annotations.Api;
+import io.swagger.annotations.Api;
 import org.itevents.mapper.UserMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
@@ -21,7 +21,7 @@ import java.util.Random;
 
 
 @RestController
-@Api(value = "visitLog", description = "Visit Log", position = 1)
+@Api(value = "visits", description = "Visit log")
 public class VisitLogRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

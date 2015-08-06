@@ -38,9 +38,10 @@ dependencies {
     liquibase 'org.liquibase:liquibase-core:3.4.0'
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
+    compile 'io.springfox:springfox-swagger2:2.1.1'
   }
 
-httpPort = 8181
+httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
 

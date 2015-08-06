@@ -1,6 +1,6 @@
 package org.itevents.controller;
 
-import com.wordnik.swagger.annotations.Api;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-@Api(value = "index", description = "Default Path", position = 100)
+@Api("Index")
 public class IndexController {
 
 	@RequestMapping(method = RequestMethod.GET)
