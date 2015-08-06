@@ -1,42 +1,29 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
 import java.util.Date;
 
-@XmlRootElement(name = "statistic")
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "eventId", "date", "userId"})
-public class VisitLog implements Serializable {
+public class VisitLog {
 
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
     private int id;
-    @XmlElement
-    private int eventId;
-    @XmlElement
+    private Event event;
     private Date date;
-    @XmlElement
-    private int userId;
+    private User user;
 
     public VisitLog() {
     }
 
-    public VisitLog(int id, int eventId, Date date, int userId) {
-        this.id = id;
-        this.eventId = eventId;
-        this.date = date;
-        this.userId = userId;
+    public VisitLog(Event event, User user) {
+        this.event = event;
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "VisitLog{" +
                 "id=" + id +
-                ", eventId=" + eventId +
+                ", event=" + event +
                 ", date=" + date +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 
@@ -48,12 +35,12 @@ public class VisitLog implements Serializable {
         this.id = id;
     }
 
-    public int getEventId() {
-        return eventId;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     public Date getDate() {
@@ -64,11 +51,34 @@ public class VisitLog implements Serializable {
         this.date = date;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VisitLog visitLog = (VisitLog) o;
+
+        if (id != visitLog.id) return false;
+        if (!event.equals(visitLog.event)) return false;
+        if (date != null ? !date.equals(visitLog.date) : visitLog.date != null) return false;
+        return user.equals(visitLog.user);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + event.hashCode();
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + user.hashCode();
+        return result;
     }
 }

@@ -38,16 +38,15 @@ dependencies {
     liquibase 'org.liquibase:liquibase-core:3.4.0'
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
-    compile 'com.sun.xml.bind:jaxb-impl:2.2.7'
+    compile 'io.springfox:springfox-swagger2:2.1.1'
+  }
 
-
-    compile "com.mangofactory:swagger-springmvc:1.0.0"
-
-}
-
-httpPort = 8181
+httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
+
+Properties props = new Properties()
+props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate'
 
@@ -65,7 +64,12 @@ task liquibaseUpdate(type: JavaExec) {
         args "--username=${propertyMap['username']}"
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
+    } else {
+        args "--username=${props.getProperty('database.username')}"
+        args "--password=${props.getProperty('database.password')}"
+        args "--url=${props.getProperty('database.url')}"
     }
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'update'
 }
 
@@ -75,10 +79,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
+    args "--username=${props.getProperty('database.username')}"
+    args "--password=${props.getProperty('database.password')}"
+    args "--url=${props.getProperty('database.url')}"
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
-}
-
-task Fooooo{
-
 }
