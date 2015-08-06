@@ -41,7 +41,7 @@ stopKey = "stop"
 Properties props = new Properties()
 props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 
-defaultTasks 'liquibaseUpdate'
+test.dependsOn liquibaseTestUpdate
 
 task liquibaseUpdate(type: JavaExec) {
     description 'Liquibase updates DB by all not used changesets'
@@ -66,7 +66,6 @@ task liquibaseUpdate(type: JavaExec) {
     args 'update'
 }
 
-
 task liquibaseRollback(type: JavaExec) {
     description 'Liquibase rollbacks DB by specified number of changesets'
     group = "Liquibase"
@@ -78,4 +77,16 @@ task liquibaseRollback(type: JavaExec) {
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
+}
+
+task liquibaseTestUpdate(type: JavaExec) {
+    description 'Liquibase updates Test DB by all not used changesets'
+    group = 'Liquibase'
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    args "--username=${props.getProperty('test.database.username')}"
+    args "--password=${props.getProperty('test.database.password')}"
+    args "--url=${props.getProperty('test.database.url')}"
+    args "--changeLogFile=${props.getProperty('test.changeLogFile')}"
+    args 'update'
 }

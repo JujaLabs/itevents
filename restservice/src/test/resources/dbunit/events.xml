@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <Person id="0" title="Mr" firstName="Phillip" lastName="Webb"/>
-    <Person id="1" title="Mr" firstName="Fred" lastName="Bloggs"/>
+    <events title="Java" event_date="10.07.2015" create_date="null" reg_link="http://www.java.com.ua"
+            address="Beresteyska" point="POINT(30.742017 50.458585)" contact="java@gmail.com"/>
+    <events title="PHP" event_date="20.07.2015" create_date="null" reg_link="http://www.php.com.ua"
+            address="Shulyavska" point="POINT(30.445495 50.454605)" contact="php@gmail.com"/>
+    <events title="JS" event_date="30.07.2015" create_date="null" reg_link="http://www.js.com.ua"
+            address="Nyvky" point="POINT(30.403965 50.458651)" contact="js@gmail.com"/>
+    <events title="CPlusPlus" event_date="15.07.2015" create_date="null" reg_link="http://www.cplusplus.com.ua"
+            address="Vokzalna" point="POINT(30.489324 50.441353)" contact="cplusplus@gmail.com"/>
 </dataset>

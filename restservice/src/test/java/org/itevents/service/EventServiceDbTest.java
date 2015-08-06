@@ -27,7 +27,7 @@ public class EventServiceDbTest {
     @DatabaseSetup("events.xml")
     public void testGetEventById() {
         List<Event> events = eventService.getAllEvents();
-        int expectedValue = 3;
+        int expectedValue = 4;
         int actualValue = events.size();
         Assert.assertEquals(expectedValue, actualValue);
     }
