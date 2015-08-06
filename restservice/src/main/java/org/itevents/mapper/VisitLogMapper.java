@@ -35,7 +35,7 @@ public interface VisitLogMapper {
     @Delete("DELETE FROM visit_log WHERE id=#{id}")
     void removeVisitLog(VisitLog visitLog);
 
-    @Select("SELECT count(id) FROM visit_log WHERE event_id = #id")
+    @Select("SELECT count(id) FROM visit_log WHERE event_id = #{id}")
     int getCountViewByEventId(int id);
 
 }

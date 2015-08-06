@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 public class EventServiceTest {
 
     private final static int ID_8 = 8;
+    private final static int DAYS_FOR_FUTURE_EVENT = 7;
 
     private static SimpleDateFormat formatter;
     private static EventService eventService;
@@ -41,7 +42,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetFutureEventById() throws ParseException {
-        Event returnedEvent = eventService.getEvent(ID_8);
+        Event returnedEvent = eventService.getFutureEventById(DAYS_FOR_FUTURE_EVENT, ID_8);
         Event expectedEvent = new Event(8, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com");
         Assert.assertEquals(expectedEvent, returnedEvent);

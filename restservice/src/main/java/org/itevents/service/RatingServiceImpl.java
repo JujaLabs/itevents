@@ -7,8 +7,8 @@ import java.util.*;
 
 public class RatingServiceImpl implements RatingService {
 
-    private final int ORDER_DESCENDING = -1;
-    private final int DAYS_FOR_FUTURE_EVENT = 7;
+    private static final int ORDER_DESCENDING = -1;
+    private static final int DAYS_FOR_FUTURE_EVENT = 7;
 
     @Override
     public Map<Event, Integer> chooseMostPopularEvents(int quantity) {

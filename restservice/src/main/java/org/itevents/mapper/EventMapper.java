@@ -66,18 +66,15 @@ public interface EventMapper {
             @Result(property = "rating", column = "rating"),
             @Result(property = "location", column = "id", javaType = Location.class, one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact, rating FROM events WHERE" +
-            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '#{id} days')")
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE" +
+            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '#{days} days')")
     List<Event> getFutureEvents(int days);
 
-    @Update("UPDATE events SET rating=#{rating} WHERE id =#{id}")
-    void increaseRatingEvent(Event event);
-
     @ResultMap(value = "getEvent-int")
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE" +
-            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '#{days} days')" +
-            "AND id = #id")
-    Event getFutureEventById(int days, int id);
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE " +
+            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '7 days')" +
+            "AND id=#{id}")
+    Event getFutureEventById(int id);
 
     List<Event> getFilteredEvents(Object params);
 }
