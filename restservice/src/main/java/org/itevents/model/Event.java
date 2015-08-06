@@ -6,7 +6,7 @@ import java.util.Date;
 
 @XmlRootElement(name = "event")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact", "rating"})
+@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact"})
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class Event implements Serializable {
     public Event() {
     }
 
-    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact, int rating) {
+    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -42,7 +42,6 @@ public class Event implements Serializable {
         this.address = address;
         this.location = location;
         this.contact = contact;
-        this.rating = rating;
     }
 
     public int getId() {
@@ -107,14 +106,6 @@ public class Event implements Serializable {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     @Override
