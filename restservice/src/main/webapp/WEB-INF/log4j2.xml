@@ -36,6 +36,12 @@
             <AppenderRef ref="Fatal" level="fatal"/>
         </Root>
 
+        <Logger name="org.springframework.web" level="debug">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Fatal" level="fatal"/>
+        </Logger>
+
     </Loggers>
 
 </Configuration>
