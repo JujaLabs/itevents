@@ -7,7 +7,8 @@ import java.util.*;
 
 public class RatingServiceImpl implements RatingService {
 
-    private final int orderDescending = -1;
+    private final int ORDER_DESCENDING = -1;
+    private final int DAYS_FOR_FUTURE_EVENT = 7;
 
     @Override
     public Map<Event, Integer> chooseMostPopularEvents(int quantity) {
@@ -20,13 +21,13 @@ public class RatingServiceImpl implements RatingService {
 
         Map<Event, Integer> eventMap = new HashMap<>();
         for (Event filteredEvent : filteredEvents) {
-            futureEvent = eventService.getFutureEventById(7, filteredEvent.getId());
+            futureEvent = eventService.getFutureEventById(DAYS_FOR_FUTURE_EVENT, filteredEvent.getId());
             if (futureEvent != null){
                 countViewers = visitLogService.getCountViewByEventId(futureEvent.getId());
                 eventMap.put(futureEvent, countViewers);
             }
         }
-        eventMap = sortMapEvents( orderDescending, eventMap);
+        eventMap = sortMapEvents(ORDER_DESCENDING, eventMap);
         eventMap = trimToSizeMap(quantity, eventMap);
 
         return eventMap;
