@@ -40,8 +40,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFutureEvents(int days) {
-        return eventMapper.getFutureEvents(days);
+    public Event getFutureEventById(int days, int id) {
+        return eventMapper.getFutureEventById(days, id);
+    }
+
+    @Override
+    public List<Event> getFilteredEvents(Object params) {
+        return eventMapper.getFilteredEvents(params);
     }
 
     public void setEventMapper(EventMapper eventMapper) {

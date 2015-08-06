@@ -72,4 +72,12 @@ public interface EventMapper {
 
     @Update("UPDATE events SET rating=#{rating} WHERE id =#{id}")
     void increaseRatingEvent(Event event);
+
+    @ResultMap(value = "getEvent-int")
+    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE" +
+            "event_date >= (CURRENT_TIMESTAMP) AND event_date <= (CURRENT_TIMESTAMP + interval '#{days} days')" +
+            "AND id = #id")
+    Event getFutureEventById(int days, int id);
+
+    List<Event> getFilteredEvents(Object params);
 }

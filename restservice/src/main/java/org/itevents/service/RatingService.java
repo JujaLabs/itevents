@@ -2,9 +2,9 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 
-import java.util.List;
+import java.util.Map;
 
 public interface RatingService {
 
-   List<Event> chooseMostPopularEvents(int quantity);
+   Map<Event, Integer> chooseMostPopularEvents(int quantity);
 }

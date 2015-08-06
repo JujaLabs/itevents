@@ -17,4 +17,6 @@ public interface VisitLogService {
     List<VisitLog> getAllVisitLogs();
 
     VisitLog removeVisitLog(VisitLog visitLog);
+
+    public int getCountViewByEventId(int id);
 }
