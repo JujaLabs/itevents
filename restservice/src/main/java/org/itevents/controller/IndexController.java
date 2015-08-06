@@ -11,8 +11,6 @@ public class IndexController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
-		model.addAttribute("message1", "IT Events web application");
-		model.addAttribute("message2", "Sorry, we are under construction");
 		return "index";
 	}
 }
