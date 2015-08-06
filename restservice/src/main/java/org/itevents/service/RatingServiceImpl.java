@@ -7,6 +7,8 @@ import java.util.*;
 
 public class RatingServiceImpl implements RatingService {
 
+    private final int orderDescending = -1;
+
     @Override
     public Map<Event, Integer> chooseMostPopularEvents(int quantity) {
         EventService eventService = new EventServiceImpl();
@@ -15,6 +17,7 @@ public class RatingServiceImpl implements RatingService {
         List<Event> filteredEvents = eventService.getFilteredEvents(parameters);
         Event futureEvent = null;
         Integer countViewers = null;
+
         Map<Event, Integer> eventMap = new HashMap<>();
         for (Event filteredEvent : filteredEvents) {
             futureEvent = eventService.getFutureEventById(7, filteredEvent.getId());
@@ -23,8 +26,8 @@ public class RatingServiceImpl implements RatingService {
                 eventMap.put(futureEvent, countViewers);
             }
         }
-        eventMap = sortMapEvents( -1, eventMap);
-
+        eventMap = sortMapEvents( orderDescending, eventMap);
+        eventMap = trimToSizeMap(quantity, eventMap);
 
         return eventMap;
     }
@@ -49,5 +52,21 @@ public class RatingServiceImpl implements RatingService {
             resultMap.put(entry.getKey(), entry.getValue());
         }
         return resultMap;
+    }
+
+    private Map<Event, Integer> trimToSizeMap(int quantity, Map<Event, Integer> map){
+        if (map.size() <= quantity){
+            return map;
+        }
+        int count = 0;
+        Map<Event, Integer> returnedMap = new HashMap<>();
+        for (Map.Entry<Event, Integer> entry : map.entrySet()) {
+            returnedMap.put(entry.getKey(), entry.getValue());
+            count++;
+            if (count >= quantity){
+                break;
+            }
+        }
+        return returnedMap;
     }
 }
