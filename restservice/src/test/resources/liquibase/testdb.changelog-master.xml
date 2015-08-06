@@ -6,10 +6,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <include file="src/main/resources/liquibase/changeset-000-testdb-enable_postgis.xml"/>
-    <include file="src/main/resources/liquibase/changeset-001-testdb-add_table_event.xml"/>
-    <include file="src/main/resources/liquibase/changeset-002-testdb-create_table_roles.xml"/>
-    <include file="src/main/resources/liquibase/changeset-003-testdb-create_table_users.xml"/>
-    <include file="src/main/resources/liquibase/changeset-004-testdb-add_table_visit_log.xml"/>
+    <include file="src/test/resources/liquibase/changeset-000-testdb-enable_postgis.xml"/>
+    <include file="src/test/resources/liquibase/changeset-001-testdb-add_table_event.xml"/>
+    <include file="src/test/resources/liquibase/changeset-002-testdb-create_table_roles.xml"/>
+    <include file="src/test/resources/liquibase/changeset-003-testdb-create_table_users.xml"/>
+    <include file="src/test/resources/liquibase/changeset-004-testdb-add_table_visit_log.xml"/>
 
 </databaseChangeLog>

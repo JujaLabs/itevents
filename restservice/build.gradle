@@ -41,7 +41,7 @@ stopKey = "stop"
 Properties props = new Properties()
 props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 
-test.dependsOn liquibaseTestUpdate
+test.dependsOn "liquibaseTestUpdate"
 
 task liquibaseUpdate(type: JavaExec) {
     description 'Liquibase updates DB by all not used changesets'
