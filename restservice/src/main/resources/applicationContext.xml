@@ -6,6 +6,8 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <import resource="task-context.xml"/>
+
     <mybatis:scan base-package="org.itevents.mapper"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -43,24 +45,4 @@
         <property name="targetObject" ref="sendMailSubscribersTask" />
         <property name="targetMethod" value="sendMails" />
     </bean>
-
-    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="sendMailSubscribersJob" />
-        <property name="cronExpression" value="0/10 * * * * ?" />
-    </bean>
-
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="jobDetails">
-            <list>
-                <ref bean="sendMailSubscribersJob" />
-            </list>
-        </property>
-
-        <property name="triggers">
-            <list>
-                <ref bean="cronTrigger" />
-            </list>
-        </property>
-    </bean>
-
 </beans>

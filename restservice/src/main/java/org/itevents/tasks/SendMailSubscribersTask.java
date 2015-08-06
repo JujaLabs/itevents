@@ -6,6 +6,7 @@ import org.itevents.service.SendGridService;
 import org.itevents.service.UserEventService;
 import org.itevents.service.UserEventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class SendMailSubscribersTask {
     @Autowired
     private UserEventService userEventService;
 
+    @Scheduled(cron="0/10 * * * * *")
     public void sendMails(){
 
         Map<User, List<Event>> userEventSetMap = userEventService.getUserEventSetMap();
