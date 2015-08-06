@@ -23,6 +23,9 @@ import static org.junit.Assert.assertNull;
 
 public class VisitLogServiceTest {
 
+    private static final int ID_2 = 2;
+    private static final int EXPECTED_VIEWS_EVENT = 3;
+
     private static VisitLogService visitLogService;
     private static Event event1;
     private static User user1;
@@ -109,5 +112,12 @@ public class VisitLogServiceTest {
     @Test
     public void testRemoveVisitLogSuccessFail() {
         assertNull(visitLogService.removeVisitLog(testVisitLog));
+    }
+
+    @Test
+    public void testGetCountViewByEventId(){
+        int expectedViews = EXPECTED_VIEWS_EVENT;
+        int actualViews = visitLogService.getCountViewByEventId(ID_2);
+        assertEquals(expectedViews, actualViews);
     }
 }
