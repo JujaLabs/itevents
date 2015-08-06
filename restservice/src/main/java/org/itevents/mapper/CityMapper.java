@@ -6,8 +6,7 @@ import org.itevents.model.Location;
 
 public interface CityMapper {
     @Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "name", column = "name"),
+            @Result(property = "id", column = "id", id = true),
             @Result(property = "location", javaType = Location.class,
                     column = "id", one = @One(select = "org.itevents.mapper.LocationMapper.getCityLocation"))
     })

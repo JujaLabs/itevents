@@ -10,10 +10,9 @@ import java.util.List;
 public interface VisitLogMapper {
 
     @Results({
-            @Result(property = "id", column = "id"),
+            @Result(property = "id", column = "id", id = true),
             @Result(property = "event", javaType = Event.class, column = "event_id",
                     one = @One(select = "org.itevents.mapper.EventMapper.getEvent")),
-            @Result(property = "date", column = "date"),
             @Result(property = "user", javaType = User.class, column = "user_id",
                     one = @One(select = "org.itevents.mapper.UserMapper.getUser"))
     })
