@@ -28,7 +28,9 @@ public class Event implements Serializable {
     @XmlElement
     private String contact;
     @XmlElement
-    private int price;
+    private boolean free;
+    @XmlElement
+    private Integer price;
     @XmlElement
     private Currency currency;
     @XmlElement
@@ -38,7 +40,7 @@ public class Event implements Serializable {
     }
 
     public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
-                 Location location, String contact, int price, Currency currency, City city) {
+                 Location location, String contact, boolean free, Integer price, Currency currency, City city) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -47,6 +49,7 @@ public class Event implements Serializable {
         this.address = address;
         this.location = location;
         this.contact = contact;
+        this.free = free;
         this.price = price;
         this.currency = currency;
         this.city = city;
@@ -116,6 +119,14 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -148,11 +159,12 @@ public class Event implements Serializable {
         Event event = (Event) o;
 
         if (id != event.id) return false;
-        if (price != event.price) return false;
-        if (!title.equals(event.title)) return false;
-        if (!eventDate.equals(event.eventDate)) return false;
+        if (free != event.free) return false;
+        if (price != null ? !price.equals(event.price) : event.price != null) return false;
+        if (title != null ? !title.equals(event.title) : event.title != null) return false;
+        if (eventDate != null ? !eventDate.equals(event.eventDate) : event.eventDate != null) return false;
         if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
-        if (!regLink.equals(event.regLink)) return false;
+        if (regLink != null ? !regLink.equals(event.regLink) : event.regLink != null) return false;
         if (address != null ? !address.equals(event.address) : event.address != null) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
@@ -164,15 +176,16 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + title.hashCode();
-        result = 31 * result + eventDate.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (eventDate != null ? eventDate.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-        result = 31 * result + regLink.hashCode();
+        result = 31 * result + (regLink != null ? regLink.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + currency.hashCode();
+        result = 31 * result + (free ? 1 : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
     }
@@ -188,6 +201,7 @@ public class Event implements Serializable {
         sb.append(", address='").append(address).append('\'');
         sb.append(", location=").append(location);
         sb.append(", contact='").append(contact).append('\'');
+        sb.append(", free=").append(free);
         sb.append(", price=").append(price);
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);

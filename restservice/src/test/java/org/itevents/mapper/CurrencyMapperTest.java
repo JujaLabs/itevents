@@ -25,7 +25,7 @@ public class CurrencyMapperTest {
 
     @Test
     public void testGetCurrency1() throws Exception {
-        Currency expectedCurrency = new Currency("FREE");
+        Currency expectedCurrency = new Currency("USD");
         expectedCurrency.setId(ID_1);
         Currency returnedCurrency = currencyMapper.getCurrency(ID_1);
         assertEquals(expectedCurrency, returnedCurrency);

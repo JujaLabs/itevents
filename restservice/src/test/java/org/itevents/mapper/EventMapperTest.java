@@ -28,9 +28,6 @@ public class EventMapperTest {
     private EventMapper eventMapper;
 
     @Autowired
-    private CurrencyMapper currencyMapper;
-
-    @Autowired
     private CityMapper cityMapper;
 
     @Test
@@ -41,10 +38,9 @@ public class EventMapperTest {
         int eventMonth = 7 - 1;
         int eventDay = 10;
         Date createDate = null;
-        int eventPrice = 0;
         Event expectedEvent = new Event(ID_1, "Java", new GregorianCalendar(eventYear, eventMonth, eventDay).getTime(),
                 createDate, "http://www.java.com.ua", "Beresteyska", new Location(eventLatitude, eventLongitude),
-                "java@gmail.com", eventPrice, currencyMapper.getCurrency(ID_1), cityMapper.getCity(ID_1));
+                "java@gmail.com", true, null, null, cityMapper.getCity(ID_1));
         Event returnedEvent = eventMapper.getEvent(ID_1);
         assertEquals(expectedEvent, returnedEvent);
     }

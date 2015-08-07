@@ -4,15 +4,15 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="015" author="vaa25">
+    <changeSet id="011" author="vaa25">
         <sql>
-            CREATE TABLE currencies(
+            CREATE TABLE technology(
             id SERIAL PRIMARY KEY UNIQUE NOT NULL,
-            name VARCHAR(40)
+            name VARCHAR(40) NOT NULL
             );
         </sql>
         <rollback>
-            DROP TABLE currencies;
+            DROP TABLE technology;
         </rollback>
     </changeSet>
 </databaseChangeLog>

@@ -29,16 +29,16 @@ public interface EventMapper {
     @ResultMap("getEvent-int")
     List<Event> getAllEvents();
 
-    @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact, price, " +
+    @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact, free, price, " +
             "currency_id, city_id) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, " +
-            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{price}, #{currency.id}, +" +
+            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{free}, #{price}, #{currency.id}," +
             "#{city.id})")
     @Options(useGeneratedKeys = true)
     void addEvent(Event event);
 
     @Update("UPDATE events SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, " +
             "reg_link=#{regLink}, address=#{address}, point= ST_MakePoint(#{location.longitude},#{location.latitude}), " +
-            "contact=#{contact}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
+            "contact=#{contact}, free=#{free}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
     void updateEvent(Event event);
 
     @Delete("DELETE FROM events WHERE id =#{id}")
@@ -56,10 +56,10 @@ public interface EventMapper {
             "       </if>",
             "   </if>",
             "   <if test='payed != null'>",
-            "       AND price > 0",
+            "       AND free = NOT #{payed}",
             "   </if>",
             "   <if test='techTags!=null'>",
-            "       AND id IN (SELECT events_id FROM cross_events_technologies WHERE technologies_id IN",
+            "       AND id IN (SELECT event_id FROM event_technology WHERE technology_id IN",
             "       <foreach item='techTag' index='index' collection='techTags' open='(' separator=',' close=')'>",
             "           #{techTag}",
             "       </foreach>",

@@ -9,17 +9,17 @@ import org.itevents.model.Currency;
 public interface CurrencyMapper {
 
     @ResultType(Currency.class)
-    @Select("SELECT * FROM currencies WHERE id = #{id}")
+    @Select("SELECT * FROM currency WHERE id = #{id}")
     Currency getCurrency(int id);
 
-    @Insert("INSERT INTO currencies(name) VALUES(#{name})")
+    @Insert("INSERT INTO currency(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addCurrency(Currency currency);
 
-    @Update("UPDATE currencies SET name=#{name} WHERE id =#{id}")
+    @Update("UPDATE currency SET name=#{name} WHERE id =#{id}")
     void updateCurrency(Currency currency);
 
-    @Delete("DELETE FROM currencies WHERE id =#{id}")
+    @Delete("DELETE FROM currency WHERE id =#{id}")
     void removeCurrency(int id);
 
 }

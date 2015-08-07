@@ -9,17 +9,17 @@ import org.itevents.model.TechTag;
 public interface TechTagMapper {
 
     @ResultType(TechTag.class)
-    @Select("SELECT * FROM technologies WHERE id = #{id}")
+    @Select("SELECT * FROM technology WHERE id = #{id}")
     TechTag getTechTag(int id);
 
-    @Insert("INSERT INTO technologies(name) VALUES(#{name})")
+    @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addTechTag(TechTag techTag);
 
-    @Update("UPDATE technologies SET name=#{name} WHERE id =#{id}")
+    @Update("UPDATE technology SET name=#{name} WHERE id =#{id}")
     void updateTechTag(TechTag techTag);
 
-    @Delete("DELETE FROM technologies WHERE id =#{id}")
+    @Delete("DELETE FROM technology WHERE id =#{id}")
     void removeTechTag(int id);
 
 }
