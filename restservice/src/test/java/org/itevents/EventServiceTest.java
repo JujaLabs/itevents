@@ -18,7 +18,6 @@ public class EventServiceTest {
 
     private final static int ID_1 = 1;
     private final static int SIZE_7 = 7;
-    private final static int SIZE_8 = 8;
     private static EventService eventService;
     private static Event addingEvent;
     private static SimpleDateFormat formatter;
@@ -50,7 +49,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetAllEvents() throws ParseException {
-        int expectedSize = SIZE_8;
+        int expectedSize = SIZE_7;
         List<Event> returnedEvents = eventService.getAllEvents();
         Assert.assertEquals(expectedSize, returnedEvents.size());
     }
