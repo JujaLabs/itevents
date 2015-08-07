@@ -37,7 +37,7 @@ public class RatingServiceImpl implements RatingService {
     parameter order -   +1 return sorted map by descending
                         -1 return sorted map by ascending
     */
-    private Map<Event, Integer> sortMapEvents(int order, Map<Event, Integer> map){
+    public Map<Event, Integer> sortMapEvents(int order, Map<Event, Integer> map){
         final int orderInner = order;
         List<Map.Entry<Event, Integer>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<Event, Integer>>() {
@@ -55,18 +55,18 @@ public class RatingServiceImpl implements RatingService {
         return resultMap;
     }
 
-    private Map<Event, Integer> trimToSizeMap(int quantity, Map<Event, Integer> map){
-        if (map.size() <= quantity){
+    public Map<Event, Integer> trimToSizeMap(int quantityEvents, Map<Event, Integer> map){
+        if (map.size() <= quantityEvents){
             return map;
         }
         int count = 0;
         Map<Event, Integer> returnedMap = new HashMap<>();
         for (Map.Entry<Event, Integer> entry : map.entrySet()) {
-            returnedMap.put(entry.getKey(), entry.getValue());
-            count++;
-            if (count >= quantity){
+            if (count >= quantityEvents){
                 break;
             }
+            returnedMap.put(entry.getKey(), entry.getValue());
+            count++;
         }
         return returnedMap;
     }
