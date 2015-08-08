@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.mapper.VisitLogMapper;
+import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +17,33 @@ import java.util.List;
 public class VisitLogServiceImpl implements VisitLogService {
 
     @Autowired
-    private VisitLogMapper visitLogMapper;
+    private VisitLogDao visitLogDao;
 
     @Override
     public void addVisitLog(VisitLog visitLog) {
-        visitLogMapper.addVisitLog(visitLog);
+        visitLogDao.addVisitLog(visitLog);
     }
 
     @Override
     public List<VisitLog> getVisitLogsByEvent(Event event) {
-        return visitLogMapper.getVisitLogsByEvent(event);
+        return visitLogDao.getVisitLogsByEvent(event);
     }
 
     @Override
     public VisitLog getVisitLog(int id) {
-        return visitLogMapper.getVisitLog(id);
+        return visitLogDao.getVisitLog(id);
     }
 
     @Override
     public List<VisitLog> getAllVisitLogs() {
-        return visitLogMapper.getAllVisitLogs();
+        return visitLogDao.getAllVisitLogs();
     }
 
     @Override
     public VisitLog removeVisitLog(VisitLog visitLog) {
-        VisitLog deletingVisitLog = visitLogMapper.getVisitLog(visitLog.getId());
+        VisitLog deletingVisitLog = visitLogDao.getVisitLog(visitLog.getId());
         if (deletingVisitLog != null) {
-            visitLogMapper.removeVisitLog(visitLog);
+            visitLogDao.removeVisitLog(visitLog);
         }
         return deletingVisitLog;
     }

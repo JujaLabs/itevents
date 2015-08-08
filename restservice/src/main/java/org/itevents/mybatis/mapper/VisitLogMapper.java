@@ -1,20 +1,21 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 
 import java.util.List;
 
-public interface VisitLogMapper {
+public interface VisitLogMapper extends VisitLogDao {
 
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "event", javaType = Event.class, column = "event_id",
-                    one = @One(select = "org.itevents.mapper.EventMapper.getEvent")),
+                    one = @One(select = "org.itevents.mybatis.mapper.EventMapper.getEvent")),
             @Result(property = "user", javaType = User.class, column = "user_id",
-                    one = @One(select = "org.itevents.mapper.UserMapper.getUser"))
+                    one = @One(select = "org.itevents.mybatis.mapper.UserMapper.getUser"))
     })
     @Select("SELECT * FROM visit_log WHERE id = #{id}")
     VisitLog getVisitLog(int id);

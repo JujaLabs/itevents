@@ -1,4 +1,4 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.model.City;
@@ -8,7 +8,7 @@ public interface CityMapper {
     @Results(value = {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "location", javaType = Location.class,
-                    column = "id", one = @One(select = "org.itevents.mapper.LocationMapper.getCityLocation"))
+                    column = "id", one = @One(select = "org.itevents.mybatis.mapper.LocationMapper.getCityLocation"))
     })
     @Select("SELECT id, name FROM city WHERE id = #{id}")
     City getCity(int id);

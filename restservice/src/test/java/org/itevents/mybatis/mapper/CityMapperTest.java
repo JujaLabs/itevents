@@ -1,4 +1,4 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.itevents.model.City;
 import org.itevents.model.Location;

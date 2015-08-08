@@ -1,6 +1,7 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.EventDao;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
@@ -9,18 +10,18 @@ import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
-public interface EventMapper {
+public interface EventMapper extends EventDao {
     @Results(value = {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "eventDate", column = "event_date"),
             @Result(property = "createDate", column = "create_date"),
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "location", column = "id", javaType = Location.class,
-                    one = @One(select = "org.itevents.mapper.LocationMapper.selectLocation")),
+                    one = @One(select = "org.itevents.mybatis.mapper.LocationMapper.selectLocation")),
             @Result(property = "currency", column = "currency_id", javaType = Currency.class,
-                    one = @One(select = "org.itevents.mapper.CurrencyMapper.getCurrency")),
+                    one = @One(select = "org.itevents.mybatis.mapper.CurrencyMapper.getCurrency")),
             @Result(property = "city", column = "city_id", javaType = City.class,
-                    one = @One(select = "org.itevents.mapper.CityMapper.getCity"))
+                    one = @One(select = "org.itevents.mybatis.mapper.CityMapper.getCity"))
     })
     @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);

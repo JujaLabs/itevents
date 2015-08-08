@@ -1,4 +1,4 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;

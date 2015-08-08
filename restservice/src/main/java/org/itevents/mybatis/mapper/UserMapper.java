@@ -1,6 +1,7 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.UserDao;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 
@@ -9,12 +10,12 @@ import java.util.List;
 /**
  * Created by vaa25 on 17.07.2015.
  */
-public interface UserMapper {
+public interface UserMapper extends UserDao {
 
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "roles_id",
-                    one = @One(select = "org.itevents.mapper.RoleMapper.getRole"))
+                    one = @One(select = "org.itevents.mybatis.mapper.RoleMapper.getRole"))
     })
     @Select("SELECT * FROM users WHERE id = #{id}")
     User getUser(int id);
