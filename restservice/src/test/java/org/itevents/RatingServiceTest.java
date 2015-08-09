@@ -14,7 +14,7 @@ import java.util.*;
 
 public class RatingServiceTest {
 
-    private static final int EXPECTED_MAP_SIZE = 5;
+    private static final int EXPECTED_LIST_SIZE = 5;
     private static final int TRIM_SIZE = 5;
     private static final int DESCENDING_ORDER = -1;
 
@@ -48,15 +48,15 @@ public class RatingServiceTest {
 
     @Test
     public void testTrimToSizeMap(){
-        Map<Event, Integer> actualMap = ratingService.trimToSizeMap( TRIM_SIZE, mapForTest);
-        int actualSize = actualMap.size();
-        int expectedMapSize = EXPECTED_MAP_SIZE;
-        Assert.assertEquals(expectedMapSize, actualSize);
+        List<Event> actualList = ratingService.getListEventByRating(TRIM_SIZE, mapForTest);
+        int actualSize = actualList.size();
+        int expectedListSize = EXPECTED_LIST_SIZE;
+        Assert.assertEquals(expectedListSize, actualSize);
     }
 
     @Test
     public void testSortMapEvents() throws ParseException {
-        Map<Event, Integer> resultedMap = ratingService.sortMapEvents( DESCENDING_ORDER, mapForTest);
+        Map<Event, Integer> resultedMap = ratingService.sortEventsMap(DESCENDING_ORDER, mapForTest);
         List<Integer> listResultedValue = new ArrayList<>(resultedMap.values());
         Integer[] array = {8, 6, 5, 4, 3, 1};
         List<Integer> listExpectedValue = new ArrayList<>(Arrays.asList(array));

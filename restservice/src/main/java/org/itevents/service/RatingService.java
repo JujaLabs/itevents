@@ -1,10 +1,11 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
+import org.itevents.parameter.FilteredEventsParameter;
 
-import java.util.Map;
+import java.util.List;
 
 public interface RatingService {
 
-   Map<Event, Integer> chooseMostPopularEvents(int quantity);
+   List<Event> chooseMostPopularEventsForUser(int quantity, int user_id, FilteredEventsParameter parameters);
 }

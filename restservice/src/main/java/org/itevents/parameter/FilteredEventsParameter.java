@@ -1,8 +1,11 @@
 package org.itevents.parameter;
 
-/**
- * Created by Антон on 06.08.2015.
- */
-public class FilteredEventsParameter {
 
+public class FilteredEventsParameter {
+    private Integer cityId;
+    private Boolean payed;
+    private Double latitude;
+    private Double longitude;
+    private Integer radius;
+    private Integer[] techTags;
 }

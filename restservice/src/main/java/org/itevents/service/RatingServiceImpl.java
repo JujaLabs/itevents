@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -10,11 +11,14 @@ public class RatingServiceImpl implements RatingService {
     private static final int ORDER_DESCENDING = -1;
     private static final int DAYS_FOR_FUTURE_EVENT = 7;
 
+    @Autowired
+    VisitLogService visitLogService;
+
+    @Autowired
+    EventService eventService;
+
     @Override
-    public Map<Event, Integer> chooseMostPopularEvents(int quantity) {
-        EventService eventService = new EventServiceImpl();
-        VisitLogService visitLogService = new VisitLogServiceImpl();
-        FilteredEventsParameter parameters = new FilteredEventsParameter();
+    public List<Event> chooseMostPopularEventsForUser(int quantity, int user_id, FilteredEventsParameter parameters) {
         List<Event> filteredEvents = eventService.getFilteredEvents(parameters);
         Event futureEvent = null;
         Integer countViewers = null;
@@ -27,17 +31,17 @@ public class RatingServiceImpl implements RatingService {
                 eventMap.put(futureEvent, countViewers);
             }
         }
-        eventMap = sortMapEvents(ORDER_DESCENDING, eventMap);
-        eventMap = trimToSizeMap(quantity, eventMap);
+        eventMap = sortEventsMap(ORDER_DESCENDING, eventMap);
+        List <Event> eventList = getListEventByRating(quantity, eventMap);
 
-        return eventMap;
+        return eventList;
     }
 
     /*
     parameter order -   +1 return sorted map by descending
                         -1 return sorted map by ascending
     */
-    public Map<Event, Integer> sortMapEvents(int order, Map<Event, Integer> map){
+    public Map<Event, Integer> sortEventsMap(int order, Map<Event, Integer> map){
         final int orderInner = order;
         List<Map.Entry<Event, Integer>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<Event, Integer>>() {
@@ -55,19 +59,17 @@ public class RatingServiceImpl implements RatingService {
         return resultMap;
     }
 
-    public Map<Event, Integer> trimToSizeMap(int quantityEvents, Map<Event, Integer> map){
+    public List<Event> getListEventByRating(int quantityEvents, Map<Event, Integer> map){
         if (map.size() <= quantityEvents){
-            return map;
+            return new ArrayList<>(map.keySet());
         }
-        int count = 0;
-        Map<Event, Integer> returnedMap = new HashMap<>();
-        for (Map.Entry<Event, Integer> entry : map.entrySet()) {
-            if (count >= quantityEvents){
+        List<Event> returnedList = new ArrayList<>();
+        for (Event event : map.keySet()) {
+            if (returnedList.size() >= quantityEvents){
                 break;
             }
-            returnedMap.put(entry.getKey(), entry.getValue());
-            count++;
+            returnedList.add(event);
         }
-        return returnedMap;
+        return returnedList;
     }
 }
