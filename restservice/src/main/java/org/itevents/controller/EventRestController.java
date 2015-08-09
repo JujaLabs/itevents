@@ -49,7 +49,7 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-//    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=1&techTag=2
+    //    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=java&techTag=javascript
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
@@ -58,7 +58,7 @@ public class EventRestController {
                                          @RequestParam(required = false, value = "lat") Double latitude,
                                          @RequestParam(required = false, value = "lon") Double longitude,
                                          @RequestParam(required = false, value = "radius") Integer radius,
-                                         @RequestParam(required = false, value = "techTag") Integer[] techTagsId) {
+                                         @RequestParam(required = false, value = "techTag") String[] technologiesNames) {
 
         FilteredEventsParameter params = new FilteredEventsParameter();
 
@@ -68,9 +68,13 @@ public class EventRestController {
             latitude = null;
         }
 
-        if (cityId!=null)params.setCity(cityService.getCity(cityId));
+        if (cityId != null) {
+            params.setCity(cityService.getCity(cityId));
+        }
+        if (technologiesNames != null) {
+            params.setTechnologies(technologyService.getSeveralTechnologiesByName(technologiesNames));
+        }
         params.setFree(free);
-        if (techTagsId!=null)params.setTechnologies(technologyService.getSeveralTechTags(techTagsId));
         params.setLatitude(latitude);
         params.setLongitude(longitude);
         params.setRadius(radius);

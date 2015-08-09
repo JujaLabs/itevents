@@ -20,8 +20,8 @@ public interface TechnologyMapper extends TechnologyDao {
     List<Technology> getAllTechTags();
 
     @ResultType(Technology.class)
-    @Select("SELECT * FROM technology WHERE id IN #{ids}")
-    List<Technology> getSeveralTechTags(Integer[] ids);
+    @Select("SELECT * FROM technology WHERE name IN #{names}")
+    List<Technology> getSeveralTechTags(String[] names);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)

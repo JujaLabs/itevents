@@ -29,8 +29,8 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public List<Technology> getSeveralTechTags(Integer[] ids) {
-        return technologyDao.getSeveralTechTags(ids);
+    public List<Technology> getSeveralTechnologiesByName(String[] names) {
+        return technologyDao.getSeveralTechTags(names);
     }
 
     @Override
