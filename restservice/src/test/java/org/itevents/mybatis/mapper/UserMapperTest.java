@@ -1,4 +1,4 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Role;
 import org.itevents.model.User;
@@ -23,6 +23,8 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class UserMapperTest {
 
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
     private static UserMapper userMapper;
     private static RoleMapper roleMapper;
 
@@ -35,7 +37,7 @@ public class UserMapperTest {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         roleMapper = context.getBean("roleMapper", RoleMapper.class);
         userMapper = context.getBean("userMapper", UserMapper.class);
-        role1 = roleMapper.getRole(1);
+        role1 = roleMapper.getRole(ID_1);
         testUser = new User("testUser", "testUserPassword", role1);
     }
 
@@ -50,28 +52,24 @@ public class UserMapperTest {
     @Test
     public void testGetUser1() throws Exception {
         User expectedUser = new User("guest", "guest", role1);
-        expectedUser.setId(1);
-
-        User returnedUser = userMapper.getUser(1);
-
+        expectedUser.setId(ID_1);
+        User returnedUser = userMapper.getUser(ID_1);
         assertEquals(expectedUser, returnedUser);
     }
 
     @Test
     public void testGetUser0() throws Exception {
-        assertNull(userMapper.getUser(0));
+        User returnedUser = userMapper.getUser(ID_0);
+        assertNull(returnedUser);
     }
 
     @Test
     public void testAddUser() throws Exception {
         User expectedUser = testUser;
         userMapper.addUser(expectedUser);
-
         User returnedUser = userMapper.getUser(expectedUser.getId());
         assertEquals(expectedUser, returnedUser);
-
         userMapper.removeUser(expectedUser);
-
     }
 
     @Test
@@ -85,10 +83,8 @@ public class UserMapperTest {
     public void testRemoveUser() {
         userMapper.addUser(testUser);
         int expectedSize = userMapper.getAllUsers().size() - 1;
-
         userMapper.removeUser(testUser);
         int returnedSize = userMapper.getAllUsers().size();
-
         assertEquals(expectedSize, returnedSize);
     }
 }

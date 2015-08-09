@@ -1,7 +1,7 @@
 package org.itevents.controller;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.EventService;
 import org.itevents.service.EventServiceImpl;
 import org.springframework.beans.support.PagedListHolder;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,38 +28,14 @@ public class EventRestController {
         return new ResponseEntity<Event>(event, HttpStatus.OK);
     }
 
-    /**
-     * REST-method GET that returns list of all events at the location with pagination.
-     * If user send {@param page} < 0, the method returns events with {@param page} = 0 (the first page).
-     * If user send {@param page} > maximum of available pages with current sets of {@param itemsPerPage}
-     * and retrieved list of events, the method returns events with {@param page} equals to the last page number.
-     *
-     * @param page number of page of events' list
-     * @param itemsPerPage number of events placed on the page
-     * @param latitude latitude of the area center
-     * @param longitude longitude of the area center
-     * @param radius radius of the area
-     * @return list of events at the location
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getEventsAtLocation(@RequestParam(value = "page") int page,
-                                           @RequestParam(value = "itemsPerPage") int itemsPerPage,
-                                           @RequestParam(value = "lat") double latitude,
-                                           @RequestParam(value = "lon") double longitude,
-                                           @RequestParam(value = "radius") int radius) {
-        if (itemsPerPage <= 0 || radius < 0) {
-            return new ArrayList<>();
-        }
-        Location location = new Location(latitude, longitude);
-        List<Event> events = eventService.getEventsInRadius(location, radius);
-        if (events.isEmpty()) {
-            return events;
-        }
+
+    private List<Event> getPaginatedEvents(int page, int itemsPerPage, List<Event> events) {
+
         int pages = events.size()/itemsPerPage;
         if (events.size() % itemsPerPage != 0) {
             pages++;
         }
-        PagedListHolder<Event> paginatedEvents = new PagedListHolder<>(events);
+        PagedListHolder<Event> paginatedEvents = new PagedListHolder<Event>(events);
         paginatedEvents.setPageSize(itemsPerPage);
         if (page <= 0) {
             return paginatedEvents.getPageList();
@@ -71,5 +46,46 @@ public class EventRestController {
         }
         paginatedEvents.setPage(page);
         return paginatedEvents.getPageList();
+    }
+
+//    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=1&techTag=2
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
+                                         @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
+                                         @RequestParam(required = false, value = "cityId") Integer cityId,
+                                         @RequestParam(required = false, value = "payed") Boolean payed,
+                                         @RequestParam(required = false, value = "lat") Double latitude,
+                                         @RequestParam(required = false, value = "lon") Double longitude,
+                                         @RequestParam(required = false, value = "radius") Integer radius,
+                                         @RequestParam(required = false, value = "techTag") Integer[] techTags) {
+
+        FilteredEventsParameter params = new FilteredEventsParameter();
+
+        if (radius == null || latitude == null || longitude == null) {
+            radius = null;
+            longitude = null;
+            latitude = null;
+        }
+
+        params.setCityId(cityId);
+        params.setPayed(payed);
+        params.setTechTags(techTags);
+        params.setLatitude(latitude);
+        params.setLongitude(longitude);
+        params.setRadius(radius);
+        itemPerPage = getItemPerPage(itemPerPage);
+        List<Event> filteredEvents = eventService.getFilteredEvents(params);
+        if (page == null) {
+            page = 0;
+        }
+        return getPaginatedEvents(page, itemPerPage, filteredEvents);
+    }
+
+    //Если в дальнейшем у пользователя будут личные настройки, то данное значение будет браться оттуда
+    private int getItemPerPage(Integer itemPerPage) {
+        if (itemPerPage == null) {
+            itemPerPage = 10;
+        }
+        return itemPerPage;
     }
 }

@@ -1,4 +1,4 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Role;
 import org.junit.AfterClass;
@@ -22,6 +22,10 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class RoleMapperTest {
+
+    private final static int ID_0 = 0;
+    private final static int ID_1 = 1;
+
     @Autowired
     private static RoleMapper roleMapper;
     private static Role testRole;
@@ -43,14 +47,15 @@ public class RoleMapperTest {
     @Test
     public void testGetRole1() throws Exception {
         Role expectedRole = new Role("guest");
-        expectedRole.setId(1);
-        Role returnedRole = roleMapper.getRole(1);
+        expectedRole.setId(ID_1);
+        Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
 
     @Test
     public void testGetRole0() throws Exception {
-        assertNull(roleMapper.getRole(0));
+        Role returnedRole = roleMapper.getRole(ID_0);
+        assertNull(returnedRole);
     }
 
     @Test
