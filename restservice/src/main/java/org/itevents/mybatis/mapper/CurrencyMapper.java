@@ -1,16 +1,23 @@
 package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.CurrencyDao;
 import org.itevents.model.Currency;
+
+import java.util.List;
 
 /**
  * Created by vaa25 on 17.07.2015.
  */
-public interface CurrencyMapper {
+public interface CurrencyMapper extends CurrencyDao {
 
     @ResultType(Currency.class)
     @Select("SELECT * FROM currency WHERE id = #{id}")
     Currency getCurrency(int id);
+
+    @ResultType(Currency.class)
+    @Select("SELECT * FROM currency")
+    List<Currency> getAllCurrencies();
 
     @Insert("INSERT INTO currency(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
@@ -20,6 +27,6 @@ public interface CurrencyMapper {
     void updateCurrency(Currency currency);
 
     @Delete("DELETE FROM currency WHERE id =#{id}")
-    void removeCurrency(int id);
+    void removeCurrency(Currency currency);
 
 }

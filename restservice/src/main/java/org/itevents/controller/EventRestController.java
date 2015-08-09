@@ -2,8 +2,7 @@ package org.itevents.controller;
 
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.EventService;
-import org.itevents.service.EventServiceImpl;
+import org.itevents.service.*;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,6 +17,8 @@ public class EventRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
+    private CityService cityService = context.getBean("cityService", CityServiceImpl.class);
+    private TechnologyService technologyService =context.getBean("techTagService", TechnologyServiceImpl.class);
 
     @RequestMapping(value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
@@ -48,16 +49,16 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-//    radius=10&cityId=23&lat=50.434&lon=30.543&payed=true&techTag=1&techTag=2
+//    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=1&techTag=2
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
                                          @RequestParam(required = false, value = "cityId") Integer cityId,
-                                         @RequestParam(required = false, value = "payed") Boolean payed,
+                                         @RequestParam(required = false, value = "free") Boolean free,
                                          @RequestParam(required = false, value = "lat") Double latitude,
                                          @RequestParam(required = false, value = "lon") Double longitude,
                                          @RequestParam(required = false, value = "radius") Integer radius,
-                                         @RequestParam(required = false, value = "techTag") Integer[] techTags) {
+                                         @RequestParam(required = false, value = "techTag") Integer[] techTagsId) {
 
         FilteredEventsParameter params = new FilteredEventsParameter();
 
@@ -67,9 +68,9 @@ public class EventRestController {
             latitude = null;
         }
 
-        params.setCityId(cityId);
-        params.setPayed(payed);
-        params.setTechTags(techTags);
+        if (cityId!=null)params.setCity(cityService.getCity(cityId));
+        params.setFree(free);
+        if (techTagsId!=null)params.setTechnologies(technologyService.getSeveralTechTags(techTagsId));
         params.setLatitude(latitude);
         params.setLongitude(longitude);
         params.setRadius(radius);
@@ -81,7 +82,6 @@ public class EventRestController {
         return getPaginatedEvents(page, itemPerPage, filteredEvents);
     }
 
-    //Если в дальнейшем у пользователя будут личные настройки, то данное значение будет браться оттуда
     private int getItemPerPage(Integer itemPerPage) {
         if (itemPerPage == null) {
             itemPerPage = 10;

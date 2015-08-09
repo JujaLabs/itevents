@@ -1,12 +1,14 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@XmlRootElement(name = "TechTag")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "name"})
-public class TechTag implements Serializable {
+public class Technology implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,10 +17,10 @@ public class TechTag implements Serializable {
     @XmlElement
     private String name;
 
-    public TechTag() {
+    public Technology() {
     }
 
-    public TechTag(String name) {
+    public Technology(String name) {
         this.name = name;
     }
 
@@ -43,10 +45,10 @@ public class TechTag implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TechTag techTag = (TechTag) o;
+        Technology technology = (Technology) o;
 
-        if (id != techTag.id) return false;
-        return name.equals(techTag.name);
+        if (id != technology.id) return false;
+        return name.equals(technology.name);
 
     }
 
@@ -59,7 +61,7 @@ public class TechTag implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("TechTag{");
+        final StringBuilder sb = new StringBuilder("Technology{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append('}');

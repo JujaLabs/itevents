@@ -1,6 +1,6 @@
 package org.itevents.mybatis.mapper;
 
-import org.itevents.model.TechTag;
+import org.itevents.model.Technology;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +15,26 @@ import static org.junit.Assert.assertNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-public class TechTagMapperTest {
+public class TechnologyMapperTest {
 
     private final static int ID_0 = 0;
     private final static int ID_1 = 1;
 
     @Autowired
-    private TechTagMapper techTagMapper;
+    private TechnologyMapper techTagMapper;
 
     @Test
     public void testGetTechTag1() throws Exception {
-        TechTag expectedTechTag = new TechTag("Java");
-        expectedTechTag.setId(ID_1);
-        TechTag returnedTechTag = techTagMapper.getTechTag(ID_1);
-        assertEquals(expectedTechTag, returnedTechTag);
+        Technology expectedTechnology = new Technology("Java");
+        expectedTechnology.setId(ID_1);
+        Technology returnedTechnology = techTagMapper.getTechTag(ID_1);
+        assertEquals(expectedTechnology, returnedTechnology);
     }
 
 
     @Test
     public void testGetTechTag0() throws Exception {
-        TechTag returnedTechTag = techTagMapper.getTechTag(ID_0);
-        assertNull(returnedTechTag);
+        Technology returnedTechnology = techTagMapper.getTechTag(ID_0);
+        assertNull(returnedTechnology);
     }
 }

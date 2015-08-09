@@ -13,7 +13,7 @@
             FOREIGN KEY (event_id) REFERENCES events(id),
             FOREIGN KEY (technology_id) REFERENCES technology(id),
             PRIMARY KEY (event_id, technology_id),
-            unique (event_id, technology_id)
+            UNIQUE (event_id, technology_id)
             );
         </sql>
         <rollback>

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Alexander Vlasov
  */
-@Service
+@Service("visitLogService")
 @Transactional
 public class VisitLogServiceImpl implements VisitLogService {
 

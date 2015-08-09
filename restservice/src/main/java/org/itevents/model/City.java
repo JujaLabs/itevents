@@ -1,11 +1,13 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@XmlRootElement(name = "city")
+@XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "name", "location"})
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -15,14 +17,16 @@ public class City implements Serializable {
     @XmlElement
     private String name;
     @XmlElement
+    private String details;
+    @XmlElement
     private Location location;
 
     public City() {
     }
 
-    public City(int id, String name, Location location) {
-        this.id = id;
+    public City(String name, String details, Location location) {
         this.name = name;
+        this.details = details;
         this.location = location;
     }
 
@@ -42,6 +46,14 @@ public class City implements Serializable {
         this.name = name;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -59,6 +71,7 @@ public class City implements Serializable {
 
         if (id != city.id) return false;
         if (!name.equals(city.name)) return false;
+        if (details != null ? !details.equals(city.details) : city.details != null) return false;
         return location.equals(city.location);
 
     }
@@ -67,6 +80,7 @@ public class City implements Serializable {
     public int hashCode() {
         int result = id;
         result = 31 * result + name.hashCode();
+        result = 31 * result + (details != null ? details.hashCode() : 0);
         result = 31 * result + location.hashCode();
         return result;
     }
@@ -76,6 +90,7 @@ public class City implements Serializable {
         final StringBuilder sb = new StringBuilder("City{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
+        sb.append(", details='").append(details).append('\'');
         sb.append(", location=").append(location);
         sb.append('}');
         return sb.toString();

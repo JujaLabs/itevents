@@ -73,8 +73,8 @@ public class RoleMapperTest {
         roleMapper.addRole(expectedRole);
         int expectedSize = roleMapper.getAllRoles().size() - 1;
         roleMapper.removeRole(expectedRole);
-        int returnrdSize = roleMapper.getAllRoles().size();
-        assertEquals(expectedSize, returnrdSize);
+        int returnedSize = roleMapper.getAllRoles().size();
+        assertEquals(expectedSize, returnedSize);
     }
 
     @Test

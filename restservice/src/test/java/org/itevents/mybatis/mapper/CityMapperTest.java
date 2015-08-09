@@ -28,7 +28,8 @@ public class CityMapperTest {
     public void testGetCity1() throws Exception {
         double kyivLatitude = 50.4505;
         double kyivLongitude = 30.523;
-        City expectedCity = new City(ID_1, "Kyiv", new Location(kyivLatitude, kyivLongitude));
+        City expectedCity = new City("Kyiv", null, new Location(kyivLatitude, kyivLongitude));
+        expectedCity.setId(ID_1);
         City returnedCity = cityMapper.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }

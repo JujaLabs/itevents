@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("eventService")
 @Transactional
 public class EventServiceImpl implements EventService {
 

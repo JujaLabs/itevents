@@ -1,39 +1,36 @@
 package org.itevents.parameter;
 
+import org.itevents.model.City;
+import org.itevents.model.Technology;
+
+import java.util.List;
+
 /**
  * Created by vaa25 on 28.07.2015.
  */
 public class FilteredEventsParameter {
 
-    private Integer cityId;
-    private Boolean payed;
-    private Double latitude;
+    private City city;
+    private Boolean free;
     private Double longitude;
+    private Double latitude;
     private Integer radius;
-    private Integer[] techTags;
+    private List<Technology> technologies;
 
-    public Integer getCityId() {
-        return cityId;
+    public City getCity() {
+        return city;
     }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
+    public void setCity(City city) {
+        this.city = city;
     }
 
-    public Boolean getPayed() {
-        return payed;
+    public Boolean getFree() {
+        return free;
     }
 
-    public void setPayed(Boolean payed) {
-        this.payed = payed;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setFree(Boolean payed) {
+        this.free = payed;
     }
 
     public Double getLongitude() {
@@ -44,6 +41,14 @@ public class FilteredEventsParameter {
         this.longitude = longitude;
     }
 
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
     public Integer getRadius() {
         return radius;
     }
@@ -52,11 +57,11 @@ public class FilteredEventsParameter {
         this.radius = radius;
     }
 
-    public Integer[] getTechTags() {
-        return techTags;
+    public List<Technology> getTechnologies() {
+        return technologies;
     }
 
-    public void setTechTags(Integer[] techTags) {
-        this.techTags = techTags;
+    public void setTechnologies(List<Technology> technologies) {
+        this.technologies = technologies;
     }
 }

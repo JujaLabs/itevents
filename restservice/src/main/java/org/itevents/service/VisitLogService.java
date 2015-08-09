@@ -11,7 +11,6 @@ public interface VisitLogService {
 
     List<VisitLog> getVisitLogsByEvent(Event event);
 
-
     VisitLog getVisitLog(int id);
 
     List<VisitLog> getAllVisitLogs();
