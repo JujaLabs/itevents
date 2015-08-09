@@ -21,7 +21,7 @@ public interface CityMapper extends CityDao {
     List<City> getAllCities();
 
     @Insert("INSERT INTO city(name, details, point) " +
-            "VALUES(#{name}, #{details}, ST_MakePoint(#{location.longitude},#{location.latitude}")
+            "VALUES(#{name}, #{details}, ST_MakePoint(#{location.longitude},#{location.latitude}))")
     @Options(useGeneratedKeys = true)
     void addCity(City city);
 

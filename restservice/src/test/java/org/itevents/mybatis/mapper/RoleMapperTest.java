@@ -5,7 +5,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,7 +25,6 @@ public class RoleMapperTest {
     private final static int ID_0 = 0;
     private final static int ID_1 = 1;
 
-    @Autowired
     private static RoleMapper roleMapper;
     private static Role testRole;
 
