@@ -8,3 +8,6 @@ database.password=DB_PASSWORD
 
 # Liquibase
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+
+# SendGrid
+api_key=SEND_GRID_TOKEN

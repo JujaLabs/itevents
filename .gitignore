@@ -12,3 +12,6 @@ restservice/src/main/resources/local.properties
 .gradle/
 build/
 classes/
+
+#SendGrid
+restservice/src/main/resources/sendgrid.properties
