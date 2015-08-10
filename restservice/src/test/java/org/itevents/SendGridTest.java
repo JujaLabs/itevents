@@ -19,13 +19,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class SendGridTest {
 
     String userLogin ="example@it-events.org"; //Enter your e-mail, which will receive letter
-
+    String htmlLetter ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "+userLogin+"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
     @Autowired
     SendGridService sendGridService;
 
     @Test
     public void testSendMail(){
         User user = new User(userLogin, "testPassword", new Role("testRole"));
-        sendGridService.sendMail("It's a test text to "+user.getLogin(),user);
+        sendGridService.sendMail(htmlLetter,user);
     }
 }

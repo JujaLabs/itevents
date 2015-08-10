@@ -30,7 +30,8 @@ public class SendGridServiceImpl implements SendGridService {
         email.addTo(user.getLogin());
         email.setFrom("events@juja.com.ua");
         email.setSubject("IT Events of the week");
-        email.setText(message);
+        email.setHtml(message);
+//      email.setText(message);
 
         try {
             SendGrid.Response response = sendgrid.send(email);
