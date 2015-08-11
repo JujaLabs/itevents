@@ -22,7 +22,11 @@ dependencies {
     compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-test:4.1.6.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'org.mybatis:mybatis:3.3.0'
+    compile 'org.mybatis:mybatis-spring:1.2.3'
+    compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.0'
 }
@@ -30,6 +34,9 @@ dependencies {
 httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
+
+Properties props = new Properties()
+props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate'
 
@@ -47,7 +54,12 @@ task liquibaseUpdate(type: JavaExec) {
         args "--username=${propertyMap['username']}"
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
+    } else {
+        args "--username=${props.getProperty('database.username')}"
+        args "--password=${props.getProperty('database.password')}"
+        args "--url=${props.getProperty('database.url')}"
     }
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'update'
 }
 
@@ -57,6 +69,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
+    args "--username=${props.getProperty('database.username')}"
+    args "--password=${props.getProperty('database.password')}"
+    args "--url=${props.getProperty('database.url')}"
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
 }

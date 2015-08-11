@@ -1,19 +1,14 @@
 # Java class files
 *.class
- 
-# generated files
-bin/
-gen/
- 
+
+# Project properies
+restservice/src/main/resources/local.properties
+
 # Intellij project files
 *.iml
-*.ipr
-*.iws
 .idea/
- 
+
 #Gradle
-.gradletasknamecache
 .gradle/
 build/
-bin/
 classes/
