@@ -7,4 +7,10 @@
     <task:scheduler id="myScheduler" pool-size="10"/>
     <task:annotation-driven scheduler="myScheduler"/>
 
+    <bean id="schedulerMailing" class="org.itevents.scheduler.SchedulerMailing" />
+
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="schedulerMailing" method="startSending" cron="0/10 * * * * ?"/>
+    </task:scheduled-tasks>
+
 </beans>
