@@ -2,7 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.User;
 
-public interface SendGridService {
+public interface DeliveryMailsService {
 
     void sendMail(String message, User user);
 }
