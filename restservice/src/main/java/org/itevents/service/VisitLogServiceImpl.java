@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.mapper.VisitLogMapper;
+import org.itevents.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 import org.springframework.beans.factory.annotation.Autowired;

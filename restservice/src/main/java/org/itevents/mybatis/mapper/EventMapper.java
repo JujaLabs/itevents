@@ -1,12 +1,14 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 
 import java.util.List;
 
-public interface EventMapper {
+public interface EventMapper extends EventDao {
+
     @Results(value = {
             @Result(property = "id", column = "id"),
             @Result(property = "title", column = "title"),
@@ -16,7 +18,7 @@ public interface EventMapper {
             @Result(property = "address", column = "address"),
             @Result(property = "contact", column = "contact"),
             @Result(property = "location", column = "id", javaType = Location.class,
-                    one=@One(select="org.itevents.mapper.LocationMapper.selectLocation"))
+                    one=@One(select="org.itevents.mybatis.mapper.LocationMapper.selectLocation"))
     })
     @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE id = #{id}")
     Event getEvent(int id);
