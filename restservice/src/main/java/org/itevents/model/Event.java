@@ -1,12 +1,14 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
-@XmlRootElement(name = "event")
+@XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder={"id", "title", "eventDate", "createDate", "regLink", "address", "location", "contact", "price", "currency", "city"})
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +30,7 @@ public class Event implements Serializable {
     @XmlElement
     private String contact;
     @XmlElement
-    private boolean free;
+    private Boolean free;
     @XmlElement
     private Integer price;
     @XmlElement
@@ -40,7 +42,7 @@ public class Event implements Serializable {
     }
 
     public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
-                 Location location, String contact, boolean free, Integer price, Currency currency, City city) {
+                 Location location, String contact, Boolean free, Integer price, Currency currency, City city) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -119,19 +121,19 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
-    public boolean isFree() {
+    public Boolean isFree() {
         return free;
     }
 
-    public void setFree(boolean free) {
+    public void setFree(Boolean free) {
         this.free = free;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
