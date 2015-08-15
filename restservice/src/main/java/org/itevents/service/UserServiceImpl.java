@@ -2,17 +2,17 @@ package org.itevents.service;
 
 import org.itevents.dao.UserDao;
 import org.itevents.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     @Override

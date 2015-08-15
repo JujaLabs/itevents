@@ -2,10 +2,10 @@ package org.itevents.service;
 
 import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional
 public class TechnologyServiceImpl implements TechnologyService {
 
-    @Autowired
+    @Inject
     private TechnologyDao technologyDao;
 
     @Override

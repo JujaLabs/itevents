@@ -3,10 +3,11 @@ package org.itevents.mybatis.mapper;
 import org.itevents.model.Technology;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,7 +23,7 @@ public class TechnologyMapperTest {
     private final static int ID_0 = 0;
     private final static int ID_1 = 1;
 
-    @Autowired
+    @Inject
     private TechnologyMapper techTagMapper;
 
     @Test

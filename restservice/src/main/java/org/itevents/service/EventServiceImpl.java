@@ -3,17 +3,17 @@ package org.itevents.service;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Service("eventService")
 @Transactional
 public class EventServiceImpl implements EventService {
 
-    @Autowired
+    @Inject
     private EventDao eventDao;
 
     @Override

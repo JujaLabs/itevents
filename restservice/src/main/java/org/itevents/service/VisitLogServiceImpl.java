@@ -3,10 +3,10 @@ package org.itevents.service;
 import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
 @Transactional
 public class VisitLogServiceImpl implements VisitLogService {
 
-    @Autowired
+    @Inject
     private VisitLogDao visitLogDao;
 
     @Override

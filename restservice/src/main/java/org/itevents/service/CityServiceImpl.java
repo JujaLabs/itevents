@@ -2,17 +2,17 @@ package org.itevents.service;
 
 import org.itevents.dao.CityDao;
 import org.itevents.model.City;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Service("cityService")
 @Transactional
 public class CityServiceImpl implements CityService {
 
-    @Autowired
+    @Inject
     private CityDao cityDao;
 
     @Override
