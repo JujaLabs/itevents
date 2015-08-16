@@ -8,7 +8,7 @@
         <sql>
             CREATE TABLE currency(
             id SERIAL PRIMARY KEY UNIQUE NOT NULL,
-            name VARCHAR(40)
+            name VARCHAR(40) NOT NULL
             );
         </sql>
         <rollback>
