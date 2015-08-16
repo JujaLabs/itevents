@@ -1,15 +1,13 @@
 package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Role;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,25 +20,11 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class RoleMapperTest {
 
-    private final static int ID_0 = 0;
-    private final static int ID_1 = 1;
-
-    private static RoleMapper roleMapper;
-    private static Role testRole;
-
-
-    @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        roleMapper = context.getBean("roleMapper", RoleMapper.class);
-        testRole = new Role("testRole");
-    }
-
-    @AfterClass
-    public static void teardown() {
-        roleMapper = null;
-        testRole = null;
-    }
+    private final int ID_0 = 0;
+    private final int ID_1 = 1;
+    @Inject
+    private RoleMapper roleMapper;
+    private Role testRole = new Role("testRole");
 
     @Test
     public void testGetRole1() throws Exception {

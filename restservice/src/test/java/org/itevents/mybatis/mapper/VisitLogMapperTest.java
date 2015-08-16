@@ -3,16 +3,15 @@ package org.itevents.mybatis.mapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -28,43 +27,36 @@ import static org.junit.Assert.*;
 @Transactional
 public class VisitLogMapperTest {
 
-    private final static int ID_0 = 0;
-    private final static int ID_1 = 1;
-    private final static int ID_2 = 2;
-    private final static int ID_3 = 3;
-    private final static int ID_7 = 7;
+    private final int ID_0 = 0;
+    private final int ID_1 = 1;
+    private final int ID_2 = 2;
+    private final int ID_3 = 3;
+    private final int ID_7 = 7;
+    private final Date date1 = new GregorianCalendar(2016, 6, 20).getTime();
+    @Inject
+    private VisitLogMapper visitLogMapper;
+    @Inject
+    private EventMapper eventMapper;
 
-    private static VisitLogMapper visitLogMapper;
-    private static EventMapper eventMapper;
-    private static UserMapper userMapper;
+    @Inject
+    private UserMapper userMapper;
+    private Event event1;
+    private User user1;
+    private VisitLog testVisitLog;
 
-    private static Event event1;
-    private static User user1;
-    private static VisitLog testVisitLog;
-    private static Date date1;
-
-    @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        eventMapper = context.getBean("eventMapper", EventMapper.class);
-        userMapper = context.getBean("userMapper", UserMapper.class);
-        visitLogMapper = context.getBean("visitLogMapper", VisitLogMapper.class);
+    @Before
+    public void setup() {
         event1 = eventMapper.getEvent(ID_1);
         user1 = userMapper.getUser(ID_1);
         testVisitLog = new VisitLog(eventMapper.getEvent(ID_3), user1);
-        date1 = new GregorianCalendar(2016, 6, 20).getTime();
         testVisitLog.setDate(date1);
     }
 
-    @AfterClass
-    public static void teardown() {
-        userMapper = null;
-        eventMapper = null;
-        visitLogMapper = null;
-        event1 = null;
-        user1 = null;
+    @After
+    public void teardown() {
         testVisitLog = null;
-        date1 = null;
+        user1 = null;
+        event1 = null;
     }
 
     @Test

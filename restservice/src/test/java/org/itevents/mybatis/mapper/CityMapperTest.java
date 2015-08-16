@@ -21,8 +21,8 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class CityMapperTest {
 
-    private final static int ID_0 = 0;
-    private final static int ID_1 = 1;
+    private final int ID_0 = 0;
+    private final int ID_1 = 1;
 
     @Inject
     private CityMapper cityMapper;

@@ -3,16 +3,13 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,28 +21,18 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 public class EventServiceTest {
 
-    private final static int ID_1 = 1;
-    private final static int ID_2 = 2;
-    private final static int ID_3 = 3;
-    private final static int ID_4 = 4;
-    private final static int ID_6 = 6;
-    private final static int ID_7 = 7;
-    private static EventService eventService;
-    private static TechnologyService technologyService;
-    private static CityService cityService;
-
-    @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        eventService = context.getBean("eventService", EventServiceImpl.class);
-        technologyService = context.getBean("techTagService", TechnologyService.class);
-        cityService = context.getBean("cityService", CityServiceImpl.class);
-    }
-
-    @AfterClass
-    public static void teardown() {
-        eventService = null;
-    }
+    private final int ID_1 = 1;
+    private final int ID_2 = 2;
+    private final int ID_3 = 3;
+    private final int ID_4 = 4;
+    private final int ID_6 = 6;
+    private final int ID_7 = 7;
+    @Inject
+    private EventService eventService;
+    @Inject
+    private TechnologyService technologyService;
+    @Inject
+    private CityService cityService;
 
     //todo this test must do branch №6
     @Test

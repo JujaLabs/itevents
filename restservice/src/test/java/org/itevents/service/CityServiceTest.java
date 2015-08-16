@@ -2,16 +2,14 @@ package org.itevents.service;
 
 import org.itevents.model.City;
 import org.itevents.model.Location;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -21,24 +19,12 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class CityServiceTest {
 
-    private final static int ID_0 = 0;
-    private final static int ID_1 = 1;
-    private final static int SIZE_4 = 4;
-    private static CityService cityService;
-    private static City testCity;
-
-    @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        cityService = context.getBean("cityService", CityServiceImpl.class);
-        testCity = new City("TestCity", "Test city details", new Location(0.0, 0.0));
-    }
-
-    @AfterClass
-    public static void teardown() {
-        cityService = null;
-        testCity = null;
-    }
+    private final int ID_0 = 0;
+    private final int ID_1 = 1;
+    private final int SIZE_4 = 4;
+    private final City testCity = new City("TestCity", "Test city details", new Location(0.0, 0.0));
+    @Inject
+    private CityService cityService;
 
     @Test
     public void testGetCity1() throws Exception {
