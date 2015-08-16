@@ -1,5 +1,7 @@
 package org.itevents;
 
+import org.itevents.model.City;
+import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.MailService;
@@ -20,9 +22,9 @@ public class MailServiceTest {
         SimpleDateFormat formatter =  new SimpleDateFormat("dd.MM.yyyy");
         List<Event> events = new ArrayList<>();
         events.add(new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"));
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 0, new Currency("USD"), new City()));
         events.add(new Event(2, "Ruby", formatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
-                new Location(50.454605, 30.445495), "ruby@gmail.com"));
+                new Location(50.454605, 30.445495), "ruby@gmail.com", true, 0, new Currency("USD"), new City()));
 
         String expectedHTML = "<html>\n" +
                 "<body>\n" +
