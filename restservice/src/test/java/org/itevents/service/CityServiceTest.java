@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.City;
 import org.itevents.model.Location;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DuplicateKeyException;
@@ -22,9 +23,14 @@ public class CityServiceTest {
     private final int ID_0 = 0;
     private final int ID_1 = 1;
     private final int SIZE_4 = 4;
-    private final City testCity = new City("TestCity", "Test city details", new Location(0.0, 0.0));
+    private City testCity;
     @Inject
     private CityService cityService;
+
+    @Before
+    public void setup() {
+        testCity = new City("TestCity", "Test city details", new Location(0.0, 0.0));
+    }
 
     @Test
     public void testGetCity1() throws Exception {
