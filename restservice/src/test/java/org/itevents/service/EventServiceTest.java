@@ -46,7 +46,7 @@ public class EventServiceTest {
         int javaId = 1;
         int kyivId = 1;
         List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechTag(javaId));
+        testTechnologies.add(technologyService.getTechnology(javaId));
         List<Event> expectedEvents = new ArrayList<>();
         FilteredEventsParameter params = new FilteredEventsParameter();
         params.setTechnologies(testTechnologies);
@@ -78,9 +78,9 @@ public class EventServiceTest {
         expectedEvents.add(eventService.getEvent(ID_3));
         expectedEvents.add(eventService.getEvent(ID_7));
         List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechTag(phpId));
-        testTechnologies.add(technologyService.getTechTag(antId));
-        testTechnologies.add(technologyService.getTechTag(sqlId));
+        testTechnologies.add(technologyService.getTechnology(phpId));
+        testTechnologies.add(technologyService.getTechnology(antId));
+        testTechnologies.add(technologyService.getTechnology(sqlId));
         FilteredEventsParameter params = new FilteredEventsParameter();
         params.setTechnologies(testTechnologies);
         List<Event> returnedEvents = eventService.getFilteredEvents(params);

@@ -13,24 +13,29 @@ public interface TechnologyMapper extends TechnologyDao {
 
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology WHERE id = #{id}")
-    Technology getTechTag(int id);
+    Technology getTechnology(int id);
 
     @ResultType(Technology.class)
-    @Select("SELECT * FROM technology WHERE id = #{id}")
-    List<Technology> getAllTechTags();
+    @Select("SELECT * FROM technology")
+    List<Technology> getAllTechnologies();
 
     @ResultType(Technology.class)
-    @Select("SELECT * FROM technology WHERE name IN #{names}")
-    List<Technology> getSeveralTechTags(String[] names);
+    @Select({"<script>",
+            "SELECT * FROM technology WHERE name IN ",
+            "<foreach item='name' index='index' collection='names' open='(' separator=',' close=')'>",
+            "   #{name}",
+            "</foreach>",
+            "</script>"})
+    List<Technology> getSeveralTechnologies(@Param("names") String[] names);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
-    void addTechTag(Technology technology);
+    void addTechnology(Technology technology);
 
     @Update("UPDATE technology SET name=#{name} WHERE id =#{id}")
-    void updateTechTag(Technology technology);
+    void updateTechnology(Technology technology);
 
     @Delete("DELETE FROM technology WHERE id =#{id}")
-    void removeTechTag(Technology technology);
+    void removeTechnology(Technology technology);
 
 }

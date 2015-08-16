@@ -30,14 +30,14 @@ public class TechnologyMapperTest {
     public void testGetTechTag1() throws Exception {
         Technology expectedTechnology = new Technology("Java");
         expectedTechnology.setId(ID_1);
-        Technology returnedTechnology = techTagMapper.getTechTag(ID_1);
+        Technology returnedTechnology = techTagMapper.getTechnology(ID_1);
         assertEquals(expectedTechnology, returnedTechnology);
     }
 
 
     @Test
     public void testGetTechTag0() throws Exception {
-        Technology returnedTechnology = techTagMapper.getTechTag(ID_0);
+        Technology returnedTechnology = techTagMapper.getTechnology(ID_0);
         assertNull(returnedTechnology);
     }
 }

@@ -9,16 +9,16 @@ import java.util.List;
  */
 public interface TechnologyService {
 
-    Technology getTechTag(int id);
+    Technology getTechnology(int id);
 
-    List<Technology> getAllTechTags();
+    List<Technology> getAllTechnologies();
 
     List<Technology> getSeveralTechnologiesByName(String[] names);
 
-    void addTechTag(Technology technology);
+    void addTechnology(Technology technology);
 
-    void updateTechTag(Technology technology);
+    void updateTechnology(Technology technology);
 
-    Technology removeTechTag(Technology technology);
+    Technology removeTechnology(Technology technology);
 
 }

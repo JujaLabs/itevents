@@ -19,35 +19,35 @@ public class TechnologyServiceImpl implements TechnologyService {
     private TechnologyDao technologyDao;
 
     @Override
-    public Technology getTechTag(int id) {
-        return technologyDao.getTechTag(id);
+    public Technology getTechnology(int id) {
+        return technologyDao.getTechnology(id);
     }
 
     @Override
-    public List<Technology> getAllTechTags() {
-        return technologyDao.getAllTechTags();
+    public List<Technology> getAllTechnologies() {
+        return technologyDao.getAllTechnologies();
     }
 
     @Override
     public List<Technology> getSeveralTechnologiesByName(String[] names) {
-        return technologyDao.getSeveralTechTags(names);
+        return technologyDao.getSeveralTechnologies(names);
     }
 
     @Override
-    public void addTechTag(Technology technology) {
-        technologyDao.addTechTag(technology);
+    public void addTechnology(Technology technology) {
+        technologyDao.addTechnology(technology);
     }
 
     @Override
-    public void updateTechTag(Technology technology) {
-        technologyDao.updateTechTag(technology);
+    public void updateTechnology(Technology technology) {
+        technologyDao.updateTechnology(technology);
     }
 
     @Override
-    public Technology removeTechTag(Technology technology) {
-        Technology deletingTechnology = technologyDao.getTechTag(technology.getId());
+    public Technology removeTechnology(Technology technology) {
+        Technology deletingTechnology = technologyDao.getTechnology(technology.getId());
         if (deletingTechnology != null) {
-            technologyDao.removeTechTag(technology);
+            technologyDao.removeTechnology(technology);
         }
         return deletingTechnology;
     }

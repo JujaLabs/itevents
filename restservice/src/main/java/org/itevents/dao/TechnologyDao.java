@@ -9,16 +9,16 @@ import java.util.List;
  */
 public interface TechnologyDao {
 
-    Technology getTechTag(int id);
+    Technology getTechnology(int id);
 
-    List<Technology> getAllTechTags();
+    List<Technology> getAllTechnologies();
 
-    List<Technology> getSeveralTechTags(String[] names);
+    List<Technology> getSeveralTechnologies(String[] names);
 
-    void addTechTag(Technology technology);
+    void addTechnology(Technology technology);
 
-    void updateTechTag(Technology technology);
+    void updateTechnology(Technology technology);
 
-    void removeTechTag(Technology technology);
+    void removeTechnology(Technology technology);
 
 }
