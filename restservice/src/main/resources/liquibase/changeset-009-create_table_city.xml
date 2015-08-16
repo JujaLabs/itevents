@@ -4,16 +4,18 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="007" author="vaa25">
+    <changeSet id="009" author="vaa25">
         <sql>
-            INSERT INTO users(login, password, roles_id) VALUES
-            ('guest','guest',1),
-            ('anakin@email.com','alex',2),
-            ('kuchin@email.com','viktor',2),
-            ('vlasov@email.com','alex',3);
+            CREATE TABLE city(
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            details VARCHAR(120),
+            point GEOMETRY(POINT) UNIQUE NOT NULL,
+            UNIQUE (name, details)
+            );
         </sql>
         <rollback>
-            DELETE * FROM users;
+            DROP TABLE city;
         </rollback>
     </changeSet>
 </databaseChangeLog>
