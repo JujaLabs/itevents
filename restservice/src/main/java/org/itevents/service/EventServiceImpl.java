@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("eventService")
@@ -38,7 +39,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getFilteredEvents(FilteredEventsParameter params) {
-        return eventDao.getFilteredEvents(params);
+        List<Event> result;
+        try {
+            result = eventDao.getFilteredEvents(params);
+        } catch (Exception e) {
+            result = new ArrayList<>();
+        }
+        return result;
     }
 
 }

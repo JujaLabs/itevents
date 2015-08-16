@@ -74,15 +74,15 @@ public class EventRestController {
         if (technologiesNames != null) {
             params.setTechnologies(technologyService.getSeveralTechnologiesByName(technologiesNames));
         }
+        if (page == null) {
+            page = 0;
+        }
         params.setFree(free);
         params.setLatitude(latitude);
         params.setLongitude(longitude);
         params.setRadius(radius);
         itemPerPage = getItemPerPage(itemPerPage);
         List<Event> filteredEvents = eventService.getFilteredEvents(params);
-        if (page == null) {
-            page = 0;
-        }
         return getPaginatedEvents(page, itemPerPage, filteredEvents);
     }
 
