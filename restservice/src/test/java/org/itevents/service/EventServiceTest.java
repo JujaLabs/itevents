@@ -51,7 +51,6 @@ public class EventServiceTest {
                 new Location(50.454605, 30.445495), "ruby@gmail.com");
     }
 
-    //todo this test must do branch №6
     @Test
     public void testGetEventById() throws ParseException {
         Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_10);
