@@ -24,11 +24,11 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 public class EventServiceTest {
 
-    private static final int YEAR_2015 = 2015;
-    private static final int MONTH_07 = 7;
-    private static final int DAY_10 = 10;
-    private static final int DAY_20 = 20;
-    private static final int SIZE_7 = 7;
+    private final int YEAR_2015 = 2015;
+    private final int MONTH_07 = 7;
+    private final int DAY_10 = 10;
+    private final int DAY_20 = 20;
+    private final int SIZE_7 = 7;
     private final int ID_1 = 1;
     private final int ID_2 = 2;
     private final int ID_3 = 3;
