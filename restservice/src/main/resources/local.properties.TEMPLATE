@@ -8,3 +8,4 @@ database.password=DB_PASSWORD
 
 # Liquibase
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+context=liquibase.context
