@@ -39,7 +39,7 @@ stopKey = "stop"
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 
-defaultTasks 'liquibaseUpdate', 'liquibaseTest'
+defaultTasks 'liquibaseUpdate'
 
 task liquibaseUpdate(type: JavaExec) {
     description 'Liquibase updates DB by all not used changesets'

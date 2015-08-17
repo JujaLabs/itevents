@@ -1,8 +1,11 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,8 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,12 +24,18 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 public class EventServiceTest {
 
+    private static final int YEAR_2015 = 2015;
+    private static final int MONTH_07 = 7;
+    private static final int DAY_10 = 10;
+    private static final int DAY_20 = 20;
+    private static final int SIZE_7 = 7;
     private final int ID_1 = 1;
     private final int ID_2 = 2;
     private final int ID_3 = 3;
     private final int ID_4 = 4;
     private final int ID_6 = 6;
     private final int ID_7 = 7;
+    private Event addingEvent;
     @Inject
     private EventService eventService;
     @Inject
@@ -34,11 +43,47 @@ public class EventServiceTest {
     @Inject
     private CityService cityService;
 
+    @Before
+    public void setup(){
+        Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_20);
+        Date date = calendar.getTime();
+        addingEvent = new Event("Ruby", date, null, "http://www.ruby.com.ua", "Shulyavska",
+                new Location(50.454605, 30.445495), "ruby@gmail.com");
+    }
+
     //todo this test must do branch №6
     @Test
-    public void testGetEventById() {
+    public void testGetEventById() throws ParseException {
+        Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_10);
+        Date date = calendar.getTime();
+        Event expectedEvent = new Event(1, "Java", date, null, "http://www.java.com.ua",
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com");
         Event returnedEvent = eventService.getEvent(ID_1);
-        assertNotNull(returnedEvent);
+        Assert.assertEquals(expectedEvent, returnedEvent);
+    }
+
+    @Test
+    public void testGetAllEvents() throws ParseException {
+        int expectedSize = SIZE_7;
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(expectedSize, returnedEvents.size());
+    }
+
+    @Test
+    public void testRemoveEvent() throws ParseException {
+        Event expectedEvent = addingEvent;
+        eventService.addEvent(expectedEvent);
+        Event returnedEvent = eventService.removeEvent(expectedEvent);
+        expectedEvent.setId(returnedEvent.getId());
+        Assert.assertEquals(expectedEvent, returnedEvent);
+    }
+
+    @Test
+    public void testAddEvent() throws ParseException {
+        eventService.addEvent(addingEvent);
+        Event returnedEvent = eventService.getEvent(addingEvent.getId());
+        Assert.assertEquals(addingEvent, returnedEvent);
+        eventService.removeEvent(returnedEvent);
     }
 
     @Test

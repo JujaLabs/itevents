@@ -67,6 +67,17 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
+    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
+        this.id = id;
+        this.title = title;
+        this.eventDate = eventDate;
+        this.createDate = createDate;
+        this.regLink = regLink;
+        this.address = address;
+        this.location = location;
+        this.contact = contact;
+    }
+
     public int getId() {
         return id;
     }
