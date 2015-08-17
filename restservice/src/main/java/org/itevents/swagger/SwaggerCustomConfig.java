@@ -26,7 +26,15 @@ public class SwaggerCustomConfig {
     }
 
     private ApiInfo apiInfo() {
-        ApiInfo apiInfo = ApiInfo.DEFAULT;
+        ApiInfo apiInfo = new ApiInfo(
+                "ITEvents API",
+                "The project' RESTful API documentation",
+                "1.0",
+                "Terms of service",
+                "Contact Email",
+                "Licence Type",
+                "License URL"
+        );
         return apiInfo;
     }
 }
