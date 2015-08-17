@@ -1,16 +1,13 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Role;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,35 +19,25 @@ import static org.junit.Assert.assertNull;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class RoleMapperTest {
-    @Autowired
-    private static RoleMapper roleMapper;
-    private static Role testRole;
 
-
-    @BeforeClass
-    public static void setup() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        roleMapper = context.getBean("roleMapper", RoleMapper.class);
-        testRole = new Role("testRole");
-    }
-
-    @AfterClass
-    public static void teardown() {
-        roleMapper = null;
-        testRole = null;
-    }
+    private final int ID_0 = 0;
+    private final int ID_1 = 1;
+    @Inject
+    private RoleMapper roleMapper;
+    private Role testRole = new Role("testRole");
 
     @Test
     public void testGetRole1() throws Exception {
         Role expectedRole = new Role("guest");
-        expectedRole.setId(1);
-        Role returnedRole = roleMapper.getRole(1);
+        expectedRole.setId(ID_1);
+        Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
 
     @Test
     public void testGetRole0() throws Exception {
-        assertNull(roleMapper.getRole(0));
+        Role returnedRole = roleMapper.getRole(ID_0);
+        assertNull(returnedRole);
     }
 
     @Test
@@ -68,8 +55,8 @@ public class RoleMapperTest {
         roleMapper.addRole(expectedRole);
         int expectedSize = roleMapper.getAllRoles().size() - 1;
         roleMapper.removeRole(expectedRole);
-        int returnrdSize = roleMapper.getAllRoles().size();
-        assertEquals(expectedSize, returnrdSize);
+        int returnedSize = roleMapper.getAllRoles().size();
+        assertEquals(expectedSize, returnedSize);
     }
 
     @Test

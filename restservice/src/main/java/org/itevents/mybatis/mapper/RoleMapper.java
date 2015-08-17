@@ -1,6 +1,7 @@
-package org.itevents.mapper;
+package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.itevents.dao.RoleDao;
 import org.itevents.model.Role;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by vaa25 on 17.07.2015.
  */
-public interface RoleMapper {
+public interface RoleMapper extends RoleDao {
 
     @ResultType(Role.class)
     @Select("SELECT * FROM roles WHERE id = #{id}")
