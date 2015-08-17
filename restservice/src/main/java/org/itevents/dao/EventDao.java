@@ -2,6 +2,7 @@ package org.itevents.dao;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface EventDao {
 
     void updateEvent(Event event);
 
+    void removeEvent(int id);
+
+    List<Event> getFilteredEvents(FilteredEventsParameter params);
     void removeEvent(Event event);
 }

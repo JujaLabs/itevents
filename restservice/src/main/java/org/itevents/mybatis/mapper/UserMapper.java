@@ -13,9 +13,7 @@ import java.util.List;
 public interface UserMapper extends UserDao {
 
     @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "login", column = "login"),
-            @Result(property = "password", column = "password"),
+            @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "roles_id",
                     one = @One(select = "org.itevents.mybatis.mapper.RoleMapper.getRole"))
     })

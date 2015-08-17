@@ -11,7 +11,7 @@ public interface VisitLogDao {
 
     List<VisitLog> getAllVisitLogs();
 
-    List<VisitLog> getVisitsByEvent(Event event);
+    List<VisitLog> getVisitLogsByEvent(Event event);
 
     void addVisitLog(VisitLog visitLog);
 
