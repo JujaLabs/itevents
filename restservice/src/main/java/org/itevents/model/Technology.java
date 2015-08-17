@@ -6,9 +6,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@XmlRootElement()
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-public class City implements Serializable {
+public class Technology implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,18 +16,12 @@ public class City implements Serializable {
     private int id;
     @XmlElement
     private String name;
-    @XmlElement
-    private String details;
-    @XmlElement
-    private Location location;
 
-    public City() {
+    public Technology() {
     }
 
-    public City(String name, String details, Location location) {
+    public Technology(String name) {
         this.name = name;
-        this.details = details;
-        this.location = location;
     }
 
     public int getId() {
@@ -46,33 +40,15 @@ public class City implements Serializable {
         this.name = name;
     }
 
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        City city = (City) o;
+        Technology technology = (Technology) o;
 
-        if (id != city.id) return false;
-        if (!name.equals(city.name)) return false;
-        if (details != null ? !details.equals(city.details) : city.details != null) return false;
-        return location.equals(city.location);
+        if (id != technology.id) return false;
+        return name.equals(technology.name);
 
     }
 
@@ -80,18 +56,14 @@ public class City implements Serializable {
     public int hashCode() {
         int result = id;
         result = 31 * result + name.hashCode();
-        result = 31 * result + (details != null ? details.hashCode() : 0);
-        result = 31 * result + location.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("City{");
+        final StringBuilder sb = new StringBuilder("Technology{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", details='").append(details).append('\'');
-        sb.append(", location=").append(location);
         sb.append('}');
         return sb.toString();
     }

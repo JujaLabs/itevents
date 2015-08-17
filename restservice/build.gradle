@@ -27,6 +27,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-web:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
+    compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
     compile 'org.mybatis:mybatis:3.3.0'
@@ -41,7 +42,7 @@ stopPort = 9080
 stopKey = "stop"
 
 Properties props = new Properties()
-props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
+props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate'
 

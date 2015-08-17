@@ -1,12 +1,14 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
-@XmlRootElement(name = "currency")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "name"})
-
-public class Currency {
+public class Currency implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

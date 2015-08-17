@@ -1,18 +1,41 @@
 package org.itevents.service;
 
+import org.itevents.dao.UserDao;
 import org.itevents.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import javax.inject.Inject;
+import java.util.List;
+
+@Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    @Override
-    public User getUser(String login) {
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword("7110eda4d09e062aa5e4a390b0a572ac0d2c0220");
+    @Inject
+    private UserDao userDao;
 
-        return user;
+    @Override
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
+    @Override
+    public User getUser(int id) {
+        return userDao.getUser(id);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
+    public User removeUser(User user) {
+        User deletingUser = userDao.getUser(user.getId());
+        if (deletingUser != null) {
+            userDao.removeUser(user);
+        }
+        return deletingUser;
+    }
 }
