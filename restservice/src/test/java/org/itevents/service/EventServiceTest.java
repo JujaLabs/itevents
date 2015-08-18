@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNotNull;
 public class EventServiceTest {
 
     private final int YEAR_2015 = 2015;
-    private final int MONTH_07 = 7;
+    private final int MONTH_07 = 7 - 1;
     private final int DAY_10 = 10;
     private final int DAY_20 = 20;
     private final int SIZE_7 = 7;
