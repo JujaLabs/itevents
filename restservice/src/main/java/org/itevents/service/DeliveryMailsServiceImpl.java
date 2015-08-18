@@ -12,6 +12,8 @@ import java.util.Properties;
 public class DeliveryMailsServiceImpl implements DeliveryMailsService {
 
     private String api_key=getApi_key();
+    public static String fromMail = "events@juja.com.ua";
+    private String subjectMail = "IT Events of the week";
 
     public String getApi_key(){
         try {
@@ -30,8 +32,8 @@ public class DeliveryMailsServiceImpl implements DeliveryMailsService {
         SendGrid sendgrid = new SendGrid(api_key);
         SendGrid.Email email = new SendGrid.Email();
         email.addTo(user.getLogin());
-        email.setFrom("events@juja.com.ua");
-        email.setSubject("IT Events of the week");
+        email.setFrom(fromMail);
+        email.setSubject(subjectMail);
         email.setHtml(htmlLetter);
 
         try {
