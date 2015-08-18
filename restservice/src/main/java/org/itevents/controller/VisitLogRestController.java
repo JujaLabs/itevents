@@ -5,6 +5,7 @@ import org.itevents.mapper.UserMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
+import org.itevents.mybatis.mapper.UserMapper;
 import org.itevents.service.EventService;
 import org.itevents.service.VisitLogService;
 import org.springframework.context.ApplicationContext;
