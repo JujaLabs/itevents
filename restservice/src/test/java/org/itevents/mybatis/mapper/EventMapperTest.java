@@ -42,7 +42,7 @@ public class EventMapperTest {
         Date createDate = null;
         Event expectedEvent = new Event(ID_1, "Java", new GregorianCalendar(eventYear, eventMonth, eventDay).getTime(),
                 createDate, "http://www.java.com.ua", "Beresteyska", new Location(eventLatitude, eventLongitude),
-                "java@gmail.com");
+                "java@gmail.com", true, null, null, cityMapper.getCity(ID_1));
         Event returnedEvent = eventMapper.getEvent(ID_1);
         assertEquals(expectedEvent, returnedEvent);
     }

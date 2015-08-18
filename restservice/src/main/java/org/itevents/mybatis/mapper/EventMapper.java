@@ -26,7 +26,7 @@ public interface EventMapper extends EventDao {
             @Result(property = "city", column = "city_id", javaType = City.class,
                     one = @One(select = "org.itevents.mybatis.mapper.CityMapper.getCity"))
     })
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events WHERE id = #{id}")
+    @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
     @ResultMap("getEvent-int")
@@ -34,7 +34,7 @@ public interface EventMapper extends EventDao {
     List<Event> getAllEvents();
 
     @ResultMap(value = "getEvent-int")
-    @Select("SELECT id, title, event_date, create_date, reg_link, address, contact FROM events" +
+    @Select("SELECT * FROM events" +
             " WHERE ST_DWithin(point::geography," +
             " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
     List<Event> getEventsInRadius(@Param("location")Location location, @Param("radius")int radius);

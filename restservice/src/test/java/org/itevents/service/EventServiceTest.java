@@ -47,16 +47,20 @@ public class EventServiceTest {
     public void setup(){
         Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_20);
         Date date = calendar.getTime();
+        double eventLatitude = 50.454605;
+        double eventLongitude = 30.445495;
         addingEvent = new Event("Ruby", date, null, "http://www.ruby.com.ua", "Shulyavska",
-                new Location(50.454605, 30.445495), "ruby@gmail.com");
+                new Location(eventLatitude, eventLongitude), "ruby@gmail.com");
     }
 
     @Test
     public void testGetEventById() throws ParseException {
         Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_10);
         Date date = calendar.getTime();
-        Event expectedEvent = new Event(1, "Java", date, null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com");
+        double eventLatitude = 50.458585;
+        double eventLongitude = 30.742017;
+        Event expectedEvent = new Event(ID_1, "Java", date, null, "http://www.java.com.ua", "Beresteyska",
+                new Location(eventLatitude, eventLongitude), "java@gmail.com", true, null, null, cityService.getCity(ID_1));
         Event returnedEvent = eventService.getEvent(ID_1);
         Assert.assertEquals(expectedEvent, returnedEvent);
     }
