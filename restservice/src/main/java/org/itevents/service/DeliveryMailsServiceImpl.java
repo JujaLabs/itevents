@@ -11,27 +11,28 @@ import java.util.Properties;
  */
 public class DeliveryMailsServiceImpl implements DeliveryMailsService {
 
-    private String api_key;
-    private FileInputStream fis;
-    private Properties deliveryMailsProperty = new Properties();
+    private String api_key=getApi_key();
 
-    public void sendMail(String message, User user){
-
+    public String getApi_key(){
         try {
+            FileInputStream fis;
+            Properties sendGridProperty = new Properties();
             fis = new FileInputStream("./src/main/resources/local.properties");
-            deliveryMailsProperty.load(fis);
-            api_key = deliveryMailsProperty.getProperty("api_key");
+            sendGridProperty.load(fis);
+            return sendGridProperty.getProperty("api_key");
         } catch (IOException e) {
-            System.err.println("ERROR: File sendgrid.properties not found.");
+            System.err.println("ERROR: File local.properties not found.");
+            return null;
         }
+    }
+    public void sendMail(String htmlLetter, User user){
 
         SendGrid sendgrid = new SendGrid(api_key);
         SendGrid.Email email = new SendGrid.Email();
         email.addTo(user.getLogin());
         email.setFrom("events@juja.com.ua");
         email.setSubject("IT Events of the week");
-        email.setHtml(message);
-        //email.setText(message);
+        email.setHtml(htmlLetter);
 
         try {
             SendGrid.Response response = sendgrid.send(email);

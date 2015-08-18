@@ -4,5 +4,5 @@ import org.itevents.model.User;
 
 public interface DeliveryMailsService {
 
-    void sendMail(String message, User user);
+    void sendMail(String htmlLetter, User user);
 }

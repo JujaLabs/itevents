@@ -6,8 +6,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="task-context.xml"/>
-
     <mybatis:scan base-package="org.itevents.mapper"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -30,19 +28,9 @@
 
     <bean name="visitLogService" class="org.itevents.service.VisitLogServiceImpl"/>
 
-    <bean name="sendGridService" class="org.itevents.service.SendGridServiceImpl"/>
-
-    <bean id="UserEventService" class="org.itevents.service.UserEventServiceImpl"/>
+    <bean name="deliveryMailsService" class="org.itevents.service.DeliveryMailsServiceImpl"/>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="sendMailSubscribersTask" class="org.itevents.tasks.SendMailSubscribersTask" />
-
-    <bean id="sendMailSubscribersJob"
-            class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="sendMailSubscribersTask" />
-        <property name="targetMethod" value="sendMails" />
     </bean>
 </beans>
