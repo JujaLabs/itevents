@@ -4,6 +4,7 @@ import org.itevents.model.User;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -14,17 +15,23 @@ public class DeliveryMailsServiceImpl implements DeliveryMailsService {
     private String api_key=getApi_key();
     public static String fromMail = "events@juja.com.ua";
     private String subjectMail = "IT Events of the week";
+    InputStream input = null;
 
     public String getApi_key(){
         try {
-            FileInputStream fis;
             Properties sendGridProperty = new Properties();
-            fis = new FileInputStream("./src/main/resources/local.properties");
-            sendGridProperty.load(fis);
+            input = DeliveryMailsServiceImpl.class.getClassLoader().getResourceAsStream("local.properties");
+            sendGridProperty.load(input);
             return sendGridProperty.getProperty("api_key");
         } catch (IOException e) {
             System.err.println("ERROR: File local.properties not found.");
             return null;
+        }finally {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public void sendMail(String htmlLetter, User user){
