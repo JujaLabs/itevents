@@ -2,22 +2,15 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://www.springframework.org/schema/security"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+    <http>
 
-    <http auto-config="true">
-        <intercept-url pattern="/admin**" access="hasRole('USER')"/>
-        <logout logout-url="/logout" logout-success-url="/"/>
-
+        <intercept-url pattern="/admin" access="hasRole('admin')"/>
+        <intercept-url pattern="/private" access="hasAnyRole('subscriber', 'admin')"/>
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <form-login/>
+        <logout/>
     </http>
-
-    <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="m" password="1" authorities="ROLE_USER"/>
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
-
 </beans:beans>

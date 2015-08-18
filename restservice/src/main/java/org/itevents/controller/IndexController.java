@@ -18,10 +18,10 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "login")
-	public String adminPage(ModelMap model) {
+	public String loginPage(ModelMap model) {
 		model.addAttribute("title", "Spring Security Hello World");
 		model.addAttribute("message", "This is protected page!");
-		return "admin";
+		return "login";
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
@@ -30,5 +30,12 @@ public class IndexController {
 		model.addAttribute("message2", "Log in");
 		model.addAttribute("message3", "Log out");
 		return "index";
+	}
+
+	@RequestMapping(value = "admin")
+	public String adminPage(ModelMap model) {
+		model.addAttribute("title", "Spring Security Hello World");
+		model.addAttribute("message", "This is protected page!");
+		return "admin";
 	}
 }
