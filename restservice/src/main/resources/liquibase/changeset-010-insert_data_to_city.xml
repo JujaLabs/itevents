@@ -4,16 +4,16 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="007" author="vaa25">
+    <changeSet id="010" author="vaa25">
         <sql>
-            INSERT INTO users(login, password, roles_id) VALUES
-            ('guest','guest',1),
-            ('anakin@email.com','alex',2),
-            ('kuchin@email.com','viktor',2),
-            ('vlasov@email.com','alex',3);
+            INSERT INTO city (id, name, details, point) VALUES
+            (1, 'Kyiv', NULL, 'POINT(30.523000 50.450500)'),
+            (2, 'Odessa', NULL, 'POINT(30.73333 46.46667)'),
+            (3, 'Boyarka', NULL, 'POINT(30.28861 50.32917)'),
+            (4, 'Odessa', 'Odessa, Florida, USA', 'POINT(-82.568333 28.183333)');
         </sql>
         <rollback>
-            DELETE * FROM users;
+            DELETE * FROM city;
         </rollback>
     </changeSet>
 </databaseChangeLog>

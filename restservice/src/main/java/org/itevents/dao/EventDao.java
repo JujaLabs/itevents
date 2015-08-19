@@ -1,23 +1,21 @@
-package org.itevents.service;
+package org.itevents.dao;
 
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
-public interface EventService {
-
-    void addEvent(Event event);
+public interface EventDao {
 
     Event getEvent(int id);
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsInRadius(Location location, int radius);
+    void addEvent(Event event);
+
+    void updateEvent(Event event);
 
     void removeEvent(int id);
-
-    Event getFutureEventById(int days, int id);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 }
