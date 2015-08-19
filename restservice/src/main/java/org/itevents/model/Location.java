@@ -43,9 +43,10 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Event ");
+        final StringBuilder sb = new StringBuilder("Location{");
         sb.append("latitude=").append(latitude);
-        sb.append("longitude=").append(longitude);
+        sb.append(", longitude=").append(longitude);
+        sb.append('}');
         return sb.toString();
     }
 

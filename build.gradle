@@ -6,3 +6,5 @@ subprojects {
      mavenCentral()
   }
 }
+
+defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'

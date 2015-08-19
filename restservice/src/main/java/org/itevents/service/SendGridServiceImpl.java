@@ -1,6 +1,7 @@
 package org.itevents.service;
 import com.sendgrid.*;
 import org.itevents.model.User;
+import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.Properties;
 /**
  * Created by max on 29.07.15.
  */
+@Service
 public class SendGridServiceImpl implements SendGridService {
 
     private String api_key;

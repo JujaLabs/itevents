@@ -25,6 +25,7 @@ dependencies {
     compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
     compile 'org.springframework:spring-tx:4.1.7.RELEASE'
     compile 'org.springframework:spring-context-support:4.1.7.RELEASE'
+    compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
@@ -39,7 +40,7 @@ stopPort = 9080
 stopKey = "stop"
 
 Properties props = new Properties()
-props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
+props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate'
 
