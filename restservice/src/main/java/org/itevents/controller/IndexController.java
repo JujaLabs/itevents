@@ -1,41 +1,39 @@
 package org.itevents.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
 public class IndexController {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("message1", "IT Events web application");
-		model.addAttribute("message2", "Log in");
-		model.addAttribute("message3", "Log out");
-		return "index";
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String mainPage() {
+
+		return "content/user";
+
 	}
 
-	@RequestMapping(value = "login")
-	public String loginPage(ModelMap model) {
-		model.addAttribute("title", "Spring Security Hello World");
-		model.addAttribute("message", "This is protected page!");
-		return "login";
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String adminPage() {
+
+		return "content/admin";
+
 	}
 
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
-		model.addAttribute("message1", "IT Events web application");
-		model.addAttribute("message2", "Log in");
-		model.addAttribute("message3", "Log out");
-		return "index";
-	}
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error) {
 
-	@RequestMapping(value = "admin")
-	public String adminPage(ModelMap model) {
-		model.addAttribute("title", "Spring Security Hello World");
-		model.addAttribute("message", "This is protected page!");
-		return "admin";
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("error", "Invalid username or password!");
+		}
+
+		model.setViewName("login");
+
+		return model;
+
 	}
 }

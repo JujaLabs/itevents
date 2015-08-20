@@ -2,23 +2,26 @@ package org.itevents.controller;
 
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.*;
+import org.itevents.service.CityService;
+import org.itevents.service.EventService;
+import org.itevents.service.TechnologyService;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @RestController
 public class EventRestController {
 
-    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
-    private CityService cityService = context.getBean("cityService", CityServiceImpl.class);
-    private TechnologyService technologyService =context.getBean("techTagService", TechnologyServiceImpl.class);
+    @Inject
+    private EventService eventService;
+    @Inject
+    private CityService cityService;
+    @Inject
+    private TechnologyService technologyService;
 
     @RequestMapping(value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
@@ -26,7 +29,7 @@ public class EventRestController {
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Event>(event, HttpStatus.OK);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
 

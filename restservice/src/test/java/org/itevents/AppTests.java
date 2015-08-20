@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("classpath*:mvc-dispatcher-servlet.xml")
+@ContextConfiguration(locations = {"classpath*:applicationContext.xml", "classpath*:mvc-dispatcher-servlet.xml"})
 public class AppTests {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Inject
@@ -34,6 +34,6 @@ public class AppTests {
     public void simple() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("login"));
     }
 }
