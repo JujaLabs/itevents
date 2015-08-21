@@ -6,11 +6,9 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
     <http>
-
-
-        <intercept-url pattern="/events" access="permitAll()"/>
-        <intercept-url pattern="/user" access="isAuthenticated()"/>
-        <intercept-url pattern="/admin" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/user**" access="isAuthenticated()"/>
+        <intercept-url pattern="/admin**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/**" access="permitAll()"/>
 
         <form-login login-page='/login'
                     default-target-url="/user"
@@ -19,6 +17,8 @@
                     password-parameter="password_login"/>
 
         <logout logout-success-url="/login"/>
+
+        <access-denied-handler error-page="/login?denied=true"/>
     </http>
     <authentication-manager>
         <authentication-provider>

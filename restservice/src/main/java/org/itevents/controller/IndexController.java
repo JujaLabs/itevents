@@ -24,11 +24,15 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam(value = "error", required = false) String error) {
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+							  @RequestParam(value = "denied", required = false) String denied) {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", "Invalid username or password!");
+		}
+		if (denied != null) {
+			model.addObject("denied", "Access denied! Reenter with correct user!");
 		}
 
 		model.setViewName("login");
