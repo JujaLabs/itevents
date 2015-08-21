@@ -19,6 +19,7 @@
         <logout logout-success-url="/login"/>
 
         <access-denied-handler error-page="/login?denied=true"/>
+        <remember-me/>
     </http>
     <authentication-manager>
         <authentication-provider>

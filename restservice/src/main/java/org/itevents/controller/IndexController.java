@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+
 @Controller
 public class IndexController {
 
@@ -25,14 +27,15 @@ public class IndexController {
 
 	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-							  @RequestParam(value = "denied", required = false) String denied) {
+							  @RequestParam(value = "denied", required = false) String denied,
+							  Principal principal) {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", "Invalid username or password!");
 		}
 		if (denied != null) {
-			model.addObject("denied", "Access denied! Reenter with correct user!");
+			model.addObject("denied", "Access denied to " + principal.getName());
 		}
 
 		model.setViewName("login");
