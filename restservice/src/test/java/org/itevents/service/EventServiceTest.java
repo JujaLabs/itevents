@@ -14,27 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class EventServiceTest {
-
-    private final int YEAR_2015 = 2015;
-    private final int MONTH_07 = 7 - 1;
-    private final int DAY_10 = 10;
-    private final int DAY_20 = 20;
-    private final int SIZE_7 = 7;
-    private final int ID_1 = 1;
-    private final int ID_2 = 2;
-    private final int ID_3 = 3;
-    private final int ID_4 = 4;
-    private final int ID_6 = 6;
-    private final int ID_7 = 7;
     private Event addingEvent;
     @Inject
     private EventService eventService;
@@ -43,31 +32,25 @@ public class EventServiceTest {
     @Inject
     private CityService cityService;
 
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+
     @Before
-    public void setup(){
-        Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_20);
-        Date date = calendar.getTime();
-        double eventLatitude = 50.454605;
-        double eventLongitude = 30.445495;
-        addingEvent = new Event("Ruby", date, null, "http://www.ruby.com.ua", "Shulyavska",
-                new Location(eventLatitude, eventLongitude), "ruby@gmail.com");
+    public void setup() throws ParseException {
+        addingEvent = new Event("Ruby", dateFormatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
+                new Location(50.454605, 30.445495), "ruby@gmail.com");
     }
 
     @Test
     public void testGetEventById() throws ParseException {
-        Calendar calendar = new GregorianCalendar(YEAR_2015, MONTH_07, DAY_10);
-        Date date = calendar.getTime();
-        double eventLatitude = 50.458585;
-        double eventLongitude = 30.742017;
-        Event expectedEvent = new Event(ID_1, "Java", date, null, "http://www.java.com.ua", "Beresteyska",
-                new Location(eventLatitude, eventLongitude), "java@gmail.com", true, null, null, cityService.getCity(ID_1));
-        Event returnedEvent = eventService.getEvent(ID_1);
+        Event expectedEvent = new Event(1, "Java", dateFormatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
+                new Location(50.458585, 30.742017), "java@gmail.com", true, null, null, cityService.getCity(1));
+        Event returnedEvent = eventService.getEvent(1);
         Assert.assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
     public void testGetAllEvents() throws ParseException {
-        int expectedSize = SIZE_7;
+        int expectedSize = 7;
         List<Event> returnedEvents = eventService.getAllEvents();
         Assert.assertEquals(expectedSize, returnedEvents.size());
     }
@@ -93,26 +76,33 @@ public class EventServiceTest {
     public void testGetFilteredEventsKyivJava() {
         int javaId = 1;
         int kyivId = 1;
+
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(technologyService.getTechnology(javaId));
+
         List<Event> expectedEvents = new ArrayList<>();
-        FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setTechnologies(testTechnologies);
-        params.setCity(cityService.getCity(kyivId));
-        expectedEvents.add(eventService.getEvent(ID_1));
-        List<Event> returnedEvents = eventService.getFilteredEvents(params);
+        expectedEvents.add(eventService.getEvent(1));
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setTechnologies(testTechnologies);
+        eventsParameter.setCity(cityService.getCity(kyivId));
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void testGetFilteredEventsBoyarkaPayed() {
         int boyarkaId = 3;
+
         List<Event> expectedEvents = new ArrayList<>();
-        FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setCity(cityService.getCity(boyarkaId));
-        params.setFree(false);
-        expectedEvents.add(eventService.getEvent(ID_6));
-        List<Event> returnedEvents = eventService.getFilteredEvents(params);
+        expectedEvents.add(eventService.getEvent(6));
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setCity(cityService.getCity(boyarkaId));
+        eventsParameter.setFree(false);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -121,17 +111,21 @@ public class EventServiceTest {
         int phpId = 3;
         int antId = 7;
         int sqlId = 10;
+
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(ID_4));
-        expectedEvents.add(eventService.getEvent(ID_3));
-        expectedEvents.add(eventService.getEvent(ID_7));
+        expectedEvents.add(eventService.getEvent(4));
+        expectedEvents.add(eventService.getEvent(3));
+        expectedEvents.add(eventService.getEvent(7));
+
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(technologyService.getTechnology(phpId));
         testTechnologies.add(technologyService.getTechnology(antId));
         testTechnologies.add(technologyService.getTechnology(sqlId));
-        FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setTechnologies(testTechnologies);
-        List<Event> returnedEvents = eventService.getFilteredEvents(params);
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setTechnologies(testTechnologies);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -140,14 +134,17 @@ public class EventServiceTest {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
+
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(ID_2));
-        expectedEvents.add(eventService.getEvent(ID_3));
-        FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setLatitude(testLatitude);
-        params.setLongitude(testLongitude);
-        params.setRadius(testRadius);
-        List<Event> returnedEvents = eventService.getFilteredEvents(params);
+        expectedEvents.add(eventService.getEvent(2));
+        expectedEvents.add(eventService.getEvent(3));
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setLatitude(testLatitude);
+        eventsParameter.setLongitude(testLongitude);
+        eventsParameter.setRadius(testRadius);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 }
