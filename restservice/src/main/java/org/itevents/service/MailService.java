@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import java.io.*;
 import java.text.ParseException;
@@ -25,52 +26,45 @@ import java.util.List;
 
 public class MailService {
 
-    public String buildHtmlFromEventList(List<Event> events) throws ParseException, JAXBException {
+    public String buildHtmlFromEventList(List<Event> events) throws ParseException, JAXBException, IOException, TransformerException {
+        String  html = buildHtmlFromXml(buildXmlFromEventsList(events));
+        return html;
+    }
 
+    private String buildXmlFromEventsList(List<Event> events) throws JAXBException {
         EventsList<Event> eventsList = new EventsList<>(events);
         JAXBContext jaxbContext = JAXBContext.newInstance(EventsList.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         StringWriter stringWriter = new StringWriter();
-        marshaller.marshal(eventsList, stringWriter); // todo fixme
 
-        String xmlString = stringWriter.toString();
+        marshaller.marshal(eventsList, stringWriter);
 
-        /***************************************/
+        return stringWriter.toString();
+    }
+
+    private String buildHtmlFromXml(String xml) throws IOException, TransformerException {
         String htmlString = "";
         StringWriter writer = new StringWriter();
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         ClassLoader classLoader = getClass().getClassLoader();
         File xslFile = null;
         Resource resource = context.getResource("mail.xsl");
-//        try {
-//            xslFile = ResourceUtils.getFile("classpath:mail.xsl");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        TransformerFactory tFactory = TransformerFactory.newInstance();
 
-        try {
-
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-
-            Transformer transformer =
+        Transformer transformer =
                     tFactory.newTransformer
                             (new javax.xml.transform.stream.StreamSource
                                     (resource.getFile())); // todo fixme filepath
 
-            transformer.transform
-                    (new javax.xml.transform.stream.StreamSource
-                                    (new StringReader(xmlString)),
-                            new javax.xml.transform.stream.StreamResult
-                                    (writer));
-        }
-        catch (Exception e) {
-            e.printStackTrace( ); // todo fixme
-        }
-        htmlString = writer.toString();
+        transformer.transform
+                (new javax.xml.transform.stream.StreamSource
+                                (new StringReader(xml)),
+                        new javax.xml.transform.stream.StreamResult
+                                (writer));
 
-        return htmlString;// todo fixme
+        return writer.toString();
     }
 
     @XmlRootElement(name="events")

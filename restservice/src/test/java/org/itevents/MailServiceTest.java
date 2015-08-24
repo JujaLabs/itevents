@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MailServiceTest {
     @Test
-    public void testGetEventById() throws JAXBException, ParseException {
+    public void testGetEventById() throws JAXBException, ParseException, IOException, TransformerException {
         SimpleDateFormat formatter =  new SimpleDateFormat("dd.MM.yyyy");
         List<Event> events = new ArrayList<>();
         events.add(new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua",
