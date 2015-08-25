@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +34,17 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void removeEvent(int id) {
-        eventDao.removeEvent(id);
+    public List<Event> getEventsInRadius(Location location, int radius) {
+        return eventDao.getEventsInRadius(location, radius);
+    }
+
+    @Override
+    public Event removeEvent(Event event) {
+        Event deletingEvent = eventDao.getEvent(event.getId());
+        if (deletingEvent != null) {
+            eventDao.removeEvent(event);
+        }
+        return deletingEvent;
     }
 
     @Override

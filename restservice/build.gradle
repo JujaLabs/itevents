@@ -67,6 +67,30 @@ task liquibaseUpdate(type: JavaExec) {
     args 'update'
 }
 
+task liquibaseTest(type: JavaExec) {
+    description 'Liquibase updates DB by all not used changesets'
+    args "--defaultsFile=./local.properties"
+    group = 'Liquibase'
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    if (
+    project.hasProperty("username") &&
+            project.hasProperty("password") &&
+            project.hasProperty("url")
+    ){
+        Map<String,?> propertyMap = project.getProperties()
+        args "--username=${propertyMap['username']}"
+        args "--password=${propertyMap['password']}"
+        args "--url=${propertyMap['url']}"
+    } else {
+        args "--username=${props.getProperty('databaseTest.username')}"
+        args "--password=${props.getProperty('databaseTest.password')}"
+        args "--url=${props.getProperty('databaseTest.url')}"
+    }
+    args "--changeLogFile=${props.getProperty('changeLogFileTest')}"
+    args 'update'
+}
+
 
 task liquibaseRollback(type: JavaExec) {
     description 'Liquibase rollbacks DB by specified number of changesets'
