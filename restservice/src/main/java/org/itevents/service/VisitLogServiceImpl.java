@@ -47,4 +47,9 @@ public class VisitLogServiceImpl implements VisitLogService {
         }
         return deletingVisitLog;
     }
+
+    @Override
+    public int getCountViewByEventId(int id) {
+        return visitLogDao.getCountViewByEventId(id);
+    }
 }

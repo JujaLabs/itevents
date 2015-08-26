@@ -19,9 +19,6 @@ public interface EventService {
     Event removeEvent(Event event);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
-    void removeEvent(int id);
-
-    public List<Event> getFilteredEvents(Object params);
 
     Event getFutureEventById(int days, int id);
 }

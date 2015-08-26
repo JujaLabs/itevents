@@ -38,19 +38,10 @@ public class EventServiceImpl implements EventService {
         return eventDao.getEventsInRadius(location, radius);
     }
 
-    @Override
-    public void removeEvent(int id) {
-        eventMapper.removeEvent(id);
-    }
 
     @Override
     public Event getFutureEventById(int days, int id) {
-        return eventMapper.getFutureEventById(id);
-    }
-
-    @Override
-    public List<Event> getFilteredEvents(Object params) {
-        return eventMapper.getFilteredEvents(params);
+        return eventDao.getFutureEventById(id);
     }
     
     public Event removeEvent(Event event) {

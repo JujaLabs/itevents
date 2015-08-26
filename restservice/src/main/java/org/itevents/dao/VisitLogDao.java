@@ -17,4 +17,5 @@ public interface VisitLogDao {
 
     void removeVisitLog(VisitLog visitLog);
 
+    int getCountViewByEventId(int id);
 }

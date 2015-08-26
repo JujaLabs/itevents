@@ -21,4 +21,6 @@ public interface EventDao {
     List<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
+
+    Event getFutureEventById(int id);
 }
