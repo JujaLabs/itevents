@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public interface EventService {
 
     List<Event> getEventsInRadius(Location location, int radius);
 
+    Event removeEvent(Event event);
+
+    List<Event> getFilteredEvents(FilteredEventsParameter params);
     void removeEvent(int id);
 
     public List<Event> getFilteredEvents(Object params);

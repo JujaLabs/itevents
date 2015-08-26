@@ -1,56 +1,50 @@
 package org.itevents.service;
 
-import org.itevents.mapper.VisitLogMapper;
+import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
  * @author Alexander Vlasov
  */
-
+@Service("visitLogService")
 @Transactional
-@Service
 public class VisitLogServiceImpl implements VisitLogService {
 
-    @Autowired
-    private VisitLogMapper visitLogMapper;
+    @Inject
+    private VisitLogDao visitLogDao;
 
     @Override
     public void addVisitLog(VisitLog visitLog) {
-        visitLogMapper.addVisitLog(visitLog);
+        visitLogDao.addVisitLog(visitLog);
     }
 
     @Override
-    public List<VisitLog> getVisitsByEvent(Event event) {
-        return visitLogMapper.getVisitsByEvent(event);
+    public List<VisitLog> getVisitLogsByEvent(Event event) {
+        return visitLogDao.getVisitLogsByEvent(event);
     }
 
     @Override
     public VisitLog getVisitLog(int id) {
-        return visitLogMapper.getVisitLog(id);
+        return visitLogDao.getVisitLog(id);
     }
 
     @Override
     public List<VisitLog> getAllVisitLogs() {
-        return visitLogMapper.getAllVisitLogs();
+        return visitLogDao.getAllVisitLogs();
     }
 
     @Override
     public VisitLog removeVisitLog(VisitLog visitLog) {
-        VisitLog deletingVisitLog = visitLogMapper.getVisitLog(visitLog.getId());
+        VisitLog deletingVisitLog = visitLogDao.getVisitLog(visitLog.getId());
         if (deletingVisitLog != null) {
-            visitLogMapper.removeVisitLog(visitLog);
+            visitLogDao.removeVisitLog(visitLog);
         }
         return deletingVisitLog;
-    }
-
-    @Override
-    public int getCountViewByEventId(int id) {
-        return visitLogMapper.getCountViewByEventId(id);
     }
 }
