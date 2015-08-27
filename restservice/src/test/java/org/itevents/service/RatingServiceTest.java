@@ -43,9 +43,9 @@ public class RatingServiceTest {
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 3);
         mapForTest.put(new Event(11, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 5);
-        mapForTest.put(new Event(12, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        mapForTest.put(new Event(12, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 8);
-        mapForTest.put(new Event(13, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        mapForTest.put(new Event(13, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 6);
     }
 
