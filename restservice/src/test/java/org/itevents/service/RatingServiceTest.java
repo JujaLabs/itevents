@@ -28,17 +28,17 @@ public class RatingServiceTest {
         formatter = new SimpleDateFormat("dd.MM.yyyy");
         ratingService = new RatingServiceImpl();
         mapForTest.put(new Event(8, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 1);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 1);
         mapForTest.put(new Event(9, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 4);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 4);
         mapForTest.put(new Event(10, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 3);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 3);
         mapForTest.put(new Event(11, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 5);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 5);
         mapForTest.put(new Event(12, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 8);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 8);
         mapForTest.put(new Event(13, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
-                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 20, null, null), 6);
+                "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 6);
     }
 
     @AfterClass
