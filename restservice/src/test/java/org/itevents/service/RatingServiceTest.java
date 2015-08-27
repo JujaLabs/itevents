@@ -3,37 +3,45 @@ package org.itevents.service;
 import org.itevents.model.Location;
 import org.junit.Assert;
 import org.itevents.model.Event;
-import org.itevents.service.RatingServiceImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
 public class RatingServiceTest {
 
     private static final int EXPECTED_LIST_SIZE = 5;
     private static final int TRIM_SIZE = 5;
     private static final int DESCENDING_ORDER = -1;
 
-    private static Map<Event, Integer> mapForTest;
-    private static RatingServiceImpl ratingService;
+    static Map<Event, Integer> mapForTest;
     private static SimpleDateFormat formatter;
+
+    private static RatingServiceImpl ratingService;
+
 
     @BeforeClass
     public static void setup() throws ParseException {
         mapForTest = new HashMap<>();
-        formatter = new SimpleDateFormat("dd.MM.yyyy");
         ratingService = new RatingServiceImpl();
-        mapForTest.put(new Event(8, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = formatter.parse("10.08.2015");
+        mapForTest.put(new Event(8, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 1);
-        mapForTest.put(new Event(9, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        mapForTest.put(new Event(9, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 4);
-        mapForTest.put(new Event(10, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        mapForTest.put(new Event(10, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 3);
-        mapForTest.put(new Event(11, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
+        mapForTest.put(new Event(11, "Java", date, null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 5);
         mapForTest.put(new Event(12, "Java", formatter.parse("10.08.2015"), null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com"), 8);
