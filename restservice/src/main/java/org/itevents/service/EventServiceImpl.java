@@ -43,7 +43,7 @@ public class EventServiceImpl implements EventService {
     public Event getFutureEventById(int days, int id) {
         return eventDao.getFutureEventById(id);
     }
-    
+
     public Event removeEvent(Event event) {
         Event deletingEvent = eventDao.getEvent(event.getId());
         if (deletingEvent != null) {
