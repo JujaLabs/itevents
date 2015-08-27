@@ -2,19 +2,21 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.*;
 
+@Service("ratingService")
 public class RatingServiceImpl implements RatingService {
 
     private static final int ORDER_DESCENDING = -1;
     private static final int DAYS_FOR_FUTURE_EVENT = 7;
 
-    @Autowired
+    @Inject
     VisitLogService visitLogService;
 
-    @Autowired
+    @Inject
     EventService eventService;
 
     @Override
