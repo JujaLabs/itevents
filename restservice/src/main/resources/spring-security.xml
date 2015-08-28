@@ -5,29 +5,59 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
-    <http>
-        <intercept-url pattern="/user**" access="isAuthenticated()"/>
-        <intercept-url pattern="/admin**" access="hasRole('admin')"/>
-        <intercept-url pattern="/**" access="permitAll()"/>
+    <!--<http>-->
+    <!--<intercept-url pattern="/user**" access="isAuthenticated()"/>-->
+    <!--<intercept-url pattern="/admin**" access="hasRole('admin')"/>-->
+    <!--<intercept-url pattern="/**" access="permitAll()"/>-->
 
-        <form-login login-page='/login'
-                    default-target-url="/user"
-                    authentication-failure-url="/login?error=true"
-                    username-parameter="user_login"
-                    password-parameter="password_login"/>
+    <!--<form-login login-page='/login'-->
+    <!--default-target-url="/user"-->
+    <!--authentication-failure-url="/login?error=true"-->
+    <!--username-parameter="user_login"-->
+    <!--password-parameter="password_login"/>-->
 
-        <logout logout-success-url="/login"/>
+    <!--<logout logout-success-url="/login"/>-->
 
-        <access-denied-handler error-page="/login?denied=true"/>
-        <remember-me/>
+    <!--<access-denied-handler error-page="/login?denied=true"/>-->
+    <!--<remember-me/>-->
+    <!--</http>-->
+    <!--<authentication-manager>-->
+    <!--<authentication-provider>-->
+    <!--<jdbc-user-service data-source-ref="dataSource"-->
+    <!--users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"-->
+    <!--authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"-->
+    <!--role-prefix="none"/>-->
+    <!--</authentication-provider>-->
+
+    <!--</authentication-manager>-->
+
+
+    <beans:bean id="restAuthenticationEntryPoint" class="org.itevents.controller.RestAuthenticationEntryPoint"/>
+
+    <http pattern="/rest/**" entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" auto-config="false"
+          create-session="stateless">
+        <custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
+        <intercept-url pattern="/rest/**" access="isAuthenticated()"/>
+        <logout/>
     </http>
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"
-                               authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"
-                               role-prefix="none"/>
-        </authentication-provider>
 
+    <beans:bean class="org.itevents.controller.CustomTokenAuthenticationFilter"
+                id="authenticationTokenProcessingFilter">
+        <beans:constructor-arg type="java.lang.String" value="/rest/**"/>
+        <beans:constructor-arg
+                type="org.springframework.security.authentication.AuthenticationManager" ref="authManager">
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <http auto-config="true">
+        <intercept-url pattern="/token/**" access="ROLE_USER"/>
+    </http>
+
+    <authentication-manager alias="authManager" erase-credentials="false">
+        <authentication-provider>
+            <user-service>
+                <user name="user" password="pass" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
     </authentication-manager>
 </beans:beans>
