@@ -12,3 +12,7 @@ restservice/src/main/resources/local.properties
 .gradle/
 build/
 classes/
+
+#Logs
+*logs/*
+*.log
