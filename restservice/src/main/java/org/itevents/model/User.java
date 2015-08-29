@@ -1,14 +1,12 @@
 package org.itevents.model;
 
-import org.itevents.parameter.FilteredEventsParameter;
-
 public class User {
 
     private int id;
     private String login;
     private String password;
     private Role role;
-    private FilteredEventsParameter filteredEventsParameter;
+    private Filter filter;
 
     public User() {
     }
@@ -17,13 +15,6 @@ public class User {
         this.login = login;
         this.password = password;
         this.role = role;
-    }
-
-    public User(String login, String password, Role role, FilteredEventsParameter filteredEventsParameter) {
-        this.login = login;
-        this.password = password;
-        this.role = role;
-        this.filteredEventsParameter = filteredEventsParameter;
     }
 
     public int getId() {
@@ -58,12 +49,12 @@ public class User {
         this.role = role;
     }
 
-    public FilteredEventsParameter getFilteredEventsParameter() {
-        return filteredEventsParameter;
+    public Filter getFilter() {
+        return filter;
     }
 
-    public void setFilteredEventsParameter(FilteredEventsParameter filteredEventsParameter) {
-        this.filteredEventsParameter = filteredEventsParameter;
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
     @Override

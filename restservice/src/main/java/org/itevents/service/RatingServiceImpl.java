@@ -1,7 +1,8 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
+import org.itevents.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -20,21 +21,23 @@ public class RatingServiceImpl implements RatingService {
     EventService eventService;
 
     @Override
-    public List<Event> chooseMostPopularEventsForUser(int quantity, int user_id, FilteredEventsParameter parameters) {
+    public List<Event> chooseMostPopularEventsForUser(int quantity, User user) {
+        Filter filter = filterService.getFilterByUser();
         List<Event> filteredEvents = eventService.getFilteredEvents(parameters);
-        Event futureEvent = null;
         Integer countViewers = null;
+        long currentTime = System.currentTimeMillis();
+        long maximumEventTime = currentTime + DAYS_FOR_FUTURE_EVENT * 24 * 60 * 60 * 1000;
 
-        Map<Event, Integer> eventMap = new HashMap<>();
+        Map<Event, Integer> mapEventsToViews = new HashMap<>();
         for (Event filteredEvent : filteredEvents) {
-            futureEvent = eventService.getFutureEventById(DAYS_FOR_FUTURE_EVENT, filteredEvent.getId());
-            if (futureEvent != null){
-                countViewers = visitLogService.getCountViewByEventId(futureEvent.getId());
-                eventMap.put(futureEvent, countViewers);
+            long eventTime = filteredEvent.getEventDate().getTime();
+            if ((eventTime > currentTime) && (eventTime < maximumEventTime)) {
+                countViewers = visitLogService.getCountViewByEventId(filteredEvent.getId());
+                mapEventsToViews.put(filteredEvent, countViewers);
             }
         }
-        eventMap = sortEventsMap(ORDER_DESCENDING, eventMap);
-        List <Event> eventList = getListEventByRating(quantity, eventMap);
+        mapEventsToViews = sortEventsMap(ORDER_DESCENDING, mapEventsToViews);
+        List <Event> eventList = getListEventByRating(quantity, mapEventsToViews);
 
         return eventList;
     }

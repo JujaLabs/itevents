@@ -3,7 +3,7 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.model.Technology;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public class EventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(1));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        Filter eventsParameter = new Filter();
         eventsParameter.setTechnologies(testTechnologies);
         eventsParameter.setCity(cityService.getCity(kyivId));
 
@@ -98,7 +98,7 @@ public class EventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(6));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        Filter eventsParameter = new Filter();
         eventsParameter.setCity(cityService.getCity(boyarkaId));
         eventsParameter.setFree(false);
 
@@ -122,7 +122,7 @@ public class EventServiceTest {
         testTechnologies.add(technologyService.getTechnology(antId));
         testTechnologies.add(technologyService.getTechnology(sqlId));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        Filter eventsParameter = new Filter();
         eventsParameter.setTechnologies(testTechnologies);
 
         List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
@@ -139,7 +139,7 @@ public class EventServiceTest {
         expectedEvents.add(eventService.getEvent(2));
         expectedEvents.add(eventService.getEvent(3));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        Filter eventsParameter = new Filter();
         eventsParameter.setLatitude(testLatitude);
         eventsParameter.setLongitude(testLongitude);
         eventsParameter.setRadius(testRadius);

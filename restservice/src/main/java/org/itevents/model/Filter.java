@@ -1,21 +1,41 @@
-package org.itevents.parameter;
+package org.itevents.model;
 
-import org.itevents.model.City;
-import org.itevents.model.Technology;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
  * Created by vaa25 on 28.07.2015.
  */
-public class FilteredEventsParameter {
+@XmlRootElement()
+@XmlAccessorType(XmlAccessType.NONE)
+public class Filter {
 
+    private static final long serialVersionUID = 1L;
+    @XmlElement
+    private int id;
+    @XmlElement
     private City city;
+    @XmlElement
     private Boolean free;
+    @XmlElement
     private Double longitude;
+    @XmlElement
     private Double latitude;
+    @XmlElement
     private Integer radius;
+    @XmlElement
     private List<Technology> technologies;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public City getCity() {
         return city;
