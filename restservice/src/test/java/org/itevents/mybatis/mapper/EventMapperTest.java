@@ -25,12 +25,18 @@ public class EventMapperTest {
 
     private final int ID_0 = 0;
     private final int ID_1 = 1;
+    private final int ID_4 = 4;
+    private final int ID_8 = 8;
+    private final int ID_9 = 9;
 
     @Inject
     private EventMapper eventMapper;
 
     @Inject
     private CityMapper cityMapper;
+
+    @Inject
+    private TechnologyMapper technologyMapper;
 
     @Test
     public void testGetEvent1() throws Exception {
@@ -42,7 +48,7 @@ public class EventMapperTest {
         Date createDate = null;
         Event expectedEvent = new Event(ID_1, "Java", new GregorianCalendar(eventYear, eventMonth, eventDay).getTime(),
                 createDate, "http://www.java.com.ua", "Beresteyska", new Location(eventLatitude, eventLongitude),
-                "java@gmail.com", true, null, null, cityMapper.getCity(ID_1));
+                "java@gmail.com", true, null, null, cityMapper.getCity(ID_1), technologyMapper.getTechnologiesByEventId(ID_1));
         Event returnedEvent = eventMapper.getEvent(ID_1);
         assertEquals(expectedEvent, returnedEvent);
     }
