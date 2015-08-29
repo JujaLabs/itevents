@@ -20,10 +20,13 @@ public class RatingServiceImpl implements RatingService {
     @Inject
     EventService eventService;
 
+    @Inject
+    FilterService filterService;
+
     @Override
     public List<Event> chooseMostPopularEventsForUser(int quantity, User user) {
-        Filter filter = filterService.getFilterByUser();
-        List<Event> filteredEvents = eventService.getFilteredEvents(parameters);
+        Filter filter = filterService.getFilterByUser(user);
+        List<Event> filteredEvents = eventService.getFilteredEvents(filter);
         Integer countViewers = null;
         long currentTime = System.currentTimeMillis();
         long maximumEventTime = currentTime + DAYS_FOR_FUTURE_EVENT * 24 * 60 * 60 * 1000;
