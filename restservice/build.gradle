@@ -27,6 +27,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-web:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
     compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
