@@ -1,10 +1,14 @@
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
              xmlns="http://www.springframework.org/schema/security"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
     <!--<http>-->
     <!--<intercept-url pattern="/user**" access="isAuthenticated()"/>-->
     <!--<intercept-url pattern="/admin**" access="hasRole('admin')"/>-->
@@ -31,33 +35,31 @@
 
     <!--</authentication-manager>-->
 
-
-    <beans:bean id="restAuthenticationEntryPoint" class="org.itevents.controller.RestAuthenticationEntryPoint"/>
-
-    <http pattern="/rest/**" entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" auto-config="false"
-          create-session="stateless">
-        <custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
-        <intercept-url pattern="/rest/**" access="isAuthenticated()"/>
-        <logout/>
+    <context:component-scan base-package="org.itevents.security"/>
+    <http create-session="always" realm="itevents" use-expressions="true"
+          entry-point-ref="restAuthenticationEntryPoint">
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <form-login login-processing-url="/login"
+                    authentication-success-handler-ref="autenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailureHandler"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <logout logout-url="/logout"
+                success-handler-ref="logoutSuccessHandler"/>
+        <anonymous username="guest"/>
     </http>
 
-    <beans:bean class="org.itevents.controller.CustomTokenAuthenticationFilter"
-                id="authenticationTokenProcessingFilter">
-        <beans:constructor-arg type="java.lang.String" value="/rest/**"/>
-        <beans:constructor-arg
-                type="org.springframework.security.authentication.AuthenticationManager" ref="authManager">
-        </beans:constructor-arg>
-    </beans:bean>
+    <beans:bean id="authenticationFailureHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+    <beans:bean id="logoutSuccessHandler"
+                class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
 
-    <http auto-config="true">
-        <intercept-url pattern="/token/**" access="ROLE_USER"/>
-    </http>
-
-    <authentication-manager alias="authManager" erase-credentials="false">
+    <authentication-manager alias="authenticationManager">
         <authentication-provider>
-            <user-service>
-                <user name="user" password="pass" authorities="ROLE_USER"/>
-            </user-service>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"
+                               authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"
+                               role-prefix="none"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

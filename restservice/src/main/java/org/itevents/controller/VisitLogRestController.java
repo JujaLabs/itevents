@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.Random;
+import java.security.Principal;
 
 
 @RestController
@@ -29,7 +29,7 @@ public class VisitLogRestController {
     private UserService userService;
 
     @RequestMapping(value = "/events/{event_id}/register")
-    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId) {
+    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId, Principal principal) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -37,12 +37,8 @@ public class VisitLogRestController {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        User user = getUserFromSession();
+        User user = userService.getUserByName(principal.getName());
         visitLogService.addVisitLog(new VisitLog(event, user));
         return new ResponseEntity(headers, HttpStatus.FOUND);
-    }
-
-    private User getUserFromSession() {
-        return userService.getUser(new Random().nextInt(3) + 1);
     }
 }
