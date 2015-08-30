@@ -12,6 +12,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${pattern}"/>
         </Console>
+
         <RollingFile name="DebugLog"
                      fileName="${log-dir}/debug.log"
                      filePattern="${archive}/debug.log.%d{yyyy-MM-dd-hh-mm}.gz">
@@ -37,11 +38,19 @@
     </Appenders>
 
     <Loggers>
+
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Fatal" level="fatal"/>
+        </Root>
+
         <Logger name="org.springframework.web" level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="Debug"/>
             <AppenderRef ref="Fatal" level="fatal"/>
         </Logger>
+
     </Loggers>
 
 </Configuration>
