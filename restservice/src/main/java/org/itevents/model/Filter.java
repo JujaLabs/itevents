@@ -84,4 +84,44 @@ public class Filter {
     public void setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Filter filter = (Filter) o;
+
+        if (city != null ? !city.equals(filter.city) : filter.city != null) return false;
+        if (free != null ? !free.equals(filter.free) : filter.free != null) return false;
+        if (longitude != null ? !longitude.equals(filter.longitude) : filter.longitude != null) return false;
+        if (latitude != null ? !latitude.equals(filter.latitude) : filter.latitude != null) return false;
+        if (radius != null ? !radius.equals(filter.radius) : filter.radius != null) return false;
+        return !(technologies != null ? !technologies.equals(filter.technologies) : filter.technologies != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = city != null ? city.hashCode() : 0;
+        result = 31 * result + (free != null ? free.hashCode() : 0);
+        result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
+        result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
+        result = 31 * result + (radius != null ? radius.hashCode() : 0);
+        result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "id=" + id +
+                ", city=" + city +
+                ", free=" + free +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", radius=" + radius +
+                ", technologies=" + technologies +
+                '}';
+    }
 }

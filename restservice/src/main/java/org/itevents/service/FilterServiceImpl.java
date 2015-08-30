@@ -16,13 +16,13 @@ public class FilterServiceImpl implements FilterService {
     @Inject
     private FilterDao filterDao;
 
-    @Inject
-    private Filter2TechnologyDao filter2TechnologyDao;
+//    @Inject
+//    private Filter2TechnologyDao filter2TechnologyDao;
 
     @Override
     public void addFilter(Filter filter) {
-        filterDao.addFilter(filter);
-        filter2TechnologyDao.addTechnologies(filter);
+        //filterDao.addFilter(filter);
+        //filter2TechnologyDao.addTechnologies(filter);
     }
 
     @Override
@@ -32,15 +32,17 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public Filter getFilterByUser(User user) {
-        return filterDao.getFilterByUser(user); //todo process null
+        //return filterDao.getFilterByUser(user); //todo process null
+        return null;
     }
 
     @Override
     public Filter removeFilter(Filter filter) {
-        Filter deletingFilter = filterDao.getFilterById(filter.getId());
-        if (deletingFilter != null) {
-            filterDao.removeFilter(filter);
-        }
-        return deletingFilter;
+//        Filter deletingFilter = filterDao.getFilterById(filter.getId());
+//        if (deletingFilter != null) {
+//            filterDao.removeFilter(filter);
+//        }
+//        return deletingFilter;
+        return null;
     }
 }
