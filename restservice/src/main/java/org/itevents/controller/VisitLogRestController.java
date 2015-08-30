@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URL;
@@ -27,7 +28,7 @@ public class VisitLogRestController {
     private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
     private UserMapper userMapper = context.getBean("userMapper", UserMapper.class);
 
-    @RequestMapping(value = "/events/{event_id}/register")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
     public ResponseEntity getRegLink(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
