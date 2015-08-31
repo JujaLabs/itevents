@@ -1,7 +1,6 @@
 package org.itevents.controller;
 
 import org.jvnet.ws.wadl.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import java.lang.annotation.Annotation;
@@ -23,9 +23,9 @@ import java.util.Set;
 @ApiIgnore
 public class WADLController {
     String xs_namespace = "http://www.w3.org/2001/XMLSchema";
-    @Autowired
+    @Inject
     private RequestMappingHandlerMapping handlerMapping;
-    @Autowired
+    @Inject
     private WebApplicationContext webApplicationContext;
 
     @RequestMapping(method = RequestMethod.GET, produces = {"application/xml"})
