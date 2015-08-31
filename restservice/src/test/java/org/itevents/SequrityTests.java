@@ -16,6 +16,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,14 +38,16 @@ public class SequrityTests {
 	@Test
 	public void testLoginFail() throws Exception {
 		mvc.perform(formLogin().user("vlasov@email.com").password("wrongPassword"))
-				.andExpect(unauthenticated());
+				.andExpect(unauthenticated())
+				.andExpect(status().isUnauthorized());
 
 	}
 
 	@Test
 	public void testLoginSuccess() throws Exception {
 		mvc.perform(formLogin().user("vlasov@email.com").password("alex"))
-				.andExpect(authenticated());
+				.andExpect(authenticated())
+				.andExpect(status().isOk());
 
 	}
 }
