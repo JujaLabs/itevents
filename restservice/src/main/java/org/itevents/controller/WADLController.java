@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@RequestMapping("application.wadl")
 @ApiIgnore
 public class WADLController {
     String xs_namespace = "http://www.w3.org/2001/XMLSchema";
@@ -100,8 +99,6 @@ public class WADLController {
                             waldParam.setType(nm);
                             wadlRequest.getParam().add(waldParam);
 
-//                            System.out.println( waldParam.getDoc());
-
                         } else if (annotation2 instanceof PathVariable) {
                             PathVariable param2 = (PathVariable) annotation2;
                             QName nm = convertJavaToXMLType(paramType);
@@ -121,7 +118,6 @@ public class WADLController {
                 // Response
                 if (!mediaTypes.isEmpty()) {
                     Response wadlResponse = new Response();
-                    Class methodReturn = handlerMethod.getReturnType().getClass();
                     ResponseStatus status = handlerMethod.getMethodAnnotation(ResponseStatus.class);
                     if (status == null) {
                         wadlResponse.getStatus().add((long) (HttpStatus.OK.value()));
