@@ -22,7 +22,7 @@ public class EventRestController {
     private CityService cityService = context.getBean("cityService", CityServiceImpl.class);
     private TechnologyService technologyService =context.getBean("techTagService", TechnologyServiceImpl.class);
 
-    @RequestMapping(value = "/events/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
