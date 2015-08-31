@@ -3,9 +3,11 @@ package org.itevents.mybatis.mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.itevents.dao.LocationDao;
 import org.itevents.model.Location;
 
-public interface LocationMapper {
+public interface LocationMapper extends LocationDao {
+
     @Results({
             @Result(property = "longitude", column = "longitude"),
             @Result(property = "latitude", column = "latitude")

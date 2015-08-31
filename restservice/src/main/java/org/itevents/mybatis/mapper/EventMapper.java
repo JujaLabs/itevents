@@ -7,10 +7,13 @@ import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Event;
+import org.itevents.model.Location;
 
 import java.util.List;
 
 public interface EventMapper extends EventDao {
+
     @Results(value = {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "eventDate", column = "event_date"),
@@ -26,9 +29,15 @@ public interface EventMapper extends EventDao {
     @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
-    @Select("SELECT * FROM events")
     @ResultMap("getEvent-int")
+    @Select("SELECT * FROM events")
     List<Event> getAllEvents();
+
+    @ResultMap(value = "getEvent-int")
+    @Select("SELECT * FROM events" +
+            " WHERE ST_DWithin(point::geography," +
+            " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
+    List<Event> getEventsInRadius(@Param("location")Location location, @Param("radius")int radius);
 
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact, free, price, " +
             "currency_id, city_id) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, " +
@@ -43,7 +52,7 @@ public interface EventMapper extends EventDao {
     void updateEvent(Event event);
 
     @Delete("DELETE FROM events WHERE id =#{id}")
-    void removeEvent(int id);
+    void removeEvent(Event event);
 
     @Select({"<script>",
             "SELECT * FROM events",
