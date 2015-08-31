@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api("Events")
 public class EventRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

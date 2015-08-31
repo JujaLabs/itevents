@@ -12,6 +12,10 @@
     <context:component-scan base-package="org.itevents.controller"/>
     <mvc:annotation-driven />
 
+    <bean class="org.itevents.swagger.SwaggerCustomConfig"/>
+
+    <mvc:resources mapping="/static/**" location="static/" />
+
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>

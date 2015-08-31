@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
@@ -21,6 +22,7 @@ import java.util.Random;
 
 
 @RestController
+@Api(value = "visits", description = "Visit log")
 public class VisitLogRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
