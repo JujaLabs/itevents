@@ -24,7 +24,7 @@ public class EventRestController {
     private TechnologyService technologyService;
 
     @RequestMapping(value = "/events/{id}")
-    public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
+    public ResponseEntity<Event> getEventById(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -54,7 +54,7 @@ public class EventRestController {
 
     //    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=java&techTag=javascript
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
+    public List<Event> getEventsByParameters(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
                                          @RequestParam(required = false, value = "cityId") Integer cityId,
                                          @RequestParam(required = false, value = "free") Boolean free,
