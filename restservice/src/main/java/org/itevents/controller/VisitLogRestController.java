@@ -9,13 +9,13 @@ import org.itevents.service.VisitLogService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.security.Principal;
 
 
 @RestController
@@ -29,7 +29,7 @@ public class VisitLogRestController {
     private UserService userService;
 
     @RequestMapping(value = "/events/{event_id}/register")
-    public ResponseEntity getRegLink(@PathVariable("event_id") int eventId, Principal principal) {
+    public ResponseEntity redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -37,8 +37,12 @@ public class VisitLogRestController {
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        User user = userService.getUserByName(principal.getName());
+        User user = getUserFromSecurityContext();
         visitLogService.addVisitLog(new VisitLog(event, user));
         return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+    private User getUserFromSecurityContext() {
+        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

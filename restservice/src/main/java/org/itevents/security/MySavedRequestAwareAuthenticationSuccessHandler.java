@@ -36,11 +36,6 @@ public class MySavedRequestAwareAuthenticationSuccessHandler extends SimpleUrlAu
         }
 
         clearAuthenticationAttributes(request);
-
-        // Use the DefaultSavedRequest URL
-        // final String targetUrl = savedRequest.getRedirectUrl();
-        // logger.debug("Redirecting to DefaultSavedRequest Url: " + targetUrl);
-        // getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
     public void setRequestCache(final RequestCache requestCache) {
