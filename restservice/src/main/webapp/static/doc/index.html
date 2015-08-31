@@ -33,7 +33,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = location.protocol.concat("//",location.host,"/restservice/v2/api-docs");
+        url = location.protocol.concat("//", location.host, '/', location.pathname.split('/')[1], "/v2/api-docs");
       }
 
       // Pre load translate...
