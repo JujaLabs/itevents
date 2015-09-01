@@ -56,10 +56,9 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-    //    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=java&techTag=javascript
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
-                                         @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
+                                         @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
                                          @RequestParam(required = false, value = "cityId") Integer cityId,
                                          @RequestParam(required = false, value = "free") Boolean free,
                                          @RequestParam(required = false, value = "lat") Double latitude,
@@ -88,9 +87,9 @@ public class EventRestController {
         params.setLatitude(latitude);
         params.setLongitude(longitude);
         params.setRadius(radius);
-        itemPerPage = getItemPerPage(itemPerPage);
+        itemsPerPage = getItemPerPage(itemsPerPage);
         List<Event> filteredEvents = eventService.getFilteredEvents(params);
-        return getPaginatedEvents(page, itemPerPage, filteredEvents);
+        return getPaginatedEvents(page, itemsPerPage, filteredEvents);
     }
 
     private int getItemPerPage(Integer itemPerPage) {
