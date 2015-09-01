@@ -3,7 +3,7 @@
 
     <Properties>
         <property name="log-dir">logs</property>
-        <property name="archive">${log-path}/archive</property>
+        <property name="archive">${log-dir}/archive</property>
         <property name="pattern">%d %-5p [%t] %C{2} (%F:%L) - %m%n</property>
     </Properties>
 
