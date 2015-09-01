@@ -1,8 +1,9 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
+import org.itevents.service.VisitLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Service("visitLogService")
 @Transactional
-public class VisitLogServiceImpl implements VisitLogService {
+public class TransactionalVisitLogService implements VisitLogService {
 
     @Inject
     private VisitLogDao visitLogDao;

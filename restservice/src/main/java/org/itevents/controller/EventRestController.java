@@ -3,7 +3,12 @@ package org.itevents.controller;
 import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.*;
+import org.itevents.service.CityService;
+import org.itevents.service.EventService;
+import org.itevents.service.TechnologyService;
+import org.itevents.service.transactional.TransactionalCityService;
+import org.itevents.service.transactional.TransactionalEventService;
+import org.itevents.service.transactional.TransactionalTechnologyService;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,9 +23,9 @@ import java.util.List;
 public class EventRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private EventService eventService = context.getBean("eventService", EventServiceImpl.class);
-    private CityService cityService = context.getBean("cityService", CityServiceImpl.class);
-    private TechnologyService technologyService =context.getBean("techTagService", TechnologyServiceImpl.class);
+    private EventService eventService = context.getBean("eventService", TransactionalEventService.class);
+    private CityService cityService = context.getBean("cityService", TransactionalCityService.class);
+    private TechnologyService technologyService = context.getBean("techTagService", TransactionalTechnologyService.class);
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {

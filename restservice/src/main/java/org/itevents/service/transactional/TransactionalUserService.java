@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
 import org.itevents.model.User;
+import org.itevents.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService {
+public class TransactionalUserService implements UserService {
 
     @Inject
     private UserDao userDao;

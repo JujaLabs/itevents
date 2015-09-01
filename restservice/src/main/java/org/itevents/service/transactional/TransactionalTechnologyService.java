@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
+import org.itevents.service.TechnologyService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Service("techTagService")
 @Transactional
-public class TechnologyServiceImpl implements TechnologyService {
+public class TransactionalTechnologyService implements TechnologyService {
 
     @Inject
     private TechnologyDao technologyDao;

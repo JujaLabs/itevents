@@ -1,9 +1,10 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.service.EventService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service("eventService")
 @Transactional
-public class EventServiceImpl implements EventService {
+public class TransactionalEventService implements EventService {
 
     @Inject
     private EventDao eventDao;

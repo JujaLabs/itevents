@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.RoleDao;
 import org.itevents.model.Role;
+import org.itevents.service.RoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service("roleService")
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class TransactionalRoleService implements RoleService {
 
     @Inject
     private RoleDao roleDao;
