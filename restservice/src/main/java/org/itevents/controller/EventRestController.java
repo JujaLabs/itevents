@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api("Events")
 public class EventRestController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -20,7 +22,7 @@ public class EventRestController {
     private CityService cityService = context.getBean("cityService", CityServiceImpl.class);
     private TechnologyService technologyService =context.getBean("techTagService", TechnologyServiceImpl.class);
 
-    @RequestMapping(value = "/events/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
