@@ -8,11 +8,13 @@ restservice/src/main/resources/local.properties
 *.iml
 .idea/
 $APP_CONFIG$/
-#Gradle
+
+# Gradle
 .gradle/
 build/
 classes/
 
-#Logs
+# Logs
 *logs/*
 *.log
+*.gz
