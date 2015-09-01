@@ -1,5 +1,7 @@
 package org.itevents.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
@@ -14,6 +16,8 @@ import java.util.List;
 @Service("eventService")
 @Transactional
 public class EventServiceImpl implements EventService {
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private EventDao eventDao;
@@ -53,9 +57,9 @@ public class EventServiceImpl implements EventService {
         try {
             result = eventDao.getFilteredEvents(params);
         } catch (Exception e) {
+            logger.error("Exception :", e);
             result = new ArrayList<>();
         }
         return result;
     }
-
 }
