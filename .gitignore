@@ -8,6 +8,7 @@ restservice/src/main/resources/local.properties
 *.iml
 .idea/
 $APP_CONFIG$/
+
 #Gradle
 .gradle/
 build/

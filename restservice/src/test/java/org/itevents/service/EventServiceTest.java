@@ -36,14 +36,21 @@ public class EventServiceTest {
 
     @Before
     public void setup() throws ParseException {
+        List<Technology> technologies = new ArrayList<>();
         addingEvent = new Event("Ruby", dateFormatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
                 new Location(50.454605, 30.445495), "ruby@gmail.com");
+        addingEvent.setTechnologies(technologies);
     }
 
     @Test
     public void testGetEventById() throws ParseException {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(technologyService.getTechnology(1));
+        technologies.add(technologyService.getTechnology(4));
+        technologies.add(technologyService.getTechnology(8));
+        technologies.add(technologyService.getTechnology(9));
         Event expectedEvent = new Event(1, "Java", dateFormatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
-                new Location(50.458585, 30.742017), "java@gmail.com", true, null, null, cityService.getCity(1));
+                new Location(50.458585, 30.742017), "java@gmail.com", true, null, null, cityService.getCity(1), technologies);
         Event returnedEvent = eventService.getEvent(1);
         Assert.assertEquals(expectedEvent, returnedEvent);
     }

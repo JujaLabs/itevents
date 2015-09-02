@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.CityDao;
 import org.itevents.model.City;
+import org.itevents.service.CityService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service("cityService")
 @Transactional
-public class CityServiceImpl implements CityService {
+public class TransactionalCityService implements CityService {
 
     @Inject
     private CityDao cityDao;
