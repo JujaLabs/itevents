@@ -10,4 +10,13 @@ database.password=DB_PASSWORD
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
 # SendGrid
-api_key= SEND_GRID_TOKEN
+api_key=SEND_GRID_TOKEN
+
+# TestDatabase
+databaseTest.url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
+databaseTest.username=DB_USERNAME
+databaseTest.password=DB_PASSWORD
+
+# TestLiquibase
+changeLogFileTest=src\\main\\resources\\liquibase-test\\db.changelog-master.xml
+

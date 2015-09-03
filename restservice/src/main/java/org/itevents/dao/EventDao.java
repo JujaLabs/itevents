@@ -1,4 +1,4 @@
-package org.itevents.service;
+package org.itevents.dao;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
@@ -6,9 +6,7 @@ import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
 
-public interface EventService {
-
-    void addEvent(Event event);
+public interface EventDao {
 
     Event getEvent(int id);
 
@@ -16,7 +14,11 @@ public interface EventService {
 
     List<Event> getEventsInRadius(Location location, int radius);
 
-    Event removeEvent(Event event);
+    void addEvent(Event event);
+
+    void updateEvent(Event event);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
+    
+    void removeEvent(Event event);
 }
