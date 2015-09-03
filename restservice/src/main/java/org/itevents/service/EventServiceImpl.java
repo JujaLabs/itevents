@@ -38,20 +38,6 @@ public class EventServiceImpl implements EventService {
         return eventDao.getEventsInRadius(location, radius);
     }
 
-
-    @Override
-    public Event getFutureEventById(int days, int id) {
-        return eventDao.getFutureEventById(id);
-    }
-
-    public Event removeEvent(Event event) {
-        Event deletingEvent = eventDao.getEvent(event.getId());
-        if (deletingEvent != null) {
-            eventDao.removeEvent(event);
-        }
-        return deletingEvent;
-    }
-
     @Override
     public List<Event> getFilteredEvents(FilteredEventsParameter params) {
         List<Event> result;
@@ -61,6 +47,15 @@ public class EventServiceImpl implements EventService {
             result = new ArrayList<>();
         }
         return result;
+    }
+
+    @Override
+    public Event removeEvent(Event event) {
+        Event deletingEvent = eventDao.getEvent(event.getId());
+        if (deletingEvent != null) {
+            eventDao.removeEvent(event);
+        }
+        return deletingEvent;
     }
 
 }

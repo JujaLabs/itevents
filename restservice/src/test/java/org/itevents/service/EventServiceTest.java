@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -88,7 +87,7 @@ public class EventServiceTest {
         eventsParameter.setTechnologies(testTechnologies);
         eventsParameter.setCity(cityService.getCity(kyivId));
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -103,7 +102,7 @@ public class EventServiceTest {
         eventsParameter.setCity(cityService.getCity(boyarkaId));
         eventsParameter.setFree(false);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -127,7 +126,7 @@ public class EventServiceTest {
         FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
         eventsParameter.setTechnologies(testTechnologies);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -146,7 +145,7 @@ public class EventServiceTest {
         eventsParameter.setLongitude(testLongitude);
         eventsParameter.setRadius(testRadius);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, dateFormatter.parse("01.07.2015"));
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 }

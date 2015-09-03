@@ -4,6 +4,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -20,5 +21,4 @@ public interface EventService {
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 
-    Event getFutureEventById(int days, int id);
 }

@@ -11,7 +11,7 @@ import java.util.*;
 public class RatingServiceImpl implements RatingService {
 
     private static final int ORDER_DESCENDING = -1;
-    private static final int DAYS_FOR_FUTURE_EVENT = 7;
+//    private static final int DAYS_FOR_FUTURE_EVENT = 7;
 
     @Inject
     VisitLogService visitLogService;
@@ -22,21 +22,16 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public List<Event> chooseMostPopularEventsForUser(int quantity, int user_id, FilteredEventsParameter parameters) {
         List<Event> filteredEvents = eventService.getFilteredEvents(parameters);
-        Event futureEvent = null;
-        Integer countViewers = null;
+        Integer countViewers;
 
         Map<Event, Integer> eventMap = new HashMap<>();
         for (Event filteredEvent : filteredEvents) {
-            futureEvent = eventService.getFutureEventById(DAYS_FOR_FUTURE_EVENT, filteredEvent.getId());
-            if (futureEvent != null){
-                countViewers = visitLogService.getCountViewByEventId(futureEvent.getId());
-                eventMap.put(futureEvent, countViewers);
-            }
+            countViewers = visitLogService.getCountViewByEventId(filteredEvent.getId());
+            eventMap.put(filteredEvent, countViewers);
         }
         eventMap = sortEventsMap(ORDER_DESCENDING, eventMap);
-        List <Event> eventList = getListEventByRating(quantity, eventMap);
 
-        return eventList;
+        return getListEventByRating(quantity, eventMap);
     }
 
     /*

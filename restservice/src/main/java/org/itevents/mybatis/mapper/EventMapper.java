@@ -7,8 +7,6 @@ import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.model.Event;
-import org.itevents.model.Location;
 
 import java.util.List;
 
@@ -77,6 +75,6 @@ public interface EventMapper extends EventDao {
             "   </if>",
             "</where>",
             "</script>"})
-    @ResultMap("getEvent-int")
+    @ResultMap(value = "getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 }

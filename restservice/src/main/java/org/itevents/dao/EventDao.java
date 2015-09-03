@@ -4,6 +4,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventDao {
@@ -21,6 +22,4 @@ public interface EventDao {
     List<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
-
-    Event getFutureEventById(int id);
 }
