@@ -113,8 +113,8 @@ public class EventServiceTest {
         int sqlId = 10;
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(3));
         expectedEvents.add(eventService.getEvent(4));
+        expectedEvents.add(eventService.getEvent(3));
 
         expectedEvents.add(eventService.getEvent(7));
 
