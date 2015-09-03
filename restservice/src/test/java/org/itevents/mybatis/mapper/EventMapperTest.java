@@ -2,6 +2,7 @@ package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -56,6 +57,7 @@ public class EventMapperTest {
     }
 
     @Test
+    @Ignore
     public void test(){
         List<Event> expectedEvents = new ArrayList<>();
         List<Integer> listId = new ArrayList<>();
