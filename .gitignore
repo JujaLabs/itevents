@@ -7,8 +7,14 @@ restservice/src/main/resources/local.properties
 # Intellij project files
 *.iml
 .idea/
+$APP_CONFIG$/
 
-#Gradle
+# Gradle
 .gradle/
 build/
 classes/
+
+# Logs
+*logs/*
+*.log
+*.gz
