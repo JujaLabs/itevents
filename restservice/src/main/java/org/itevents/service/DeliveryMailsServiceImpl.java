@@ -2,7 +2,6 @@ package org.itevents.service;
 import com.sendgrid.*;
 import org.itevents.model.User;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -12,35 +11,35 @@ import java.util.Properties;
  */
 public class DeliveryMailsServiceImpl implements DeliveryMailsService {
 
-    private String api_key=getApi_key();
-    public static String fromMail = "events@juja.com.ua";
-    private String subjectMail = "IT Events of the week";
-    InputStream input = null;
+    private static final String FROM_MAIL = "events@juja.com.ua";
+    private static final String SUBJECT_MAIL = "IT Events";
 
-    public String getApi_key(){
-        try {
+    private SendGrid sendgrid;
+
+    public DeliveryMailsServiceImpl() {
+        String apiKey = getApiKeyFromProperties();
+        sendgrid = new SendGrid(apiKey);
+    }
+
+    public String getApiKeyFromProperties(){
+        try(
+                InputStream input = getClass().getClassLoader().getResourceAsStream("local.properties");
+        ){
             Properties sendGridProperty = new Properties();
-            input = DeliveryMailsServiceImpl.class.getClassLoader().getResourceAsStream("local.properties");
             sendGridProperty.load(input);
             return sendGridProperty.getProperty("api_key");
         } catch (IOException e) {
             System.err.println("ERROR: File local.properties not found.");
             return null;
-        }finally {
-            try {
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
-    public void sendMail(String htmlLetter, User user){
 
-        SendGrid sendgrid = new SendGrid(api_key);
+    public void sendMail(String htmlLetter, String mail){
+
         SendGrid.Email email = new SendGrid.Email();
-        email.addTo(user.getLogin());
-        email.setFrom(fromMail);
-        email.setSubject(subjectMail);
+        email.addTo(mail);
+        email.setFrom(FROM_MAIL);
+        email.setSubject(SUBJECT_MAIL);
         email.setHtml(htmlLetter);
 
         try {
