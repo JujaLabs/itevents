@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -87,7 +88,7 @@ public class EventServiceTest {
         eventsParameter.setTechnologies(testTechnologies);
         eventsParameter.setCity(cityService.getCity(kyivId));
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -102,7 +103,7 @@ public class EventServiceTest {
         eventsParameter.setCity(cityService.getCity(boyarkaId));
         eventsParameter.setFree(false);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -113,8 +114,9 @@ public class EventServiceTest {
         int sqlId = 10;
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(4));
         expectedEvents.add(eventService.getEvent(3));
+        expectedEvents.add(eventService.getEvent(4));
+
         expectedEvents.add(eventService.getEvent(7));
 
         List<Technology> testTechnologies = new ArrayList<>();
@@ -125,12 +127,12 @@ public class EventServiceTest {
         FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
         eventsParameter.setTechnologies(testTechnologies);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, new Date(System.currentTimeMillis()));
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void testGetFilteredEventsInRadius() {
+    public void testGetFilteredEventsInRadius() throws ParseException {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
@@ -144,7 +146,7 @@ public class EventServiceTest {
         eventsParameter.setLongitude(testLongitude);
         eventsParameter.setRadius(testRadius);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter, dateFormatter.parse("01.07.2015"));
         assertEquals(expectedEvents, returnedEvents);
     }
 }

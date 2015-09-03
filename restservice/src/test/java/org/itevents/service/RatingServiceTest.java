@@ -1,5 +1,7 @@
 package org.itevents.service;
 
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.itevents.model.Location;
 import org.junit.Assert;
 import org.itevents.model.Event;
@@ -8,7 +10,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -17,6 +23,10 @@ import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
+@Transactional
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionDbUnitTestExecutionListener.class})
 public class RatingServiceTest {
 
     private static final int EXPECTED_LIST_SIZE = 5;
@@ -25,9 +35,10 @@ public class RatingServiceTest {
 
     static Map<Event, Integer> mapForTest;
     private static SimpleDateFormat formatter;
-
     private static RatingServiceImpl ratingService;
 
+    @Inject
+    private EventService eventService;
 
     @BeforeClass
     public static void setup() throws ParseException {
@@ -52,6 +63,14 @@ public class RatingServiceTest {
     @AfterClass
     public static void tearDown(){
         ratingService = null;
+    }
+
+    @Test
+    @DatabaseSetup("classpath:dbunit/initialEvents.xml")
+    public void testChooseMostPopularEventsForUser(){
+        int expectedSize = 4;
+        List<Event> returnedEvents = eventService.getAllEvents();
+        Assert.assertEquals(expectedSize, returnedEvents.size());
     }
 
     @Test

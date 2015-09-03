@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <events id="-1" title="Java" event_date="2015-08-30 12:00:00" reg_link="http://www.java.com.ua"
+            address="Beresteyska" contact="java@gmail.com"/>
+    <events id="-2" title="PHP" event_date="2015-09-20 16:00:00" reg_link="http://www.php.com.ua" address="Shulyavska"
+            contact="php@gmail.com"/>
+    <events id="-3" title="JS" event_date="2015-10-01 10:00:00" reg_link="http://www.js.com.ua" address="Nyvky"
+            contact="js@gmail.com"/>
+    <events id="-4" title="CPlusPlus1" event_date="2015-10-18 12:00:00" reg_link="http://www.cplusplus.com.ua"
+            address="Vokzalna" contact="cplusplus@gmail.com"/>
+    <visit_log/>
+    <event_technology/>
+</dataset>
