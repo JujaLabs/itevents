@@ -26,15 +26,15 @@ public class SQLBuilder {
 
     private String makeJoin(FilteredEventsParameter params){
         StringBuilder sb = new StringBuilder();
-        sb.append("event_technology t ON ");
+        sb.append("event_technology et ON e.id=et.event_id and (");
         for (int i = 0; i < params.getTechnologies().size(); i++) {
-            sb.append("t.technology_id=");
+            sb.append("et.technology_id=");
             sb.append(params.getTechnologies().get(i).getId());
-            sb.append(" and e.id=t.event_id");
             if (i < (params.getTechnologies().size() - 1)){
                 sb.append(" or ");
             }
         }
+        sb.append(")");
         return sb.toString();
     }
 }
