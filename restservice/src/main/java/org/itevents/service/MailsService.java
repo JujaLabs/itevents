@@ -2,6 +2,6 @@ package org.itevents.service;
 
 import org.itevents.model.User;
 
-public interface DeliveryMailsService {
+public interface MailsService {
     void sendMail(String htmlLetter, String mail);
 }

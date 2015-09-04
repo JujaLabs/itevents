@@ -1,6 +1,5 @@
 package org.itevents.service;
 import com.sendgrid.*;
-import org.itevents.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,14 +8,14 @@ import java.util.Properties;
 /**
  * Created by max on 29.07.15.
  */
-public class DeliveryMailsServiceImpl implements DeliveryMailsService {
+public class MailsServiceImpl implements MailsService {
 
     private static final String FROM_MAIL = "events@juja.com.ua";
     private static final String SUBJECT_MAIL = "IT Events";
 
     private SendGrid sendgrid;
 
-    public DeliveryMailsServiceImpl() {
+    public MailsServiceImpl() {
         String apiKey = getApiKeyFromProperties();
         sendgrid = new SendGrid(apiKey);
     }
