@@ -2,7 +2,6 @@ package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,10 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -54,17 +51,5 @@ public class EventMapperTest {
     public void testGetEvent0() {
         Event returnedEvent = eventMapper.getEvent(ID_0);
         assertNull(returnedEvent);
-    }
-
-    @Test
-    @Ignore
-    public void test(){
-        List<Event> expectedEvents = new ArrayList<>();
-        List<Integer> listId = new ArrayList<>();
-        listId.add(1);
-        listId.add(3);
-        expectedEvents.add(eventMapper.getEvent(1));
-        expectedEvents.add(eventMapper.getEvent(3));
-        assertEquals(expectedEvents, eventMapper.test(listId));
     }
 }

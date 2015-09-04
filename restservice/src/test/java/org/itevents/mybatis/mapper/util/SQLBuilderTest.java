@@ -1,32 +1,48 @@
 package org.itevents.mybatis.mapper.util;
 
+import org.itevents.model.Technology;
+import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.service.TechnologyService;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
+@Transactional
 public class SQLBuilderTest {
 
-    @Test
-//    @Ignore
-    public void test(){
-        String expectedSQL = "SELECT * FROM events";
-        SQLBuilder sqlBuilder = new SQLBuilder();
-        List<Integer> listId = new ArrayList<>();
-        listId.add(1);
-        listId.add(3);
-        String actualString = sqlBuilder.test(listId);
-        assertEquals(expectedSQL, actualString);
-    }
+    @Inject
+    private TechnologyService technologyService;
 
     @Test
-    public void testId(){
-        String expectedSQL = "SELECT *\nFROM events\nWHERE (id = #{id})";
+    @Ignore
+    public void testBuildingFilteredEventsQuery(){
+        int javaId = 1;
+        int phpId = 3;
+        int antId = 7;
+        int sqlId = 10;
+        List<Technology> testTechnologies = new ArrayList<>();
+        testTechnologies.add(technologyService.getTechnology(javaId));
+        testTechnologies.add(technologyService.getTechnology(phpId));
+        testTechnologies.add(technologyService.getTechnology(antId));
+        testTechnologies.add(technologyService.getTechnology(sqlId));
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setTechnologies(testTechnologies);
+        eventsParameter.setFree(true);
         SQLBuilder sqlBuilder = new SQLBuilder();
-        String actualString = sqlBuilder.selectEvent();
-        assertEquals(expectedSQL, actualString);
+        String expected = "\"SELECT *\\nFROM events\\nWHERE (id = #{id})\"";
+        String actual = sqlBuilder.selectFilteredEvent(eventsParameter);
+        assertEquals(expected, actual);
     }
 }

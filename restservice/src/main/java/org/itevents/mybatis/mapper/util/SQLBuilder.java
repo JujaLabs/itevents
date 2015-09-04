@@ -1,63 +1,40 @@
 package org.itevents.mybatis.mapper.util;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.itevents.model.City;
-import org.itevents.model.Technology;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import org.itevents.parameter.FilteredEventsParameter;
 
 public class SQLBuilder {
 
-    public String selectAllEvents() {
-        return new SQL().
-                SELECT("*").
-                FROM("events").
-                toString();
-    }
-
-    public String selectEvent() {
-        return new SQL().
-                SELECT("*").
-                FROM("events").
-                WHERE("id = #{id}").
-                toString();
-    }
-
-    public String selectFilteredEvent(final City city, final Boolean free, final List<Technology> technologies) {
+    public String selectFilteredEvent(final FilteredEventsParameter params) {
         return new SQL() {{
             SELECT("*");
-            FROM("events");
-            if (city != null) {
+            FROM("events e");
+            if (params.getCity() != null) {
                 WHERE("city_id = #{city.id}");
             }
-            if (city == null) {
+            if (params.getCity() == null && (params.getLatitude() != null)) {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
-            if (free != null) {
+            if (params.getFree() != null) {
                 WHERE("free = #{free}");
             }
-            if (technologies != null) {
-                WHERE("id IN").SELECT("event_id FROM event_technology");
-                for (Technology technology : technologies) {
-                    WHERE("technology_id = #{technology.id}");
-                }
+            if (params.getTechnologies() != null) {
+                JOIN(makeJoin(params));
             }
         }}.toString();
     }
 
-    public String test(final List<Integer> listId) {
-        return new SQL() {{
-            SELECT("*");
-            FROM("events");
-            for (int i = 0; i < listId.size(); i++) {
-                if (i == (listId.size() - 1)) {
-                    WHERE("id = #{list.get(" + i +")}");
-                } else {
-                    WHERE("id = #{list.get(" + i +")}").OR();
-                }
+    private String makeJoin(FilteredEventsParameter params){
+        StringBuilder sb = new StringBuilder();
+        sb.append("event_technology t ON ");
+        for (int i = 0; i < params.getTechnologies().size(); i++) {
+            sb.append("t.technology_id=");
+            sb.append(params.getTechnologies().get(i).getId());
+            sb.append(" and e.id=t.event_id");
+            if (i < (params.getTechnologies().size() - 1)){
+                sb.append(" or ");
             }
-        }}.toString();
+        }
+        return sb.toString();
     }
 }

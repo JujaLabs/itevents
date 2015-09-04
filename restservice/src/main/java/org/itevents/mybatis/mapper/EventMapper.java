@@ -25,13 +25,11 @@ public interface EventMapper extends EventDao {
             @Result(property = "city", column = "city_id", javaType = City.class,
                     one = @One(select = "org.itevents.mybatis.mapper.CityMapper.getCity"))
     })
-//    @Select("SELECT * FROM events WHERE id = #{id}")
-    @SelectProvider(type = SQLBuilder.class, method = "selectEvent")
+    @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);
 
     @ResultMap("getEvent-int")
-//    @Select("SELECT * FROM events")
-    @SelectProvider(type = SQLBuilder.class, method = "selectAllEvents")
+    @Select("SELECT * FROM events")
     List<Event> getAllEvents();
 
     @ResultMap(value = "getEvent-int")
@@ -55,34 +53,7 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(Event event);
 
-//    @Select({"<script>",
-//            "SELECT * FROM events",
-//            "<where>",
-//            "   <if test='city != null'>",
-//            "       city_id = #{city.id}",
-//            "   </if>",
-//            "   <if test='city == null'>",
-//            "       <if test='radius != null'>",
-//            "           AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})",
-//            "       </if>",
-//            "   </if>",
-//            "   <if test='free != null'>",
-//            "       AND free = #{free}",
-//            "   </if>",
-//            "   <if test='technologies!=null'>",
-//            "       AND id IN (SELECT event_id FROM event_technology WHERE technology_id IN",
-//            "       <foreach item='technology' index='index' collection='technologies' open='(' separator=',' close=')'>",
-//            "           #{technology.id}",
-//            "       </foreach>",
-//            "       )",
-//            "   </if>",
-//            "</where>",
-//            "</script>"})
-//    @SelectProvider(type = SQLBuilder.class, method = "selectFilteredEvent")
-//    @ResultMap(value = "getEvent-int")
-//    List<Event> getFilteredEvents(FilteredEventsParameter params);
-
-    @SelectProvider(type = SQLBuilder.class, method = "test")
+    @SelectProvider(type = SQLBuilder.class, method = "selectFilteredEvent")
     @ResultMap(value = "getEvent-int")
-    List<Event> test(List<Integer> list);
+    List<Event> getFilteredEvents(FilteredEventsParameter params);
 }
