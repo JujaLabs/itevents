@@ -25,7 +25,6 @@ public class SQLBuilderTest {
     private TechnologyService technologyService;
 
     @Test
-    @Ignore
     public void testBuildingFilteredEventsQuery(){
         int javaId = 1;
         int phpId = 3;
@@ -42,7 +41,7 @@ public class SQLBuilderTest {
         eventsParameter.setFree(true);
         SQLBuilder sqlBuilder = new SQLBuilder();
         String expected = "\"SELECT *\\nFROM events\\nWHERE (id = #{id})\"";
-        String actual = sqlBuilder.selectFilteredEvent(eventsParameter);
+        String actual = sqlBuilder.selectFutureFilteredEvents(eventsParameter, null);
         assertEquals(expected, actual);
     }
 }

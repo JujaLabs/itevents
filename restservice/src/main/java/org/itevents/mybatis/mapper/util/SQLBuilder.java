@@ -3,6 +3,8 @@ package org.itevents.mybatis.mapper.util;
 import org.apache.ibatis.jdbc.SQL;
 import org.itevents.parameter.FilteredEventsParameter;
 
+import java.util.Date;
+
 public class SQLBuilder {
 
     public String selectFilteredEvent(final FilteredEventsParameter params) {
@@ -38,5 +40,34 @@ public class SQLBuilder {
         return sb.toString();
     }
 
-//    public String selectFUtureFilteredEvents()
+    public String selectFutureFilteredEvents(final FilteredEventsParameter params, final Date dateOfStart){
+        StringBuilder sb = new StringBuilder();
+        sb.append(" vl.event_id IN (");
+        sb.append(selectFilteredEvent(params));
+        sb.replace(sb.indexOf("*"), sb.indexOf("*") + 1, "e.id");
+        sb.append(" AND event_date BETWEEN '");
+        sb.append(dateOfStart);
+        sb.append("'::date AND ('");
+        sb.append(dateOfStart);
+        sb.append("'::date + interval '7 day')");
+        sb.append(")");
+        final String modificatedQuery = sb.toString();
+        String sql = new SQL(){{
+            SELECT("vl.event_id");
+            FROM("visit_log vl");
+            WHERE(modificatedQuery);
+            GROUP_BY("vl.event_id");
+            ORDER_BY("COUNT(vl.user_id) DESC");
+        }}.toString();
+        sb = new StringBuilder();
+        sb.append(" id IN(");
+        sb.append(sql);
+        sb.append(")");
+        final String preparedWhere = sb.toString();
+        return new SQL(){{
+            SELECT("*");
+            FROM("events");
+            WHERE(preparedWhere);
+        }}.toString();
+    }
 }

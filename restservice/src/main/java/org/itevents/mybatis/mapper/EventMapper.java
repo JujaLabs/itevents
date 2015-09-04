@@ -9,6 +9,7 @@ import org.itevents.model.Location;
 import org.itevents.mybatis.mapper.util.SQLBuilder;
 import org.itevents.parameter.FilteredEventsParameter;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventMapper extends EventDao {
@@ -56,4 +57,8 @@ public interface EventMapper extends EventDao {
     @SelectProvider(type = SQLBuilder.class, method = "selectFilteredEvent")
     @ResultMap(value = "getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
+
+    @SelectProvider(type = SQLBuilder.class, method = "selectFutureFilteredEvents")
+    @ResultMap(value = "getEvent-int")
+    List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
 }

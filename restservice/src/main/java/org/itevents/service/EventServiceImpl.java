@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -62,4 +63,15 @@ public class EventServiceImpl implements EventService {
         }
         return result;
     }
+
+    @Override
+    public List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date) {
+        List<Event> result;
+        try {
+            result = eventDao.getFutureFilteredEvents(params, date);
+        } catch (Exception e) {
+            logger.error("Exception :", e);
+            result = new ArrayList<>();
+        }
+        return result;    }
 }

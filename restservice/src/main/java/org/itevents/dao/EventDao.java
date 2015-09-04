@@ -20,6 +20,8 @@ public interface EventDao {
     void updateEvent(Event event);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
-    
+
+    List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
+
     void removeEvent(Event event);
 }

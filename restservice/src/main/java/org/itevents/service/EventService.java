@@ -21,4 +21,5 @@ public interface EventService {
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 
+    List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
 }

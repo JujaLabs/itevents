@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -146,6 +147,27 @@ public class EventServiceTest {
         eventsParameter.setRadius(testRadius);
 
         List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    public void testGetFutureEvents() throws ParseException {
+        double testLatitude = 50.454605;
+        double testLongitude = 30.403965;
+        int testRadius = 5000;
+
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(eventService.getEvent(5));
+        expectedEvents.add(eventService.getEvent(7));
+
+        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        eventsParameter.setLatitude(testLatitude);
+        eventsParameter.setLongitude(testLongitude);
+        eventsParameter.setRadius(testRadius);
+
+        Date date = dateFormatter.parse("01.07.2015");
+
+        List<Event> returnedEvents = eventService.getFutureFilteredEvents(eventsParameter, date);
         assertEquals(expectedEvents, returnedEvents);
     }
 }
