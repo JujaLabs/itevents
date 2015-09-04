@@ -70,4 +70,11 @@ public class SQLBuilder {
             WHERE(preparedWhere);
         }}.toString();
     }
+
+//    public String selectFutureFilteredEvents(final FilteredEventsParameter params, final Date dateOfStart){
+//        return new SQL(){{
+//            SELECT("*");
+//            FROM("events");
+//        }}.toString();
+//    }
 }

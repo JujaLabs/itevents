@@ -11,7 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +28,7 @@ public class SQLBuilderTest {
     private TechnologyService technologyService;
 
     @Test
-    public void testBuildingFilteredEventsQuery(){
+    public void testBuildingFilteredEventsQuery() throws ParseException {
         int javaId = 1;
         int phpId = 3;
         int antId = 7;
@@ -41,7 +44,9 @@ public class SQLBuilderTest {
         eventsParameter.setFree(true);
         SQLBuilder sqlBuilder = new SQLBuilder();
         String expected = "\"SELECT *\\nFROM events\\nWHERE (id = #{id})\"";
-        String actual = sqlBuilder.selectFutureFilteredEvents(eventsParameter, null);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = dateFormatter.parse("01.07.2015");
+        String actual = sqlBuilder.selectFutureFilteredEvents(eventsParameter, date);
         assertEquals(expected, actual);
     }
 }

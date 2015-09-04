@@ -54,11 +54,11 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(Event event);
 
-    @SelectProvider(type = SQLBuilder.class, method = "selectFilteredEvent")
+    @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFilteredEvent")
     @ResultMap(value = "getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 
-    @SelectProvider(type = SQLBuilder.class, method = "selectFutureFilteredEvents")
+    @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFutureFilteredEvents")
     @ResultMap(value = "getEvent-int")
     List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
 }

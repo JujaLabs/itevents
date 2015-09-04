@@ -73,5 +73,6 @@ public class EventServiceImpl implements EventService {
             logger.error("Exception :", e);
             result = new ArrayList<>();
         }
-        return result;    }
+        return result;
+    }
 }
