@@ -20,13 +20,14 @@ public class SQLBuilder {
             }
             if (params.getTechnologies() != null) {
                 JOIN(makeJoin(params));
+                WHERE("e.id=et.event_id");
             }
         }}.toString();
     }
 
     private String makeJoin(FilteredEventsParameter params){
         StringBuilder sb = new StringBuilder();
-        sb.append("event_technology et ON e.id=et.event_id and (");
+        sb.append("event_technology et ON ");
         for (int i = 0; i < params.getTechnologies().size(); i++) {
             sb.append("et.technology_id=");
             sb.append(params.getTechnologies().get(i).getId());
@@ -34,7 +35,8 @@ public class SQLBuilder {
                 sb.append(" or ");
             }
         }
-        sb.append(")");
         return sb.toString();
     }
+
+//    public String selectFUtureFilteredEvents()
 }
