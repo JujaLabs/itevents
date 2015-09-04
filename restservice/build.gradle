@@ -10,10 +10,17 @@ targetCompatibility = 1.7
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
 }
 
 configurations {
     liquibase
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 dependencies {
@@ -23,17 +30,24 @@ dependencies {
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
     compile 'org.springframework:spring-test:4.1.6.RELEASE'
     compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
+    compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.0'
-}
+    compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
+    compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
+    compile 'io.springfox:springfox-swagger2:2.1.1'
+  }
 
 httpPort = 8080
 stopPort = 9080
 stopKey = "stop"
+
+Properties props = new Properties()
+props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 
 defaultTasks 'liquibaseUpdate'
 
@@ -51,7 +65,36 @@ task liquibaseUpdate(type: JavaExec) {
         args "--username=${propertyMap['username']}"
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
+    } else {
+        args "--username=${props.getProperty('database.username')}"
+        args "--password=${props.getProperty('database.password')}"
+        args "--url=${props.getProperty('database.url')}"
     }
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
+    args 'update'
+}
+
+task liquibaseTest(type: JavaExec) {
+    description 'Liquibase updates DB by all not used changesets'
+    args "--defaultsFile=./local.properties"
+    group = 'Liquibase'
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    if (
+    project.hasProperty("username") &&
+            project.hasProperty("password") &&
+            project.hasProperty("url")
+    ){
+        Map<String,?> propertyMap = project.getProperties()
+        args "--username=${propertyMap['username']}"
+        args "--password=${propertyMap['password']}"
+        args "--url=${propertyMap['url']}"
+    } else {
+        args "--username=${props.getProperty('databaseTest.username')}"
+        args "--password=${props.getProperty('databaseTest.password')}"
+        args "--url=${props.getProperty('databaseTest.url')}"
+    }
+    args "--changeLogFile=${props.getProperty('changeLogFileTest')}"
     args 'update'
 }
 
@@ -61,6 +104,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
+    args "--username=${props.getProperty('database.username')}"
+    args "--password=${props.getProperty('database.password')}"
+    args "--url=${props.getProperty('database.url')}"
+    args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="009" author="vaa25">
+        <sql>
+            CREATE TABLE city(
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            name VARCHAR(40) NOT NULL,
+            details VARCHAR(120),
+            point GEOMETRY(POINT) UNIQUE NOT NULL,
+            UNIQUE (name, details)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE city;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

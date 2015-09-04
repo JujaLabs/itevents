@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="014" author="vaa25">
+        <sql>
+            INSERT INTO event_technology (event_id, technology_id) VALUES
+            (1,1),
+            (1,4),
+            (4,1),
+            (4,3),
+            (5,5),
+            (2,2),
+            (3,3),
+            (6,6),
+            (7,7),
+            (1,8),
+            (1,9);
+        </sql>
+        <rollback>
+            DELETE * FROM event_technology;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
