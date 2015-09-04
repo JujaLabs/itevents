@@ -1,6 +1,8 @@
 package org.itevents.controller;
 
 import io.swagger.annotations.Api;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
@@ -25,6 +27,8 @@ import java.util.Random;
 @Api(value = "visits", description = "Visit log")
 public class VisitLogRestController {
 
+    private static final Logger logger = LogManager.getLogger();
+
     ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     private EventService eventService = context.getBean("eventService", EventService.class);
     private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
@@ -37,6 +41,7 @@ public class VisitLogRestController {
         try {
             headers.setLocation(new URL(event.getRegLink()).toURI());
         } catch (Exception e) {
+            logger.error("Exception :", e);
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = getUserFromSession();

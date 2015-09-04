@@ -13,3 +13,8 @@ $APP_CONFIG$/
 .gradle/
 build/
 classes/
+
+# Logs
+*logs/*
+*.log
+*.gz
