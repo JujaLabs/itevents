@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="010" author="vaa25">
+        <sql>
+            INSERT INTO city (id, name, details, point) VALUES
+            (1, 'Kyiv', NULL, 'POINT(30.523000 50.450500)'),
+            (2, 'Odessa', NULL, 'POINT(30.73333 46.46667)'),
+            (3, 'Boyarka', NULL, 'POINT(30.28861 50.32917)'),
+            (4, 'Odessa', 'Odessa, Florida, USA', 'POINT(-82.568333 28.183333)');
+        </sql>
+        <rollback>
+            DELETE * FROM city;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

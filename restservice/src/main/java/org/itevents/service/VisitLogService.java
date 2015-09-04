@@ -9,8 +9,7 @@ public interface VisitLogService {
 
     void addVisitLog(VisitLog visitLog);
 
-    List<VisitLog> getVisitsByEvent(Event event);
-
+    List<VisitLog> getVisitLogsByEvent(Event event);
 
     VisitLog getVisitLog(int id);
 
