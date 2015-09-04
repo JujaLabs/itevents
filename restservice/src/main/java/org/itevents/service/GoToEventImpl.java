@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.dao.Event;
 import org.itevents.dao.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 
 /**
@@ -9,19 +10,11 @@ import org.itevents.dao.User;
  */
 public class GoToEventImpl implements GoToEvent {
 
-    private boolean isLogged(User user){
-        // проверить сессию
-
-        return false;
-    }
-
     @Override
+    @PreAuthorize("isAuthenticated()")
     public Long goToEvent(User user, Event event) {
-       if (!isLogged(user)){
-           System.out.println("Login to subscribe!");
-       }
 
-
+        System.out.println("Login to subscribe!");
 
 
         return null;
