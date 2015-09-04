@@ -30,7 +30,11 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     public List<Technology> getSeveralTechnologiesByName(String[] names) {
-        return technologyDao.getSeveralTechnologies(names);
+        String[] lowerCaseNames = new String[names.length];
+        for (int i = 0; i < names.length; i++) {
+            lowerCaseNames[i] = names[i].toLowerCase();
+        }
+        return technologyDao.getSeveralTechnologies(lowerCaseNames);
     }
 
     @Override
