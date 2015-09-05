@@ -7,8 +7,6 @@ import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,7 @@ public class VisitLogRestController {
     @Inject
     private UserService userService;
 
-    @RequestMapping(value = "/events/{event_id}/register")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
     public ResponseEntity redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();

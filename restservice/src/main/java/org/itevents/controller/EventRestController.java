@@ -7,8 +7,6 @@ import org.itevents.service.CityService;
 import org.itevents.service.EventService;
 import org.itevents.service.TechnologyService;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +25,7 @@ public class EventRestController {
     @Inject
     private TechnologyService technologyService;
 
-    @RequestMapping(value = "/events/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
@@ -56,7 +54,6 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-    //    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=java&techTag=javascript
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getEventsByParameters(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
