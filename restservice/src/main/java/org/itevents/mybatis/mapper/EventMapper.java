@@ -56,9 +56,9 @@ public interface EventMapper extends EventDao {
 
     @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFilteredEvent")
     @ResultMap(value = "getEvent-int")
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    List<Event> getFilteredEvents(@Param("params")FilteredEventsParameter params);
 
     @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFutureFilteredEvents")
     @ResultMap(value = "getEvent-int")
-    List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
+    List<Event> getFutureFilteredEvents(@Param("params")FilteredEventsParameter params,@Param("date") Date date);
 }
