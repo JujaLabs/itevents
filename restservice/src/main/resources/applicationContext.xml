@@ -8,7 +8,7 @@
 
     <mybatis:scan base-package="org.itevents.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
-    <context:property-placeholder location="local.properties"/>
+    <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:local.properties"/>

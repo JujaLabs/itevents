@@ -10,6 +10,8 @@ public interface UserService {
 
     User getUser(int id);
 
+    User getUserByName(String name);
+
     List<User> getAllUsers();
 
     User removeUser(User user);

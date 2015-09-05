@@ -1,0 +1,65 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<http>-->
+    <!--<intercept-url pattern="/user**" access="isAuthenticated()"/>-->
+    <!--<intercept-url pattern="/admin**" access="hasRole('admin')"/>-->
+    <!--<intercept-url pattern="/**" access="permitAll()"/>-->
+
+    <!--<form-login login-page='/login'-->
+    <!--default-target-url="/user"-->
+    <!--authentication-failure-url="/login?error=true"-->
+    <!--username-parameter="user_login"-->
+    <!--password-parameter="password_login"/>-->
+
+    <!--<logout logout-success-url="/login"/>-->
+
+    <!--<access-denied-handler error-page="/login?denied=true"/>-->
+    <!--<remember-me/>-->
+    <!--</http>-->
+    <!--<authentication-manager>-->
+    <!--<authentication-provider>-->
+    <!--<jdbc-user-service data-source-ref="dataSource"-->
+    <!--users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"-->
+    <!--authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"-->
+    <!--role-prefix="none"/>-->
+    <!--</authentication-provider>-->
+
+    <!--</authentication-manager>-->
+
+    <context:component-scan base-package="org.itevents.security"/>
+    <http create-session="always" realm="itevents" use-expressions="true"
+          entry-point-ref="restAuthenticationEntryPoint">
+        <intercept-url pattern="/**" access="permitAll()"/>
+        <form-login login-processing-url="/login"
+                    authentication-success-handler-ref="autenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailureHandler"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <logout logout-url="/logout"
+                success-handler-ref="logoutSuccessHandler"/>
+        <anonymous username="guest"/>
+    </http>
+
+    <beans:bean id="authenticationFailureHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+    <beans:bean id="logoutSuccessHandler"
+                class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"
+                               authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"
+                               role-prefix="none"/>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>
