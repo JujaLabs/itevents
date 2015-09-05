@@ -1,11 +1,14 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.CityService;
 import org.itevents.service.EventService;
 import org.itevents.service.TechnologyService;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@Api("Events")
 public class EventRestController {
 
     @Inject
