@@ -1,11 +1,14 @@
 package org.itevents.model;
 
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
+import org.itevents.xml.DateAdapter;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -18,8 +21,10 @@ public class Event implements Serializable {
     @XmlElement
     private String title;
     @XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date eventDate;
     @XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date createDate;
     @XmlElement
     private String regLink;
