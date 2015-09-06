@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Properties>
+        <property name="logs">logs</property>
+        <property name="archives">${logs}/archives</property>
+        <property name="pattern">%date{ABSOLUTE} %-5level [%-4.4thread] %-50.50logger{3} - %message%n</property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <RollingFile name="DebugLog"
+                     fileName="${logs}/debug.log"
+                     filePattern="${archives}/debug.log.%d{yyyy-MM-dd}.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+        <RollingFile name="FatalLog"
+                     fileName="${logs}/fatal.log"
+                     filePattern="${archives}/fatal.log.%d{yyyy-MM-dd}.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+        <Async name="Debug">
+            <AppenderRef ref="DebugLog"/>
+        </Async>
+
+        <Async name="Fatal">
+            <AppenderRef ref="FatalLog"/>
+        </Async>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Fatal" level="fatal"/>
+        </Root>
+
+        <Logger name="org.springframework.web" level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Fatal" level="fatal"/>
+        </Logger>
+
+    </Loggers>
+
+</Configuration>
