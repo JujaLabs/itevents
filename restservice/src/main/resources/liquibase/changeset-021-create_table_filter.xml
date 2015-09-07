@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="021" author="romach">
+        <sql>
+            CREATE TABLE filters (
+            id SERIAL UNIQUE PRIMARY KEY NOT NULL,
+            user_id INT NOT NULL,
+            city_id INT,
+            free BOOLEAN,
+            longitude FLOAT,
+            latitude FLOAT,
+            radius INT,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            UNIQUE (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE filters;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="023" author="romach">
+        <sql>
+            CREATE TABLE filter_technology(
+            id SERIAL UNIQUE NOT NULL,
+            filter_id INT NOT NULL,
+            technology_id INT NOT NULL,
+            FOREIGN KEY (filter_id) REFERENCES filters(id),
+            FOREIGN KEY (technology_id) REFERENCES technology(id),
+            PRIMARY KEY (filter_id, technology_id),
+            UNIQUE (filter_id, technology_id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE filter_technology;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

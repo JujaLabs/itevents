@@ -2,7 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +19,7 @@ public interface EventService {
 
     Event removeEvent(Event event);
 
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    List<Event> getFilteredEvents(Filter params);
 
     List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
 }

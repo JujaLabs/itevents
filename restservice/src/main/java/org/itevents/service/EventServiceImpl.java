@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +53,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilteredEventsParameter params) {
+    public List<Event> getFilteredEvents(Filter params) {
         List<Event> result;
         try {
             result = eventDao.getFilteredEvents(params);

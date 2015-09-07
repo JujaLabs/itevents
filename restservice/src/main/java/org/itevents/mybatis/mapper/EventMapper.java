@@ -8,6 +8,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.mybatis.mapper.util.SQLBuilder;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 
 import java.util.Date;
 import java.util.List;

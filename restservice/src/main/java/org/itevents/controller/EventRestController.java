@@ -2,7 +2,7 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import org.itevents.model.Event;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.itevents.service.*;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.ApplicationContext;
@@ -62,7 +62,7 @@ public class EventRestController {
                                          @RequestParam(required = false, value = "radius") Integer radius,
                                          @RequestParam(required = false, value = "techTag") String[] technologiesNames) {
 
-        FilteredEventsParameter params = new FilteredEventsParameter();
+        Filter params = new Filter();
 
         if (radius == null || latitude == null || longitude == null) {
             radius = null;
