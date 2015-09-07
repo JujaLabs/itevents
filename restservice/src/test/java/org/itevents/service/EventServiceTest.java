@@ -152,18 +152,13 @@ public class EventServiceTest {
 
     @Test
     public void testGetFutureEvents() throws ParseException {
-        double testLatitude = 50.454605;
-        double testLongitude = 30.403965;
-        int testRadius = 5000;
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(5));
-        expectedEvents.add(eventService.getEvent(7));
+        expectedEvents.add(eventService.getEvent(1));
+        expectedEvents.add(eventService.getEvent(6));
+        expectedEvents.add(eventService.getEvent(4));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-//        eventsParameter.setLatitude(testLatitude);
-//        eventsParameter.setLongitude(testLongitude);
-//        eventsParameter.setRadius(testRadius);
+        Filter eventsParameter = new Filter();
 
         Date date = dateFormatter.parse("09.07.2015");
 

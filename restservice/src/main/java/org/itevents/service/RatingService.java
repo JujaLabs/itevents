@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface RatingService {
 
-   List<Event> chooseMostPopularEventsForUser(int quantity, User user);
+   List<Event> chooseMostPopularEventsForUser(User user);
 }

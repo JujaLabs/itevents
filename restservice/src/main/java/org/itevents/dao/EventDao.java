@@ -22,9 +22,7 @@ public interface EventDao {
     List<Event> getFilteredEvents(Filter params);
     
     void removeEvent(Event event);
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
 
-    List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date);
+    List<Event> getFutureFilteredEvents(Filter params, Date date);
 
-    void removeEvent(Event event);
 }

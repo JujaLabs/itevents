@@ -1,17 +1,16 @@
 package org.itevents.mybatis.mapper.util;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
 public class SQLBuilder {
 
     public String selectFilteredEvent(Map<String, Object> parameters) {
-        final FilteredEventsParameter params = (FilteredEventsParameter) parameters.get("params");
+        final Filter params = (Filter) parameters.get("params");
         return new SQL() {{
             SELECT("*");
             FROM("events e");
@@ -31,7 +30,7 @@ public class SQLBuilder {
         }}.toString();
     }
 
-    private String makeJoin(FilteredEventsParameter params) {
+    private String makeJoin(Filter params) {
         StringBuilder sb = new StringBuilder();
         sb.append("event_technology et ON ");
         for (int i = 0; i < params.getTechnologies().size(); i++) {
@@ -45,7 +44,7 @@ public class SQLBuilder {
     }
 
     public String selectFutureFilteredEvents(Map<String, Object> parameters) throws ParseException {
-        final FilteredEventsParameter params = (FilteredEventsParameter) parameters.get("params");
+        final Filter params = (Filter) parameters.get("params");
         final Date date = (Date) parameters.get("dateStart");
         return new SQL() {{
             SELECT("e.id, e.title, e.event_date, e.create_date, e.reg_link, e.address, e.point, e.contact, e.free," +

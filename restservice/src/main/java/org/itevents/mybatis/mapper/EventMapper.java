@@ -6,8 +6,6 @@ import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.mybatis.mapper.util.SQLBuilder;
-import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.model.Filter;
 
 import java.util.Date;
@@ -57,9 +55,9 @@ public interface EventMapper extends EventDao {
 
     @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFilteredEvent")
     @ResultMap(value = "getEvent-int")
-    List<Event> getFilteredEvents(@Param("params")FilteredEventsParameter params);
+    List<Event> getFilteredEvents(@Param("params")Filter params);
 
     @SelectProvider(type = org.itevents.mybatis.mapper.util.SQLBuilder.class, method = "selectFutureFilteredEvents")
     @ResultMap(value = "getEvent-int")
-    List<Event> getFutureFilteredEvents(@Param("params")FilteredEventsParameter params,@Param("dateStart") Date date);
+    List<Event> getFutureFilteredEvents(@Param("params")Filter params,@Param("dateStart") Date date);
 }

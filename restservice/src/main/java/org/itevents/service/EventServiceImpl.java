@@ -65,7 +65,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFutureFilteredEvents(FilteredEventsParameter params, Date date) {
+    public List<Event> getFutureFilteredEvents(Filter params, Date date) {
         List<Event> result;
         try {
             result = eventDao.getFutureFilteredEvents(params, date);

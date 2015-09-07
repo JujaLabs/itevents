@@ -1,7 +1,7 @@
 package org.itevents.mybatis.mapper.util;
 
+import org.itevents.model.Filter;
 import org.itevents.model.Technology;
-import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.TechnologyService;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class SQLBuilderTest {
         testTechnologies.add(technologyService.getTechnology(antId));
         testTechnologies.add(technologyService.getTechnology(sqlId));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+        Filter eventsParameter = new Filter();
         eventsParameter.setTechnologies(testTechnologies);
         eventsParameter.setFree(true);
         SQLBuilder sqlBuilder = new SQLBuilder();

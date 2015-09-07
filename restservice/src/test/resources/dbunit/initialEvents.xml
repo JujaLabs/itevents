@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <events id="-1" title="Java" event_date="2015-08-30 12:00:00" reg_link="http://www.java.com.ua"
-            address="Beresteyska" contact="java@gmail.com"/>
-    <events id="-2" title="PHP" event_date="2015-09-20 16:00:00" reg_link="http://www.php.com.ua" address="Shulyavska"
-            contact="php@gmail.com"/>
-    <events id="-3" title="JS" event_date="2015-10-01 10:00:00" reg_link="http://www.js.com.ua" address="Nyvky"
-            contact="js@gmail.com"/>
-    <events id="-4" title="CPlusPlus1" event_date="2015-10-18 12:00:00" reg_link="http://www.cplusplus.com.ua"
-            address="Vokzalna" contact="cplusplus@gmail.com"/>
-    <visit_log/>
-    <event_technology/>
+    <city id="1" name="Kyiv" point="POINT(30.523000 50.450500)"/>
+    <city id="2" name="Odessa" point="POINT(30.73333 46.46667)"/>
+    <city id="3" name="Boyarka" point="POINT(30.28861 50.32917)"/>
+    <city id="4" name="Odessa" point="POINT(-82.568333 28.183333)" details="Odessa, Florida, USA"/>
+    <currency id="1" name="USD"/>
+    <currency id="2" name="&#1043;&#1088;&#1080;&#1074;&#1085;&#1072;"/>
+    <currency id="3" name="Euro"/>
+    <events id="1" title="Java" event_date="2015-07-10 00:00:00.0" reg_link="http://www.java.com.ua" address="Beresteyska" contact="java@gmail.com" free="true" city_id="1"/>
+    <events id="2" title="PHP" event_date="2015-07-20 00:00:00.0" reg_link="http://www.php.com.ua" address="Shulyavska" contact="php@gmail.com" free="true" city_id="3"/>
+    <events id="3" title="JS" event_date="2015-07-30 00:00:00.0" reg_link="http://www.js.com.ua" address="Nyvky" contact="js@gmail.com" free="false" price="20" currency_id="3" city_id="1"/>
+    <events id="4" title="CPlusPlus" event_date="2015-07-15 00:00:00.0" reg_link="http://www.cplusplus.com.ua" address="Vokzalna" contact="cplusplus@gmail.com" free="false" price="20" currency_id="3" city_id="2"/>
+    <events id="5" title="ObjectiveC" event_date="2015-07-05 00:00:00.0" reg_link="http://www.objective-c.com.ua" address="Universytet" contact="objectivec@gmail.com" free="false" price="20" currency_id="3" city_id="2"/>
+    <events id="6" title="CSharp" event_date="2015-07-09 00:00:00.0" reg_link="http://www.c#.com.ua" address="Khreschatyk" contact="csharp@gmail.com" free="false" price="20" currency_id="3" city_id="3"/>
+    <events id="7" title="Delphi" event_date="2015-07-05 00:00:00.0" reg_link="http://www.delphi.com.ua" address="Arsenalna" contact="delphi@gmail.com" free="false" price="30" currency_id="1" city_id="1"/>
+    <technology id="1" name="Java"/>
+    <technology id="2" name="JavaScript"/>
+    <technology id="3" name="PHP"/>
+    <technology id="4" name="Liquibase"/>
+    <technology id="5" name="Gradle"/>
+    <technology id="6" name="Maven"/>
+    <technology id="7" name="Ant"/>
+    <technology id="8" name="Spring"/>
+    <technology id="9" name="MyBatis"/>
+    <technology id="10" name="SQL"/>
+    <technology id="11" name="PostGIS"/>
+    <event_technology id="1" event_id="1" technology_id="1"/>
+    <event_technology id="2" event_id="1" technology_id="4"/>
+    <event_technology id="10" event_id="1" technology_id="8"/>
+    <event_technology id="11" event_id="1" technology_id="9"/>
+    <event_technology id="6" event_id="2" technology_id="2"/>
+    <event_technology id="7" event_id="3" technology_id="3"/>
+    <event_technology id="3" event_id="4" technology_id="1"/>
+    <event_technology id="4" event_id="4" technology_id="3"/>
+    <event_technology id="5" event_id="5" technology_id="5"/>
+    <event_technology id="8" event_id="6" technology_id="6"/>
+    <event_technology id="9" event_id="7" technology_id="7"/>
+    <roles id="1" name="guest"/>
+    <roles id="2" name="admin"/>
+    <roles id="3" name="subscriber"/>
+    <users id="1" login="guest" password="guest" roles_id="1"/>
+    <users id="2" login="anakin@email.com" password="alex" roles_id="2"/>
+    <users id="3" login="kuchin@email.com" password="viktor" roles_id="2"/>
+    <users id="4" login="vlasov@email.com" password="alex" roles_id="3"/>
+    <visit_log id="1" event_id="1" date="2016-07-20" user_id="1"/>
+    <visit_log id="2" event_id="1" date="2016-07-20" user_id="2"/>
+    <visit_log id="3" event_id="2" date="2016-07-20" user_id="1"/>
+    <visit_log id="4" event_id="2" date="2016-08-20" user_id="2"/>
+    <visit_log id="5" event_id="3" date="2016-09-20" user_id="3"/>
+    <visit_log id="6" event_id="2" date="2016-08-20" user_id="3"/>
+    <visit_log id="7" event_id="1" date="2016-09-20" user_id="3"/>
+
 </dataset>
