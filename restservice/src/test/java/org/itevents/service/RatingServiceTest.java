@@ -2,11 +2,9 @@ package org.itevents.service;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import org.itevents.model.Location;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import org.junit.Assert;
 import org.itevents.model.Event;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,9 +14,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.itevents.mybatis.mapper.dbunit.SpatialAwareFlatXmlDataSetLoader;
 import javax.inject.Inject;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,10 +23,10 @@ import java.util.*;
 @Transactional
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
-        TransactionDbUnitTestExecutionListener.class})
+        TransactionDbUnitTestExecutionListener.class,})
+@DbUnitConfiguration(databaseConnection = "org.itevents.mybatis.mapper.dbunit.GeoDBDatabaseConnection",
+        dataSetLoader = SpatialAwareFlatXmlDataSetLoader.class)
 public class RatingServiceTest {
-
-
 
     @Inject
     private UserService userService;
@@ -40,8 +37,7 @@ public class RatingServiceTest {
     @DatabaseSetup("classpath:dbunit/initialEvents.xml")
     public void testChooseMostPopularEventsForUser(){
         int expectedSize = 4;
-
-        List<Event> returnedEvents = ratingService.chooseMostPopularEventsForUser(userService.getUser(1));
+        List<Event> returnedEvents = ratingService.chooseMostPopularEventsForUser(userService.getUser(4));
         Assert.assertEquals(expectedSize, returnedEvents.size());
     }
 }

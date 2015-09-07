@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <city id="1" name="Kyiv" point="POINT(30.523000 50.450500)"/>
-    <city id="2" name="Odessa" point="POINT(30.73333 46.46667)"/>
-    <city id="3" name="Boyarka" point="POINT(30.28861 50.32917)"/>
-    <city id="4" name="Odessa" point="POINT(-82.568333 28.183333)" details="Odessa, Florida, USA"/>
+    <city id="1" name="Kyiv" point="GEOM_POINT(30.523000 50.450500)"/>
+    <city id="2" name="Odessa" point="GEOM_POINT(30.73333 46.46667)"/>
+    <city id="3" name="Boyarka" point="GEOM_POINT(30.28861 50.32917)"/>
+    <city id="4" name="Odessa" point="GEOM_POINT(-82.568333 28.183333)" details="Odessa, Florida, USA"/>
     <currency id="1" name="USD"/>
     <currency id="2" name="&#1043;&#1088;&#1080;&#1074;&#1085;&#1072;"/>
     <currency id="3" name="Euro"/>

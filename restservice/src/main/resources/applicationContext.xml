@@ -21,12 +21,19 @@
         <property name="password" value="${database.password}"/>
     </bean>
 
+    
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="mybatis-config.xml"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="dbUnitDatabaseConnection"
+          class="org.itevents.mybatis.mapper.dbunit.GeoDBDatabaseConnection">
         <property name="dataSource" ref="dataSource" />
     </bean>
 </beans>

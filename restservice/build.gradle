@@ -9,6 +9,15 @@ targetCompatibility = 1.7
 
 repositories {
     mavenLocal()
+    maven {
+        url 'http://maven.geotoolkit.org/'
+    }
+    maven {
+        url "http://download.osgeo.org/webdav/geotools/"
+    }
+    maven {
+        url "http://repo.opengeo.org"
+    }
     mavenCentral()
     jcenter()
 }
@@ -46,6 +55,8 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
+    testCompile 'com.vividsolutions:jts:1.13'
+    testCompile 'org.geotools:gt-shapefile:13.2'
   }
 
 httpPort = 8080
