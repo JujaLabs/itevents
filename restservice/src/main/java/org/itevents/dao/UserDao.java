@@ -18,4 +18,8 @@ public interface UserDao {
     void addUser(User user);
 
     void removeUser(User user);
+
+    void subscribeToEvent(User user);
+
+    void getUserEvents(User user);
 }

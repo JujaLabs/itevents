@@ -1,11 +1,14 @@
 package org.itevents.model;
 
+import java.util.List;
+
 public class User {
 
     private int id;
     private String login;
     private String password;
     private Role role;
+    private List<Event> events;
 
     public User() {
     }
@@ -46,6 +49,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     @Override

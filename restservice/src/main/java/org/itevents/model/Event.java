@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -37,6 +38,7 @@ public class Event implements Serializable {
     private Currency currency;
     @XmlElement
     private City city;
+    private List<User> visitors;
 
     public Event() {
     }
@@ -172,6 +174,14 @@ public class Event implements Serializable {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public List<User> getAllVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<User> visitors) {
+        this.visitors = visitors;
     }
 
     @Override

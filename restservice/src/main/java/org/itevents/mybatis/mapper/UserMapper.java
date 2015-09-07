@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Role;
 import org.itevents.model.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -34,4 +35,11 @@ public interface UserMapper extends UserDao {
 
     @Delete("DELETE FROM users WHERE id =#{id}")
     void removeUser(User user);
+
+    @PreAuthorize("isAuthenticated()")
+    @Insert("INSERT INTO subscriptions(user_id, event_id) VALUES(#{id}, #{id})")
+    void subscribeToEvent(User user);
+
+    @Select("SELECT * FROM subscriptions WHERE user_id = #{id}")
+    void getUserEvents(User user);
 }

@@ -3,6 +3,7 @@ package org.itevents.service;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,4 +59,15 @@ public class EventServiceImpl implements EventService {
         return result;
     }
 
+    @Override
+    public List<User> getVisitors(Event event) {
+        List<User> visitors;
+        try {
+            visitors = eventDao.getAllVisitors(event);
+        }catch (Exception e) {
+            visitors = new ArrayList<>();
+        }
+
+        return visitors;
+    }
 }
