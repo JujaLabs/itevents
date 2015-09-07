@@ -2,6 +2,7 @@ package org.itevents.mybatis.mapper;
 
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,5 +52,12 @@ public class EventMapperTest {
     public void testGetEvent0() {
         Event returnedEvent = eventMapper.getEvent(ID_0);
         assertNull(returnedEvent);
+    }
+
+    @Test
+    public void test(){
+        FilteredEventsParameter parameters = new FilteredEventsParameter();
+        Date date = new Date(System.currentTimeMillis());
+        eventMapper.getFutureFilteredEvents(parameters, date);
     }
 }

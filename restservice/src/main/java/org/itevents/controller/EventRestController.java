@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
@@ -88,15 +86,6 @@ public class EventRestController {
         itemPerPage = getItemPerPage(itemPerPage);
         List<Event> filteredEvents = eventService.getFilteredEvents(params);
         return getPaginatedEvents(page, itemPerPage, filteredEvents);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/events_future")
-    public List<Event> getFutureFilteredEvents() throws ParseException {
-
-        FilteredEventsParameter params = new FilteredEventsParameter();
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        return eventService.getFutureFilteredEvents(params, dateFormatter.parse("01.07.2015"));
     }
 
     private int getItemPerPage(Integer itemPerPage) {

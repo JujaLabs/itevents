@@ -161,11 +161,11 @@ public class EventServiceTest {
         expectedEvents.add(eventService.getEvent(7));
 
         FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-        eventsParameter.setLatitude(testLatitude);
-        eventsParameter.setLongitude(testLongitude);
-        eventsParameter.setRadius(testRadius);
+//        eventsParameter.setLatitude(testLatitude);
+//        eventsParameter.setLongitude(testLongitude);
+//        eventsParameter.setRadius(testRadius);
 
-        Date date = dateFormatter.parse("01.07.2015");
+        Date date = dateFormatter.parse("09.07.2015");
 
         List<Event> returnedEvents = eventService.getFutureFilteredEvents(eventsParameter, date);
         assertEquals(expectedEvents, returnedEvents);

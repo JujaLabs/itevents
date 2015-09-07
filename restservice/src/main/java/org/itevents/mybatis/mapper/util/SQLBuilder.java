@@ -46,43 +46,32 @@ public class SQLBuilder {
 
     public String selectFutureFilteredEvents(Map<String, Object> parameters) throws ParseException {
         final FilteredEventsParameter params = (FilteredEventsParameter) parameters.get("params");
-        final Date date = (Date) parameters.get("date");
-        StringBuilder sb = new StringBuilder();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        sb.append(" vl.event_id IN (");
-        sb.append(selectFilteredEvent(parameters));
-        sb.replace(sb.indexOf("*"), sb.indexOf("*") + 1, "e.id");
-        if (sb.indexOf("events e") == (sb.length() - 8)){
-            sb.append(" WHERE ");
-        } else{
-            sb.append(" AND ");
-        }
-        sb.append("event_date BETWEEN '" + date + "'::date AND ('" + date + "'::date + interval '7 day')");
-        sb.append(")");
-        final String modificatedQuery = sb.toString();
-        String sql = new SQL() {{
-            SELECT("vl.event_id");
-            FROM("visit_log vl");
-            WHERE(modificatedQuery);
-            GROUP_BY("vl.event_id");
-            ORDER_BY("COUNT(vl.user_id) DESC");
-        }}.toString();
-        sb = new StringBuilder();
-        sb.append(" id IN(");
-        sb.append(sql);
-        sb.append(")");
-        final String preparedWhere = sb.toString();
+        final Date date = (Date) parameters.get("dateStart");
         return new SQL() {{
-            SELECT("*");
-            FROM("events");
-            WHERE(preparedWhere);
+            SELECT("e.id, e.title, e.event_date, e.create_date, e.reg_link, e.address, e.point, e.contact, e.free," +
+                    " e.price, e.currency_id, e.city_id");
+            FROM("events e");
+            LEFT_OUTER_JOIN("visit_log vl ON e.id = vl.event_id");
+            if (params.getCity() != null) {
+                WHERE("city_id = #{params.city.id}");
+            }
+            if (params.getCity() == null && (params.getLatitude() != null)) {
+                WHERE("ST_DWithin((point)::geography, " +
+                        "ST_MakePoint(#{params.longitude},#{params.latitude})::geography, #{params.radius})");
+            }
+            if (params.getFree() != null) {
+                WHERE("free = #{params.free}");
+            }
+            if (params.getTechnologies() != null) {
+                JOIN(makeJoin(params));
+                WHERE("e.id=et.event_id");
+            }
+            if (date != null) {
+                WHERE("event_date BETWEEN '" + date + "'::date AND ('" + date + "'::date + interval '7 day')");
+            }
+            GROUP_BY("e.id, vl.event_id");
+            ORDER_BY("COUNT(vl.user_id) DESC");
+
         }}.toString();
     }
-
-//    public String selectFutureFilteredEvents(Map<String, Object> parameters){
-//        return new SQL(){{
-//            SELECT("*");
-//            FROM("events");
-//        }}.toString();
-//    }
 }
