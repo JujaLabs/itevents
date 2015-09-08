@@ -79,10 +79,10 @@ public class SequrityTests {
 	}
 
 	@Test
-	public void testIndexUnauthenticated() throws Exception {
+	public void testIndexAnonymous() throws Exception {
 		mvc.perform(get("/"))
 				.andExpect(view().name("index"))
-				.andExpect(unauthenticated())
+				.andExpect(authenticated().withUsername("guest"))
 				.andExpect(status().isOk());
 	}
 
@@ -92,6 +92,30 @@ public class SequrityTests {
 		mvc.perform(get("/"))
 				.andExpect(view().name("index"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testAdminAnonymous() throws Exception {
+		mvc.perform(get("/admin"))
+				.andExpect(unauthenticated())
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	@WithUserDetails("vlasov@email.com")
+	public void testAdminDenied() throws Exception {
+		mvc.perform(get("/admin"))
+				.andExpect(authenticated().withUsername("vlasov@email.com"))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@WithUserDetails("kuchin@email.com")
+	public void testAdminGranted() throws Exception {
+		mvc.perform(get("/admin"))
+				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("admin"))
+				.andExpect(view().name("index"))
 				.andExpect(status().isOk());
 	}
 

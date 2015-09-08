@@ -38,6 +38,7 @@
     <context:component-scan base-package="org.itevents.security"/>
     <http realm="itevents" use-expressions="true"
           entry-point-ref="restAuthenticationEntryPoint">
+        <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
@@ -60,7 +61,8 @@
                                users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"
                                authorities-by-username-query=
                                        "SELECT users.login, roles.name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"
-                               role-prefix="none"/>
+                               role-prefix="ROLE_"
+                    />
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
