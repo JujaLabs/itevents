@@ -29,7 +29,6 @@ public class AppTests {
 
     @Before
     public void setup() {
-//        mvc = webAppContextSetup(context).build();
         mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
 
