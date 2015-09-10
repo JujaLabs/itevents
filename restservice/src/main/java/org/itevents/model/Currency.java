@@ -54,17 +54,14 @@ public class Currency implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Currency role = (Currency) o;
+        Currency currency = (Currency) o;
 
-        if (id != role.id) return false;
-        return name.equals(role.name);
+        return !(name != null ? !name.equals(currency.name) : currency.name != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id ^ (id >>> 32);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 }

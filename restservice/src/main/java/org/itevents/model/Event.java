@@ -194,7 +194,6 @@ public class Event implements Serializable {
 
         Event event = (Event) o;
 
-        if (id != event.id) return false;
         if (title != null ? !title.equals(event.title) : event.title != null) return false;
         if (eventDate != null ? !eventDate.equals(event.eventDate) : event.eventDate != null) return false;
         if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
@@ -212,8 +211,7 @@ public class Event implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        int result = title != null ? title.hashCode() : 0;
         result = 31 * result + (eventDate != null ? eventDate.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (regLink != null ? regLink.hashCode() : 0);
