@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URL;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 
@@ -45,7 +46,9 @@ public class VisitLogRestController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = getUserFromSession();
-        visitLogService.addVisitLog(new VisitLog(event, user));
+        VisitLog visitLog = new VisitLog(event, user);
+        visitLog.setDate(new GregorianCalendar().getTime());
+        visitLogService.addVisitLog(visitLog);
         return new ResponseEntity(headers, HttpStatus.FOUND);
     }
 

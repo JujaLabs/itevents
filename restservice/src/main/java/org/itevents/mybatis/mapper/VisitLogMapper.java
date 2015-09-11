@@ -28,7 +28,7 @@ public interface VisitLogMapper extends VisitLogDao {
     @Select("SELECT * FROM visit_log WHERE event_id = #{id}")
     List<VisitLog> getVisitLogsByEvent(Event event);
 
-    @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, NOW(),  #{user.id})")
+    @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")
     @Options(useGeneratedKeys = true)
     void addVisitLog(VisitLog visitLog);
 
