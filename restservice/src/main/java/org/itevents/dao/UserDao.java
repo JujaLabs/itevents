@@ -21,5 +21,7 @@ public interface UserDao {
 
     void subscribeToEvent(User user);
 
+    void unsubscribeFromEvent(User user);
+
     void getUserEvents(User user);
 }

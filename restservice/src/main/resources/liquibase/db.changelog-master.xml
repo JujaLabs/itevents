@@ -29,5 +29,4 @@
     <include file="src/main/resources/liquibase/changeset-020-insert_data_to_visitLog.xml"/>
     <include file="src/main/resources/liquibase/changeset-021-create_table_subscriptions.xml"/>
 
-
 </databaseChangeLog>
