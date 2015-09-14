@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service("userService")
 @Transactional
-public class TransactionalUserService implements UserService {
+public class MyBatisUserService implements UserService {
 
     @Inject
     private UserDao userDao;

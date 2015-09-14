@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Service("techTagService")
 @Transactional
-public class TransactionalTechnologyService implements TechnologyService {
+public class MyBatisTechnologyService implements TechnologyService {
 
     @Inject
     private TechnologyDao technologyDao;

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service("roleService")
 @Transactional
-public class TransactionalRoleService implements RoleService {
+public class MyBatisRoleService implements RoleService {
 
     @Inject
     private RoleDao roleDao;

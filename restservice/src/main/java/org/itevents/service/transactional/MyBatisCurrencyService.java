@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Service("currencyService")
 @Transactional
-public class TransactionalCurrencyService implements CurrencyService {
+public class MyBatisCurrencyService implements CurrencyService {
 
     @Inject
     private CurrencyDao currencyDao;

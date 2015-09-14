@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service("eventService")
 @Transactional
-public class TransactionalEventService implements EventService {
+public class MyBatisEventService implements EventService {
 
     private static final Logger logger = LogManager.getLogger();
 

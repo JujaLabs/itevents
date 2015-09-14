@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service("visitLogService")
 @Transactional
-public class TransactionalVisitLogService implements VisitLogService {
+public class MyBatisVisitLogService implements VisitLogService {
 
     @Inject
     private VisitLogDao visitLogDao;

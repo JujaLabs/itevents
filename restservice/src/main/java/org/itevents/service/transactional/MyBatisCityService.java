@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service("cityService")
 @Transactional
-public class TransactionalCityService implements CityService {
+public class MyBatisCityService implements CityService {
 
     @Inject
     private CityDao cityDao;
