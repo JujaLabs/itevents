@@ -2,30 +2,22 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import org.itevents.model.Event;
-import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.CityService;
 import org.itevents.service.EventService;
-import org.itevents.service.TechnologyService;
-import org.itevents.service.transactional.MyBatisCityService;
-import org.itevents.service.transactional.MyBatisEventService;
-import org.itevents.service.transactional.MyBatisTechnologyService;
+import org.itevents.wrapper.EventWrapper;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @RestController
 @Api("Events")
 public class EventRestController {
 
-    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private EventService eventService = context.getBean("eventService", MyBatisEventService.class);
-    private CityService cityService = context.getBean("cityService", MyBatisCityService.class);
-    private TechnologyService technologyService = context.getBean("techTagService", MyBatisTechnologyService.class);
+    @Inject
+    private EventService eventService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
@@ -59,36 +51,38 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
-                                         @RequestParam(required = false, value = "cityId") Integer cityId,
-                                         @RequestParam(required = false, value = "free") Boolean free,
-                                         @RequestParam(required = false, value = "lat") Double latitude,
-                                         @RequestParam(required = false, value = "lon") Double longitude,
-                                         @RequestParam(required = false, value = "radius") Integer radius,
-                                         @RequestParam(required = false, value = "techTag") String[] technologiesNames) {
+                                         @ModelAttribute EventWrapper wrapper) {
+//
+//                                         @RequestParam(required = false, value = "cityId")          Integer cityId,
+//                                         @RequestParam(required = false, value = "free")            Boolean free,
+//                                         @RequestParam(required = false, value = "lat")             Double latitude,
+//                                         @RequestParam(required = false, value = "lon")             Double longitude,
+//                                         @RequestParam(required = false, value = "radius")          Integer radius,
+//                                         @RequestParam(required = false, value = "techTag")         String[] technologiesNames) {
 
-        FilteredEventsParameter params = new FilteredEventsParameter();
-
-        if (radius == null || latitude == null || longitude == null) {
-            radius = null;
-            longitude = null;
-            latitude = null;
-        }
-
-        if (cityId != null) {
-            params.setCity(cityService.getCity(cityId));
-        }
-        if (technologiesNames != null) {
-            params.setTechnologies(technologyService.getSeveralTechnologiesByName(technologiesNames));
-        }
-        if (page == null) {
-            page = 0;
-        }
-        params.setFree(free);
-        params.setLatitude(latitude);
-        params.setLongitude(longitude);
-        params.setRadius(radius);
+//        FilteredEventsParameter params = new FilteredEventsParameter();
+//
+//        if (radius == null || latitude == null || longitude == null) {
+//            radius = null;
+//            longitude = null;
+//            latitude = null;
+//        }
+//
+//        if (cityId != null) {
+//            params.setCity(cityService.getCity(cityId));
+//        }
+//        if (technologiesNames != null) {
+//            params.setTechnologies(technologyService.getSeveralTechnologiesByName(technologiesNames));
+//        }
+//        if (page == null) {
+//            page = 0;
+//        }
+//        params.setFree(free);
+//        params.setLatitude(latitude);
+//        params.setLongitude(longitude);
+//        params.setRadius(radius);
         itemsPerPage = getItemPerPage(itemsPerPage);
-        List<Event> filteredEvents = eventService.getFilteredEvents(params);
+        List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
         return getPaginatedEvents(page, itemsPerPage, filteredEvents);
     }
 

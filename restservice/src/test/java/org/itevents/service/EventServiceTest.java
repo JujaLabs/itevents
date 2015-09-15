@@ -3,7 +3,7 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.model.Technology;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,17 +84,19 @@ public class EventServiceTest {
         int javaId = 1;
         int kyivId = 1;
 
-        List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechnology(javaId));
+        EventWrapper wrapper = new EventWrapper();
+        String[] testTechnologies = new String[]{technologyService.getTechnology(javaId).getName()};
+        wrapper.setTechnologiesNames(testTechnologies);
+        wrapper.setCityId(kyivId);
 
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(1));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-        eventsParameter.setTechnologies(testTechnologies);
-        eventsParameter.setCity(cityService.getCity(kyivId));
+//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+//        eventsParameter.setTechnologies(testTechnologies);
+//        eventsParameter.setCity(cityService.getCity(kyivId));
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -105,11 +107,15 @@ public class EventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(6));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-        eventsParameter.setCity(cityService.getCity(boyarkaId));
-        eventsParameter.setFree(false);
+        EventWrapper wrapper = new EventWrapper();
+        wrapper.setCityId(boyarkaId);
+        wrapper.setFree(false);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+//        eventsParameter.setCity(cityService.getCity(boyarkaId));
+//        eventsParameter.setFree(false);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -124,15 +130,22 @@ public class EventServiceTest {
         expectedEvents.add(eventService.getEvent(3));
         expectedEvents.add(eventService.getEvent(7));
 
-        List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechnology(phpId));
-        testTechnologies.add(technologyService.getTechnology(antId));
-        testTechnologies.add(technologyService.getTechnology(sqlId));
+        EventWrapper wrapper = new EventWrapper();
+        String[] testTechnologies = new String[]{
+                technologyService.getTechnology(phpId).getName(),
+                technologyService.getTechnology(antId).getName(),
+                technologyService.getTechnology(sqlId).getName()};
+        wrapper.setTechnologiesNames(testTechnologies);
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-        eventsParameter.setTechnologies(testTechnologies);
+//        List<Technology> testTechnologies = new ArrayList<>();
+//        testTechnologies.add(technologyService.getTechnology(phpId));
+//        testTechnologies.add(technologyService.getTechnology(antId));
+//        testTechnologies.add(technologyService.getTechnology(sqlId));
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
+//        eventsParameter.setTechnologies(testTechnologies);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -146,12 +159,13 @@ public class EventServiceTest {
         expectedEvents.add(eventService.getEvent(2));
         expectedEvents.add(eventService.getEvent(3));
 
-        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-        eventsParameter.setLatitude(testLatitude);
-        eventsParameter.setLongitude(testLongitude);
-        eventsParameter.setRadius(testRadius);
+        EventWrapper wrapper = new EventWrapper();
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(eventsParameter);
+        wrapper.setLatitude(testLatitude);
+        wrapper.setLongitude(testLongitude);
+        wrapper.setRadius(testRadius);
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 }
