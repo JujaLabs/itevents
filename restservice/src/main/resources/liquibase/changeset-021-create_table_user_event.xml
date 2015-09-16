@@ -7,8 +7,10 @@
     <changeSet id="021" author="Igor">
         <sql>
             CREATE TABLE user_event (
-            FOREIGN KEY (event_id) INT REFERENCES events(id),
-            FOREIGN KEY (user_id) INT REFERENCES users(id),
+            event_id INT NOT NULL,
+            user_id INT NOT NULL,
+            FOREIGN KEY(event_id) REFERENCES events(id),
+            FOREIGN KEY(user_id) REFERENCES users(id),
             CONSTRAINT user_event_constraint UNIQUE (user_id, event_id)
             );
         </sql>
