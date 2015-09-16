@@ -15,4 +15,9 @@ public class IndexController {
 	public String printWelcome(ModelMap model) {
 		return "index";
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "admin")
+	public String onlyForAdmin(ModelMap model) {
+		return "index";
+	}
 }

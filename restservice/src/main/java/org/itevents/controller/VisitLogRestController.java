@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import java.net.URL;
 
 
 @RestController
+@Api(value = "visits", description = "Visit log")
 public class VisitLogRestController {
 
     @Inject
@@ -28,7 +31,7 @@ public class VisitLogRestController {
     @Inject
     private UserService userService;
 
-    @RequestMapping(value = "/events/{event_id}/register")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
     public ResponseEntity redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();

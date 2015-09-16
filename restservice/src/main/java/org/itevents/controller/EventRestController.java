@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.CityService;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@Api("Events")
 public class EventRestController {
 
     @Inject
@@ -23,7 +25,7 @@ public class EventRestController {
     @Inject
     private TechnologyService technologyService;
 
-    @RequestMapping(value = "/events/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
@@ -52,7 +54,6 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-    //    radius=10&cityId=23&lat=50.434&lon=30.543&free=true&techTag=java&techTag=javascript
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public List<Event> getEventsByParameters(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemPerPage") Integer itemPerPage,
