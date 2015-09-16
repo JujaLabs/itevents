@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by vaa25 on 17.07.2015.
  */
-@Service("techTagService")
+@Service("technologyService")
 @Transactional
 public class MyBatisTechnologyService implements TechnologyService {
 
