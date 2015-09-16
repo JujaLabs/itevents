@@ -27,6 +27,8 @@ public class UserMapperTest {
     private UserMapper userMapper;
     @Inject
     private RoleMapper roleMapper;
+    @Inject
+    private EventMapper eventMapper;
 
     @Test
     public void testGetUser1() throws Exception {
@@ -69,5 +71,10 @@ public class UserMapperTest {
         userMapper.removeUser(testUser);
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
+    }
+
+    @Test
+    public void subscribeToEvent(){
+       userMapper.subscribeToEvent(userMapper.getUser(3).getId(), eventMapper.getEvent(3).getId());
     }
 }

@@ -9,8 +9,8 @@
             CREATE TABLE user_event (
             event_id INT NOT NULL,
             user_id INT NOT NULL,
-            FOREIGN KEY(event_id) REFERENCES events(id),
-            FOREIGN KEY(user_id) REFERENCES users(id),
+            FOREIGN KEY (event_id) REFERENCES events(id),
+            FOREIGN KEY (user_id) REFERENCES users(id),
             CONSTRAINT user_event_constraint UNIQUE (user_id, event_id)
             );
         </sql>
