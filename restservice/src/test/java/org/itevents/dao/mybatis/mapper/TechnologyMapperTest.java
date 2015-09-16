@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.itevents.model.Technology;
 import org.junit.Test;

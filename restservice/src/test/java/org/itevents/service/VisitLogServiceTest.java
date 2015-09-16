@@ -1,6 +1,5 @@
 package org.itevents.service;
 
-import org.itevents.mybatis.mapper.UserMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;

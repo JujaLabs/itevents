@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
@@ -7,8 +7,6 @@ import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.model.Event;
-import org.itevents.model.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +19,13 @@ public interface EventMapper extends EventDao {
             @Result(property = "createDate", column = "create_date"),
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "location", column = "id", javaType = Location.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.LocationMapper.selectLocation")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.selectLocation")),
             @Result(property = "currency", column = "currency_id", javaType = Currency.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.CurrencyMapper.getCurrency")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
             @Result(property = "city", column = "city_id", javaType = City.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.CityMapper.getCity")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
             @Result(property = "technologies", column = "id", javaType = ArrayList.class,
-                    many = @Many(select = "org.itevents.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
+                    many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
     })
     @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);

@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.itevents.model.Role;
 import org.junit.Test;

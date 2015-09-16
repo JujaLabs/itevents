@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.TechnologyDao;
