@@ -92,10 +92,6 @@ public class EventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(eventService.getEvent(1));
 
-//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-//        eventsParameter.setTechnologies(testTechnologies);
-//        eventsParameter.setCity(cityService.getCity(kyivId));
-
         List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
@@ -111,10 +107,6 @@ public class EventServiceTest {
         wrapper.setCityId(boyarkaId);
         wrapper.setFree(false);
 
-//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-//        eventsParameter.setCity(cityService.getCity(boyarkaId));
-//        eventsParameter.setFree(false);
-
         List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
@@ -126,8 +118,8 @@ public class EventServiceTest {
         int sqlId = 10;
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(eventService.getEvent(4));
         expectedEvents.add(eventService.getEvent(3));
+        expectedEvents.add(eventService.getEvent(4));
         expectedEvents.add(eventService.getEvent(7));
 
         EventWrapper wrapper = new EventWrapper();
@@ -136,14 +128,6 @@ public class EventServiceTest {
                 technologyService.getTechnology(antId).getName(),
                 technologyService.getTechnology(sqlId).getName()};
         wrapper.setTechnologiesNames(testTechnologies);
-
-//        List<Technology> testTechnologies = new ArrayList<>();
-//        testTechnologies.add(technologyService.getTechnology(phpId));
-//        testTechnologies.add(technologyService.getTechnology(antId));
-//        testTechnologies.add(technologyService.getTechnology(sqlId));
-
-//        FilteredEventsParameter eventsParameter = new FilteredEventsParameter();
-//        eventsParameter.setTechnologies(testTechnologies);
 
         List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);

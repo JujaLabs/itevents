@@ -1,4 +1,4 @@
-package org.itevents.converter;
+package org.itevents.service.converter;
 
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.CityService;
@@ -19,23 +19,8 @@ public class EventConverter {
     @Inject
     private CityService cityService;
 
-//    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//    private CityService cityService = context.getBean("cityService", CityService.class);
-//    private TechnologyService technologyService =context.getBean("techTagService", TechnologyService.class);
-
-    private EventWrapper wrapper;
-
-    public EventConverter() {
-    }
-
-    public EventConverter(EventWrapper wrapper) {
-        this.wrapper = wrapper;
-    }
-
-    public FilteredEventsParameter convert() {
+    public FilteredEventsParameter convert(EventWrapper wrapper) {
         FilteredEventsParameter result = new FilteredEventsParameter();
-        System.out.println("technologyService = " + technologyService);
-        System.out.println("cityService = " + cityService);
         if (wrapper.getTechnologiesNames() != null) {
             result.setTechnologies(technologyService.getSeveralTechnologiesByName(wrapper.getTechnologiesNames()));
         }

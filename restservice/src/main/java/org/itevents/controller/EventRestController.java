@@ -16,7 +16,7 @@ import java.util.List;
 @Api("Events")
 public class EventRestController {
 
-    private static final int DEFAULT_ITEMS_PER_PAGE = 10;
+    private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
     private EventService eventService;
 
@@ -53,35 +53,6 @@ public class EventRestController {
     public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
                                          @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
                                          @ModelAttribute EventWrapper wrapper) {
-//
-//                                         @RequestParam(required = false, value = "cityId")          Integer cityId,
-//                                         @RequestParam(required = false, value = "free")            Boolean free,
-//                                         @RequestParam(required = false, value = "lat")             Double latitude,
-//                                         @RequestParam(required = false, value = "lon")             Double longitude,
-//                                         @RequestParam(required = false, value = "radius")          Integer radius,
-//                                         @RequestParam(required = false, value = "techTag")         String[] technologiesNames) {
-
-//        FilteredEventsParameter params = new FilteredEventsParameter();
-//
-//        if (radius == null || latitude == null || longitude == null) {
-//            radius = null;
-//            longitude = null;
-//            latitude = null;
-//        }
-//
-//        if (cityId != null) {
-//            params.setCity(cityService.getCity(cityId));
-//        }
-//        if (technologiesNames != null) {
-//            params.setTechnologies(technologyService.getSeveralTechnologiesByName(technologiesNames));
-//        }
-//        if (page == null) {
-//            page = 0;
-//        }
-//        params.setFree(free);
-//        params.setLatitude(latitude);
-//        params.setLongitude(longitude);
-//        params.setRadius(radius);
         itemsPerPage = getItemsPerPage(itemsPerPage);
         List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
         return getPaginatedEvents(page, itemsPerPage, filteredEvents);

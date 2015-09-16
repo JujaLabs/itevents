@@ -2,11 +2,11 @@ package org.itevents.service.transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.converter.EventConverter;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.EventService;
+import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +23,8 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
+    @Inject
+    private EventConverter eventConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -57,7 +59,7 @@ public class MyBatisEventService implements EventService {
     public List<Event> getFilteredEvents(EventWrapper wrapper) {
         List<Event> result;
         try {
-            result = eventDao.getFilteredEvents(new EventConverter(wrapper).convert());
+            result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
             logger.error("Exception :", e);
             result = new ArrayList<>();
