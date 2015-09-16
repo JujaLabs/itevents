@@ -7,7 +7,7 @@
        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mybatis:scan base-package="org.itevents.mybatis.mapper"/>
-    <context:component-scan base-package="org.itevents.service"/>
+    <context:component-scan base-package="org.itevents.converter, org.itevents.service"/>
     <context:property-placeholder location="local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

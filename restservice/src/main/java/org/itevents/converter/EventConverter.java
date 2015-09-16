@@ -4,12 +4,14 @@ import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
 import org.itevents.wrapper.EventWrapper;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
 /**
  * Created by vaa25 on 14.09.2015.
  */
+@Component
 public class EventConverter {
 
     @Inject
@@ -23,12 +25,17 @@ public class EventConverter {
 
     private EventWrapper wrapper;
 
+    public EventConverter() {
+    }
+
     public EventConverter(EventWrapper wrapper) {
         this.wrapper = wrapper;
     }
 
     public FilteredEventsParameter convert() {
         FilteredEventsParameter result = new FilteredEventsParameter();
+        System.out.println("technologyService = " + technologyService);
+        System.out.println("cityService = " + cityService);
         if (wrapper.getTechnologiesNames() != null) {
             result.setTechnologies(technologyService.getSeveralTechnologiesByName(wrapper.getTechnologiesNames()));
         }
