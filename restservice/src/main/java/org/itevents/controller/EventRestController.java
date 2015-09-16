@@ -16,6 +16,7 @@ import java.util.List;
 @Api("Events")
 public class EventRestController {
 
+    private static final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
     private EventService eventService;
 
@@ -81,15 +82,15 @@ public class EventRestController {
 //        params.setLatitude(latitude);
 //        params.setLongitude(longitude);
 //        params.setRadius(radius);
-        itemsPerPage = getItemPerPage(itemsPerPage);
+        itemsPerPage = getItemsPerPage(itemsPerPage);
         List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
         return getPaginatedEvents(page, itemsPerPage, filteredEvents);
     }
 
-    private int getItemPerPage(Integer itemPerPage) {
-        if (itemPerPage == null) {
-            itemPerPage = 10;
+    private int getItemsPerPage(Integer itemsPerPage) {
+        if (itemsPerPage == null || itemsPerPage <= 0) {
+            itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
         }
-        return itemPerPage;
+        return itemsPerPage;
     }
 }
