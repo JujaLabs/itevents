@@ -30,15 +30,16 @@ public class EventRestController {
     }
 
 
-    private List<Event> getPaginatedEvents(int page, int itemsPerPage, List<Event> events) {
+    private List<Event> getPaginatedEvents(Integer page, Integer itemsPerPage, List<Event> events) {
 
+        itemsPerPage = getItemsPerPage(itemsPerPage);
         int pages = events.size()/itemsPerPage;
         if (events.size() % itemsPerPage != 0) {
             pages++;
         }
         PagedListHolder<Event> paginatedEvents = new PagedListHolder<Event>(events);
         paginatedEvents.setPageSize(itemsPerPage);
-        if (page <= 0) {
+        if (page == null || page <= 0) {
             return paginatedEvents.getPageList();
         }
         if (page > pages - 1) {
@@ -49,19 +50,18 @@ public class EventRestController {
         return paginatedEvents.getPageList();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
-                                         @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
-                                         @ModelAttribute EventWrapper wrapper) {
-        itemsPerPage = getItemsPerPage(itemsPerPage);
-        List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
-        return getPaginatedEvents(page, itemsPerPage, filteredEvents);
-    }
-
     private int getItemsPerPage(Integer itemsPerPage) {
         if (itemsPerPage == null || itemsPerPage <= 0) {
             itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
         }
         return itemsPerPage;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
+                                         @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
+                                         @ModelAttribute EventWrapper wrapper) {
+        List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
+        return getPaginatedEvents(page, itemsPerPage, filteredEvents);
     }
 }
