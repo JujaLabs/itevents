@@ -70,7 +70,7 @@ public class SqlBuilderTest {
         parameter.setFree(false);
 
         String expectedSql = "SELECT * FROM events e " +
-                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND free = #{free})";
+                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0)";
 
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);

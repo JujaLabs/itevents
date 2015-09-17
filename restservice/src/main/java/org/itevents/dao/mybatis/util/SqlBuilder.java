@@ -17,7 +17,11 @@ public class SqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
-                WHERE("free = #{free}");
+                if (params.getFree() == true) {
+                    WHERE("(price = null OR price = 0)");
+                } else {
+                    WHERE("price > 0");
+                }
             }
             if (params.getTechnologies() != null) {
                 JOIN(makeJoin(params));
