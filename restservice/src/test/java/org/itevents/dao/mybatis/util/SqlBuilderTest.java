@@ -38,9 +38,9 @@ public class SqlBuilderTest {
     }
 
     @Test
-    public void testSelectFilteredEventEmpty() throws Exception {
+    public void testGetFilteredEventsEmpty() throws Exception {
         String expectedSql = "SELECT * FROM events e WHERE (e.event_date > NOW())";
-        String returnedSql = new SqlBuilder().selectFilteredEvent(parameter).replace('\n', ' ');
+        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -58,7 +58,7 @@ public class SqlBuilderTest {
                 "ON et.technology_id=1 " +
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id)";
 
-        String returnedSql = new SqlBuilder().selectFilteredEvent(parameter).replace('\n', ' ');
+        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -72,7 +72,7 @@ public class SqlBuilderTest {
         String expectedSql = "SELECT * FROM events e " +
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND free = #{free})";
 
-        String returnedSql = new SqlBuilder().selectFilteredEvent(parameter).replace('\n', ' ');
+        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -92,7 +92,7 @@ public class SqlBuilderTest {
                 "ON et.technology_id=3 or et.technology_id=7 or et.technology_id=10 " +
                 "WHERE (e.event_date > NOW() AND e.id=et.event_id)";
 
-        String returnedSql = new SqlBuilder().selectFilteredEvent(parameter).replace('\n', ' ');
+        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -110,7 +110,7 @@ public class SqlBuilderTest {
                 "WHERE (e.event_date > NOW() " +
                 "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius}))";
 
-        String returnedSql = new SqlBuilder().selectFilteredEvent(parameter).replace('\n', ' ');
+        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 

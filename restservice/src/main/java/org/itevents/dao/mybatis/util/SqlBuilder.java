@@ -5,7 +5,7 @@ import org.itevents.parameter.FilteredEventsParameter;
 
 public class SqlBuilder {
 
-    public String selectFilteredEvent(FilteredEventsParameter params) {
+    public String getFilteredEvents(FilteredEventsParameter params) {
         return new SQL() {{
             SELECT("*");
             FROM("events e");
