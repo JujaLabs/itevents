@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.mybatis.util.SqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
@@ -55,29 +56,7 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(Event event);
 
-    @Select({"<script>",
-            "SELECT * FROM events",
-            "<where>",
-            "   <if test='city != null'>",
-            "       city_id = #{city.id}",
-            "   </if>",
-            "   <if test='city == null'>",
-            "       <if test='radius != null'>",
-            "           AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})",
-            "       </if>",
-            "   </if>",
-            "   <if test='free != null'>",
-            "       AND free = #{free}",
-            "   </if>",
-            "   <if test='technologies!=null'>",
-            "       AND id IN (SELECT event_id FROM event_technology WHERE technology_id IN",
-            "       <foreach item='technology' index='index' collection='technologies' open='(' separator=',' close=')'>",
-            "           #{technology.id}",
-            "       </foreach>",
-            "       )",
-            "   </if>",
-            "</where>",
-            "</script>"})
+    @SelectProvider(type = SqlBuilder.class, method = "selectFilteredEvent")
     @ResultMap("getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 }
