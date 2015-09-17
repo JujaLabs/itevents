@@ -18,7 +18,7 @@ public class City implements Serializable {
     private String name;
     @XmlElement
     private String details;
-    @XmlElement
+
     private Location location;
 
     public City() {
