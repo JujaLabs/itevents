@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
-public class SqlBuilderTest {
+public class GetFilteredEventsSqlBuilderTest {
 
     @Inject
     private CityService cityService;
@@ -40,7 +40,7 @@ public class SqlBuilderTest {
     @Test
     public void testGetFilteredEventsEmpty() throws Exception {
         String expectedSql = "SELECT * FROM events e WHERE (e.event_date > NOW()) LIMIT #{limit} OFFSET #{offset}";
-        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -59,7 +59,7 @@ public class SqlBuilderTest {
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -74,7 +74,7 @@ public class SqlBuilderTest {
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -95,7 +95,7 @@ public class SqlBuilderTest {
                 "WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -114,7 +114,7 @@ public class SqlBuilderTest {
                 "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 

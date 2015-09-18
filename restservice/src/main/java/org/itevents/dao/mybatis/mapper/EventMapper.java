@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
-import org.itevents.dao.mybatis.util.SqlBuilder;
+import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
@@ -56,7 +56,7 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(Event event);
 
-    @SelectProvider(type = SqlBuilder.class, method = "getFilteredEvents")
+    @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 }

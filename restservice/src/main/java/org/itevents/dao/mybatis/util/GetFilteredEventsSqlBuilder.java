@@ -3,7 +3,7 @@ package org.itevents.dao.mybatis.util;
 import org.apache.ibatis.jdbc.SQL;
 import org.itevents.parameter.FilteredEventsParameter;
 
-public class SqlBuilder {
+public class GetFilteredEventsSqlBuilder {
 
     public String getFilteredEvents(final FilteredEventsParameter params) {
         return new SQL() {{
