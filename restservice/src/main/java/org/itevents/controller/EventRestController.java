@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
 import org.itevents.wrapper.EventWrapper;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @Api("Events")
 public class EventRestController {
 
-    private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
     private EventService eventService;
 
@@ -26,42 +24,11 @@ public class EventRestController {
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Event>(event, HttpStatus.OK);
-    }
-
-
-    private List<Event> getPaginatedEvents(Integer page, Integer itemsPerPage, List<Event> events) {
-
-        itemsPerPage = getItemsPerPage(itemsPerPage);
-        int pages = events.size()/itemsPerPage;
-        if (events.size() % itemsPerPage != 0) {
-            pages++;
-        }
-        PagedListHolder<Event> paginatedEvents = new PagedListHolder<Event>(events);
-        paginatedEvents.setPageSize(itemsPerPage);
-        if (page == null || page <= 0) {
-            return paginatedEvents.getPageList();
-        }
-        if (page > pages - 1) {
-            paginatedEvents.setPage(pages - 1);
-            return paginatedEvents.getPageList();
-        }
-        paginatedEvents.setPage(page);
-        return paginatedEvents.getPageList();
-    }
-
-    private int getItemsPerPage(Integer itemsPerPage) {
-        if (itemsPerPage == null || itemsPerPage <= 0) {
-            itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
-        }
-        return itemsPerPage;
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public List<Event> getFilteredEvents(@RequestParam(required = false, value = "page") Integer page,
-                                         @RequestParam(required = false, value = "itemsPerPage") Integer itemsPerPage,
-                                         @ModelAttribute EventWrapper wrapper) {
-        List<Event> filteredEvents = eventService.getFilteredEvents(wrapper);
-        return getPaginatedEvents(page, itemsPerPage, filteredEvents);
+    public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
+        return eventService.getFilteredEvents(wrapper);
     }
 }

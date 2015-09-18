@@ -14,6 +14,7 @@ import javax.inject.Inject;
 @Component
 public class EventConverter {
 
+    private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
     private TechnologyService technologyService;
     @Inject
@@ -21,6 +22,18 @@ public class EventConverter {
 
     public FilteredEventsParameter convert(EventWrapper wrapper) {
         FilteredEventsParameter result = new FilteredEventsParameter();
+        int itemsPerPage;
+        if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
+            itemsPerPage = wrapper.getItemsPerPage();
+        } else {
+            itemsPerPage = getDefaultItemsPerPage();
+        }
+        result.setLimit(itemsPerPage);
+        if (wrapper.getPage() == null || wrapper.getPage() <= 1) {
+            result.setOffset(0);
+        } else {
+            result.setOffset((wrapper.getPage() - 1) * itemsPerPage);
+        }
         if (wrapper.getTechnologiesNames() != null) {
             result.setTechnologies(technologyService.getSeveralTechnologiesByName(wrapper.getTechnologiesNames()));
         }
@@ -36,5 +49,9 @@ public class EventConverter {
             result.setRadius(wrapper.getRadius());
         }
         return result;
+    }
+
+    public int getDefaultItemsPerPage() {
+        return DEFAULT_ITEMS_PER_PAGE;
     }
 }

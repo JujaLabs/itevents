@@ -39,7 +39,7 @@ public class SqlBuilderTest {
 
     @Test
     public void testGetFilteredEventsEmpty() throws Exception {
-        String expectedSql = "SELECT * FROM events e WHERE (e.event_date > NOW())";
+        String expectedSql = "SELECT * FROM events e WHERE (e.event_date > NOW()) LIMIT #{limit} OFFSET #{offset}";
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
@@ -56,7 +56,8 @@ public class SqlBuilderTest {
 
         String expectedSql = "SELECT * FROM events e JOIN event_technology et " +
                 "ON et.technology_id=1 " +
-                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id)";
+                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
+                "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
@@ -70,7 +71,8 @@ public class SqlBuilderTest {
         parameter.setFree(false);
 
         String expectedSql = "SELECT * FROM events e " +
-                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0)";
+                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0) " +
+                "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
@@ -90,7 +92,8 @@ public class SqlBuilderTest {
 
         String expectedSql = "SELECT * FROM events e JOIN event_technology et " +
                 "ON et.technology_id=3 or et.technology_id=7 or et.technology_id=10 " +
-                "WHERE (e.event_date > NOW() AND e.id=et.event_id)";
+                "WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
+                "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
@@ -108,7 +111,8 @@ public class SqlBuilderTest {
 
         String expectedSql = "SELECT * FROM events e " +
                 "WHERE (e.event_date > NOW() " +
-                "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius}))";
+                "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})) " +
+                "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new SqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);

@@ -82,6 +82,46 @@ public class EventServiceTest {
 
     @Test
     @Ignore
+    public void testGetFilteredEventsEmpty() {
+        EventWrapper wrapper = new EventWrapper();
+
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.addAll(eventService.getAllEvents());
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    @Ignore
+    public void testGetFilteredEventsPage3ItemsPerPage2() {
+        EventWrapper wrapper = new EventWrapper();
+        wrapper.setPage(3);
+        wrapper.setItemsPerPage(2);
+
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(eventService.getEvent(5));
+        expectedEvents.add(eventService.getEvent(6));
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    @Ignore
+    public void testGetFilteredEventsPage30ItemsPerPageMinus2() {
+        EventWrapper wrapper = new EventWrapper();
+        wrapper.setPage(30);
+        wrapper.setItemsPerPage(-2);
+
+        List<Event> expectedEvents = new ArrayList<>();
+
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    @Ignore
     public void testGetFilteredEventsKyivJava() {
         int javaId = 1;
         int kyivId = 1;

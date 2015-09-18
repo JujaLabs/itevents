@@ -4,12 +4,31 @@ package org.itevents.wrapper;
  * Created by vaa25 on 14.09.2015.
  */
 public class EventWrapper {
+
+    private Integer page;
+    private Integer itemsPerPage;
     private Integer cityId;
     private Boolean free;
     private Double lat;
     private Double lon;
     private Integer radius;
     private String[] techTag;
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getItemsPerPage() {
+        return itemsPerPage;
+    }
+
+    public void setItemsPerPage(Integer itemsPerPage) {
+        this.itemsPerPage = itemsPerPage;
+    }
 
     public Integer getCityId() {
         return cityId;

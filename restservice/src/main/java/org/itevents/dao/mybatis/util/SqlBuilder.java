@@ -27,7 +27,7 @@ public class SqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
-        }}.toString();
+        }}.toString() + " LIMIT #{limit} OFFSET #{offset}";
     }
 
     private String makeJoin(FilteredEventsParameter params) {
