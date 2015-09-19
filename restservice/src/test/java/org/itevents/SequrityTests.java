@@ -46,7 +46,6 @@ public class SequrityTests {
 		mvc.perform(formLogin().user("vlasov@email.com").password("wrongPassword"))
 				.andExpect(unauthenticated())
 				.andExpect(status().isUnauthorized());
-
 	}
 
 	@Test
@@ -54,7 +53,6 @@ public class SequrityTests {
 		mvc.perform(formLogin().user("vlasov@email.com").password("alex"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isOk());
-
 	}
 
 	@Test
@@ -62,8 +60,7 @@ public class SequrityTests {
 		mvc.perform(post("/login")
 						.param("username", "vlasov@email.com")
 						.param("password", "alex")
-						.with(csrf())
-		)
+				.with(csrf()))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isOk());
 		mvc.perform(logout());
@@ -75,7 +72,6 @@ public class SequrityTests {
 		mvc.perform(logout())
 				.andExpect(unauthenticated())
 				.andExpect(status().isOk());
-
 	}
 
 	@Test

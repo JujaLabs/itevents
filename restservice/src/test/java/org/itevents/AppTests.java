@@ -13,13 +13,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml",
-        "classpath*:mvc-dispatcher-servlet.xml", "classpath*:spring-security.xml"})
+        "classpath*:mvc-dispatcher-servlet.xml"})
 @WebAppConfiguration
 public class AppTests {
     @Inject
@@ -28,7 +27,7 @@ public class AppTests {
 
     @Before
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
