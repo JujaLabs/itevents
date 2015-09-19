@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.model.Event;
@@ -36,6 +37,7 @@ public class VisitLogRestController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
+    @ApiOperation(value = "Redirects to to given event page")
     public ResponseEntity redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         HttpHeaders headers = new HttpHeaders();
