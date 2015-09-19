@@ -45,18 +45,15 @@ public class Technology implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Technology technology = (Technology) o;
+        Technology that = (Technology) o;
 
-        if (id != technology.id) return false;
-        return name.equals(technology.name);
+        return !(name != null ? !name.equals(that.name) : that.name != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override

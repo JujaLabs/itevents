@@ -1,15 +1,15 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.model.Event;
-import org.itevents.model.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface EventMapper extends EventDao {
@@ -20,11 +20,13 @@ public interface EventMapper extends EventDao {
             @Result(property = "createDate", column = "create_date"),
             @Result(property = "regLink", column = "reg_link"),
             @Result(property = "location", column = "id", javaType = Location.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.LocationMapper.selectLocation")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.selectLocation")),
             @Result(property = "currency", column = "currency_id", javaType = Currency.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.CurrencyMapper.getCurrency")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
             @Result(property = "city", column = "city_id", javaType = City.class,
-                    one = @One(select = "org.itevents.mybatis.mapper.CityMapper.getCity"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
+            @Result(property = "technologies", column = "id", javaType = ArrayList.class,
+                    many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
     })
     @Select("SELECT * FROM events WHERE id = #{id}")
     Event getEvent(int id);
@@ -54,29 +56,7 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM events WHERE id =#{id}")
     void removeEvent(Event event);
 
-    @Select({"<script>",
-            "SELECT * FROM events",
-            "<where>",
-            "   <if test='city != null'>",
-            "       city_id = #{city.id}",
-            "   </if>",
-            "   <if test='city == null'>",
-            "       <if test='radius != null'>",
-            "           AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})",
-            "       </if>",
-            "   </if>",
-            "   <if test='free != null'>",
-            "       AND free = #{free}",
-            "   </if>",
-            "   <if test='technologies!=null'>",
-            "       AND id IN (SELECT event_id FROM event_technology WHERE technology_id IN",
-            "       <foreach item='technology' index='index' collection='technologies' open='(' separator=',' close=')'>",
-            "           #{technology.id}",
-            "       </foreach>",
-            "       )",
-            "   </if>",
-            "</where>",
-            "</script>"})
+    @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
     List<Event> getFilteredEvents(FilteredEventsParameter params);
 }

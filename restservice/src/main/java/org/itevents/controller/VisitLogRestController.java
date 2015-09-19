@@ -6,11 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
-import org.itevents.mybatis.mapper.UserMapper;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
 import java.net.URL;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 
@@ -29,10 +29,12 @@ public class VisitLogRestController {
 
     private static final Logger logger = LogManager.getLogger();
 
-    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    private EventService eventService = context.getBean("eventService", EventService.class);
-    private VisitLogService visitLogService = context.getBean("visitLogService", VisitLogService.class);
-    private UserMapper userMapper = context.getBean("userMapper", UserMapper.class);
+    @Inject
+    private EventService eventService;
+    @Inject
+    private VisitLogService visitLogService;
+    @Inject
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
     public ResponseEntity getRegLink(@PathVariable("event_id") int eventId) {
@@ -45,11 +47,13 @@ public class VisitLogRestController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = getUserFromSession();
-        visitLogService.addVisitLog(new VisitLog(event, user));
+        VisitLog visitLog = new VisitLog(event, user);
+        visitLog.setDate(new GregorianCalendar().getTime());
+        visitLogService.addVisitLog(visitLog);
         return new ResponseEntity(headers, HttpStatus.FOUND);
     }
 
     private User getUserFromSession() {
-        return userMapper.getUser(new Random().nextInt(3) + 1);
+        return userService.getUser(new Random().nextInt(3) + 1);
     }
 }

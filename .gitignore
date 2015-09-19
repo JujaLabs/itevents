@@ -9,7 +9,7 @@ restservice/src/main/resources/local.properties
 .idea/
 $APP_CONFIG$/
 
-# Gradle
+#Gradle
 .gradle/
 build/
 classes/
