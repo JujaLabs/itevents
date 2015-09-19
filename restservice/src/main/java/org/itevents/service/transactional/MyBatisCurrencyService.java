@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.CurrencyDao;
 import org.itevents.model.Currency;
+import org.itevents.service.CurrencyService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Service("currencyService")
 @Transactional
-public class CurrencyServiceImpl implements CurrencyService {
+public class MyBatisCurrencyService implements CurrencyService {
 
     @Inject
     private CurrencyDao currencyDao;

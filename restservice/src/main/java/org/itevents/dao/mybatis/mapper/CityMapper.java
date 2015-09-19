@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.CityDao;
@@ -11,7 +11,7 @@ public interface CityMapper extends CityDao {
     @Results(value = {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "location", javaType = Location.class,
-                    column = "id", one = @One(select = "org.itevents.mybatis.mapper.LocationMapper.getCityLocation"))
+                    column = "id", one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.getCityLocation"))
     })
     @Select("SELECT id, name, details FROM city WHERE id = #{id}")
     City getCity(int id);

@@ -18,7 +18,7 @@ public class City implements Serializable {
     private String name;
     @XmlElement
     private String details;
-    @XmlElement
+
     private Location location;
 
     public City() {
@@ -69,19 +69,17 @@ public class City implements Serializable {
 
         City city = (City) o;
 
-        if (id != city.id) return false;
-        if (!name.equals(city.name)) return false;
+        if (name != null ? !name.equals(city.name) : city.name != null) return false;
         if (details != null ? !details.equals(city.details) : city.details != null) return false;
-        return location.equals(city.location);
+        return !(location != null ? !location.equals(city.location) : city.location != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (details != null ? details.hashCode() : 0);
-        result = 31 * result + location.hashCode();
+        result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
 

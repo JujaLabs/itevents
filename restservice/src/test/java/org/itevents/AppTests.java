@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "classpath*:mvc-dispatcher-servlet.xml", "classpath*:spring-security.xml"})
 @WebAppConfiguration
 public class AppTests {
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Inject
     private WebApplicationContext context;
     private MockMvc mvc;

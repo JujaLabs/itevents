@@ -10,12 +10,30 @@ import java.util.List;
  */
 public class FilteredEventsParameter {
 
+    private Integer offset;
+    private Integer limit;
     private City city;
     private Boolean free;
     private Double longitude;
     private Double latitude;
     private Integer radius;
     private List<Technology> technologies;
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
 
     public City getCity() {
         return city;
