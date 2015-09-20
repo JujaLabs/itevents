@@ -11,7 +11,8 @@
             user_id INT NOT NULL,
             FOREIGN KEY (event_id) REFERENCES events(id),
             FOREIGN KEY (user_id) REFERENCES users(id),
-            CONSTRAINT user_event_constraint UNIQUE (user_id, event_id)
+            PRIMARY KEY (user_id, event_id),
+            UNIQUE (user_id, event_id)
             );
         </sql>
         <rollback>

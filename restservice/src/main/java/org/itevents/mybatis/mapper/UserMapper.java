@@ -2,6 +2,7 @@ package org.itevents.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
+import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,11 +39,12 @@ public interface UserMapper extends UserDao {
 
     @PreAuthorize("isAuthenticated()")
     @Insert("INSERT INTO user_event(user_id, event_id) VALUES(#{user_id}, #{event_id})")
-    void subscribeToEvent(User user);
+    void subscribeToEvent(@Param("user_id")int user_id,
+                          @Param("event_id")int event_id);
 
     @PreAuthorize("isAuthenticated()")
     @Delete("DELETE FROM user_event WHERE user_id =  #{user_id} AND event_id =  #{event_id}")
-    void unsubscribeFromEvent(User user);
+    void unsubscribeFromEvent(User user, Event event);
 
     @Select("SELECT * FROM user_event WHERE user_id = #{user_id}")
     void getUserEvents(User user);
