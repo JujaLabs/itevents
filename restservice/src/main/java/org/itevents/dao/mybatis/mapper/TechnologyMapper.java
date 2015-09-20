@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.TechnologyDao;
@@ -27,6 +27,10 @@ public interface TechnologyMapper extends TechnologyDao {
             "</foreach>",
             "</script>"})
     List<Technology> getSeveralTechnologies(@Param("names") String[] names);
+
+    @ResultType(Technology.class)
+    @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id WHERE et.event_id = #{eventId}")
+    List<Technology> getTechnologiesByEventId(int eventId);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)

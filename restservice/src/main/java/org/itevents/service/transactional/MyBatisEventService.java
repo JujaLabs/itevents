@@ -1,10 +1,13 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.model.User;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.service.EventService;
+import org.itevents.service.converter.EventConverter;
+import org.itevents.wrapper.EventWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +17,14 @@ import java.util.List;
 
 @Service("eventService")
 @Transactional
-public class EventServiceImpl implements EventService {
+public class MyBatisEventService implements EventService {
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private EventDao eventDao;
+    @Inject
+    private EventConverter eventConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -49,25 +56,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilteredEventsParameter params) {
+    public List<Event> getFilteredEvents(EventWrapper wrapper) {
         List<Event> result;
         try {
-            result = eventDao.getFilteredEvents(params);
+            result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
+            logger.error("Exception :", e);
             result = new ArrayList<>();
         }
         return result;
-    }
-
-    @Override
-    public List<User> getVisitors(Event event) {
-        List<User> visitors;
-        try {
-            visitors = eventDao.getAllVisitors(event);
-        }catch (Exception e) {
-            visitors = new ArrayList<>();
-        }
-
-        return visitors;
     }
 }

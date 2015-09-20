@@ -1,4 +1,4 @@
-package org.itevents.mybatis.mapper;
+package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
@@ -17,7 +17,7 @@ public interface UserMapper extends UserDao {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "roles_id",
-                    one = @One(select = "org.itevents.mybatis.mapper.RoleMapper.getRole"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole"))
     })
     @Select("SELECT * FROM users WHERE id = #{id}")
     User getUser(int id);

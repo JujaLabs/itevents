@@ -39,12 +39,15 @@ public class Event implements Serializable {
     @XmlElement
     private City city;
     private List<User> visitors;
+    @XmlElement
+    private List<Technology> technologies;
 
     public Event() {
     }
 
     public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
-                 Location location, String contact, Boolean free, Integer price, Currency currency, City city) {
+                 Location location, String contact, Boolean free, Integer price, Currency currency, City city,
+                 List<Technology> technologies) {
         this.id = id;
         this.title = title;
         this.eventDate = eventDate;
@@ -57,6 +60,7 @@ public class Event implements Serializable {
         this.price = price;
         this.currency = currency;
         this.city = city;
+        this.technologies = technologies;
     }
 
     public Event( String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
@@ -184,6 +188,14 @@ public class Event implements Serializable {
         this.visitors = visitors;
     }
 
+    public List<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(List<Technology> technologies) {
+        this.technologies = technologies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -191,9 +203,6 @@ public class Event implements Serializable {
 
         Event event = (Event) o;
 
-        if (id != event.id) return false;
-        if (free != event.free) return false;
-        if (price != null ? !price.equals(event.price) : event.price != null) return false;
         if (title != null ? !title.equals(event.title) : event.title != null) return false;
         if (eventDate != null ? !eventDate.equals(event.eventDate) : event.eventDate != null) return false;
         if (createDate != null ? !createDate.equals(event.createDate) : event.createDate != null) return false;
@@ -201,25 +210,28 @@ public class Event implements Serializable {
         if (address != null ? !address.equals(event.address) : event.address != null) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
+        if (free != null ? !free.equals(event.free) : event.free != null) return false;
+        if (price != null ? !price.equals(event.price) : event.price != null) return false;
         if (currency != null ? !currency.equals(event.currency) : event.currency != null) return false;
-        return !(city != null ? !city.equals(event.city) : event.city != null);
+        if (city != null ? !city.equals(event.city) : event.city != null) return false;
+        return !(technologies != null ? !technologies.equals(event.technologies) : event.technologies != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        int result = title != null ? title.hashCode() : 0;
         result = 31 * result + (eventDate != null ? eventDate.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (regLink != null ? regLink.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (free ? 1 : 0);
+        result = 31 * result + (free != null ? free.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
         return result;
     }
 
@@ -238,6 +250,7 @@ public class Event implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);
+        sb.append(", technologies=").append(technologies);
         sb.append('}');
         return sb.toString();
     }
