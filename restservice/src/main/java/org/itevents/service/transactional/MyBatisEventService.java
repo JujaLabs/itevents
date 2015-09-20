@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
@@ -39,11 +38,6 @@ public class MyBatisEventService implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
-    }
-
-    @Override
-    public List<Event> getEventsInRadius(Location location, int radius) {
-        return eventDao.getEventsInRadius(location, radius);
     }
 
     @Override

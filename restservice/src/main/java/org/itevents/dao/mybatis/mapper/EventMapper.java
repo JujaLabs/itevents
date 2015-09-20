@@ -35,12 +35,6 @@ public interface EventMapper extends EventDao {
     @Select("SELECT * FROM events")
     List<Event> getAllEvents();
 
-    @ResultMap(value = "getEvent-int")
-    @Select("SELECT * FROM events" +
-            " WHERE ST_DWithin(point::geography," +
-            " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
-    List<Event> getEventsInRadius(@Param("location")Location location, @Param("radius")int radius);
-
     @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact, free, price, " +
             "currency_id, city_id) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, " +
             "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{free}, #{price}, #{currency.id}," +
