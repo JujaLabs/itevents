@@ -19,4 +19,6 @@ public interface EventService {
     Event removeEvent(Event event);
 
     List<Event> getFilteredEvents(EventWrapper wrapper);
+
+    Event getEventWillGo(int id);
 }

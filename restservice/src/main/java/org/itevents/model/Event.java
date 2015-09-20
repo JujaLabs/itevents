@@ -1,12 +1,10 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -38,7 +36,9 @@ public class Event implements Serializable {
     private Currency currency;
     @XmlElement
     private City city;
-    private List<User> visitors;
+    @XmlElementWrapper(name = "visitors")
+    @XmlElement(name = "visitor")
+    private Set<User> visitors;
     @XmlElement
     private List<Technology> technologies;
 
@@ -180,11 +180,11 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public List<User> getAllVisitors() {
+    public Set<User> getVisitors() {
         return visitors;
     }
 
-    public void setVisitors(List<User> visitors) {
+    public void setVisitors(Set<User> visitors) {
         this.visitors = visitors;
     }
 
@@ -194,6 +194,10 @@ public class Event implements Serializable {
 
     public void setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
+    }
+
+    public void addVisitor(User visitor) {
+        visitors.add(visitor);
     }
 
     @Override
@@ -250,6 +254,7 @@ public class Event implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);
+        sb.append(", visitors=").append(visitors);
         sb.append(", technologies=").append(technologies);
         sb.append('}');
         return sb.toString();

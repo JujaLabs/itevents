@@ -21,6 +21,16 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
+        return getEventResponseEntity(event);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/willGo")
+    public ResponseEntity<Event> iWillGo(@PathVariable("id") int id) {
+        Event event = eventService.getEventWillGo(id);
+        return getEventResponseEntity(event);
+    }
+
+    private ResponseEntity<Event> getEventResponseEntity(Event event) {
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

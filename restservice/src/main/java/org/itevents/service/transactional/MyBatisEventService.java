@@ -3,11 +3,14 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,8 @@ public class MyBatisEventService implements EventService {
     private static final Logger logger = LogManager.getLogger();
 
     @Inject
+    private UserDao userDao;
+    @Inject
     private EventDao eventDao;
     @Inject
     private EventConverter eventConverter;
@@ -34,6 +39,17 @@ public class MyBatisEventService implements EventService {
     @Override
     public Event getEvent(int id) {
         return eventDao.getEvent(id);
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public Event getEventWillGo(int id) {
+        Event event = eventDao.getEvent(id);
+        if (event != null) {
+            event.addVisitor(userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+            eventDao.updateEvent(event);
+        }
+        return event;
     }
 
     @Override
