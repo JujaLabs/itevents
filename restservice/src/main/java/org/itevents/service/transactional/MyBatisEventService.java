@@ -53,6 +53,26 @@ public class MyBatisEventService implements EventService {
         }
         return event;
     }
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public Event getEventWillNotGo(int id) {
+        Event event = eventDao.getEvent(id);
+        if (event != null) {
+            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            userDao.willNotGoToEvent(user, event);
+            event = eventDao.getEvent(id);
+        }
+        return event;
+    }
+    @Override
+    public List<User> getAllVisitors(int id) {
+        List visitors = new ArrayList<>();
+        Event event = eventDao.getEvent(id);
+        if (event != null) {
+            visitors = event.getVisitors();
+        }
+        return visitors;
+    }
 
     @Override
     public List<Event> getAllEvents() {

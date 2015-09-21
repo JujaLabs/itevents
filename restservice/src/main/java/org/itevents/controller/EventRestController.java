@@ -29,6 +29,17 @@ public class EventRestController {
         Event event = eventService.getEventWillGo(id);
         return getEventResponseEntity(event);
     }
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/willNotGo")
+    public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id) {
+        Event event = eventService.getEventWillNotGo(id);
+        return getEventResponseEntity(event);
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
+    public List getVisitors(@PathVariable("id") int id) {
+        List visitors = eventService.getAllVisitors(id);
+        return visitors;
+    }
+
 
     private ResponseEntity<Event> getEventResponseEntity(Event event) {
         if (event == null) {

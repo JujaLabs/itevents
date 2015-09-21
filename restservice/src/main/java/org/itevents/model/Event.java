@@ -2,10 +2,7 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -39,7 +36,7 @@ public class Event implements Serializable {
     private City city;
     @XmlElementWrapper(name = "visitors")
     @XmlElement(name = "visitor")
-    private Set<User> visitors = new HashSet<>();
+    private List <User> visitors = new ArrayList<>();
     @XmlElement
     private List<Technology> technologies;
 
@@ -181,11 +178,11 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public Set<User> getVisitors() {
+    public List<User> getVisitors() {
         return visitors;
     }
 
-    public void setVisitors(Set<User> visitors) {
+    public void setVisitors(List<User> visitors) {
         this.visitors = visitors;
     }
 

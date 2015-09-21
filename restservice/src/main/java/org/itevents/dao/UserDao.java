@@ -22,7 +22,7 @@ public interface UserDao {
 
     void willGoToEvent(User user, Event event);
 
-    void unsubscribeFromEvent(User user);
+    void willNotGoToEvent(User user, Event event);
 
     void getUserEvents(User user);
 }
