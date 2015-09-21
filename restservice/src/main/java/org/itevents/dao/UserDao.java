@@ -1,5 +1,6 @@
 package org.itevents.dao;
 
+import org.itevents.model.Event;
 import org.itevents.model.User;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface UserDao {
 
     void removeUser(User user);
 
-    void subscribeToEvent(User user);
+    void willGoToEvent(User user, Event event);
 
     void unsubscribeFromEvent(User user);
 

@@ -6,6 +6,7 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
@@ -46,8 +47,8 @@ public class MyBatisEventService implements EventService {
     public Event getEventWillGo(int id) {
         Event event = eventDao.getEvent(id);
         if (event != null) {
-            event.addVisitor(userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName()));
-            eventDao.updateEvent(event);
+            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            userDao.willGoToEvent(user, event);
         }
         return event;
     }

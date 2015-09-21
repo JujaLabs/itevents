@@ -38,9 +38,9 @@ public interface UserMapper extends UserDao {
     void removeUser(User user);
 
     @PreAuthorize("isAuthenticated()")
-    @Insert("INSERT INTO user_event(user_id, event_id) VALUES(#{user_id}, #{event_id})")
-    void subscribeToEvent(@Param("user_id")int user_id,
-                          @Param("event_id")int event_id);
+    @Insert("INSERT INTO user_event(user_id, event_id) VALUES(#{user.id}, #{event.id})")
+    void willGoToEvent(@Param("user") User user,
+                       @Param("event") Event event);
 
     @PreAuthorize("isAuthenticated()")
     @Delete("DELETE FROM user_event WHERE user_id =  #{user_id} AND event_id =  #{event_id}")
