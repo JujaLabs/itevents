@@ -9,36 +9,11 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<http>-->
-    <!--<intercept-url pattern="/user**" access="isAuthenticated()"/>-->
-    <!--<intercept-url pattern="/admin**" access="hasRole('admin')"/>-->
-    <!--<intercept-url pattern="/**" access="permitAll()"/>-->
-
-    <!--<form-login login-page='/login'-->
-    <!--default-target-url="/user"-->
-    <!--authentication-failure-url="/login?error=true"-->
-    <!--username-parameter="user_login"-->
-    <!--password-parameter="password_login"/>-->
-
-    <!--<logout logout-success-url="/login"/>-->
-
-    <!--<access-denied-handler error-page="/login?denied=true"/>-->
-    <!--<remember-me/>-->
-    <!--</http>-->
-    <!--<authentication-manager>-->
-    <!--<authentication-provider>-->
-    <!--<jdbc-user-service data-source-ref="dataSource"-->
-    <!--users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"-->
-    <!--authorities-by-username-query="SELECT login, name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"-->
-    <!--role-prefix="none"/>-->
-    <!--</authentication-provider>-->
-
-    <!--</authentication-manager>-->
-
     <context:component-scan base-package="org.itevents.security"/>
     <http realm="itevents" use-expressions="true"
           entry-point-ref="restAuthenticationEntryPoint">
         <intercept-url pattern="/admin**" access='hasRole("admin")'/>
+        <intercept-url pattern="/users/*/willGo" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
@@ -60,7 +35,7 @@
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query="SELECT login, password, TRUE FROM users WHERE login=?"
                                authorities-by-username-query=
-                                       "SELECT users.login, roles.name FROM users JOIN roles ON roles_id=roles.id WHERE login=?"
+                                       "SELECT u.login, r.name FROM users u JOIN roles r ON roles_id=r.id WHERE login=?"
                                role-prefix="ROLE_"
                     />
         </authentication-provider>
