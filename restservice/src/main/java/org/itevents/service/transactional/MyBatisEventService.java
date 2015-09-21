@@ -49,6 +49,7 @@ public class MyBatisEventService implements EventService {
         if (event != null) {
             User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
             userDao.willGoToEvent(user, event);
+            event = eventDao.getEvent(id);
         }
         return event;
     }

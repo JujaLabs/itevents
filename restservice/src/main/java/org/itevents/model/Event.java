@@ -3,6 +3,7 @@ package org.itevents.model;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class Event implements Serializable {
     private City city;
     @XmlElementWrapper(name = "visitors")
     @XmlElement(name = "visitor")
-    private Set<User> visitors;
+    private Set<User> visitors = new HashSet<>();
     @XmlElement
     private List<Technology> technologies;
 

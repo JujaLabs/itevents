@@ -73,11 +73,12 @@ public class UserMapperTest {
         assertEquals(expectedSize, returnedSize);
     }
 
-//    @Test
-//    public void subscribeToEvent(){
-//        Role role1 = roleMapper.getRole(ID_1);
-//        User testUser = new User("testUser", "testUserPassword", role1);
-//        userMapper.addUser(testUser);
-//        userMapper.willGoToEvent(userMapper.getUser(3).getId(), eventMapper.getEvent(3).getId());
-//    }
+    @Test
+    public void subscribeToEvent() {
+        Role role1 = roleMapper.getRole(ID_1);
+        User testUser = new User("testUser", "testUserPassword", role1);
+        userMapper.addUser(testUser);
+        userMapper.willGoToEvent(userMapper.getUser(3), eventMapper.getEvent(3));
+        userMapper.removeUser(testUser);
+    }
 }
