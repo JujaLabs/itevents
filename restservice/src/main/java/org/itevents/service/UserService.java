@@ -1,5 +1,6 @@
 package org.itevents.service;
 
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +18,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     User removeUser(User user);
+
+    List<Event> getUserEvents(User user);
 }

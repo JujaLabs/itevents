@@ -24,22 +24,29 @@ public class EventRestController {
         return getEventResponseEntity(event);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/willGo")
-    public ResponseEntity<Event> iWillGo(@PathVariable("id") int id) {
-        Event event = eventService.getEventWillGo(id);
-        return getEventResponseEntity(event);
+    @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willGo")
+    public String iWillGo(@PathVariable("id") int id) {
+        try {
+            eventService.WillGo(id);
+        }catch (Exception e) {
+            System.out.println("Something went wrong. May be already subscribed");
+        }
+        return "successfully subscribed";
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/willNotGo")
-    public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id) {
-        Event event = eventService.getEventWillNotGo(id);
-        return getEventResponseEntity(event);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willNotGo")
+    public String iWillNotGo(@PathVariable("id") int id) {
+        try {
+            eventService.WillNotGo(id);
+        }catch (Exception e){
+        System.out.println("Something went wrong. May be already subscribed");
+        }
+        return "successfully unsubscribed";
     }
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
     public List getVisitors(@PathVariable("id") int id) {
-        List visitors = eventService.getAllVisitors(id);
-        return visitors;
+       return eventService.getAllVisitors(id);
     }
-
 
     private ResponseEntity<Event> getEventResponseEntity(Event event) {
         if (event == null) {

@@ -49,5 +49,5 @@ public interface UserMapper extends UserDao {
 
     @PreAuthorize("isAuthenticated()")
     @Select("SELECT * FROM user_event WHERE user_id = #{user.id}")
-    void getUserEvents(@Param("user") User user);
+    List<Event> getUserEvents(@Param("user") User user);
 }

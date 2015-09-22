@@ -44,7 +44,7 @@ public class MyBatisEventService implements EventService {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public Event getEventWillGo(int id) {
+    public Event WillGo(int id) {
         Event event = eventDao.getEvent(id);
         if (event != null) {
             User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -53,9 +53,10 @@ public class MyBatisEventService implements EventService {
         }
         return event;
     }
+
     @Override
     @PreAuthorize("isAuthenticated()")
-    public Event getEventWillNotGo(int id) {
+    public Event WillNotGo(int id) {
         Event event = eventDao.getEvent(id);
         if (event != null) {
             User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -66,10 +67,10 @@ public class MyBatisEventService implements EventService {
     }
     @Override
     public List<User> getAllVisitors(int id) {
-        List visitors = new ArrayList<>();
+        List<User> visitors = new ArrayList();
         Event event = eventDao.getEvent(id);
         if (event != null) {
-            visitors = event.getVisitors();
+            visitors = eventDao.getAllVisitors(getEvent(id));
         }
         return visitors;
     }

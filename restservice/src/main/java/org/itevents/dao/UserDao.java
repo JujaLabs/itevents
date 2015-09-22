@@ -24,5 +24,5 @@ public interface UserDao {
 
     void willNotGoToEvent(User user, Event event);
 
-    void getUserEvents(User user);
+    List<Event> getUserEvents(User user);
 }
