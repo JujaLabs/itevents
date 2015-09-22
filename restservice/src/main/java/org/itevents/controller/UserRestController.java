@@ -26,7 +26,7 @@ public class UserRestController {
         User user = userService.getUser(id);
         return getUserResponseEntity(user);
     }
-    @RequestMapping(method = RequestMethod.POST, value = "/users/{id}/myEvents")
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
     public List<Event> myEvents(@PathVariable("id") int id){
         User user = userService.getUser(id);
         return userService.getUserEvents(user);

@@ -25,24 +25,15 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willGo")
-    public String iWillGo(@PathVariable("id") int id) {
-        try {
+    public void iWillGo(@PathVariable("id") int id) {
             eventService.WillGo(id);
-        }catch (Exception e) {
-            System.out.println("Something went wrong. May be already subscribed");
-        }
-        return "successfully subscribed";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willNotGo")
-    public String iWillNotGo(@PathVariable("id") int id) {
-        try {
+    public void iWillNotGo(@PathVariable("id") int id) {
             eventService.WillNotGo(id);
-        }catch (Exception e){
-        System.out.println("Something went wrong. May be already subscribed");
-        }
-        return "successfully unsubscribed";
     }
+
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
     public List getVisitors(@PathVariable("id") int id) {
        return eventService.getAllVisitors(id);

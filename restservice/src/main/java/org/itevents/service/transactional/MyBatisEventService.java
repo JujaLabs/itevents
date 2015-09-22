@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -43,31 +44,43 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
-    public Event WillGo(int id) {
-        Event event = eventDao.getEvent(id);
-        if (event != null) {
-            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-            userDao.willGoToEvent(user, event);
-            event = eventDao.getEvent(id);
+//    @PreAuthorize("isAuthenticated()")
+    public String WillGo(int id) {
+        try {
+//        if (event != null) {
+//            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+//        }
+            Event event = eventDao.getEvent(id);
+            User user = userDao.getUser(1);
+            if (new Date().after(event.getEventDate())){
+                userDao.willGoToEvent(user, event);
+            }
+            return "Event date passed";
+        }catch (Exception e) {
+            System.out.println("Something went wrong. May be already subscribed");
         }
-        return event;
+        return "successfully subscribed";
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
-    public Event WillNotGo(int id) {
-        Event event = eventDao.getEvent(id);
-        if (event != null) {
-            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+//    @PreAuthorize("isAuthenticated()")
+    public String WillNotGo(int id) {
+        try {
+//        if (event != null) {
+//            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+//        }
+            Event event = eventDao.getEvent(id);
+            User user = userDao.getUser(1);
             userDao.willNotGoToEvent(user, event);
-            event = eventDao.getEvent(id);
+        }catch (Exception e) {
+            System.out.println("Something went wrong. May be already unsubscribed");
         }
-        return event;
+        return "successfully unsubscribed";
+
     }
     @Override
     public List<User> getAllVisitors(int id) {
-        List<User> visitors = new ArrayList();
+        List<User> visitors = new ArrayList<>();
         Event event = eventDao.getEvent(id);
         if (event != null) {
             visitors = eventDao.getAllVisitors(getEvent(id));

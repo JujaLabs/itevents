@@ -21,9 +21,9 @@ public interface EventService {
 
     List<Event> getFilteredEvents(EventWrapper wrapper);
 
-    Event WillGo(int id);
+    String WillGo(int id);
 
-    Event WillNotGo(int id);
+    String WillNotGo(int id);
 
     List<User> getAllVisitors(int id);
 }
