@@ -12,6 +12,7 @@
     <context:component-scan base-package="org.itevents.security"/>
     <http realm="itevents" use-expressions="true"
           entry-point-ref="restAuthenticationEntryPoint">
+        <csrf disabled="true"/>
         <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/login"
