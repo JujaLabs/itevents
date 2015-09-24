@@ -46,12 +46,12 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.1.1'
   }
 
-httpPort = 8080
-stopPort = 9080
-stopKey = "stop"
-
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
+
+httpPort = Integer.valueOf(props.getProperty('httpPort'));
+stopPort = Integer.valueOf(props.getProperty('stopPort'));
+stopKey = props.getProperty('stop');
 
 defaultTasks 'liquibaseUpdate'
 
