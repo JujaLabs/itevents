@@ -23,13 +23,11 @@ public class UserRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-        User user = userService.getUser(id);
-        return getUserResponseEntity(user);
+        return getUserResponseEntity(userService.getUser(id));
     }
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
     public List<Event> myEvents(@PathVariable("id") int id){
-        User user = userService.getUser(id);
-        return userService.getUserEvents(user);
+        return userService.getUserEvents(userService.getUser(id));
     }
 
     private ResponseEntity<User> getUserResponseEntity(User user) {

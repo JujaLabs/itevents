@@ -54,10 +54,9 @@ public class MyBatisEventService implements EventService {
             User user = userDao.getUser(1);
             if (new Date().after(event.getEventDate())){
                 userDao.willGoToEvent(user, event);
-            }
-            return "Event date passed";
+            }else return "Event date passed";
         }catch (Exception e) {
-            System.out.println("Something went wrong. May be already subscribed");
+            return "Something went wrong. May be already subscribed";
         }
         return "successfully subscribed";
     }
@@ -73,7 +72,7 @@ public class MyBatisEventService implements EventService {
             User user = userDao.getUser(1);
             userDao.willNotGoToEvent(user, event);
         }catch (Exception e) {
-            System.out.println("Something went wrong. May be already unsubscribed");
+            return "Something went wrong. May be already unsubscribed";
         }
         return "successfully unsubscribed";
 
