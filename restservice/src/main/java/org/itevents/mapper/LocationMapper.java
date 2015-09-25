@@ -10,6 +10,6 @@ public interface LocationMapper {
             @Result(property = "longitude", column = "longitude"),
             @Result(property = "latitude", column = "latitude")
     })
-    @Select("SELECT ST_X(point) AS longitude, ST_Y(point) AS latitude FROM events WHERE id = #{id}")
+    @Select("SELECT ST_X(point) AS longitude, ST_Y(point) AS latitude FROM event WHERE id = #{id}")
     Location selectLocation(int id);
 }

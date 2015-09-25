@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="008" author="vaa25">
+        <sql>
+            CREATE TABLE visit_log (
+            id SERIAL PRIMARY KEY UNIQUE NOT NULL,
+            event_id INT NOT NULL,
+            date DATE NOT NULL,
+            user_id INT NOT NULL,
+            FOREIGN KEY (event_id) REFERENCES event (id),
+            FOREIGN KEY (user_id) REFERENCES users (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE visit_log;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

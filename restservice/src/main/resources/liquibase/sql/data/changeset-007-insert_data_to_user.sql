@@ -1,4 +1,4 @@
-INSERT INTO users (login, password, roles_id) VALUES
+INSERT INTO users (login, password, role_id) VALUES
   ('guest', 'guest', 1),
   ('anakin@email.com', 'alex', 2),
   ('kuchin@email.com', 'viktor', 2),

@@ -4,5 +4,5 @@ CREATE TABLE visit_log (
   date     DATE                      NOT NULL,
   user_id  INT                       NOT NULL,
   FOREIGN KEY (event_id) REFERENCES event (id),
-  FOREIGN KEY (user_id) REFERENCES user (id)
+  FOREIGN KEY (user_id) REFERENCES users (id)
 );

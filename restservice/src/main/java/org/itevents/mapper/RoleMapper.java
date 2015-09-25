@@ -11,17 +11,17 @@ import java.util.List;
 public interface RoleMapper {
 
     @ResultType(Role.class)
-    @Select("SELECT * FROM roles WHERE id = #{id}")
+    @Select("SELECT * FROM role WHERE id = #{id}")
     Role getRole(int id);
 
     @ResultType(Role.class)
-    @Select("SELECT * FROM roles")
+    @Select("SELECT * FROM role")
     List<Role> getAllRoles();
 
-    @Insert("INSERT INTO roles (name) VALUES(#{name})")
+    @Insert("INSERT INTO role (name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addRole(Role role);
 
-    @Delete("DELETE FROM roles WHERE id =#{id}")
+    @Delete("DELETE FROM role WHERE id =#{id}")
     void removeRole(Role role);
 }

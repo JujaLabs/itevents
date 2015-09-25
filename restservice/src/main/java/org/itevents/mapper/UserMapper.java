@@ -15,7 +15,7 @@ public interface UserMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "login", column = "login"),
             @Result(property = "password", column = "password"),
-            @Result(property = "role", javaType = Role.class, column = "roles_id",
+            @Result(property = "role", javaType = Role.class, column = "role_id",
                     one = @One(select = "org.itevents.mapper.RoleMapper.getRole"))
     })
     @Select("SELECT * FROM users WHERE id = #{id}")
@@ -25,7 +25,7 @@ public interface UserMapper {
     @Select("SELECT * FROM users")
     List<User> getAllUsers();
 
-    @Insert("INSERT INTO users (login, password, roles_id) VALUES(#{login}, #{password}, #{role.id})")
+    @Insert("INSERT INTO users (login, password, role_id) VALUES(#{login}, #{password}, #{role.id})")
     @Options(useGeneratedKeys = true)
     void addUser(User user);
 
