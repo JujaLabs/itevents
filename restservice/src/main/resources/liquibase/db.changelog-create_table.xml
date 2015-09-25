@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 <databaseChangeLog
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="src/main/resources/liquibase/changeset-000-enable_postgis.xml"/>
-    <include file="src/main/resources/liquibase/changeset-001-add_table_event.xml"/>
-    <include file="src/main/resources/liquibase/changeset-003-create_table_roles.xml"/>
-    <include file="src/main/resources/liquibase/changeset-004-create_table_users.xml"/>
-    <include file="src/main/resources/liquibase/changeset-008-add_table_visit_log.xml"/>
+    <includeAll path="src/main/resources/liquibase/create"/>
 
 </databaseChangeLog>

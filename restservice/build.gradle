@@ -31,7 +31,7 @@ dependencies {
     compile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
 
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
-    liquibase 'org.liquibase:liquibase-core:3.4.0'
+    liquibase 'org.liquibase:liquibase-core:3.4.1'
 }
 
 httpPort = 8080
