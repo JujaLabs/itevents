@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 INSERT INTO visit_log (event_id, date, user_id) VALUES
   (1, '20.07.2016', 1),
   (1, '20.07.2016', 2),

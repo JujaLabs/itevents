@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 INSERT INTO users (login, password, role_id) VALUES
   ('guest', 'guest', 1),
   ('anakin@email.com', 'alex', 2),

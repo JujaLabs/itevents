@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 INSERT INTO event (title, event_date, create_date, reg_link, address, point, contact) VALUES
   ('Java', '10.07.2015', NULL, 'www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com'),
   ('PHP', '20.07.2015', NULL, 'www.php.com.ua', 'Shulyavska', 'POINT(30.445495 50.454605)', 'php@gmail.com'),

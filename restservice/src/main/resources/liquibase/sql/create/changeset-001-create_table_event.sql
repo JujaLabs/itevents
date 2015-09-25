@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 CREATE TABLE event (
   id          SERIAL UNIQUE PRIMARY KEY NOT NULL,
   title       VARCHAR(255)              NOT NULL,

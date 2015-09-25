@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 CREATE TABLE visit_log (
   id       SERIAL PRIMARY KEY UNIQUE NOT NULL,
   event_id INT                       NOT NULL,

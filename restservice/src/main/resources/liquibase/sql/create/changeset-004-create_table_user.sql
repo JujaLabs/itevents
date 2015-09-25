@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 CREATE TABLE users (
   id       SERIAL PRIMARY KEY UNIQUE NOT NULL,
   login    VARCHAR(50) UNIQUE        NOT NULL,

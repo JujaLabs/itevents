@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 INSERT INTO role (name) VALUES
   ('guest'),
   ('admin'),
