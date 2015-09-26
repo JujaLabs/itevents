@@ -3,15 +3,12 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.model.Technology;
-import org.itevents.model.User;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -203,14 +200,14 @@ public class EventServiceTest {
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Test
-    @WithUserDetails("vlasov@email.com")
-    public void testGetEventWillGo1() {
-        User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        Event expectedEvent = eventService.getEvent(1);
-        expectedEvent.addVisitor(user);
-        Event returnedEvent = eventService.getEventWillGo(1);
-        assertEquals(expectedEvent.toString(), returnedEvent.toString());
-
-    }
+//    @Test
+//    @WithUserDetails("vlasov@email.com")
+//    public void testGetEventWillGo1() {
+//        User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+//        Event expectedEvent = eventService.getEvent(1);
+//        expectedEvent.addVisitor(user);
+//        Event returnedEvent = eventService.getEventWillGo(1);
+//        assertEquals(expectedEvent.toString(), returnedEvent.toString());
+//
+//    }
 }

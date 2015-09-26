@@ -7,10 +7,10 @@
     <changeSet id="021" author="Igor">
         <sql>
             CREATE TABLE user_event (
-            event_id INT NOT NULL,
             user_id INT NOT NULL,
-            FOREIGN KEY (event_id) REFERENCES events(id),
+            event_id INT NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (event_id) REFERENCES events(id),
             PRIMARY KEY (user_id, event_id),
             UNIQUE (user_id, event_id)
             );
@@ -19,5 +19,4 @@
             DROP TABLE user_event;
         </rollback>
     </changeSet>
-
 </databaseChangeLog>
