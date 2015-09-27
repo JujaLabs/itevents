@@ -32,7 +32,7 @@ public class EventRestController {
         return null;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willNotGo")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/events/{id}/willNotGo")
     public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id) {
 //        Event event = eventService.getEvent(id);
             eventService.WillNotGo(id);
