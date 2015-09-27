@@ -15,11 +15,12 @@ import java.util.List;
 
 public class EventServiceDbTest extends AbstractDbTest {
 
+    private final String PATH = "file:src/test/resources/dbunit/";
     @Autowired
     private EventService eventService;
 
     @Test
-    @DatabaseSetup("file:src/test/resources/dbunit/initialEvents.xml")
+    @DatabaseSetup(PATH + "initialEvents.xml")
     public void testGetAllEvents() {
         List<Event> events = eventService.getAllEvents();
         int expectedValue = 4;
@@ -28,8 +29,8 @@ public class EventServiceDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = "file:src/test/resources/dbunit/initialEvents.xml")
-    @ExpectedDatabase(value = "file:src/test/resources/dbunit/expectedEvents.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @DatabaseSetup(value = PATH + "initialEvents.xml")
+    @ExpectedDatabase(value = PATH + "expectedEvents.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void testAddEvent() {
         Event event = new Event();
         event.setTitle("Front End");
