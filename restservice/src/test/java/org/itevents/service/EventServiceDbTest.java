@@ -19,7 +19,7 @@ public class EventServiceDbTest extends AbstractDbTest {
     private EventService eventService;
 
     @Test
-    @DatabaseSetup("../../../dbunit/initialEvents.xml")
+    @DatabaseSetup("file:src/test/resources/dbunit/initialEvents.xml")
     public void testGetAllEvents() {
         List<Event> events = eventService.getAllEvents();
         int expectedValue = 4;
@@ -28,8 +28,8 @@ public class EventServiceDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = "../../../dbunit/initialEvents.xml")
-    @ExpectedDatabase(value = "../../../dbunit/expectedEvents.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @DatabaseSetup(value = "file:src/test/resources/dbunit/initialEvents.xml")
+    @ExpectedDatabase(value = "file:src/test/resources/dbunit/expectedEvents.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void testAddEvent() {
         Event event = new Event();
         event.setTitle("Front End");
