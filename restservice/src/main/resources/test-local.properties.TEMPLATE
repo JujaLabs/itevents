@@ -1,0 +1,10 @@
+# Create copy of this file in same directory with name "test-local.properties" and update value of properties
+
+# Database
+database.driver=org.postgresql.Driver
+database.url=jdbc:postgresql://HOST:PORT/TEST_DATABASE_NAME
+database.username=DB_USERNAME
+database.password=DB_PASSWORD
+
+# Liquibase
+changeLogFile=src\\main\\resources\\liquibase\\db.changelog-create.xml

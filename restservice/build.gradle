@@ -41,7 +41,7 @@ stopKey = "stop"
 Properties props = new Properties()
 props.load(new FileInputStream("./restservice/src/main/resources/local.properties"))
 Properties testProps = new Properties()
-testProps.load(new FileInputStream("./restservice/src/main/resources/test.local.properties"))
+testProps.load(new FileInputStream("./restservice/src/main/resources/test-local.properties"))
 
 test.dependsOn "liquibaseTestUpdate"
 

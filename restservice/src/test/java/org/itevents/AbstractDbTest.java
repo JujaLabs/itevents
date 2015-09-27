@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
-@TestPropertySource("classpath:test.local.properties")
+@TestPropertySource("classpath:test-local.properties")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class})
 @Transactional
