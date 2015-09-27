@@ -5,7 +5,6 @@ import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -37,17 +36,17 @@ public interface UserMapper extends UserDao {
     @Delete("DELETE FROM users WHERE id =#{id}")
     void removeUser(User user);
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @Insert("INSERT INTO user_event(user_id, event_id) VALUES(#{user.id}, #{event.id})")
     void willGoToEvent(@Param("user") User user,
                        @Param("event") Event event);
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @Delete("DELETE FROM user_event WHERE user_id = #{{user.id} AND event_id = #{event.id}")
     void willNotGoToEvent(@Param("user") User user,
                           @Param("event") Event event);
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @Select("SELECT * FROM user_event WHERE user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);
 }
