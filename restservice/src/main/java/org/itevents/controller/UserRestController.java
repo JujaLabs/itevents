@@ -1,7 +1,6 @@
 package org.itevents.controller;
 
 import io.swagger.annotations.Api;
-import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -26,8 +25,8 @@ public class UserRestController {
         return getUserResponseEntity(userService.getUser(id));
     }
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
-    public List<Event> myEvents(@PathVariable("id") int id){
-        return userService.getUser(id).getEvents();
+    public List myEvents(@PathVariable("id") int id){
+        return userService.getUserEvents(userService.getUser(id));
     }
 
     private ResponseEntity<User> getUserResponseEntity(User user) {

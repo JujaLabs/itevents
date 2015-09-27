@@ -80,12 +80,7 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public List<User> getVisitors(int id) {
-        List<User> visitors = new ArrayList<>();
-        Event event = eventDao.getEvent(id);
-        if (event != null) {
-            visitors = eventDao.getVisitors(getEvent(id));
-        }
-        return visitors;
+        return eventDao.getVisitors(getEvent(id));
     }
 
     @Override

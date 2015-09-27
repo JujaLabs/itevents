@@ -2,6 +2,7 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.wrapper.EventWrapper;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
-    public List getVisitors(@PathVariable("id") int id) {
+    public List<User> getVisitors(@PathVariable("id") int id) {
        return eventService.getVisitors(id);
     }
 
