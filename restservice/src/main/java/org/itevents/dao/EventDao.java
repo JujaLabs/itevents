@@ -23,6 +23,10 @@ public interface EventDao {
     
     void removeEvent(Event event);
 
-    List<User> getAllVisitors(Event event);
+    void willGoToEvent(User user, Event event);
+
+    void willNotGoToEvent(User user, Event event);
+
+    List<User> getVisitors(Event event);
 
 }

@@ -20,9 +20,5 @@ public interface UserDao {
 
     void removeUser(User user);
 
-    void willGoToEvent(User user, Event event);
-
-    void willNotGoToEvent(User user, Event event);
-
     List<Event> getUserEvents(User user);
 }

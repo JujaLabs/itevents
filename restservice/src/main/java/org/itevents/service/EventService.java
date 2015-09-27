@@ -25,5 +25,5 @@ public interface EventService {
 
     String WillNotGo(int id);
 
-    List<User> getAllVisitors(int id);
+    List<User> getVisitors(int id);
 }

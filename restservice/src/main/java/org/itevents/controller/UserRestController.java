@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,9 @@ public class UserRestController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
     public List<Event> myEvents(@PathVariable("id") int id){
-        return userService.getUserEvents(userService.getUser(id));
+        List<Event> events = new ArrayList<>();
+        events.addAll(userService.getUserEvents(userService.getUser(id)));
+        return events;
     }
 
     private ResponseEntity<User> getUserResponseEntity(User user) {
