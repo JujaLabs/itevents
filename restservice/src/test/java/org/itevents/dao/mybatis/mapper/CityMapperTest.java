@@ -19,12 +19,12 @@ public class CityMapperTest extends AbstractDbTest {
 
     private final int ID_0 = 0;
     private final int ID_1 = 1;
-
+    private final String TEST_PATH = PATH + "CityMapperTest/";
     @Inject
     private CityMapper cityMapper;
 
     @Test
-    @DatabaseSetup(PATH + "CityMapperTest/CityMapperTest_initial.xml")
+    @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
     public void testGetCity1() throws Exception {
         double kyivLatitude = 50.4505;
         double kyivLongitude = 30.523;
@@ -35,7 +35,7 @@ public class CityMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(PATH + "CityMapperTest/CityMapperTest_initial.xml")
+    @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
     public void testGetCity0() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
