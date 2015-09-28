@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">
+<dataset>
+    <role id="1" name="guest"/>
+    <role id="2" name="admin"/>
+    <role id="3" name="subscriber"/>
+    <role id="4" name="testRole"/>
+</dataset>

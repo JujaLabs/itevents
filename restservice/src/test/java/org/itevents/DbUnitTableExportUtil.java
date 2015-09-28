@@ -9,6 +9,7 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlWriter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,19 +31,15 @@ public class DbUnitTableExportUtil {
     public static void main(String[] args) throws Exception {
 
         databaseConnection();
-
 //        partialDatabaseExport();
-//
 //        fullDatabaseExport();
-
 //        writeDtdFile();
-
-        dependentTableExport("CityMapperTest", "city");
+        dependentTableExport("RoleMapperTest", "testRemoveRole", "role");
 
     }
 
     private static void writeDtdFile() throws IOException, DataSetException, SQLException {
-        FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream("test.dtd"));
+        FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream(PATH + "test.dtd"));
     }
 
     private static void dependentTableExport(String testName, String tableName) throws Exception {
@@ -56,7 +53,9 @@ public class DbUnitTableExportUtil {
         IDataSet depDataSet = connection.createDataSet(depTableNames);
         File directory = new File(PATH + testName);
         directory.mkdirs();
-        FlatXmlDataSet.write(depDataSet, new FileOutputStream(PATH + testName + "/" + methodName + "_initial.xml"));
+        FlatXmlWriter datasetWriter = new FlatXmlWriter(new FileOutputStream(PATH + testName + "/" + methodName + "_initial.xml"));
+        datasetWriter.setDocType(PATH + "test.dtd");
+        datasetWriter.write(depDataSet);
     }
 
     private static void fullDatabaseExport() throws SQLException, IOException, DataSetException {

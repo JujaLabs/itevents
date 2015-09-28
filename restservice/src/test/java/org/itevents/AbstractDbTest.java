@@ -1,6 +1,8 @@
 package org.itevents;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import org.itevents.dbunit.SpatialAwareFlatXmlDataSetLoader;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @TestPropertySource("classpath:test-local.properties")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class})
+@DbUnitConfiguration(
+        databaseConnection = "dataSource",
+        dataSetLoader = SpatialAwareFlatXmlDataSetLoader.class)
 @Transactional
 public abstract class AbstractDbTest {
     protected final String PATH = "file:src/test/resources/dbunit/";

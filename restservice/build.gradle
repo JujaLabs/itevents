@@ -46,6 +46,7 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
+    testCompile 'com.vividsolutions:jts:1.13'
   }
 
 Properties props = new Properties()
