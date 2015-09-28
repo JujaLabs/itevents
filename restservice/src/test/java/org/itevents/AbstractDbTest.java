@@ -16,5 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
         TransactionDbUnitTestExecutionListener.class})
 @Transactional
 public abstract class AbstractDbTest {
+    protected final String PATH = "file:src/test/resources/dbunit/";
 
 }
