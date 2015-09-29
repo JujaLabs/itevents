@@ -1,15 +1,15 @@
-package org.itevents;
+package org.itevents.util;
 
 import org.dbunit.DatabaseUnitException;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.database.QueryDataSet;
 import org.dbunit.database.search.TablesDependencyHelper;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlWriter;
+import org.itevents.dbunit.PostgisDataTypeFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,10 +31,8 @@ public class DbUnitTableExportUtil {
     public static void main(String[] args) throws Exception {
 
         databaseConnection();
-//        partialDatabaseExport();
-//        fullDatabaseExport();
 //        writeDtdFile();
-        dependentTableExport("RoleMapperTest", "testRemoveRole", "role");
+        dependentTableExport("CityMapperTest", "city");
 
     }
 
@@ -58,18 +56,6 @@ public class DbUnitTableExportUtil {
         datasetWriter.write(depDataSet);
     }
 
-    private static void fullDatabaseExport() throws SQLException, IOException, DataSetException {
-        IDataSet fullDataSet = connection.createDataSet();
-        FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
-    }
-
-    private static void partialDatabaseExport() throws IOException, DataSetException {
-        QueryDataSet partialDataSet = new QueryDataSet(connection);
-        partialDataSet.addTable("FOO", "SELECT * FROM TABLE WHERE COL='VALUE'");
-        partialDataSet.addTable("BAR");
-        FlatXmlDataSet.write(partialDataSet, new FileOutputStream("partial.xml"));
-    }
-
     private static void databaseConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         Properties testProps = new Properties();
         testProps.load(new FileInputStream("src/main/resources/local.properties"));
@@ -80,5 +66,6 @@ public class DbUnitTableExportUtil {
                 testProps.getProperty("database.username"),
                 testProps.getProperty("database.password"));
         connection = new DatabaseConnection(jdbcConnection);
+        connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgisDataTypeFactory());
     }
 }

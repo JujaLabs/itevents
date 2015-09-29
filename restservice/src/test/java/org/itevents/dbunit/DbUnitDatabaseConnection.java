@@ -7,31 +7,18 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-@Component("dbUnitDatabaseConnection")
-public class GeoDBDatabaseConnection implements FactoryBean<IDatabaseConnection> {
+public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection> {
 
     @Inject
     private DataSource dataSource;
 
     private IDatabaseConnection databaseConnection;
-
-    public GeoDBDatabaseConnection() {
-    }
-
-    public GeoDBDatabaseConnection(DataSource dataSource) {
-        setDataSource(dataSource);
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @PostConstruct
     public void init() {

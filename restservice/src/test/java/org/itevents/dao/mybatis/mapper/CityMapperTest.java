@@ -25,18 +25,18 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
-    public void testGetCity1() throws Exception {
+    public void testGetCitySuccess() throws Exception {
         double kyivLatitude = 50.4505;
         double kyivLongitude = 30.523;
-        City expectedCity = new City("Kyiv", null, new Location(kyivLatitude, kyivLongitude));
-        expectedCity.setId(ID_1);
+        Location kyivLocation = new Location(kyivLatitude, kyivLongitude);
+        City expectedCity = new City("Kyiv", null, kyivLocation);
         City returnedCity = cityMapper.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }
 
     @Test
     @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
-    public void testGetCity0() throws Exception {
+    public void testGetCityFail() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
     }
