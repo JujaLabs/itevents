@@ -14,7 +14,7 @@ public class PostgisDataTypeFactory extends PostgresqlDataTypeFactory {
     public DataType createDataType(int sqlType, String sqlTypeName) throws DataTypeException {
         DataType result = super.createDataType(sqlType, sqlTypeName);
         if (result instanceof GeometryType) {
-            result = new PGeometryType();
+            result = new PostgisGeometryType();
         }
         return result;
     }

@@ -11,6 +11,9 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
+    maven {
+        url "http://download.osgeo.org/webdav/geotools/"
+    }
 }
 
 configurations {
@@ -47,6 +50,7 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
 //    testCompile 'com.vividsolutions:jts:1.13'
+    compile 'org.postgis:postgis-jdbc:1.1.6'
   }
 
 Properties props = new Properties()

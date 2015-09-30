@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by vaa25 on 29.09.2015.
  */
-public class PGeometryType extends GeometryType {
+public class PostgisGeometryType extends GeometryType {
 
     @Override
     public Object getSqlValue(int column, ResultSet resultSet) throws SQLException, TypeCastException {
