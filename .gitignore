@@ -7,11 +7,15 @@ restservice/src/main/resources/local.properties
 # Intellij project files
 *.iml
 .idea/
+$APP_CONFIG$/
 
 #Gradle
 .gradle/
 build/
 classes/
 
-#SendGrid
-restservice/src/main/resources/sendgrid.properties
+# Logs
+*logs/*
+*.log
+*.gz
+

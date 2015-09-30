@@ -17,22 +17,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:applicationContext.xml",
+        "classpath*:mvc-dispatcher-servlet.xml"})
 @WebAppConfiguration
-@ContextConfiguration("classpath*:mvc-dispatcher-servlet.xml")
 public class AppTests {
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Inject
-    protected WebApplicationContext wac;
-    private MockMvc mockMvc;
+    private WebApplicationContext context;
+    private MockMvc mvc;
 
     @Before
     public void setup() {
-        this.mockMvc = webAppContextSetup(this.wac).build();
+        mvc = webAppContextSetup(this.context).build();
     }
 
     @Test
     public void simple() throws Exception {
-        mockMvc.perform(get("/"))
+        mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
     }
