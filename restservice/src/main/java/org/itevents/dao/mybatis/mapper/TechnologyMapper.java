@@ -29,7 +29,7 @@ public interface TechnologyMapper extends TechnologyDao {
     List<Technology> getSeveralTechnologies(@Param("names") String[] names);
 
     @ResultType(Technology.class)
-    @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id WHERE et.event_id = #{eventId}")
+    @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}")
     List<Technology> getTechnologiesByEventId(int eventId);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")

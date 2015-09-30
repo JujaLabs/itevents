@@ -34,7 +34,7 @@ public class DbUnitTableExportUtil {
         writeDtdFile();
 //        dependentTableExport("CityMapperTest", "city");
 //        dependentTableExport("CurrencyMapperTest", "currency");
-        dependentTableExport("EventMapperTest", "event");
+        dependentTableExport("EventMapperTest", "event_technology");
 
     }
 
