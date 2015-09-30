@@ -3,7 +3,7 @@ package org.itevents.dao.mybatis.mapper;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.City;
-import org.itevents.model.Location;
+import org.itevents.util.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -24,10 +24,7 @@ public class CityMapperTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
     public void testGetCitySuccess() throws Exception {
-        double kyivLatitude = 50.4505;
-        double kyivLongitude = 30.523;
-        Location kyivLocation = new Location(kyivLatitude, kyivLongitude);
-        City expectedCity = new City("Kyiv", null, kyivLocation);
+        City expectedCity = BuilderUtil.buildCityKyiv();
         City returnedCity = cityMapper.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }

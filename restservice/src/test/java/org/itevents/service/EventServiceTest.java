@@ -3,6 +3,7 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.model.Technology;
+import org.itevents.util.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,9 +39,12 @@ public class EventServiceTest {
     @Before
     public void setup() throws ParseException {
         List<Technology> technologies = new ArrayList<>();
-        addingEvent = new Event("Ruby", dateFormatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
+        addingEvent = new Event(1, "Ruby", dateFormatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
                 new Location(50.454605, 30.445495), "ruby@gmail.com");
         addingEvent.setTechnologies(technologies);
+        addingEvent = BuilderUtil.buildEventRuby();
+
+
     }
 
     @Test

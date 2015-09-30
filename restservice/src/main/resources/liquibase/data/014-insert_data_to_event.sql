@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset vaa25:14
-INSERT INTO event (title, event_date, create_date, reg_link, address, GEOM_point, contact, price, currency_id, city_id)
+INSERT INTO event (title, event_date, create_date, reg_link, address, point, contact, price, currency_id, city_id)
 VALUES
   ('Java', '10.07.2015', NULL, 'http://www.java.com.ua', 'Beresteyska', 'POINT(30.742017 50.458585)', 'java@gmail.com',
    NULL, NULL, 1),

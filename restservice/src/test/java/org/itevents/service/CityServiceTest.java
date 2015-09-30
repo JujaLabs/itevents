@@ -1,8 +1,7 @@
 package org.itevents.service;
 
 import org.itevents.model.City;
-import org.itevents.model.Location;
-import org.junit.Before;
+import org.itevents.util.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,21 +22,12 @@ public class CityServiceTest {
     private final int ID_0 = 0;
     private final int ID_1 = 1;
     private final int SIZE_4 = 4;
-    private City testCity;
     @Inject
     private CityService cityService;
 
-    @Before
-    public void setup() {
-        testCity = new City("TestCity", "Test city details", new Location(0.0, 0.0));
-    }
-
     @Test
     public void testGetCity1() throws Exception {
-        double kyivLatitude = 50.4505;
-        double kyivLongitude = 30.523;
-        City expectedCity = new City("Kyiv", null, new Location(kyivLatitude, kyivLongitude));
-        expectedCity.setId(ID_1);
+        City expectedCity = BuilderUtil.buildCityKyiv();
         City returnedCity = cityService.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }
@@ -51,6 +41,7 @@ public class CityServiceTest {
 
     @Test
     public void testAddCity() throws Exception {
+        City testCity = BuilderUtil.buildCityTest();
         City expectedCity = testCity;
         cityService.addCity(expectedCity);
         City returnedCity = cityService.getCity(expectedCity.getId());
@@ -73,6 +64,7 @@ public class CityServiceTest {
 
     @Test
     public void testRemoveCitySuccess() {
+        City testCity = BuilderUtil.buildCityTest();
         City expectedCity = testCity;
         cityService.addCity(expectedCity);
         City returnedCity = cityService.removeCity(expectedCity);
@@ -81,6 +73,7 @@ public class CityServiceTest {
 
     @Test
     public void testRemoveCityFail() {
+        City testCity = BuilderUtil.buildCityTest();
         City returnedCity = cityService.removeCity(testCity);
         assertNull(returnedCity);
     }
