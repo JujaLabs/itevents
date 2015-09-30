@@ -17,8 +17,6 @@ import static org.junit.Assert.assertNull;
 
 public class CityMapperTest extends AbstractDbTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
     private final String TEST_PATH = PATH + "CityMapperTest/";
     @Inject
     private CityMapper cityMapper;
@@ -35,6 +33,7 @@ public class CityMapperTest extends AbstractDbTest {
     }
 
     @Test
+//    @Ignore
     @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
     public void testGetCityFail() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);

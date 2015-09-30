@@ -33,6 +33,7 @@ public class DbUnitTableExportUtil {
         databaseConnection();
 //        writeDtdFile();
         dependentTableExport("CityMapperTest", "city");
+        dependentTableExport("CurrencyMapperTest", "currency");
 
     }
 

@@ -1,9 +1,8 @@
 package org.itevents.dbunit;
 
 
-import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -49,13 +48,12 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
 
     private void initDatabaseConnection() {
         try {
-            this.databaseConnection = new DatabaseConnection(dataSource.getConnection());
-            this.databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
+            databaseConnection = new DatabaseDataSourceConnection(dataSource);
+            databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (DatabaseUnitException e) {
-            e.printStackTrace();
         }
+
     }
 
 }
