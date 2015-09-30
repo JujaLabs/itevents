@@ -1,10 +1,5 @@
 subprojects {
-  
-  apply plugin : 'java'
- 
-  repositories {
-     mavenCentral()
-  }
+    apply plugin : 'java'
 }
 
 defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'
