@@ -8,7 +8,7 @@ public class GetFilteredEventsSqlBuilder {
     public String getFilteredEvents(final FilteredEventsParameter params) {
         return new SQL() {{
             SELECT("*");
-            FROM("events e");
+            FROM("event e");
             WHERE("e.event_date > NOW()");
             if (params.getCity() != null) {
                 WHERE("city_id = #{city.id}");

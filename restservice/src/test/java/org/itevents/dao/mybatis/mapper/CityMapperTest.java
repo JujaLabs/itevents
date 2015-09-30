@@ -30,7 +30,6 @@ public class CityMapperTest extends AbstractDbTest {
     }
 
     @Test
-//    @Ignore
     @DatabaseSetup(TEST_PATH + "CityMapperTest_initial.xml")
     public void testGetCityFail() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);

@@ -17,7 +17,6 @@ public class EventBuilder {
     private String address;
     private Location location;
     private String contact;
-    private Boolean free;
     private Integer price;
     private Currency currency;
     private City city;
@@ -70,11 +69,6 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setFree(Boolean free) {
-        this.free = free;
-        return this;
-    }
-
     public EventBuilder setPrice(Integer price) {
         this.price = price;
         return this;
@@ -96,7 +90,9 @@ public class EventBuilder {
     }
 
     public EventBuilder but() {
-        return anEvent().setId(id).setTitle(title).setEventDate(eventDate).setCreateDate(createDate).setRegLink(regLink).setAddress(address).setLocation(location).setContact(contact).setFree(free).setPrice(price).setCurrency(currency).setCity(city).setTechnologies(technologies);
+        return anEvent().setId(id).setTitle(title).setEventDate(eventDate).setCreateDate(createDate).setRegLink(regLink)
+                .setAddress(address).setLocation(location).setContact(contact).setPrice(price).setCurrency(currency)
+                .setCity(city).setTechnologies(technologies);
     }
 
     public Event build() {
@@ -109,7 +105,6 @@ public class EventBuilder {
         event.setAddress(address);
         event.setLocation(location);
         event.setContact(contact);
-        event.setFree(free);
         event.setPrice(price);
         event.setCurrency(currency);
         event.setCity(city);

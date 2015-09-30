@@ -3,11 +3,14 @@ package org.itevents.util;
 import org.itevents.model.City;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
+import org.itevents.model.Technology;
 import org.itevents.model.builder.CityBuilder;
 import org.itevents.model.builder.EventBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -43,6 +46,11 @@ public class BuilderUtil {
     }
 
     public static Event buildEventJava() throws ParseException {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(new Technology("Java"));
+        technologies.add(new Technology("Liquibase"));
+        technologies.add(new Technology("Spring"));
+        technologies.add(new Technology("MyBatis"));
         return EventBuilder.anEvent()
                 .setTitle("Java")
                 .setEventDate(new SimpleDateFormat("dd.MM.yyyy").parse("10.07.2015"))
@@ -50,17 +58,9 @@ public class BuilderUtil {
                 .setAddress("Beresteyska")
                 .setLocation(new Location(50.458585, 30.742017))
                 .setContact("java@gmail.com")
-                .setFree(true)
                 .setCity(buildCityKyiv())
+                .setTechnologies(technologies)
                 .build();
     }
-
-//    List<Technology> technologies = new ArrayList<>();
-//    technologies.add(technologyService.getTechnology(1));
-//    technologies.add(technologyService.getTechnology(4));
-//    technologies.add(technologyService.getTechnology(8));
-//    technologies.add(technologyService.getTechnology(9));
-//    Event expectedEvent = new Event(1, "Java", dateFormatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
-//            new Location(50.458585, 30.742017), "java@gmail.com", true, null, null, cityService.getCity(1), technologies);
 
 }

@@ -1,8 +1,6 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
-import org.itevents.model.Technology;
 import org.itevents.util.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
@@ -38,24 +36,12 @@ public class EventServiceTest {
 
     @Before
     public void setup() throws ParseException {
-        List<Technology> technologies = new ArrayList<>();
-        addingEvent = new Event(1, "Ruby", dateFormatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
-                new Location(50.454605, 30.445495), "ruby@gmail.com");
-        addingEvent.setTechnologies(technologies);
         addingEvent = BuilderUtil.buildEventRuby();
-
-
     }
 
     @Test
     public void testGetEventById() throws ParseException {
-        List<Technology> technologies = new ArrayList<>();
-        technologies.add(technologyService.getTechnology(1));
-        technologies.add(technologyService.getTechnology(4));
-        technologies.add(technologyService.getTechnology(8));
-        technologies.add(technologyService.getTechnology(9));
-        Event expectedEvent = new Event(1, "Java", dateFormatter.parse("10.07.2015"), null, "http://www.java.com.ua", "Beresteyska",
-                new Location(50.458585, 30.742017), "java@gmail.com", true, null, null, cityService.getCity(1), technologies);
+        Event expectedEvent = BuilderUtil.buildEventJava();
         Event returnedEvent = eventService.getEvent(1);
         Assert.assertEquals(expectedEvent, returnedEvent);
     }
@@ -69,7 +55,7 @@ public class EventServiceTest {
 
     @Test
     public void testRemoveEvent() throws ParseException {
-        Event expectedEvent = addingEvent;
+        Event expectedEvent = BuilderUtil.buildEventRuby();
         eventService.addEvent(expectedEvent);
         Event returnedEvent = eventService.removeEvent(expectedEvent);
         expectedEvent.setId(returnedEvent.getId());
@@ -78,6 +64,7 @@ public class EventServiceTest {
 
     @Test
     public void testAddEvent() throws ParseException {
+        Event addingEvent = BuilderUtil.buildEventRuby();
         eventService.addEvent(addingEvent);
         Event returnedEvent = eventService.getEvent(addingEvent.getId());
         Assert.assertEquals(addingEvent, returnedEvent);
