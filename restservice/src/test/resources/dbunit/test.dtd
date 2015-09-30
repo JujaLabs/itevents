@@ -16,7 +16,7 @@
                 id CDATA #IMPLIED
                 name CDATA #REQUIRED
                 details CDATA #IMPLIED
-                point CDATA #IMPLIED
+                point CDATA #REQUIRED
                 >
 
         <!ELEMENT currency EMPTY>
@@ -58,6 +58,7 @@
                 create_date CDATA #IMPLIED
                 reg_link CDATA #IMPLIED
                 address CDATA #IMPLIED
+                point CDATA #IMPLIED
                 contact CDATA #IMPLIED
                 price CDATA #IMPLIED
                 currency_id CDATA #IMPLIED

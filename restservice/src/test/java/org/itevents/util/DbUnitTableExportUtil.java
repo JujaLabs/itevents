@@ -31,9 +31,10 @@ public class DbUnitTableExportUtil {
     public static void main(String[] args) throws Exception {
 
         databaseConnection();
-//        writeDtdFile();
+        writeDtdFile();
 //        dependentTableExport("CityMapperTest", "city");
-        dependentTableExport("CurrencyMapperTest", "currency");
+//        dependentTableExport("CurrencyMapperTest", "currency");
+        dependentTableExport("EventMapperTest", "event");
 
     }
 
