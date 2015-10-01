@@ -6,6 +6,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,9 @@ public interface UserMapper extends UserDao {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "roles_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole")),
+            @Result(property = "events", column = "event_id", javaType = ArrayList.class,
+            many = @Many(select = "org.itevents.dao.mybatis.mapper.EventMapper.getEvent"))
     })
     @Select("SELECT * FROM users WHERE id = #{id}")
     User getUser(int id);
@@ -37,6 +40,11 @@ public interface UserMapper extends UserDao {
     void removeUser(User user);
 
 //    @PreAuthorize("isAuthenticated()")
+//    @Results(value = {
+//    @Result(property = "events", column = "event_id", javaType = ArrayList.class,
+//            one = @One(select = "org.itevents.dao.mybatis.mapper.EventMapper.getEvent"))
+//    })
+    @ResultMap("getUser-int")
     @Select("SELECT * FROM user_event WHERE user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);
 }
