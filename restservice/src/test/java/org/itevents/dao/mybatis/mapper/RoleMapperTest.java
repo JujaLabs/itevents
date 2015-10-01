@@ -18,8 +18,6 @@ import static org.junit.Assert.assertNull;
 
 public class RoleMapperTest extends AbstractDbTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
     private final String TEST_PATH = PATH + "RoleMapperTest/";
     @Inject
     private RoleMapper roleMapper;
@@ -40,19 +38,20 @@ public class RoleMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(TEST_PATH + "RoleMapperTest_initial.xml")
-    @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml")
+    @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddRole() throws Exception {
         Role testRole = new Role("testRole");
         roleMapper.addRole(testRole);
+        System.out.println(roleMapper.getAllRoles());
     }
 
     @Test
     @DatabaseSetup(TEST_PATH + "testRemoveRole_initial.xml")
-    @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveRole() {
         Role testRole = new Role("testRole");
-        testRole.setId(4);
+        testRole.setId(-4);
         roleMapper.removeRole(testRole);
     }
 
