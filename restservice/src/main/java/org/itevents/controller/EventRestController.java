@@ -27,22 +27,23 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willGo")
     public ResponseEntity<Event> iWillGo(@PathVariable("id") int id) {
-//        Event event = eventService.getEvent(id);
+        Event event = eventService.getEvent(id);
         eventService.WillGo(id);
-//        return new ResponseEntity<>(event, HttpStatus.OK);
-        return null;
+        return getEventResponseEntity(event);
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/events/{id}/willNotGo")
     public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id) {
-//        Event event = eventService.getEvent(id);
+        Event event = eventService.getEvent(id);
             eventService.WillNotGo(id);
-        return null;
+        return getEventResponseEntity(event);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
-    public List<User> getVisitors(@PathVariable("id") int id) {
-       return eventService.getVisitors(id);
+    public ResponseEntity<List<User>> getVisitors(@PathVariable("id") int id) {
+        List<User> visitors = eventService.getVisitors(id);
+       return new ResponseEntity<>(visitors,HttpStatus.OK);
     }
 
     private ResponseEntity<Event> getEventResponseEntity(Event event) {
