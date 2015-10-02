@@ -7,6 +7,7 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Role;
+import org.itevents.util.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -27,7 +28,7 @@ public class RoleMapperTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetRoleSuccess() throws Exception {
-        Role expectedRole = new Role("guest");
+        Role expectedRole = BuilderUtil.buildRoleGuest();
         Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
@@ -44,9 +45,8 @@ public class RoleMapperTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml")
     public void testAddRole() throws Exception {
-        Role testRole = new Role("testRole");
+        Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.addRole(testRole);
-        System.out.println(roleMapper.getAllRoles());
     }
 
     @Test
@@ -54,8 +54,7 @@ public class RoleMapperTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml")
     public void testRemoveRole() {
-        Role testRole = new Role("testRole");
-        testRole.setId(-4);
+        Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.removeRole(testRole);
     }
 

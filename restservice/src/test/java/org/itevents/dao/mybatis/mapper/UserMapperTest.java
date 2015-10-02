@@ -1,12 +1,14 @@
 package org.itevents.dao.mybatis.mapper;
 
-import org.itevents.model.Role;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import org.itevents.AbstractDbTest;
 import org.itevents.model.User;
+import org.itevents.util.BuilderUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -16,44 +18,41 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 21.07.2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
-public class UserMapperTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
+public class UserMapperTest extends AbstractDbTest {
+
+    private final String TEST_PATH = PATH + "UserMapperTest/";
     @Inject
     private UserMapper userMapper;
     @Inject
     private RoleMapper roleMapper;
 
     @Test
-    public void testGetUser1() throws Exception {
-        Role role1 = roleMapper.getRole(ID_1);
-        User expectedUser = new User("guest", "guest", role1);
-        expectedUser.setId(ID_1);
+    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    public void testGetUserSuccess() throws Exception {
+        User expectedUser = BuilderUtil.buildUserGuest();
         User returnedUser = userMapper.getUser(ID_1);
         assertEquals(expectedUser, returnedUser);
     }
 
     @Test
-    public void testGetUser0() throws Exception {
+    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    public void testGetUserFail() throws Exception {
         User returnedUser = userMapper.getUser(ID_0);
         assertNull(returnedUser);
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml")
     public void testAddUser() throws Exception {
-        Role role1 = roleMapper.getRole(ID_1);
-        User expectedUser = new User("testUser", "testUserPassword", role1);
+        User expectedUser = BuilderUtil.buildUserTest();
         userMapper.addUser(expectedUser);
-        User returnedUser = userMapper.getUser(expectedUser.getId());
-        assertEquals(expectedUser, returnedUser);
-        userMapper.removeUser(expectedUser);
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetAllUsers() throws Exception {
         int expectedSize = 4;
         int returnedSize = userMapper.getAllUsers().size();
@@ -61,12 +60,12 @@ public class UserMapperTest {
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml")
     public void testRemoveUser() {
-        Role role1 = roleMapper.getRole(ID_1);
-        User testUser = new User("testUser", "testUserPassword", role1);
-        userMapper.addUser(testUser);
-        int expectedSize = userMapper.getAllUsers().size() - 1;
-        userMapper.removeUser(testUser);
+        int expectedSize = 4;
+        userMapper.removeUser(BuilderUtil.buildUserTest());
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
     }

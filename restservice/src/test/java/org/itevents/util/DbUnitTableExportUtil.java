@@ -35,7 +35,8 @@ public class DbUnitTableExportUtil {
 //        dependentTableExport("CityMapperTest", "city");
 //        dependentTableExport("CurrencyMapperTest", "currency");
 //        dependentTableExport("EventMapperTest", "event_technology");
-        dependentTableExport("TechnologyMapperTest", "technology");
+//        dependentTableExport("TechnologyMapperTest", "technology");
+        dependentTableExport("UserMapperTest", "user_profile");
 
     }
 

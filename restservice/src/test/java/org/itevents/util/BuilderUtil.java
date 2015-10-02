@@ -1,12 +1,7 @@
 package org.itevents.util;
 
-import org.itevents.model.City;
-import org.itevents.model.Event;
-import org.itevents.model.Location;
-import org.itevents.model.Technology;
-import org.itevents.util.builder.CityBuilder;
-import org.itevents.util.builder.EventBuilder;
-import org.itevents.util.builder.TechnologyBuilder;
+import org.itevents.model.*;
+import org.itevents.util.builder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,6 +86,38 @@ public class BuilderUtil {
         return TechnologyBuilder.aTechnology()
                 .setName("MyBatis")
                 .setId(-9)
+                .build();
+    }
+
+    public static Role buildRoleGuest() {
+        return RoleBuilder.aRole()
+                .setName("guest")
+                .setId(-1)
+                .build();
+    }
+
+    public static Role buildRoleTest() {
+        return RoleBuilder.aRole()
+                .setName("testRole")
+                .setId(-4)
+                .build();
+    }
+
+    public static User buildUserGuest() {
+        return UserBuilder.anUser()
+                .setLogin("guest")
+                .setPassword("guest")
+                .setRole(buildRoleGuest())
+                .setId(-1)
+                .build();
+    }
+
+    public static User buildUserTest() {
+        return UserBuilder.anUser()
+                .setLogin("testUser")
+                .setPassword("testUserPassword")
+                .setRole(buildRoleGuest())
+                .setId(-5)
                 .build();
     }
 }
