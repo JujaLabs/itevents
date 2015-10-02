@@ -1,4 +1,4 @@
-package org.itevents.model.builder;
+package org.itevents.util.builder;
 
 import org.itevents.model.City;
 import org.itevents.model.Location;

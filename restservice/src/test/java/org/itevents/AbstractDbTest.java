@@ -8,7 +8,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @DbUnitConfiguration(
         databaseConnection = "dbUnitDatabaseConnection"
 )
-@Transactional
 public abstract class AbstractDbTest {
     protected final static String PATH = "file:src/test/resources/dbunit/";
     protected final static int ID_0 = 0;

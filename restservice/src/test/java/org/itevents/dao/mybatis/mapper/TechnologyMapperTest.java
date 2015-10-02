@@ -1,14 +1,13 @@
 package org.itevents.dao.mybatis.mapper;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.itevents.AbstractDbTest;
 import org.itevents.model.Technology;
+import org.itevents.util.BuilderUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,41 +16,31 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 22.07.2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
-public class TechnologyMapperTest {
+public class TechnologyMapperTest extends AbstractDbTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
-    private final int ID_4 = 4;
-    private final int ID_8 = 8;
-    private final int ID_9 = 9;
-
+    private final String TEST_PATH = PATH + "TechnologyMapperTest/";
     @Inject
     private TechnologyMapper technologyMapper;
 
     @Test
-    public void testGetTechTag1() throws Exception {
-        Technology expectedTechnology = new Technology("Java");
-        expectedTechnology.setId(ID_1);
+    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    public void testGetTechnologySuccess() throws Exception {
+        Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
         assertEquals(expectedTechnology, returnedTechnology);
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetTechnologiesByEventId() throws Exception {
-        List<Technology> expectedTechnologies = new ArrayList<>();
-        expectedTechnologies.add(technologyMapper.getTechnology(ID_1));
-        expectedTechnologies.add(technologyMapper.getTechnology(ID_4));
-        expectedTechnologies.add(technologyMapper.getTechnology(ID_8));
-        expectedTechnologies.add(technologyMapper.getTechnology(ID_9));
+        List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
     }
 
     @Test
-    public void testGetTechTag0() throws Exception {
+    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    public void testGetTechnologyFail() throws Exception {
         Technology returnedTechnology = technologyMapper.getTechnology(ID_0);
         assertNull(returnedTechnology);
     }

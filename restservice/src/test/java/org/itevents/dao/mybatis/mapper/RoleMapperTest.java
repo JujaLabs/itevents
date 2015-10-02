@@ -1,6 +1,8 @@
 package org.itevents.dao.mybatis.mapper;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
@@ -23,7 +25,7 @@ public class RoleMapperTest extends AbstractDbTest {
     private RoleMapper roleMapper;
 
     @Test
-    @DatabaseSetup(TEST_PATH + "RoleMapperTest_initial.xml")
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetRoleSuccess() throws Exception {
         Role expectedRole = new Role("guest");
         Role returnedRole = roleMapper.getRole(ID_1);
@@ -31,15 +33,16 @@ public class RoleMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(TEST_PATH + "RoleMapperTest_initial.xml")
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetRoleFail() throws Exception {
         Role returnedRole = roleMapper.getRole(ID_0);
         assertNull(returnedRole);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml")
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml")
     public void testAddRole() throws Exception {
         Role testRole = new Role("testRole");
         roleMapper.addRole(testRole);
@@ -47,8 +50,9 @@ public class RoleMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(TEST_PATH + "testRemoveRole_initial.xml")
+    @DatabaseSetup(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml")
     public void testRemoveRole() {
         Role testRole = new Role("testRole");
         testRole.setId(-4);
@@ -56,7 +60,7 @@ public class RoleMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(TEST_PATH + "RoleMapperTest_initial.xml")
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     public void testGetAllRoles() throws Exception {
         int expectedSize = 3;
         int returnedSize = roleMapper.getAllRoles().size();
