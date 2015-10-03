@@ -39,7 +39,7 @@ public class MailServiceDelivery implements MailService {
         try {
             SendGrid.Response response = sendgrid.send(email);
         } catch (SendGridException e) {
-            logger.error("Exception",e);
+            logger.error("Email sending error",e);
         }
     }
 }
