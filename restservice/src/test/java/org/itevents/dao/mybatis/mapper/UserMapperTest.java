@@ -24,8 +24,6 @@ public class UserMapperTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "UserMapperTest/";
     @Inject
     private UserMapper userMapper;
-    @Inject
-    private RoleMapper roleMapper;
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
@@ -47,8 +45,8 @@ public class UserMapperTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml")
     public void testAddUser() throws Exception {
-        User expectedUser = BuilderUtil.buildUserTest();
-        userMapper.addUser(expectedUser);
+        User testUser = BuilderUtil.buildUserTest();
+        userMapper.addUser(testUser);
     }
 
     @Test
@@ -64,9 +62,7 @@ public class UserMapperTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml")
     public void testRemoveUser() {
-        int expectedSize = 4;
-        userMapper.removeUser(BuilderUtil.buildUserTest());
-        int returnedSize = userMapper.getAllUsers().size();
-        assertEquals(expectedSize, returnedSize);
+        User testUser = BuilderUtil.buildUserTest();
+        userMapper.removeUser(testUser);
     }
 }
