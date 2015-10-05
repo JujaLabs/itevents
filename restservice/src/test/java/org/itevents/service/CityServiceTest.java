@@ -1,10 +1,14 @@
 package org.itevents.service;
 
+import org.itevents.dao.CityDao;
 import org.itevents.model.City;
 import org.itevents.util.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.dao.DuplicateKeyException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,60 +17,49 @@ import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class CityServiceTest {
 
-    private final int ID_0 = 0;
     private final int ID_1 = 1;
-    private final int SIZE_4 = 4;
+
+    @InjectMocks
     @Inject
     private CityService cityService;
+    @Mock
+    private CityDao cityDao;
 
-    @Test
-    public void testGetCity1() throws Exception {
-        City expectedCity = BuilderUtil.buildCityKyiv();
-        City returnedCity = cityService.getCity(ID_1);
-        assertEquals(expectedCity, returnedCity);
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testGetCity0() throws Exception {
-        City returnedCity = cityService.getCity(ID_0);
-        assertNull(returnedCity);
+    public void testGetCity() throws Exception {
+        cityService.getCity(ID_1);
+        verify(cityDao).getCity(ID_1);
     }
-
 
     @Test
     public void testAddCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
-        City expectedCity = testCity;
-        cityService.addCity(expectedCity);
-        City returnedCity = cityService.getCity(expectedCity.getId());
-        assertEquals(expectedCity, returnedCity);
-        cityService.removeCity(testCity);
-    }
-
-    @Test(expected = DuplicateKeyException.class)
-    public void testAddExistingCity() throws Exception {
-        City existingCity = cityService.getCity(ID_1);
-        cityService.addCity(existingCity);
+        cityService.addCity(testCity);
+        verify(cityDao).addCity(testCity);
     }
 
     @Test
     public void testGetAllCities() {
-        int expectedSize = SIZE_4;
-        int returnedSize = cityService.getAllCities().size();
-        assertEquals(expectedSize, returnedSize);
+        cityService.getAllCities();
+        verify(cityDao).getAllCities();
     }
 
     @Test
     public void testRemoveCitySuccess() {
-        City testCity = BuilderUtil.buildCityTest();
-        City expectedCity = testCity;
-        cityService.addCity(expectedCity);
+        City expectedCity = BuilderUtil.buildCityTest();
+        when(cityDao.getCity(expectedCity.getId())).thenReturn(expectedCity);
         City returnedCity = cityService.removeCity(expectedCity);
         assertEquals(expectedCity, returnedCity);
     }
@@ -74,6 +67,7 @@ public class CityServiceTest {
     @Test
     public void testRemoveCityFail() {
         City testCity = BuilderUtil.buildCityTest();
+        doNothing().when(cityDao).removeCity(testCity);
         City returnedCity = cityService.removeCity(testCity);
         assertNull(returnedCity);
     }
