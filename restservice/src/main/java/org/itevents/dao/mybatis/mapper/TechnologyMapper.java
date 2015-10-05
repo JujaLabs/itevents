@@ -5,6 +5,7 @@ import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 17.07.2015.
@@ -30,7 +31,7 @@ public interface TechnologyMapper extends TechnologyDao {
 
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}")
-    List<Technology> getTechnologiesByEventId(int eventId);
+    Set<Technology> getTechnologiesByEventId(int eventId);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -37,49 +37,10 @@ public class Event implements Serializable {
     @XmlElement
     private City city;
     @XmlElement
-    private List<Technology> technologies;
+    private Set<Technology> technologies;
 
     public Event() {
     }
-
-//    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
-//                 Location location, String contact, Boolean free, Integer price, Currency currency, City city,
-//                 List<Technology> technologies) {
-//        this.id = id;
-//        this.title = title;
-//        this.eventDate = eventDate;
-//        this.createDate = createDate;
-//        this.regLink = regLink;
-//        this.address = address;
-//        this.location = location;
-//        this.contact = contact;
-//        this.free = free;
-//        this.price = price;
-//        this.currency = currency;
-//        this.city = city;
-//        this.technologies = technologies;
-//    }
-//
-//    public Event( String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
-//        this.title = title;
-//        this.eventDate = eventDate;
-//        this.createDate = createDate;
-//        this.regLink = regLink;
-//        this.address = address;
-//        this.location = location;
-//        this.contact = contact;
-//    }
-//
-//    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
-//        this.id = id;
-//        this.title = title;
-//        this.eventDate = eventDate;
-//        this.createDate = createDate;
-//        this.regLink = regLink;
-//        this.address = address;
-//        this.location = location;
-//        this.contact = contact;
-//    }
 
     public int getId() {
         return id;
@@ -169,11 +130,11 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public List<Technology> getTechnologies() {
+    public Set<Technology> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<Technology> technologies) {
+    public void setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
     }
 

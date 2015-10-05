@@ -9,7 +9,7 @@ import org.itevents.util.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -33,11 +33,11 @@ public class TechnologyMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @DatabaseSetup(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologiesByEventId() throws Exception {
-        List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
-        List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
+        Set<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
+        Set<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
     }
 

@@ -6,7 +6,7 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 
-import java.util.List;
+import java.util.Set;
 
 public interface VisitLogMapper extends VisitLogDao {
 
@@ -22,11 +22,11 @@ public interface VisitLogMapper extends VisitLogDao {
 
     @ResultMap("getVisitLog-int")
     @Select("SELECT * FROM visit_log")
-    List<VisitLog> getAllVisitLogs();
+    Set<VisitLog> getAllVisitLogs();
 
     @ResultMap("getVisitLog-int")
     @Select("SELECT * FROM visit_log WHERE event_id = #{id}")
-    List<VisitLog> getVisitLogsByEvent(Event event);
+    Set<VisitLog> getVisitLogsByEvent(Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")
     @Options(useGeneratedKeys = true)

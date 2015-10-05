@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">
 <dataset>
     <city id="-4" name="Odessa" details="Odessa, Florida, USA" point="POINT(-82.568333 28.183333)"/>
     <city id="-3" name="Boyarka" point="POINT(30.28861 50.32917)"/>
@@ -25,21 +26,6 @@
            point="POINT(30.445495 50.454605)" contact="php@gmail.com" city_id="-3"/>
     <event id="-1" title="Java" event_date="2015-07-10 00:00:00.0" reg_link="http://www.java.com.ua"
            address="Beresteyska" point="POINT(30.742017 50.458585)" contact="java@gmail.com" city_id="-1"/>
-    <role id="-3" name="subscriber"/>
-    <role id="-2" name="admin"/>
-    <role id="-1" name="guest"/>
-    <user_profile id="-4" login="vlasov@email.com" password="alex" role_id="-3"/>
-    <user_profile id="-3" login="kuchin@email.com" password="viktor" role_id="-2"/>
-    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
-    <user_profile id="-1" login="guest" password="guest" role_id="-1"/>
-    <visit_log event_id="-1" date="2016-09-20" user_id="-3"/>
-    <visit_log event_id="-2" date="2016-08-20" user_id="-3"/>
-    <visit_log event_id="-3" date="2016-09-20" user_id="-3"/>
-    <visit_log event_id="-2" date="2016-08-20" user_id="-2"/>
-    <visit_log event_id="-2" date="2016-07-20" user_id="-1"/>
-    <visit_log event_id="-1" date="2016-07-20" user_id="-2"/>
-    <visit_log event_id="-1" date="2016-07-20" user_id="-1"/>
-    <visit_log event_id="-3" date="2016-07-20" user_id="-1"/>
     <technology id="-10" name="SQL"/>
     <technology id="-9" name="MyBatis"/>
     <technology id="-8" name="Spring"/>

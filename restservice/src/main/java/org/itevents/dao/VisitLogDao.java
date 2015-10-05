@@ -3,15 +3,15 @@ package org.itevents.dao;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 
-import java.util.List;
+import java.util.Set;
 
 public interface VisitLogDao {
 
     VisitLog getVisitLog(int id);
 
-    List<VisitLog> getAllVisitLogs();
+    Set<VisitLog> getAllVisitLogs();
 
-    List<VisitLog> getVisitLogsByEvent(Event event);
+    Set<VisitLog> getVisitLogsByEvent(Event event);
 
     void addVisitLog(VisitLog visitLog);
 

@@ -12,10 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -78,7 +75,7 @@ public class VisitLogServiceTest {
         expectedVisitLogs.add(visitLogService.getVisitLog(ID_1));
         expectedVisitLogs.add(visitLogService.getVisitLog(ID_2));
         expectedVisitLogs.add(visitLogService.getVisitLog(ID_7));
-        List<VisitLog> returnedVisitLogs = visitLogService.getVisitLogsByEvent(event1);
+        Set<VisitLog> returnedVisitLogs = visitLogService.getVisitLogsByEvent(event1);
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
 

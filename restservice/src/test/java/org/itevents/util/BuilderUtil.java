@@ -5,9 +5,10 @@ import org.itevents.util.builder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -35,7 +36,7 @@ public class BuilderUtil {
     public static Event buildEventRuby() throws ParseException {
         return EventBuilder.anEvent()
                 .setTitle("Ruby")
-                .setEventDate(new SimpleDateFormat("dd.MM.yyyy").parse("20.07.2015"))
+                .setEventDate(parseDate("20.07.2015"))
                 .setRegLink("http://www.ruby.com.ua")
                 .setAddress("Shulyavska")
                 .setLocation(new Location(50.454605, 30.445495))
@@ -44,16 +45,16 @@ public class BuilderUtil {
     }
 
     public static Event buildEventJava() throws ParseException {
-        List<Technology> technologies = new ArrayList<>();
+        Set<Technology> technologies = new HashSet<>();
         technologies.add(buildTechnologyMyBatis());
         technologies.add(buildTechnologySpring());
         technologies.add(buildTechnologyLiquibase());
         technologies.add(buildTechnologyJava());
         return EventBuilder.anEvent()
                 .setTitle("Java")
-                .setEventDate(new SimpleDateFormat("dd.MM.yyyy").parse("10.07.2015"))
+                .setEventDate(parseDate("10.07.2015"))
                 .setRegLink("http://www.java.com.ua")
-                .setAddress("Nyvky")
+                .setAddress("Beresteyska")
                 .setLocation(new Location(50.458585, 30.742017))
                 .setContact("java@gmail.com")
                 .setCity(buildCityKyiv())
@@ -62,14 +63,18 @@ public class BuilderUtil {
                 .build();
     }
 
+    private static Date parseDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd.MM.yyyy").parse(date);
+    }
+
     public static Event buildEventJs() throws ParseException {
-        List<Technology> technologies = new ArrayList<>();
+        Set<Technology> technologies = new HashSet<>();
         technologies.add(buildTechnologyJavaScript());
         return EventBuilder.anEvent()
                 .setTitle("JS")
-                .setEventDate(new SimpleDateFormat("dd.MM.yyyy").parse("30.07.2015"))
+                .setEventDate(parseDate("30.07.2015"))
                 .setRegLink("http://www.js.com.ua")
-                .setAddress("Beresteyska")
+                .setAddress("Nyvky")
                 .setLocation(new Location(50.458651, 30.403965))
                 .setContact("js@gmail.com")
                 .setCity(buildCityKyiv())
@@ -197,21 +202,24 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static List<VisitLog> buildListVisitLogJava() throws ParseException {
-        List<VisitLog> result = new ArrayList<>(3);
+    public static Set<VisitLog> buildListVisitLogJava() throws ParseException {
+        Set<VisitLog> result = new HashSet<>();
         result.add(VisitLogBuilder.aVisitLog()
                 .setEvent(buildEventJava())
                 .setUser(buildUserGuest())
+                .setDate(parseDate("20.07.2016"))
                 .setId(-1)
                 .build());
         result.add(VisitLogBuilder.aVisitLog()
                 .setEvent(buildEventJava())
                 .setUser(buildUserAnakin())
+                .setDate(parseDate("20.07.2016"))
                 .setId(-2)
                 .build());
         result.add(VisitLogBuilder.aVisitLog()
                 .setEvent(buildEventJava())
                 .setUser(buildUserKuchin())
+                .setDate(parseDate("20.09.2016"))
                 .setId(-7)
                 .build());
         return result;

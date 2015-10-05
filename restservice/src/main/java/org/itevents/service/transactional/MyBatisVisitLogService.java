@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Alexander Vlasov
@@ -26,7 +26,7 @@ public class MyBatisVisitLogService implements VisitLogService {
     }
 
     @Override
-    public List<VisitLog> getVisitLogsByEvent(Event event) {
+    public Set<VisitLog> getVisitLogsByEvent(Event event) {
         return visitLogDao.getVisitLogsByEvent(event);
     }
 
@@ -36,7 +36,7 @@ public class MyBatisVisitLogService implements VisitLogService {
     }
 
     @Override
-    public List<VisitLog> getAllVisitLogs() {
+    public Set<VisitLog> getAllVisitLogs() {
         return visitLogDao.getAllVisitLogs();
     }
 

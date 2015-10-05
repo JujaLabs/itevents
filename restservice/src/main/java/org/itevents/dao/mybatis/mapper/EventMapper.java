@@ -9,7 +9,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public interface EventMapper extends EventDao {
@@ -25,7 +25,7 @@ public interface EventMapper extends EventDao {
                     one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
             @Result(property = "city", column = "city_id", javaType = City.class,
                     one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
-            @Result(property = "technologies", column = "id", javaType = ArrayList.class,
+            @Result(property = "technologies", column = "id", javaType = HashSet.class,
                     many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
     })
     @Select("SELECT * FROM event WHERE id = #{id}")

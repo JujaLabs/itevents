@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -47,9 +47,9 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogByEvent() throws Exception {
-        List<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
+        Set<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
-        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(eventJava);
+        Set<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(eventJava);
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
 
@@ -59,6 +59,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddVisitLog() throws Exception {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
+        System.out.println(testVisitLog);
         visitLogMapper.addVisitLog(testVisitLog);
     }
 

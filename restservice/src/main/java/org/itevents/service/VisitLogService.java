@@ -3,17 +3,17 @@ package org.itevents.service;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 
-import java.util.List;
+import java.util.Set;
 
 public interface VisitLogService {
 
     void addVisitLog(VisitLog visitLog);
 
-    List<VisitLog> getVisitLogsByEvent(Event event);
+    Set<VisitLog> getVisitLogsByEvent(Event event);
 
     VisitLog getVisitLog(int id);
 
-    List<VisitLog> getAllVisitLogs();
+    Set<VisitLog> getAllVisitLogs();
 
     VisitLog removeVisitLog(VisitLog visitLog);
 }

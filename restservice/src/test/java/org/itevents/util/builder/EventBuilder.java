@@ -3,7 +3,7 @@ package org.itevents.util.builder;
 import org.itevents.model.*;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -20,7 +20,7 @@ public class EventBuilder {
     private Integer price;
     private Currency currency;
     private City city;
-    private List<Technology> technologies;
+    private Set<Technology> technologies;
 
     private EventBuilder() {
     }
@@ -84,7 +84,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setTechnologies(List<Technology> technologies) {
+    public EventBuilder setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
         return this;
     }

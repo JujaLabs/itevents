@@ -36,8 +36,9 @@ public class DbUnitTableExportUtil {
 //        dependentTableExport("CurrencyMapperTest", "currency");
 //        dependentTableExport("EventMapperTest", "event_technology");
 //        dependentTableExport("TechnologyMapperTest", "technology");
+//        dependentTableExport("TechnologyMapperTest", "testGetTechnologiesByEventId", "event_technology");
 //        dependentTableExport("UserMapperTest", "user_profile");
-        dependentTableExport("VisitLogMapperTest", "visit_log");
+        dependentTableExport("VisitLogMapperTest", "VisitLogMapperTest", "visit_log", "event_technology");
 
     }
 
@@ -49,7 +50,7 @@ public class DbUnitTableExportUtil {
         dependentTableExport(testName, testName, tableName);
     }
 
-    private static void dependentTableExport(String testName, String methodName, String tableName) throws Exception {
+    private static void dependentTableExport(String testName, String methodName, String... tableName) throws Exception {
         // dependent tables database export: export table X and all tables that
         // have a PK which is a FK on X, in the right order for insertion
         String[] depTableNames = TablesDependencyHelper.getDependentTables(connection, tableName);
