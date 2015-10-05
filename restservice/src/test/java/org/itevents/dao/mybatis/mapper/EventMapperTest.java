@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
 import org.itevents.util.BuilderUtil;
@@ -24,6 +25,7 @@ public class EventMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetEventSuccess() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
         Event returnedEvent = eventMapper.getEvent(ID_1);
@@ -32,6 +34,7 @@ public class EventMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetEventFail() {
         Event returnedEvent = eventMapper.getEvent(ID_0);
         assertNull(returnedEvent);

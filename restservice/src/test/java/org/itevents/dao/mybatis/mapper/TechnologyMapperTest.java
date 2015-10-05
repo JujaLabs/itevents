@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Technology;
 import org.itevents.util.BuilderUtil;
@@ -24,6 +25,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologySuccess() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
@@ -32,6 +34,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologiesByEventId() throws Exception {
         List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
@@ -40,6 +43,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologyFail() throws Exception {
         Technology returnedTechnology = technologyMapper.getTechnology(ID_0);
         assertNull(returnedTechnology);

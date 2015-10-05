@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.City;
 import org.itevents.util.BuilderUtil;
@@ -24,6 +25,7 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCitySuccess() throws Exception {
         City expectedCity = BuilderUtil.buildCityKyiv();
         City returnedCity = cityMapper.getCity(ID_1);
@@ -32,6 +34,7 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCityFail() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);

@@ -29,6 +29,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogSuccess() throws ParseException {
         VisitLog expectedVisitLog = BuilderUtil.buildFirstVisitLog();
         VisitLog returnedVisitLog = visitLogMapper.getVisitLog(ID_1);
@@ -37,12 +38,14 @@ public class VisitLogMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogFail() throws Exception {
         assertNull(visitLogMapper.getVisitLog(ID_0));
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogByEvent() throws Exception {
         List<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
@@ -53,7 +56,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddVisitLog_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml")
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddVisitLog() throws Exception {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
         visitLogMapper.addVisitLog(testVisitLog);
@@ -61,6 +64,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllVisitLogs() {
         int expectedSize = 7;
         int returnedSize = visitLogMapper.getAllVisitLogs().size();
@@ -70,7 +74,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveVisitLog_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "VisitLogMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml")
+    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testRemoveVisitLog() throws ParseException {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
         visitLogMapper.removeVisitLog(testVisitLog);

@@ -27,6 +27,7 @@ public class RoleMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetRoleSuccess() throws Exception {
         Role expectedRole = BuilderUtil.buildRoleGuest();
         Role returnedRole = roleMapper.getRole(ID_1);
@@ -35,6 +36,7 @@ public class RoleMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetRoleFail() throws Exception {
         Role returnedRole = roleMapper.getRole(ID_0);
         assertNull(returnedRole);
@@ -43,16 +45,17 @@ public class RoleMapperTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "testAddRole_teardown.xml", type = DatabaseOperation.DELETE)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddRole() throws Exception {
         Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.addRole(testRole);
+        System.out.println();
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "testRemoveRole_teardown.xml", type = DatabaseOperation.DELETE)
+    @DatabaseTearDown(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testRemoveRole() {
         Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.removeRole(testRole);
@@ -60,6 +63,7 @@ public class RoleMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllRoles() throws Exception {
         int expectedSize = 3;
         int returnedSize = roleMapper.getAllRoles().size();
