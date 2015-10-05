@@ -93,10 +93,24 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static Currency buildCurrencyUsd() {
+        return CurrencyBuilder.aCurrency()
+                .setName("USD")
+                .setId(-1)
+                .build();
+    }
+
     public static Currency buildCurrencyEuro() {
         return CurrencyBuilder.aCurrency()
                 .setName("Euro")
                 .setId(-3)
+                .build();
+    }
+
+    public static Currency buildCurrencyTest() {
+        return CurrencyBuilder.aCurrency()
+                .setName("Test")
+                .setId(-4)
                 .build();
     }
 

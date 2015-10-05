@@ -82,6 +82,7 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "CityMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testRemoveCityFail() {
         City testCity = BuilderUtil.buildCityTest();

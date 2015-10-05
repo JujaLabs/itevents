@@ -30,6 +30,9 @@ public abstract class AbstractDbTest {
     protected final static int ID_8 = -8;
     protected final static int ID_9 = -9;
 
+    protected final static int SIZE_3 = 3;
+    protected final static int SIZE_4 = 4;
+
 
 
 }
