@@ -37,6 +37,7 @@ public class BuilderUtil {
                 .setName("TestCity")
                 .setDetails("Test city details")
                 .setLocation(new Location(0.0, 0.0))
+                .setId(-5)
                 .build();
     }
 
