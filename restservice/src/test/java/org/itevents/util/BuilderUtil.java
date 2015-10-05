@@ -15,12 +15,19 @@ import java.util.Set;
  */
 public class BuilderUtil {
     public static City buildCityKyiv() {
-        double kyivLatitude = 50.4505;
-        double kyivLongitude = 30.523;
         return CityBuilder.aCity()
                 .setName("Kyiv")
-                .setLocation(new Location(kyivLatitude, kyivLongitude))
+                .setLocation(new Location(50.4505, 30.523))
                 .setId(-1)
+                .build();
+
+    }
+
+    public static City buildCityBoyarka() {
+        return CityBuilder.aCity()
+                .setName("Boyarka")
+                .setLocation(new Location(50.32917, 30.28861))
+                .setId(-3)
                 .build();
 
     }
@@ -106,10 +113,24 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static Technology buildTechnologyPhp() {
+        return TechnologyBuilder.aTechnology()
+                .setName("Php")
+                .setId(-3)
+                .build();
+    }
+
     public static Technology buildTechnologyLiquibase() {
         return TechnologyBuilder.aTechnology()
                 .setName("Liquibase")
                 .setId(-4)
+                .build();
+    }
+
+    public static Technology buildTechnologyAnt() {
+        return TechnologyBuilder.aTechnology()
+                .setName("Ant")
+                .setId(-7)
                 .build();
     }
 
@@ -124,6 +145,13 @@ public class BuilderUtil {
         return TechnologyBuilder.aTechnology()
                 .setName("MyBatis")
                 .setId(-9)
+                .build();
+    }
+
+    public static Technology buildTechnologySql() {
+        return TechnologyBuilder.aTechnology()
+                .setName("Sql")
+                .setId(-10)
                 .build();
     }
 
