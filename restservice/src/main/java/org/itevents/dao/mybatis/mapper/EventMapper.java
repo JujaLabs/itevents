@@ -35,16 +35,16 @@ public interface EventMapper extends EventDao {
     @Select("SELECT * FROM event")
     List<Event> getAllEvents();
 
-    @Insert("INSERT INTO event(title, event_date, create_date, reg_link, address, point, contact, free, price, " +
+    @Insert("INSERT INTO event(title, event_date, create_date, reg_link, address, point, contact, price, " +
             "currency_id, city_id) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, " +
-            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{free}, #{price}, #{currency.id}," +
+            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{price}, #{currency.id}," +
             "#{city.id})")
     @Options(useGeneratedKeys = true)
     void addEvent(Event event);
 
     @Update("UPDATE event SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, " +
             "reg_link=#{regLink}, address=#{address}, point= ST_MakePoint(#{location.longitude},#{location.latitude}), " +
-            "contact=#{contact}, free=#{free}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
+            "contact=#{contact}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
     void updateEvent(Event event);
 
     @Delete("DELETE FROM event WHERE id =#{id}")

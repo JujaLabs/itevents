@@ -32,6 +32,15 @@ public class BuilderUtil {
 
     }
 
+    public static City buildCityOdessa() {
+        return CityBuilder.aCity()
+                .setName("Odessa")
+                .setLocation(new Location(46.46667, 30.73333))
+                .setId(-2)
+                .build();
+
+    }
+
     public static City buildCityTest() {
         return CityBuilder.aCity()
                 .setName("TestCity")
@@ -41,16 +50,6 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Event buildEventRuby() throws ParseException {
-        return EventBuilder.anEvent()
-                .setTitle("Ruby")
-                .setEventDate(parseDate("20.07.2015"))
-                .setRegLink("http://www.ruby.com.ua")
-                .setAddress("Shulyavska")
-                .setLocation(new Location(50.454605, 30.445495))
-                .setContact("ruby@gmail.com")
-                .build();
-    }
 
     public static Event buildEventJava() throws ParseException {
         Set<Technology> technologies = new HashSet<>();
@@ -71,8 +70,20 @@ public class BuilderUtil {
                 .build();
     }
 
-    private static Date parseDate(String date) throws ParseException {
-        return new SimpleDateFormat("dd.MM.yyyy").parse(date);
+    public static Event buildEventPhp() throws ParseException {
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(buildTechnologyJavaScript());
+        return EventBuilder.anEvent()
+                .setTitle("PHP")
+                .setEventDate(parseDate("20.07.2015"))
+                .setRegLink("http://www.php.com.ua")
+                .setAddress("Shulyavska")
+                .setLocation(new Location(50.454605, 30.445495))
+                .setContact("php@gmail.com")
+                .setCity(buildCityBoyarka())
+                .setTechnologies(technologies)
+                .setId(-2)
+                .build();
     }
 
     public static Event buildEventJs() throws ParseException {
@@ -91,6 +102,90 @@ public class BuilderUtil {
                 .setCurrency(buildCurrencyEuro())
                 .setId(-3)
                 .build();
+    }
+
+    public static Event buildEventCplus() throws ParseException {
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(buildTechnologyJava());
+        technologies.add(buildTechnologyPhp());
+        return EventBuilder.anEvent()
+                .setTitle("CPlusPlus")
+                .setEventDate(parseDate("15.07.2015"))
+                .setRegLink("http://www.cplusplus.com.ua")
+                .setAddress("Impact Hub")
+                .setLocation(new Location(46.481782, 30.747175))
+                .setContact("cplusplus@gmail.com")
+                .setCity(buildCityOdessa())
+                .setTechnologies(technologies)
+                .setPrice(20)
+                .setCurrency(buildCurrencyEuro())
+                .setId(-4)
+                .build();
+    }
+
+    public static Event buildEventObjectiveC() throws ParseException {
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(buildTechnologyGradle());
+        return EventBuilder.anEvent()
+                .setTitle("ObjectiveC")
+                .setEventDate(parseDate("05.07.2015"))
+                .setRegLink("http://www.objective-c.com.ua")
+                .setAddress("Provectus")
+                .setLocation(new Location(46.472508, 30.758417))
+                .setContact("objectivec@gmail.com")
+                .setCity(buildCityOdessa())
+                .setTechnologies(technologies)
+                .setId(-5)
+                .build();
+    }
+
+    public static Event buildEventCsharp() throws ParseException {
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(buildTechnologyMaven());
+        return EventBuilder.anEvent()
+                .setTitle("CSharp")
+                .setEventDate(parseDate("09.07.2015"))
+                .setRegLink("http://www.c#.com.ua")
+                .setAddress("Khreschatyk")
+                .setLocation(new Location(50.447694, 30.52239))
+                .setContact("csharp@gmail.com")
+                .setCity(buildCityBoyarka())
+                .setTechnologies(technologies)
+                .setId(-6)
+                .build();
+    }
+
+    public static Event buildEventDelphi() throws ParseException {
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(buildTechnologyAnt());
+        return EventBuilder.anEvent()
+                .setTitle("Delphi")
+                .setEventDate(parseDate("05.07.2015"))
+                .setRegLink("http://www.delphi.com.ua")
+                .setAddress("Arsenalna")
+                .setLocation(new Location(50.442843, 30.547603))
+                .setContact("delphi@gmail.com")
+                .setCity(buildCityBoyarka())
+                .setTechnologies(technologies)
+                .setId(-7)
+                .build();
+    }
+
+    public static Event buildEventRuby() throws ParseException {
+        return EventBuilder.anEvent()
+                .setTitle("Ruby")
+                .setEventDate(parseDate("20.07.2015"))
+                .setRegLink("http://www.ruby.com.ua")
+                .setAddress("Shulyavska")
+                .setLocation(new Location(50.454605, 30.445495))
+                .setContact("ruby@gmail.com")
+                .setCity(buildCityKyiv())
+                .setId(-8)
+                .build();
+    }
+
+    private static Date parseDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd.MM.yyyy").parse(date);
     }
 
     public static Currency buildCurrencyUsd() {
@@ -139,6 +234,20 @@ public class BuilderUtil {
         return TechnologyBuilder.aTechnology()
                 .setName("Liquibase")
                 .setId(-4)
+                .build();
+    }
+
+    public static Technology buildTechnologyGradle() {
+        return TechnologyBuilder.aTechnology()
+                .setName("Gradle")
+                .setId(-5)
+                .build();
+    }
+
+    public static Technology buildTechnologyMaven() {
+        return TechnologyBuilder.aTechnology()
+                .setName("Maven")
+                .setId(-6)
                 .build();
     }
 

@@ -60,6 +60,7 @@ public class CityServiceTest {
     public void testRemoveCitySuccess() {
         City expectedCity = BuilderUtil.buildCityTest();
         when(cityDao.getCity(expectedCity.getId())).thenReturn(expectedCity);
+        doNothing().when(cityDao).removeCity(expectedCity);
         City returnedCity = cityService.removeCity(expectedCity);
         assertEquals(expectedCity, returnedCity);
     }
@@ -67,6 +68,7 @@ public class CityServiceTest {
     @Test
     public void testRemoveCityFail() {
         City testCity = BuilderUtil.buildCityTest();
+        when(cityDao.getCity(testCity.getId())).thenReturn(null);
         doNothing().when(cityDao).removeCity(testCity);
         City returnedCity = cityService.removeCity(testCity);
         assertNull(returnedCity);
