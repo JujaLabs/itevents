@@ -209,17 +209,17 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Technology buildTechnologyJavaScript() {
-        return TechnologyBuilder.aTechnology()
-                .setName("JavaScript")
-                .setId(-2)
-                .build();
-    }
-
     public static Technology buildTechnologyJava() {
         return TechnologyBuilder.aTechnology()
                 .setName("Java")
                 .setId(-1)
+                .build();
+    }
+
+    public static Technology buildTechnologyJavaScript() {
+        return TechnologyBuilder.aTechnology()
+                .setName("JavaScript")
+                .setId(-2)
                 .build();
     }
 
@@ -276,6 +276,13 @@ public class BuilderUtil {
         return TechnologyBuilder.aTechnology()
                 .setName("Sql")
                 .setId(-10)
+                .build();
+    }
+
+    public static Technology buildTechnologyTest() {
+        return TechnologyBuilder.aTechnology()
+                .setName("TestTechnology")
+                .setId(-11)
                 .build();
     }
 

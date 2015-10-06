@@ -18,7 +18,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
         databaseConnection = "dbUnitDatabaseConnection"
 )
 public abstract class AbstractDbTest {
-    protected final static String PATH = "file:src/test/resources/dbunit/";
+    protected final static String PATH = "../../../../../dbunit/";
+    //    protected final static String PATH = "file:src/test/resources/dbunit/";
     protected final static int ID_0 = 0;
     protected final static int ID_1 = -1;
     protected final static int ID_2 = -2;

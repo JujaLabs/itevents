@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">
+<dataset>
+    <technology id="-11" name="TestTechnology"/>
+    <technology id="-10" name="SQL"/>
+    <technology id="-9" name="MyBatis"/>
+    <technology id="-8" name="Spring"/>
+    <technology id="-7" name="Ant"/>
+    <technology id="-6" name="Maven"/>
+    <technology id="-5" name="Gradle"/>
+    <technology id="-4" name="Liquibase"/>
+    <technology id="-3" name="PHP"/>
+    <technology id="-2" name="JavaScript"/>
+    <technology id="-1" name="Java"/>
+</dataset>

@@ -1,19 +1,23 @@
 package org.itevents.service;
 
+import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
+import org.itevents.util.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.dao.DuplicateKeyException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -23,73 +27,59 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class TechnologyServiceTest {
 
-    private final int ID_0 = 0;
     private final int ID_1 = 1;
-    private final int ID_2 = 2;
-    private final int SIZE_11 = 11;
-    private Technology testTechnology = new Technology("testTechnology");
+    @InjectMocks
     @Inject
     private TechnologyService technologyService;
+    @Mock
+    private TechnologyDao technologyDao;
 
-
-    @Test
-    public void testGetTechnology1() throws Exception {
-        Technology expectedTechnology = new Technology("Java");
-        expectedTechnology.setId(ID_1);
-        Technology returnedTechnology = technologyService.getTechnology(ID_1);
-        assertEquals(expectedTechnology, returnedTechnology);
-    }
-
-
-    @Test
-    public void testGetTechnology0() throws Exception {
-        Technology returnedTechnology = technologyService.getTechnology(ID_0);
-        assertNull(returnedTechnology);
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testGetAllTechnologies() throws Exception {
-        int expectedSize = SIZE_11;
-        int returnedSize = technologyService.getAllTechnologies().size();
-        assertEquals(expectedSize, returnedSize);
+    public void testGetTechnology() throws Exception {
+        technologyService.getTechnology(ID_1);
+        verify(technologyDao).getTechnology(ID_1);
     }
 
     @Test
-    public void testGetSeveralTechnologiesByName() throws Exception {
+    public void testGetTechnologiesByNames() throws Exception {
         String[] names = {"Java", "JavaScript"};
-        List<Technology> expectedList = new ArrayList<>();
-        expectedList.add(technologyService.getTechnology(ID_1));
-        expectedList.add(technologyService.getTechnology(ID_2));
-        List<Technology> returnedTecnologies = technologyService.getSeveralTechnologiesByName(names);
-        assertEquals(expectedList, returnedTecnologies);
+        technologyService.getTechnologiesByNames(names);
+        verify(technologyDao).getTechnologiesByNames(names);
+    }
+
+    @Test
+    public void testGetAllTechnologies() {
+        technologyService.getAllTechnologies();
+        verify(technologyDao).getAllTechnologies();
     }
 
     @Test
     public void testAddTechnology() throws Exception {
-        Technology expectedTechnology = testTechnology;
-        technologyService.addTechnology(expectedTechnology);
-        Technology returnedTechnology = technologyService.getTechnology(expectedTechnology.getId());
-        assertEquals(expectedTechnology, returnedTechnology);
-        technologyService.removeTechnology(testTechnology);
-    }
-
-    @Test(expected = DuplicateKeyException.class)
-    public void testAddExistingCity() throws Exception {
-        Technology existingTechnology = new Technology("Java");
-        technologyService.addTechnology(existingTechnology);
+        Technology testTechnology = BuilderUtil.buildTechnologyTest();
+        technologyService.addTechnology(testTechnology);
+        verify(technologyDao).addTechnology(testTechnology);
     }
 
     @Test
-    public void testRemoveTechnologySuccess() throws Exception {
-        Technology expectedTechnology = testTechnology;
-        technologyService.addTechnology(expectedTechnology);
-        Technology returnedTechnology = technologyService.removeTechnology(expectedTechnology);
-        assertEquals(expectedTechnology, returnedTechnology);
+    public void testRemoveTechnologySuccess() {
+        Technology expectedCity = BuilderUtil.buildTechnologyTest();
+        when(technologyDao.getTechnology(expectedCity.getId())).thenReturn(expectedCity);
+        doNothing().when(technologyDao).removeTechnology(expectedCity);
+        Technology returnedCity = technologyService.removeTechnology(expectedCity);
+        assertEquals(expectedCity, returnedCity);
     }
 
     @Test
     public void testRemoveTechnologyFail() {
-        Technology returnedTechnology = technologyService.removeTechnology(testTechnology);
-        assertNull(returnedTechnology);
+        Technology testTechnology = BuilderUtil.buildTechnologyTest();
+        when(technologyDao.getTechnology(testTechnology.getId())).thenReturn(null);
+        doNothing().when(technologyDao).removeTechnology(testTechnology);
+        Technology returnedCity = technologyService.removeTechnology(testTechnology);
+        assertNull(returnedCity);
     }
 }
