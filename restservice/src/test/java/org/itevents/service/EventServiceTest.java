@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -81,20 +81,20 @@ public class EventServiceTest {
 
     @Test
     public void testGetFilteredEventsSuccess() throws ParseException {
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenReturn(expectedEvents);
         EventWrapper wrapper = new EventWrapper();
-        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        Set<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void testGetFilteredEventsFail() throws ParseException {
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenThrow(Exception.class);
         EventWrapper wrapper = new EventWrapper();
-        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        Set<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 }

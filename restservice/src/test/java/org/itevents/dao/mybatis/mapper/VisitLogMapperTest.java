@@ -31,7 +31,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogSuccess() throws ParseException {
-        VisitLog expectedVisitLog = BuilderUtil.buildFirstVisitLog();
+        VisitLog expectedVisitLog = BuilderUtil.buildVisitLogFirst();
         VisitLog returnedVisitLog = visitLogMapper.getVisitLog(ID_1);
         assertEquals(expectedVisitLog, returnedVisitLog);
     }
@@ -59,7 +59,6 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddVisitLog() throws Exception {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
-        System.out.println(testVisitLog);
         visitLogMapper.addVisitLog(testVisitLog);
     }
 

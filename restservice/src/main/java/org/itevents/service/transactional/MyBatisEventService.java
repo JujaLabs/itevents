@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("eventService")
 @Transactional
@@ -50,13 +51,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(EventWrapper wrapper) {
-        List<Event> result;
+    public Set<Event> getFilteredEvents(EventWrapper wrapper) {
+        Set<Event> result;
         try {
             result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
             logger.error("Exception :", e);
-            result = new ArrayList<>();
+            result = new HashSet<>();
         }
         return result;
     }

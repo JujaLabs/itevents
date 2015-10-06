@@ -54,7 +54,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
 
     @Test(expected = DuplicateKeyException.class)
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddExistingCurrency() throws Exception {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();

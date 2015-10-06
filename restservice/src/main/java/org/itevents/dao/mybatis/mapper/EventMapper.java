@@ -11,6 +11,7 @@ import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public interface EventMapper extends EventDao {
 
@@ -52,5 +53,5 @@ public interface EventMapper extends EventDao {
 
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    Set<Event> getFilteredEvents(FilteredEventsParameter params);
 }

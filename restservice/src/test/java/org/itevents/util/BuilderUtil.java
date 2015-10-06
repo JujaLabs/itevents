@@ -6,7 +6,6 @@ import org.itevents.util.builder.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,7 +58,7 @@ public class BuilderUtil {
         technologies.add(buildTechnologyJava());
         return EventBuilder.anEvent()
                 .setTitle("Java")
-                .setEventDate(parseDate("10.07.2015"))
+                .setEventDate(parseDate("10.07.2115"))
                 .setRegLink("http://www.java.com.ua")
                 .setAddress("Beresteyska")
                 .setLocation(new Location(50.458585, 30.742017))
@@ -75,7 +74,7 @@ public class BuilderUtil {
         technologies.add(buildTechnologyJavaScript());
         return EventBuilder.anEvent()
                 .setTitle("PHP")
-                .setEventDate(parseDate("20.07.2015"))
+                .setEventDate(parseDate("20.07.2115"))
                 .setRegLink("http://www.php.com.ua")
                 .setAddress("Shulyavska")
                 .setLocation(new Location(50.454605, 30.445495))
@@ -88,10 +87,10 @@ public class BuilderUtil {
 
     public static Event buildEventJs() throws ParseException {
         Set<Technology> technologies = new HashSet<>();
-        technologies.add(buildTechnologyJavaScript());
+        technologies.add(buildTechnologyPhp());
         return EventBuilder.anEvent()
                 .setTitle("JS")
-                .setEventDate(parseDate("30.07.2015"))
+                .setEventDate(parseDate("30.07.2115"))
                 .setRegLink("http://www.js.com.ua")
                 .setAddress("Nyvky")
                 .setLocation(new Location(50.458651, 30.403965))
@@ -110,7 +109,7 @@ public class BuilderUtil {
         technologies.add(buildTechnologyPhp());
         return EventBuilder.anEvent()
                 .setTitle("CPlusPlus")
-                .setEventDate(parseDate("15.07.2015"))
+                .setEventDate(parseDate("15.07.2115"))
                 .setRegLink("http://www.cplusplus.com.ua")
                 .setAddress("Impact Hub")
                 .setLocation(new Location(46.481782, 30.747175))
@@ -128,13 +127,15 @@ public class BuilderUtil {
         technologies.add(buildTechnologyGradle());
         return EventBuilder.anEvent()
                 .setTitle("ObjectiveC")
-                .setEventDate(parseDate("05.07.2015"))
+                .setEventDate(parseDate("05.07.2115"))
                 .setRegLink("http://www.objective-c.com.ua")
                 .setAddress("Provectus")
                 .setLocation(new Location(46.472508, 30.758417))
                 .setContact("objectivec@gmail.com")
                 .setCity(buildCityOdessa())
                 .setTechnologies(technologies)
+                .setPrice(20)
+                .setCurrency(buildCurrencyEuro())
                 .setId(-5)
                 .build();
     }
@@ -144,12 +145,14 @@ public class BuilderUtil {
         technologies.add(buildTechnologyMaven());
         return EventBuilder.anEvent()
                 .setTitle("CSharp")
-                .setEventDate(parseDate("09.07.2015"))
+                .setEventDate(parseDate("09.07.2115"))
                 .setRegLink("http://www.c#.com.ua")
                 .setAddress("Khreschatyk")
                 .setLocation(new Location(50.447694, 30.52239))
                 .setContact("csharp@gmail.com")
                 .setCity(buildCityBoyarka())
+                .setPrice(20)
+                .setCurrency(buildCurrencyEuro())
                 .setTechnologies(technologies)
                 .setId(-6)
                 .build();
@@ -160,12 +163,14 @@ public class BuilderUtil {
         technologies.add(buildTechnologyAnt());
         return EventBuilder.anEvent()
                 .setTitle("Delphi")
-                .setEventDate(parseDate("05.07.2015"))
+                .setEventDate(parseDate("05.07.2115"))
                 .setRegLink("http://www.delphi.com.ua")
                 .setAddress("Arsenalna")
                 .setLocation(new Location(50.442843, 30.547603))
                 .setContact("delphi@gmail.com")
-                .setCity(buildCityBoyarka())
+                .setPrice(30)
+                .setCurrency(buildCurrencyUsd())
+                .setCity(buildCityKyiv())
                 .setTechnologies(technologies)
                 .setId(-7)
                 .build();
@@ -174,7 +179,7 @@ public class BuilderUtil {
     public static Event buildEventRuby() throws ParseException {
         return EventBuilder.anEvent()
                 .setTitle("Ruby")
-                .setEventDate(parseDate("20.07.2015"))
+                .setEventDate(parseDate("20.07.2115"))
                 .setRegLink("http://www.ruby.com.ua")
                 .setAddress("Shulyavska")
                 .setLocation(new Location(50.454605, 30.445495))
@@ -225,7 +230,7 @@ public class BuilderUtil {
 
     public static Technology buildTechnologyPhp() {
         return TechnologyBuilder.aTechnology()
-                .setName("Php")
+                .setName("PHP")
                 .setId(-3)
                 .build();
     }
@@ -274,7 +279,7 @@ public class BuilderUtil {
 
     public static Technology buildTechnologySql() {
         return TechnologyBuilder.aTechnology()
-                .setName("Sql")
+                .setName("SQL")
                 .setId(-10)
                 .build();
     }
@@ -343,12 +348,30 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static VisitLog buildFirstVisitLog() throws ParseException {
+    public static VisitLog buildVisitLogFirst() throws ParseException {
         return VisitLogBuilder.aVisitLog()
                 .setUser(buildUserGuest())
                 .setEvent(buildEventJava())
-                .setDate(new GregorianCalendar(2016, 6, 20).getTime())
+                .setDate(parseDate("20.07.2015"))
                 .setId(-1)
+                .build();
+    }
+
+    public static VisitLog buildVisitLogSecond() throws ParseException {
+        return VisitLogBuilder.aVisitLog()
+                .setEvent(buildEventJava())
+                .setUser(buildUserAnakin())
+                .setDate(parseDate("20.07.2015"))
+                .setId(-2)
+                .build();
+    }
+
+    public static VisitLog buildVisitLogSeventh() throws ParseException {
+        return VisitLogBuilder.aVisitLog()
+                .setEvent(buildEventJava())
+                .setUser(buildUserKuchin())
+                .setDate(parseDate("20.09.2015"))
+                .setId(-7)
                 .build();
     }
 
@@ -356,31 +379,16 @@ public class BuilderUtil {
         return VisitLogBuilder.aVisitLog()
                 .setUser(buildUserGuest())
                 .setEvent(buildEventJs())
-                .setDate(new GregorianCalendar(2016, 6, 20).getTime())
+                .setDate(parseDate("20.06.2015"))
                 .setId(-8)
                 .build();
     }
 
     public static Set<VisitLog> buildListVisitLogJava() throws ParseException {
         Set<VisitLog> result = new HashSet<>();
-        result.add(VisitLogBuilder.aVisitLog()
-                .setEvent(buildEventJava())
-                .setUser(buildUserGuest())
-                .setDate(parseDate("20.07.2016"))
-                .setId(-1)
-                .build());
-        result.add(VisitLogBuilder.aVisitLog()
-                .setEvent(buildEventJava())
-                .setUser(buildUserAnakin())
-                .setDate(parseDate("20.07.2016"))
-                .setId(-2)
-                .build());
-        result.add(VisitLogBuilder.aVisitLog()
-                .setEvent(buildEventJava())
-                .setUser(buildUserKuchin())
-                .setDate(parseDate("20.09.2016"))
-                .setId(-7)
-                .build());
+        result.add(buildVisitLogFirst());
+        result.add(buildVisitLogSecond());
+        result.add(buildVisitLogSeventh());
         return result;
     }
 }

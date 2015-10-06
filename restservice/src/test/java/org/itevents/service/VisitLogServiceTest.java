@@ -74,7 +74,7 @@ public class VisitLogServiceTest {
 
     @Test
     public void testGetVisitlog() throws Exception {
-        VisitLog expectedVisitlog = BuilderUtil.buildFirstVisitLog();
+        VisitLog expectedVisitlog = BuilderUtil.buildVisitLogFirst();
         when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
         VisitLog returnedVisitlog = visitLogService.getVisitLog(expectedVisitlog.getId());
         verify(visitLogDao).getVisitLog(expectedVisitlog.getId());

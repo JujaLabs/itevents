@@ -13,14 +13,11 @@ import org.itevents.service.converter.EventConverter;
 import org.itevents.util.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -80,7 +77,6 @@ public class EventMapperTest extends AbstractDbTest {
         eventMapper.addEvent(addingEvent);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -98,7 +94,6 @@ public class EventMapperTest extends AbstractDbTest {
         return parameter;
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -108,15 +103,14 @@ public class EventMapperTest extends AbstractDbTest {
         wrapper.setItemsPerPage(2);
         FilteredEventsParameter parameter = new EventConverter().convert(wrapper);
 
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         expectedEvents.add(BuilderUtil.buildEventObjectiveC());
         expectedEvents.add(BuilderUtil.buildEventCsharp());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -126,13 +120,12 @@ public class EventMapperTest extends AbstractDbTest {
         wrapper.setItemsPerPage(-2);
         FilteredEventsParameter parameter = new EventConverter().convert(wrapper);
 
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -143,14 +136,13 @@ public class EventMapperTest extends AbstractDbTest {
         parameter.setTechnologies(technologies);
         parameter.setCity(BuilderUtil.buildCityKyiv());
 
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -159,23 +151,17 @@ public class EventMapperTest extends AbstractDbTest {
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         expectedEvents.add(BuilderUtil.buildEventCsharp());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetFilteredEventsPhpAntSql() throws ParseException {
-        List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(BuilderUtil.buildEventCplus());
-        expectedEvents.add(BuilderUtil.buildEventJs());
-        expectedEvents.add(BuilderUtil.buildEventDelphi());
-
         Set<Technology> technologies = new HashSet<>();
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
@@ -183,11 +169,15 @@ public class EventMapperTest extends AbstractDbTest {
         FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
         parameter.setTechnologies(technologies);
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> expectedEvents = new HashSet<>();
+        expectedEvents.add(BuilderUtil.buildEventCplus());
+        expectedEvents.add(BuilderUtil.buildEventJs());
+        expectedEvents.add(BuilderUtil.buildEventDelphi());
+
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
-    @Ignore
     @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
@@ -196,7 +186,7 @@ public class EventMapperTest extends AbstractDbTest {
         double testLongitude = 30.403965;
         int testRadius = 5000;
 
-        List<Event> expectedEvents = new ArrayList<>();
+        Set<Event> expectedEvents = new HashSet<>();
         expectedEvents.add(BuilderUtil.buildEventPhp());
         expectedEvents.add(BuilderUtil.buildEventJs());
 
@@ -205,7 +195,7 @@ public class EventMapperTest extends AbstractDbTest {
         parameter.setLongitude(testLongitude);
         parameter.setRadius(testRadius);
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        Set<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 }
