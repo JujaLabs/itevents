@@ -19,7 +19,9 @@ import org.junit.Test;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -136,7 +138,7 @@ public class EventMapperTest extends AbstractDbTest {
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetFilteredEventsKyivJava() throws ParseException {
         FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
-        List<Technology> technologies = new ArrayList<>();
+        Set<Technology> technologies = new HashSet<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(technologies);
         parameter.setCity(BuilderUtil.buildCityKyiv());
@@ -174,7 +176,7 @@ public class EventMapperTest extends AbstractDbTest {
         expectedEvents.add(BuilderUtil.buildEventJs());
         expectedEvents.add(BuilderUtil.buildEventDelphi());
 
-        List<Technology> technologies = new ArrayList<>();
+        Set<Technology> technologies = new HashSet<>();
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
         technologies.add(BuilderUtil.buildTechnologySql());

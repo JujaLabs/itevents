@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,7 +17,7 @@ public interface TechnologyMapper extends TechnologyDao {
 
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology")
-    List<Technology> getAllTechnologies();
+    Set<Technology> getAllTechnologies();
 
     @ResultType(Technology.class)
     @Select({"<script>",
@@ -27,7 +26,7 @@ public interface TechnologyMapper extends TechnologyDao {
             "   #{name}",
             "</foreach>",
             "</script>"})
-    List<Technology> getTechnologiesByNames(@Param("names") String[] names);
+    Set<Technology> getTechnologiesByNames(@Param("names") String[] names);
 
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}")

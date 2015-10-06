@@ -12,8 +12,7 @@ import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ import static org.junit.Assert.assertNull;
 public class TechnologyMapperTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "TechnologyMapperTest/";
-    private final int SIZE_11 = 11;
+    private final int SIZE_10 = 10;
     @Inject
     private TechnologyMapper technologyMapper;
 
@@ -59,7 +58,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllTechnologies() throws Exception {
-        int expectedSize = SIZE_11;
+        int expectedSize = SIZE_10;
         int returnedSize = technologyMapper.getAllTechnologies().size();
         assertEquals(expectedSize, returnedSize);
     }
@@ -69,10 +68,10 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologiesByName() throws Exception {
         String[] names = {"Java", "JavaScript"};
-        List<Technology> expectedList = new ArrayList<>();
+        Set<Technology> expectedList = new HashSet<>();
         expectedList.add(BuilderUtil.buildTechnologyJava());
         expectedList.add(BuilderUtil.buildTechnologyJavaScript());
-        List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByNames(names);
+        Set<Technology> returnedTechnologies = technologyMapper.getTechnologiesByNames(names);
         assertEquals(expectedList, returnedTechnologies);
     }
 

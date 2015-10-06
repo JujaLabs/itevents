@@ -9,8 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +39,7 @@ public class GetFilteredEventsSqlBuilderTest {
     @Test
     public void testGetFilteredEventsKyivJava() {
         parameter.setCity(BuilderUtil.buildCityKyiv());
-        List<Technology> testTechnologies = new ArrayList<>();
+        Set<Technology> testTechnologies = new HashSet<>();
         testTechnologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(testTechnologies);
 
@@ -67,15 +68,17 @@ public class GetFilteredEventsSqlBuilderTest {
     @Test
     public void testGetFilteredEventsPhpAntSql() {
 
-        List<Technology> testTechnologies = new ArrayList<>();
+        Set<Technology> testTechnologies = new HashSet<>();
         testTechnologies.add(BuilderUtil.buildTechnologyPhp());
         testTechnologies.add(BuilderUtil.buildTechnologyAnt());
         testTechnologies.add(BuilderUtil.buildTechnologySql());
         parameter.setTechnologies(testTechnologies);
 
+        Iterator<Technology> iterator = testTechnologies.iterator();
+
         String expectedSql = "SELECT * FROM event e JOIN event_technology et " +
-                "ON et.technology_id=-3 or et.technology_id=-7 or et.technology_id=-10 " +
-                "WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
+                "ON et.technology_id=" + iterator.next().getId() + " or et.technology_id=" + iterator.next().getId() +
+                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');

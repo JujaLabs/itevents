@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNull;
  */
 public class VisitLogMapperTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "VisitLogMapperTest/";
-    //    private final Date date1 = new GregorianCalendar(2016, 6, 20).getTime();
+    private final int SIZE_7 = 7;
     @Inject
     private VisitLogMapper visitLogMapper;
 
@@ -67,7 +67,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllVisitLogs() {
-        int expectedSize = 7;
+        int expectedSize = SIZE_7;
         int returnedSize = visitLogMapper.getAllVisitLogs().size();
         assertEquals(expectedSize, returnedSize);
     }

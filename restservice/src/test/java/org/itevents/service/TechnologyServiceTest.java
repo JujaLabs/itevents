@@ -27,7 +27,6 @@ import static org.mockito.Mockito.*;
 @Transactional
 public class TechnologyServiceTest {
 
-    private final int ID_1 = 1;
     @InjectMocks
     @Inject
     private TechnologyService technologyService;
@@ -41,8 +40,11 @@ public class TechnologyServiceTest {
 
     @Test
     public void testGetTechnology() throws Exception {
-        technologyService.getTechnology(ID_1);
-        verify(technologyDao).getTechnology(ID_1);
+        Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
+        when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
+        Technology returnedTechnology = technologyService.getTechnology(expectedTechnology.getId());
+        verify(technologyDao).getTechnology(expectedTechnology.getId());
+        assertEquals(expectedTechnology, returnedTechnology);
     }
 
     @Test
@@ -67,11 +69,11 @@ public class TechnologyServiceTest {
 
     @Test
     public void testRemoveTechnologySuccess() {
-        Technology expectedCity = BuilderUtil.buildTechnologyTest();
-        when(technologyDao.getTechnology(expectedCity.getId())).thenReturn(expectedCity);
-        doNothing().when(technologyDao).removeTechnology(expectedCity);
-        Technology returnedCity = technologyService.removeTechnology(expectedCity);
-        assertEquals(expectedCity, returnedCity);
+        Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
+        when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
+        doNothing().when(technologyDao).removeTechnology(expectedTechnology);
+        Technology returnedTechnology = technologyService.removeTechnology(expectedTechnology);
+        assertEquals(expectedTechnology, returnedTechnology);
     }
 
     @Test
@@ -79,7 +81,7 @@ public class TechnologyServiceTest {
         Technology testTechnology = BuilderUtil.buildTechnologyTest();
         when(technologyDao.getTechnology(testTechnology.getId())).thenReturn(null);
         doNothing().when(technologyDao).removeTechnology(testTechnology);
-        Technology returnedCity = technologyService.removeTechnology(testTechnology);
-        assertNull(returnedCity);
+        Technology returnedTechnology = technologyService.removeTechnology(testTechnology);
+        assertNull(returnedTechnology);
     }
 }

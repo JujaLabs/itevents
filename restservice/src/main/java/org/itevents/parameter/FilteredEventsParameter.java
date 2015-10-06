@@ -3,7 +3,7 @@ package org.itevents.parameter;
 import org.itevents.model.City;
 import org.itevents.model.Technology;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 28.07.2015.
@@ -17,7 +17,7 @@ public class FilteredEventsParameter {
     private Double longitude;
     private Double latitude;
     private Integer radius;
-    private List<Technology> technologies;
+    private Set<Technology> technologies;
 
     public Integer getOffset() {
         return offset;
@@ -75,11 +75,11 @@ public class FilteredEventsParameter {
         this.radius = radius;
     }
 
-    public List<Technology> getTechnologies() {
+    public Set<Technology> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<Technology> technologies) {
+    public void setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
     }
 }

@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNull;
 public class UserMapperTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "UserMapperTest/";
+    private final int SIZE_4 = 4;
     @Inject
     private UserMapper userMapper;
 
@@ -55,7 +56,7 @@ public class UserMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllUsers() throws Exception {
-        int expectedSize = 4;
+        int expectedSize = SIZE_4;
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
     }

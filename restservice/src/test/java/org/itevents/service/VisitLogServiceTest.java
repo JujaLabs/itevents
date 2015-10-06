@@ -1,21 +1,30 @@
 package org.itevents.service;
 
+import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
+import org.itevents.util.BuilderUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -29,8 +38,7 @@ public class VisitLogServiceTest {
     private final int ID_7 = 7;
     private final int SIZE_7 = 7;
     private final Date date1 = new GregorianCalendar(2016, 6, 20).getTime();
-    @Inject
-    private VisitLogService visitLogService;
+
     @Inject
     private EventService eventService;
     @Inject
@@ -38,6 +46,11 @@ public class VisitLogServiceTest {
     private Event event1;
     private User user1;
     private VisitLog testVisitLog;
+    @InjectMocks
+    @Inject
+    private VisitLogService visitLogService;
+    @Mock
+    private VisitLogDao visitLogDao;
 
     @Before
     public void setup() {
@@ -54,60 +67,58 @@ public class VisitLogServiceTest {
         testVisitLog = null;
     }
 
-    @Test
-    public void testGetVisitLog1() {
-        VisitLog expectedVisitLog = new VisitLog(event1, user1);
-        expectedVisitLog.setDate(date1);
-        expectedVisitLog.setId(ID_1);
-        VisitLog returnedVisitLog = visitLogService.getVisitLog(ID_1);
-        assertEquals(expectedVisitLog, returnedVisitLog);
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testGetVisitLog0() throws Exception {
-        VisitLog returnedVisitLog = visitLogService.getVisitLog(ID_0);
-        assertNull(returnedVisitLog);
+    public void testGetVisitlog() throws Exception {
+        VisitLog expectedVisitlog = BuilderUtil.buildFirstVisitLog();
+        when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
+        VisitLog returnedVisitlog = visitLogService.getVisitLog(expectedVisitlog.getId());
+        verify(visitLogDao).getVisitLog(expectedVisitlog.getId());
+        assertEquals(expectedVisitlog, returnedVisitlog);
+    }
+
+    @Test
+    public void testGetAllVisitlogs() {
+        visitLogService.getAllVisitLogs();
+        verify(visitLogDao).getAllVisitLogs();
+    }
+
+    @Test
+    public void testAddVisitlog() throws Exception {
+        VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
+        visitLogService.addVisitLog(testVisitLog);
+        verify(visitLogDao).addVisitLog(testVisitLog);
+    }
+
+    @Test
+    public void testRemoveVisitlogSuccess() throws ParseException {
+        VisitLog expectedVisitlog = BuilderUtil.buildVisitLogTest();
+        when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
+        doNothing().when(visitLogDao).removeVisitLog(expectedVisitlog);
+        VisitLog returnedVisitlog = visitLogService.removeVisitLog(expectedVisitlog);
+        assertEquals(expectedVisitlog, returnedVisitlog);
+    }
+
+    @Test
+    public void testRemoveVisitlogFail() throws ParseException {
+        VisitLog testVisitlog = BuilderUtil.buildVisitLogTest();
+        when(visitLogDao.getVisitLog(testVisitlog.getId())).thenReturn(null);
+        doNothing().when(visitLogDao).removeVisitLog(testVisitlog);
+        VisitLog returnedVisitlog = visitLogService.removeVisitLog(testVisitlog);
+        assertNull(returnedVisitlog);
     }
 
     @Test
     public void testGetVisitLogByEvent() throws Exception {
-        List<VisitLog> expectedVisitLogs = new ArrayList<>();
-        expectedVisitLogs.add(visitLogService.getVisitLog(ID_1));
-        expectedVisitLogs.add(visitLogService.getVisitLog(ID_2));
-        expectedVisitLogs.add(visitLogService.getVisitLog(ID_7));
-        Set<VisitLog> returnedVisitLogs = visitLogService.getVisitLogsByEvent(event1);
-        assertEquals(expectedVisitLogs, returnedVisitLogs);
-    }
-
-    @Test
-    public void testAddVisitLog() throws Exception {
-        VisitLog expectedVisitLog = testVisitLog;
-        visitLogService.addVisitLog(expectedVisitLog);
-        VisitLog returnedVisitLog = visitLogService.getVisitLog(expectedVisitLog.getId());
-        returnedVisitLog.setDate(date1);
-        assertEquals(expectedVisitLog, returnedVisitLog);
-        visitLogService.removeVisitLog(testVisitLog);
-    }
-
-    @Test
-    public void testGetAllVisitLogs() {
-        int expectedSize = SIZE_7;
-        int returnedSize = visitLogService.getAllVisitLogs().size();
-        assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
-    public void testRemoveVisitLogSuccess() {
-        VisitLog expectedVisitLog = testVisitLog;
-        visitLogService.addVisitLog(expectedVisitLog);
-        VisitLog returnedVisitLog = visitLogService.removeVisitLog(expectedVisitLog);
-        returnedVisitLog.setDate(date1);
-        assertEquals(expectedVisitLog, returnedVisitLog);
-    }
-
-    @Test
-    public void testRemoveVisitLogFail() {
-        VisitLog returnedVisitLog = visitLogService.removeVisitLog(testVisitLog);
-        assertNull(returnedVisitLog);
+        Set<VisitLog> expectedVisitlogs = BuilderUtil.buildListVisitLogJava();
+        Event eventJava = BuilderUtil.buildEventJava();
+        when(visitLogDao.getVisitLogsByEvent(eventJava)).thenReturn(expectedVisitlogs);
+        Set<VisitLog> returnedVisitlogs = visitLogService.getVisitLogsByEvent(eventJava);
+        verify(visitLogDao).getVisitLogsByEvent(eventJava);
+        assertEquals(expectedVisitlogs, returnedVisitlogs);
     }
 }
