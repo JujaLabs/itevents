@@ -29,6 +29,7 @@ public class MyBatisEventService implements EventService {
     @Override
     public void addEvent(Event event) {
         eventDao.addEvent(event);
+        eventDao.addEventTechnology(event);
     }
 
     @Override

@@ -36,6 +36,7 @@ public interface TechnologyMapper extends TechnologyDao {
     @Options(useGeneratedKeys = true)
     void addTechnology(Technology technology);
 
+
     @Update("UPDATE technology SET name=#{name} WHERE id =#{id}")
     void updateTechnology(Technology technology);
 

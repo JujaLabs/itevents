@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.mybatis.util.AddEventTechnologySqlBuilder;
 import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
@@ -43,6 +44,9 @@ public interface EventMapper extends EventDao {
     @Options(useGeneratedKeys = true)
     void addEvent(Event event);
 
+    @InsertProvider(type = AddEventTechnologySqlBuilder.class, method = "addEventTechnology")
+    void addEventTechnology(Event event);
+
     @Update("UPDATE event SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, " +
             "reg_link=#{regLink}, address=#{address}, point= ST_MakePoint(#{location.longitude},#{location.latitude}), " +
             "contact=#{contact}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
@@ -54,4 +58,6 @@ public interface EventMapper extends EventDao {
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
     Set<Event> getFilteredEvents(FilteredEventsParameter params);
+
+
 }

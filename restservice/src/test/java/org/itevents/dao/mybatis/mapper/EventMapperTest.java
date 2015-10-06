@@ -78,6 +78,19 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "addEventTechnology_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAddEventTechnology_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testAddEventTechnology() throws ParseException {
+        Event addingEvent = BuilderUtil.buildEventRuby();
+        Set<Technology> technologies = new HashSet<>();
+        technologies.add(BuilderUtil.buildTechnologyJava());
+        technologies.add(BuilderUtil.buildTechnologyMyBatis());
+        addingEvent.setTechnologies(technologies);
+        eventMapper.addEventTechnology(addingEvent);
+    }
+
+    @Test
     @DatabaseSetup(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetFilteredEventsEmpty() {

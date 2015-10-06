@@ -53,6 +53,7 @@ public class EventServiceTest {
         Event testEvent = BuilderUtil.buildEventRuby();
         eventService.addEvent(testEvent);
         verify(eventDao).addEvent(testEvent);
+        verify(eventDao).addEventTechnology(testEvent);
     }
 
     @Test
