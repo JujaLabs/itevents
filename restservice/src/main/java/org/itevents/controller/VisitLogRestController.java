@@ -43,7 +43,7 @@ public class VisitLogRestController {
         try {
             headers.setLocation(new URL(event.getRegLink()).toURI());
         } catch (Exception e) {
-            logger.error("Exception :", e);
+            logger.error("Invalid event URL : " + event.getRegLink(), e);
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = getUserFromSession();
