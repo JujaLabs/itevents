@@ -26,19 +26,19 @@ test {
 }
 
 dependencies {
-    compile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
     compile 'org.springframework:spring-core:4.1.6.RELEASE'
     compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
-    compile 'org.springframework:spring-test:4.1.6.RELEASE'
+    testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
     compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
     compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
-    compile 'org.dbunit:dbunit:2.5.1'
-    compile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
+    testCompile 'org.dbunit:dbunit:2.5.1'
+    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
     compile 'org.apache.logging.log4j:log4j-api:2.3'
     compile 'org.apache.logging.log4j:log4j-core:2.3'
     compile 'org.apache.logging.log4j:log4j-web:2.3'
@@ -48,7 +48,7 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
-    compile 'org.postgis:postgis-jdbc:1.1.6'
+    testCompile 'org.postgis:postgis-jdbc:1.1.6'
     testCompile 'org.mockito:mockito-core:1.9.5'
   }
 
