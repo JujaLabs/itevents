@@ -46,6 +46,7 @@ public class MyBatisEventService implements EventService {
     public Event removeEvent(Event event) {
         Event deletingEvent = eventDao.getEvent(event.getId());
         if (deletingEvent != null) {
+            eventDao.removeEventTechnology(event);
             eventDao.removeEvent(event);
         }
         return deletingEvent;

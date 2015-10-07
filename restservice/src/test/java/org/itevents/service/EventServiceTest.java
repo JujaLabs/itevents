@@ -66,17 +66,25 @@ public class EventServiceTest {
     public void testRemoveEventSuccess() throws ParseException {
         Event expectedEvent = BuilderUtil.buildEventRuby();
         when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
+        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
         doNothing().when(eventDao).removeEvent(expectedEvent);
         Event returnedEvent = eventService.removeEvent(expectedEvent);
+        verify(eventDao).getEvent(expectedEvent.getId());
+        verify(eventDao).removeEventTechnology(expectedEvent);
+        verify(eventDao).removeEvent(expectedEvent);
         assertEquals(expectedEvent, returnedEvent);
     }
 
     @Test
     public void testRemoveEventFail() throws ParseException {
-        Event testEvent = BuilderUtil.buildEventRuby();
-        when(eventDao.getEvent(testEvent.getId())).thenReturn(null);
-        doNothing().when(eventDao).removeEvent(testEvent);
-        Event returnedEvent = eventService.removeEvent(testEvent);
+        Event expectedEvent = BuilderUtil.buildEventRuby();
+        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(null);
+        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
+        doNothing().when(eventDao).removeEvent(expectedEvent);
+        Event returnedEvent = eventService.removeEvent(expectedEvent);
+        verify(eventDao).getEvent(expectedEvent.getId());
+        verify(eventDao, never()).removeEventTechnology(expectedEvent);
+        verify(eventDao, never()).removeEvent(expectedEvent);
         assertNull(returnedEvent);
     }
 

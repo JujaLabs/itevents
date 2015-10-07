@@ -55,6 +55,9 @@ public interface EventMapper extends EventDao {
     @Delete("DELETE FROM event WHERE id =#{id}")
     void removeEvent(Event event);
 
+    @Delete("DELETE FROM event_technology WHERE event_id=#{id}")
+    void removeEventTechnology(Event event);
+
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
     Set<Event> getFilteredEvents(FilteredEventsParameter params);

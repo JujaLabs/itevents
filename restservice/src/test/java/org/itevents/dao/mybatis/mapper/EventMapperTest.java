@@ -64,8 +64,17 @@ public class EventMapperTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "EventMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testRemoveEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-        eventMapper.removeEvent(expectedEvent);
+        Event removingEvent = BuilderUtil.buildEventRuby();
+        eventMapper.removeEvent(removingEvent);
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "testAddEventTechnology_expected.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "addEventTechnology_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "EventMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testRemoveEventTechnology() throws ParseException {
+        Event removingEvent = BuilderUtil.buildEventRuby();
+        eventMapper.removeEventTechnology(removingEvent);
     }
 
     @Test

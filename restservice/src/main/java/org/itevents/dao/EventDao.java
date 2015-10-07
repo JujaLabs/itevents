@@ -21,4 +21,6 @@ public interface EventDao {
     Set<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
+
+    void removeEventTechnology(Event event);
 }
