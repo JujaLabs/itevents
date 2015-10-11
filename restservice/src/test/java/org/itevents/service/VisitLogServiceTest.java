@@ -4,7 +4,7 @@ import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

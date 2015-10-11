@@ -1,4 +1,4 @@
-package org.itevents.util;
+package org.itevents_utils;
 
 import org.itevents.model.Location;
 import org.postgis.Geometry;
@@ -9,8 +9,9 @@ import org.postgis.binary.BinaryWriter;
 /**
  * Created by vaa25 on 29.09.2015.
  */
-public class GeometryUtil {
 
+// don't need this class
+public class GeometryUtil {
     public static void main(String[] args) {
         GeometryUtil util = new GeometryUtil();
         Location location = new Location(234.5, 345.3);

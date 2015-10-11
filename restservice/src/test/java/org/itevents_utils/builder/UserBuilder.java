@@ -1,4 +1,4 @@
-package org.itevents.util.builder;
+package org.itevents_utils.builder;
 
 import org.itevents.model.Role;
 import org.itevents.model.User;
@@ -19,28 +19,28 @@ public class UserBuilder {
         return new UserBuilder();
     }
 
-    public UserBuilder setId(int id) {
+    public UserBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public UserBuilder setLogin(String login) {
+    public UserBuilder login(String login) {
         this.login = login;
         return this;
     }
 
-    public UserBuilder setPassword(String password) {
+    public UserBuilder password(String password) {
         this.password = password;
         return this;
     }
 
-    public UserBuilder setRole(Role role) {
+    public UserBuilder role(Role role) {
         this.role = role;
         return this;
     }
 
     public UserBuilder but() {
-        return anUser().setId(id).setLogin(login).setPassword(password).setRole(role);
+        return anUser().id(id).login(login).password(password).role(role);
     }
 
     public User build() {

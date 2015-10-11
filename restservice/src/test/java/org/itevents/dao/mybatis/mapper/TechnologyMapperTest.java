@@ -7,7 +7,7 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Technology;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;
 

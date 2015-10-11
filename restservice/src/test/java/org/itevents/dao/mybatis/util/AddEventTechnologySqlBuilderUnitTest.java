@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.util;
 
 import org.itevents.model.Event;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vaa25 on 06.10.2015.
  */
-public class AddEventTechnologySqlBuilderTest {
+public class AddEventTechnologySqlBuilderUnitTest {
 
     @Test
     public void testAddEventTechnologyJava() throws Exception {

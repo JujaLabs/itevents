@@ -1,4 +1,4 @@
-package org.itevents.util;
+package org.itevents_utils;
 
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
@@ -9,7 +9,7 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlWriter;
-import org.itevents.dbunit.PostgisDataTypeFactory;
+import org.itevents_utils.dbunit.PostgisDataTypeFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +23,8 @@ import java.util.Properties;
 /**
  * Created by vaa25 on 28.09.2015.
  */
+
+//@alex-anakin: need comments about work of this class
 public class DbUnitTableExportUtil {
 
     private static final String PATH = "src/test/resources/dbunit/";
@@ -32,12 +34,6 @@ public class DbUnitTableExportUtil {
 
         databaseConnection();
 //        writeDtdFile();
-//        dependentTableExport("CityMapperTest", "city");
-//        dependentTableExport("CurrencyMapperTest", "currency");
-//        dependentTableExport("EventMapperTest", "event_technology");
-//        dependentTableExport("TechnologyMapperTest", "technology");
-//        dependentTableExport("TechnologyMapperTest", "testGetTechnologiesByEventId", "event_technology");
-//        dependentTableExport("UserMapperTest", "user_profile");
         dependentTableExport("VisitLogMapperTest", "VisitLogMapperTest", "visit_log", "event_technology");
 
     }

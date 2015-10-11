@@ -2,7 +2,7 @@ package org.itevents.service;
 
 import org.itevents.dao.CityDao;
 import org.itevents.model.City;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -42,14 +42,18 @@ public class MyBatisEventService implements EventService {
         return eventDao.getAllEvents();
     }
 
+    //@alex-anakin: if i want remove event that is not exist by one step?
     @Override
     public Event removeEvent(Event event) {
-        Event deletingEvent = eventDao.getEvent(event.getId());
-        if (deletingEvent != null) {
+        try {
             eventDao.removeEventTechnology(event);
             eventDao.removeEvent(event);
+            return event;
         }
-        return deletingEvent;
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     @Override

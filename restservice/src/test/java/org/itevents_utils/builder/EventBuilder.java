@@ -1,4 +1,4 @@
-package org.itevents.util.builder;
+package org.itevents_utils.builder;
 
 import org.itevents.model.*;
 

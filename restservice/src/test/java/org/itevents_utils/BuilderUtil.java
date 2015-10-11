@@ -1,7 +1,7 @@
-package org.itevents.util;
+package org.itevents_utils;
 
 import org.itevents.model.*;
-import org.itevents.util.builder.*;
+import org.itevents_utils.builder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -314,37 +314,37 @@ public class BuilderUtil {
 
     public static User buildUserGuest() {
         return UserBuilder.anUser()
-                .setLogin("guest")
-                .setPassword("guest")
-                .setRole(buildRoleGuest())
-                .setId(-1)
+                .login("guest")
+                .password("guest")
+                .role(buildRoleGuest())
+                .id(-1)
                 .build();
     }
 
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
-                .setLogin("anakin@email.com")
-                .setPassword("alex")
-                .setRole(buildRoleAdmin())
-                .setId(-2)
+                .login("anakin@email.com")
+                .password("alex")
+                .role(buildRoleAdmin())
+                .id(-2)
                 .build();
     }
 
     public static User buildUserKuchin() {
         return UserBuilder.anUser()
-                .setLogin("kuchin@email.com")
-                .setPassword("viktor")
-                .setRole(buildRoleAdmin())
-                .setId(-3)
+                .login("kuchin@email.com")
+                .password("viktor")
+                .role(buildRoleAdmin())
+                .id(-3)
                 .build();
     }
 
     public static User buildUserTest() {
         return UserBuilder.anUser()
-                .setLogin("testUser")
-                .setPassword("testUserPassword")
-                .setRole(buildRoleGuest())
-                .setId(-5)
+                .login("testUser")
+                .password("testUserPassword")
+                .role(buildRoleGuest())
+                .id(-5)
                 .build();
     }
 

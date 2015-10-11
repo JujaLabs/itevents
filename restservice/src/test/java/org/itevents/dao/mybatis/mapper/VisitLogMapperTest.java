@@ -8,7 +8,7 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;

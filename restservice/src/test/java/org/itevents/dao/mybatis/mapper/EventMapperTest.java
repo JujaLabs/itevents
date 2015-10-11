@@ -10,7 +10,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.converter.EventConverter;
-import org.itevents.util.BuilderUtil;
+import org.itevents_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,9 +1,10 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.util.BuilderUtil;
+import org.itevents.service.EventService;
+import org.itevents_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
-public class EventServiceTest {
+public class MyBatisEventServiceTest {
 
     private final int ID_1 = 1;
 
@@ -66,13 +67,14 @@ public class EventServiceTest {
     public void testRemoveEventSuccess() throws ParseException {
         Event expectedEvent = BuilderUtil.buildEventRuby();
         when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
+//        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
+//        doNothing().when(eventDao).removeEvent(expectedEvent);
         Event returnedEvent = eventService.removeEvent(expectedEvent);
         verify(eventDao).getEvent(expectedEvent.getId());
         verify(eventDao).removeEventTechnology(expectedEvent);
         verify(eventDao).removeEvent(expectedEvent);
         assertEquals(expectedEvent, returnedEvent);
+
     }
 
     @Test

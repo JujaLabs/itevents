@@ -1,4 +1,4 @@
-package org.itevents.dbunit;
+package org.itevents_utils.dbunit;
 
 import org.dbunit.dataset.datatype.DataType;
 import org.dbunit.dataset.datatype.DataTypeException;
