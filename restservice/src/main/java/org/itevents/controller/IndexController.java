@@ -1,25 +1,17 @@
 package org.itevents.controller;
 
 import io.swagger.annotations.Api;
-import org.itevents.model.User;
-import org.itevents.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.inject.Inject;
 
 @Controller
 @RequestMapping("/")
 @Api("Index")
 public class IndexController {
-
-	@Inject
-	private UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
@@ -31,17 +23,13 @@ public class IndexController {
 		return "index";
 	}
 
+	@ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
+    })
 	@RequestMapping(method = RequestMethod.POST, value = "login")
-	public ResponseEntity login(@RequestParam("username") String username, @RequestParam("password") String password) {
-		User user = userService.getUserByName(username);
-		if (user == null || !user.getPassword().equals(password)) {
-			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-		}
-		return new ResponseEntity(HttpStatus.OK);
-	}
+	public void login() {}
 
 	@RequestMapping(method = RequestMethod.POST, value = "logout")
-	public ResponseEntity logout() {
-		return new ResponseEntity(HttpStatus.OK);
-	}
+	public void logout() {}
 }
