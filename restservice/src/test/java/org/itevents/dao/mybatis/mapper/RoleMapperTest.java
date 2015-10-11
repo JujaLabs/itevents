@@ -1,11 +1,14 @@
 package org.itevents.dao.mybatis.mapper;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import org.itevents.AbstractDbTest;
 import org.itevents.model.Role;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -15,51 +18,52 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 21.07.2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
-public class RoleMapperTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
+public class RoleMapperTest extends AbstractDbTest {
+
+    private final String TEST_PATH = PATH + "RoleMapperTest/";
     @Inject
     private RoleMapper roleMapper;
-    private Role testRole = new Role("testRole");
 
     @Test
-    public void testGetRole1() throws Exception {
-        Role expectedRole = new Role("guest");
-        expectedRole.setId(ID_1);
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetRoleSuccess() throws Exception {
+        Role expectedRole = BuilderUtil.buildRoleGuest();
         Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
 
     @Test
-    public void testGetRole0() throws Exception {
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testGetRoleFail() throws Exception {
         Role returnedRole = roleMapper.getRole(ID_0);
         assertNull(returnedRole);
     }
 
     @Test
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddRole() throws Exception {
-        Role expectedRole = testRole;
-        roleMapper.addRole(expectedRole);
-        Role returnedRole = roleMapper.getRole(expectedRole.getId());
-        assertEquals(expectedRole, returnedRole);
+        Role testRole = BuilderUtil.buildRoleTest();
+        roleMapper.addRole(testRole);
+        System.out.println();
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void testRemoveRole() {
+        Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.removeRole(testRole);
     }
 
     @Test
-    public void testRemoveRole() {
-        Role expectedRole = testRole;
-        roleMapper.addRole(expectedRole);
-        int expectedSize = roleMapper.getAllRoles().size() - 1;
-        roleMapper.removeRole(expectedRole);
-        int returnedSize = roleMapper.getAllRoles().size();
-        assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
+    @DatabaseSetup(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "RoleMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllRoles() throws Exception {
         int expectedSize = 3;
         int returnedSize = roleMapper.getAllRoles().size();

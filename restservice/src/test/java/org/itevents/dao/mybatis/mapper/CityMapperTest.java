@@ -1,12 +1,15 @@
 package org.itevents.dao.mybatis.mapper;
 
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import org.itevents.AbstractDbTest;
 import org.itevents.model.City;
-import org.itevents.model.Location;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DuplicateKeyException;
 
 import javax.inject.Inject;
 
@@ -16,30 +19,64 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 22.07.2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
-public class CityMapperTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
+@DatabaseSetup(value = "file:src/test/resources/dbunit/CityMapperTest/CityMapperTest_initial.xml",
+        type = DatabaseOperation.REFRESH)
+@DatabaseTearDown(value = "file:src/test/resources/dbunit/CityMapperTest/CityMapperTest_initial.xml",
+        type = DatabaseOperation.DELETE_ALL)
+public class CityMapperTest extends AbstractDbTest {
 
+    private final String TEST_PATH = PATH + "CityMapperTest/";
     @Inject
     private CityMapper cityMapper;
 
     @Test
-    public void testGetCity1() throws Exception {
-        double kyivLatitude = 50.4505;
-        double kyivLongitude = 30.523;
-        City expectedCity = new City("Kyiv", null, new Location(kyivLatitude, kyivLongitude));
-        expectedCity.setId(ID_1);
+    public void testGetCitySuccess() throws Exception {
+        City expectedCity = BuilderUtil.buildCityKyiv();
         City returnedCity = cityMapper.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }
 
     @Test
-    public void testGetCity0() throws Exception {
+    public void testGetCityFail() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
+    }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void testAddCity() throws Exception {
+        City testCity = BuilderUtil.buildCityTest();
+        cityMapper.addCity(testCity);
+    }
+
+    @Test(expected = DuplicateKeyException.class)
+    @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void testAddExistingCity() throws Exception {
+        City testCity = BuilderUtil.buildCityTest();
+        cityMapper.addCity(testCity);
+    }
+
+    @Test
+    public void testGetAllCities() {
+        int expectedSize = 4;
+        int returnedSize = cityMapper.getAllCities().size();
+        assertEquals(expectedSize, returnedSize);
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void testRemoveCitySuccess() {
+        City testCity = BuilderUtil.buildCityTest();
+        cityMapper.removeCity(testCity);
+    }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void testRemoveCityFail() {
+        City testCity = BuilderUtil.buildCityTest();
+        cityMapper.removeCity(testCity);
     }
 }

@@ -2,18 +2,16 @@ package org.itevents.dao.mybatis.util;
 
 import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.CityService;
-import org.itevents.service.TechnologyService;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,13 +20,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
 public class GetFilteredEventsSqlBuilderTest {
-
-    @Inject
-    private CityService cityService;
-    @Inject
-    private TechnologyService technologyService;
 
     private FilteredEventsParameter parameter;
 
@@ -39,23 +31,20 @@ public class GetFilteredEventsSqlBuilderTest {
 
     @Test
     public void testGetFilteredEventsEmpty() throws Exception {
-        String expectedSql = "SELECT * FROM events e WHERE (e.event_date > NOW()) LIMIT #{limit} OFFSET #{offset}";
+        String expectedSql = "SELECT * FROM event e WHERE (e.event_date > NOW()) LIMIT #{limit} OFFSET #{offset}";
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
     @Test
     public void testGetFilteredEventsKyivJava() {
-        int javaId = 1;
-        int kyivId = 1;
-
-        parameter.setCity(cityService.getCity(kyivId));
-        List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechnology(javaId));
+        parameter.setCity(BuilderUtil.buildCityKyiv());
+        Set<Technology> testTechnologies = new HashSet<>();
+        testTechnologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(testTechnologies);
 
-        String expectedSql = "SELECT * FROM events e JOIN event_technology et " +
-                "ON et.technology_id=1 " +
+        String expectedSql = "SELECT * FROM event e JOIN event_technology et " +
+                "ON et.technology_id=-1 " +
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
@@ -65,12 +54,10 @@ public class GetFilteredEventsSqlBuilderTest {
 
     @Test
     public void testGetFilteredEventsBoyarkaPayed() {
-        int boyarkaId = 3;
-
-        parameter.setCity(cityService.getCity(boyarkaId));
+        parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
-        String expectedSql = "SELECT * FROM events e " +
+        String expectedSql = "SELECT * FROM event e " +
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
@@ -80,19 +67,18 @@ public class GetFilteredEventsSqlBuilderTest {
 
     @Test
     public void testGetFilteredEventsPhpAntSql() {
-        int phpId = 3;
-        int antId = 7;
-        int sqlId = 10;
 
-        List<Technology> testTechnologies = new ArrayList<>();
-        testTechnologies.add(technologyService.getTechnology(phpId));
-        testTechnologies.add(technologyService.getTechnology(antId));
-        testTechnologies.add(technologyService.getTechnology(sqlId));
+        Set<Technology> testTechnologies = new HashSet<>();
+        testTechnologies.add(BuilderUtil.buildTechnologyPhp());
+        testTechnologies.add(BuilderUtil.buildTechnologyAnt());
+        testTechnologies.add(BuilderUtil.buildTechnologySql());
         parameter.setTechnologies(testTechnologies);
 
-        String expectedSql = "SELECT * FROM events e JOIN event_technology et " +
-                "ON et.technology_id=3 or et.technology_id=7 or et.technology_id=10 " +
-                "WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
+        Iterator<Technology> iterator = testTechnologies.iterator();
+
+        String expectedSql = "SELECT * FROM event e JOIN event_technology et " +
+                "ON et.technology_id=" + iterator.next().getId() + " or et.technology_id=" + iterator.next().getId() +
+                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
                 "LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
@@ -109,7 +95,7 @@ public class GetFilteredEventsSqlBuilderTest {
         parameter.setLongitude(testLongitude);
         parameter.setRadius(testRadius);
 
-        String expectedSql = "SELECT * FROM events e " +
+        String expectedSql = "SELECT * FROM event e " +
                 "WHERE (e.event_date > NOW() " +
                 "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})) " +
                 "LIMIT #{limit} OFFSET #{offset}";

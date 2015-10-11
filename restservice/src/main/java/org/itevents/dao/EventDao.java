@@ -1,10 +1,10 @@
 package org.itevents.dao;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EventDao {
 
@@ -12,13 +12,15 @@ public interface EventDao {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsInRadius(Location location, int radius);
-
     void addEvent(Event event);
+
+    void addEventTechnology(Event event);
 
     void updateEvent(Event event);
 
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    Set<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
+
+    void removeEventTechnology(Event event);
 }

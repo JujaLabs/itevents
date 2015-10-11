@@ -35,7 +35,7 @@ public class EventConverter {
             result.setOffset((wrapper.getPage() - 1) * itemsPerPage);
         }
         if (wrapper.getTechnologiesNames() != null) {
-            result.setTechnologies(technologyService.getSeveralTechnologiesByName(wrapper.getTechnologiesNames()));
+            result.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
         }
         if (wrapper.getCityId() != null) {
             result.setCity(cityService.getCity(wrapper.getCityId()));

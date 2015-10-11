@@ -1,10 +1,10 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.wrapper.EventWrapper;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EventService {
 
@@ -14,9 +14,7 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsInRadius(Location location, int radius);
-
     Event removeEvent(Event event);
 
-    List<Event> getFilteredEvents(EventWrapper wrapper);
+    Set<Event> getFilteredEvents(EventWrapper wrapper);
 }

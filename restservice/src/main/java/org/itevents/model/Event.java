@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -31,56 +31,15 @@ public class Event implements Serializable {
     @XmlElement
     private String contact;
     @XmlElement
-    private Boolean free;
-    @XmlElement
     private Integer price;
     @XmlElement
     private Currency currency;
     @XmlElement
     private City city;
     @XmlElement
-    private List<Technology> technologies;
+    private Set<Technology> technologies;
 
     public Event() {
-    }
-
-    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address,
-                 Location location, String contact, Boolean free, Integer price, Currency currency, City city,
-                 List<Technology> technologies) {
-        this.id = id;
-        this.title = title;
-        this.eventDate = eventDate;
-        this.createDate = createDate;
-        this.regLink = regLink;
-        this.address = address;
-        this.location = location;
-        this.contact = contact;
-        this.free = free;
-        this.price = price;
-        this.currency = currency;
-        this.city = city;
-        this.technologies = technologies;
-    }
-
-    public Event( String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
-        this.title = title;
-        this.eventDate = eventDate;
-        this.createDate = createDate;
-        this.regLink = regLink;
-        this.address = address;
-        this.location = location;
-        this.contact = contact;
-    }
-
-    public Event(int id, String title, Date eventDate, Date createDate, String regLink, String address, Location location, String contact) {
-        this.id = id;
-        this.title = title;
-        this.eventDate = eventDate;
-        this.createDate = createDate;
-        this.regLink = regLink;
-        this.address = address;
-        this.location = location;
-        this.contact = contact;
     }
 
     public int getId() {
@@ -147,14 +106,6 @@ public class Event implements Serializable {
         this.contact = contact;
     }
 
-    public Boolean isFree() {
-        return free;
-    }
-
-    public void setFree(Boolean free) {
-        this.free = free;
-    }
-
     public Integer getPrice() {
         return price;
     }
@@ -179,11 +130,11 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public List<Technology> getTechnologies() {
+    public Set<Technology> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<Technology> technologies) {
+    public void setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
     }
 
@@ -201,7 +152,6 @@ public class Event implements Serializable {
         if (address != null ? !address.equals(event.address) : event.address != null) return false;
         if (location != null ? !location.equals(event.location) : event.location != null) return false;
         if (contact != null ? !contact.equals(event.contact) : event.contact != null) return false;
-        if (free != null ? !free.equals(event.free) : event.free != null) return false;
         if (price != null ? !price.equals(event.price) : event.price != null) return false;
         if (currency != null ? !currency.equals(event.currency) : event.currency != null) return false;
         if (city != null ? !city.equals(event.city) : event.city != null) return false;
@@ -218,7 +168,6 @@ public class Event implements Serializable {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        result = 31 * result + (free != null ? free.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
@@ -237,7 +186,6 @@ public class Event implements Serializable {
         sb.append(", address='").append(address).append('\'');
         sb.append(", location=").append(location);
         sb.append(", contact='").append(contact).append('\'');
-        sb.append(", free=").append(free);
         sb.append(", price=").append(price);
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);

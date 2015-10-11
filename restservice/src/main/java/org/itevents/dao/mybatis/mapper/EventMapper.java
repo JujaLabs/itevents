@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.mybatis.util.AddEventTechnologySqlBuilder;
 import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Currency;
@@ -9,8 +10,9 @@ import org.itevents.model.Event;
 import org.itevents.model.Location;
 import org.itevents.parameter.FilteredEventsParameter;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public interface EventMapper extends EventDao {
 
@@ -25,38 +27,40 @@ public interface EventMapper extends EventDao {
                     one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
             @Result(property = "city", column = "city_id", javaType = City.class,
                     one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
-            @Result(property = "technologies", column = "id", javaType = ArrayList.class,
+            @Result(property = "technologies", column = "id", javaType = HashSet.class,
                     many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
     })
-    @Select("SELECT * FROM events WHERE id = #{id}")
+    @Select("SELECT * FROM event WHERE id = #{id}")
     Event getEvent(int id);
 
     @ResultMap("getEvent-int")
-    @Select("SELECT * FROM events")
+    @Select("SELECT * FROM event")
     List<Event> getAllEvents();
 
-    @ResultMap(value = "getEvent-int")
-    @Select("SELECT * FROM events" +
-            " WHERE ST_DWithin(point::geography," +
-            " ST_MakePoint(#{location.longitude},#{location.latitude})::geography, #{radius})")
-    List<Event> getEventsInRadius(@Param("location")Location location, @Param("radius")int radius);
-
-    @Insert("INSERT INTO events(title, event_date, create_date, reg_link, address, point, contact, free, price, " +
+    @Insert("INSERT INTO event(title, event_date, create_date, reg_link, address, point, contact, price, " +
             "currency_id, city_id) VALUES(#{title}, #{eventDate}, #{createDate}, #{regLink}, #{address}, " +
-            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{free}, #{price}, #{currency.id}," +
+            "ST_MakePoint(#{location.longitude},#{location.latitude}), #{contact}, #{price}, #{currency.id}," +
             "#{city.id})")
     @Options(useGeneratedKeys = true)
     void addEvent(Event event);
 
-    @Update("UPDATE events SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, " +
+    @InsertProvider(type = AddEventTechnologySqlBuilder.class, method = "addEventTechnology")
+    void addEventTechnology(Event event);
+
+    @Update("UPDATE event SET title=#{title}, event_date=#{eventDate}, create_date=#{createDate}, " +
             "reg_link=#{regLink}, address=#{address}, point= ST_MakePoint(#{location.longitude},#{location.latitude}), " +
-            "contact=#{contact}, free=#{free}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
+            "contact=#{contact}, price=#{price}, currency_id=#{currency.id}, city_id=#{city.id} WHERE id =#{id}")
     void updateEvent(Event event);
 
-    @Delete("DELETE FROM events WHERE id =#{id}")
+    @Delete("DELETE FROM event WHERE id =#{id}")
     void removeEvent(Event event);
+
+    @Delete("DELETE FROM event_technology WHERE event_id=#{id}")
+    void removeEventTechnology(Event event);
 
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    Set<Event> getFilteredEvents(FilteredEventsParameter params);
+
+
 }

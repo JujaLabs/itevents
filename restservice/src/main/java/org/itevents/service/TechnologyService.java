@@ -2,7 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.Technology;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vaa25 on 17.07.2015.
@@ -11,9 +11,9 @@ public interface TechnologyService {
 
     Technology getTechnology(int id);
 
-    List<Technology> getAllTechnologies();
+    Set<Technology> getAllTechnologies();
 
-    List<Technology> getSeveralTechnologiesByName(String[] names);
+    Set<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
 
