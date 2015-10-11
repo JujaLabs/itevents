@@ -1,20 +1,20 @@
 package org.itevents;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml",
@@ -27,13 +27,21 @@ public class AppTests {
 
     @Before
     public void setup() {
-        mvc = webAppContextSetup(this.context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     public void simple() throws Exception {
         mvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("index"))
+                .andExpect(status().isOk());
+    }
+
+    @Ignore  //Ignore because of corrupting database table visit_log
+    @Test
+    public void testRedirect() throws Exception {
+        mvc.perform(get("/events/1/register"))
+                .andExpect(redirectedUrl("http://www.java.com.ua"))
+                .andExpect(status().is3xxRedirection());
     }
 }

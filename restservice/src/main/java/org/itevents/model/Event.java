@@ -1,9 +1,6 @@
 package org.itevents.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +35,8 @@ public class Event implements Serializable {
     private Currency currency;
     @XmlElement
     private City city;
-    @XmlElement
+    @XmlElementWrapper(name = "technologies")
+    @XmlElement(name = "technology")
     private List<Technology> technologies;
 
     public Event() {
