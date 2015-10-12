@@ -1,9 +1,9 @@
-package org.itevents_utils.builder;
+package org.itevents.model.builder;
 
 import org.itevents.model.*;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -20,7 +20,7 @@ public class EventBuilder {
     private Integer price;
     private Currency currency;
     private City city;
-    private Set<Technology> technologies;
+    private List<Technology> technologies;
 
     private EventBuilder() {
     }
@@ -84,7 +84,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setTechnologies(Set<Technology> technologies) {
+    public EventBuilder setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
         return this;
     }

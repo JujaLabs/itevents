@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
+import org.itevents.service.TechnologyService;
 import org.itevents_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
-public class TechnologyServiceTest {
+public class MyBatisTechnologyServiceTest {
 
     @InjectMocks
     @Inject

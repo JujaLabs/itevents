@@ -7,6 +7,8 @@ import org.postgis.binary.BinaryParser;
 import org.postgis.binary.BinaryWriter;
 
 /**
+ * This class demonstrates how easy we can convert Location, Point, and hex String in any direction.
+ * Not used in project.
  * Created by vaa25 on 29.09.2015.
  */
 

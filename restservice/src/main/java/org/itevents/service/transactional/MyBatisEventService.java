@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service("eventService")
 @Transactional
@@ -45,25 +44,22 @@ public class MyBatisEventService implements EventService {
     //@alex-anakin: if i want remove event that is not exist by one step?
     @Override
     public Event removeEvent(Event event) {
-        try {
+        Event deletingEvent = eventDao.getEvent(event.getId());
+        if (deletingEvent != null) {
             eventDao.removeEventTechnology(event);
             eventDao.removeEvent(event);
-            return event;
         }
-        catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
+        return deletingEvent;
     }
 
     @Override
-    public Set<Event> getFilteredEvents(EventWrapper wrapper) {
-        Set<Event> result;
+    public List<Event> getFilteredEvents(EventWrapper wrapper) {
+        List<Event> result;
         try {
             result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
-            logger.error("Exception :", e);
-            result = new HashSet<>();
+            logger.error("getFilteredEvents Exception :", e.getStackTrace());
+            result = new ArrayList<>();
         }
         return result;
     }

@@ -1,4 +1,4 @@
-package org.itevents_utils.builder;
+package org.itevents.model.builder;
 
 import org.itevents.model.Role;
 import org.itevents.model.User;

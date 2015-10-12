@@ -1,11 +1,10 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.VisitLogDao;
 import org.itevents.model.Event;
-import org.itevents.model.User;
 import org.itevents.model.VisitLog;
+import org.itevents.service.VisitLogService;
 import org.itevents_utils.BuilderUtil;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -29,43 +26,13 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
-public class VisitLogServiceTest {
+public class MyBatisVisitLogServiceTest {
 
-    private final int ID_0 = 0;
-    private final int ID_1 = 1;
-    private final int ID_2 = 2;
-    private final int ID_3 = 3;
-    private final int ID_7 = 7;
-    private final int SIZE_7 = 7;
-    private final Date date1 = new GregorianCalendar(2016, 6, 20).getTime();
-
-    @Inject
-    private EventService eventService;
-    @Inject
-    private UserService userService;
-    private Event event1;
-    private User user1;
-    private VisitLog testVisitLog;
     @InjectMocks
     @Inject
     private VisitLogService visitLogService;
     @Mock
     private VisitLogDao visitLogDao;
-
-    @Before
-    public void setup() {
-        event1 = eventService.getEvent(ID_1);
-        user1 = userService.getUser(ID_1);
-        testVisitLog = new VisitLog(eventService.getEvent(ID_3), user1);
-        testVisitLog.setDate(date1);
-    }
-
-    @After
-    public void teardown() {
-        event1 = null;
-        user1 = null;
-        testVisitLog = null;
-    }
 
     @Before
     public void setUp() {
@@ -114,10 +81,10 @@ public class VisitLogServiceTest {
 
     @Test
     public void testGetVisitLogByEvent() throws Exception {
-        Set<VisitLog> expectedVisitlogs = BuilderUtil.buildListVisitLogJava();
+        List<VisitLog> expectedVisitlogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
         when(visitLogDao.getVisitLogsByEvent(eventJava)).thenReturn(expectedVisitlogs);
-        Set<VisitLog> returnedVisitlogs = visitLogService.getVisitLogsByEvent(eventJava);
+        List<VisitLog> returnedVisitlogs = visitLogService.getVisitLogsByEvent(eventJava);
         verify(visitLogDao).getVisitLogsByEvent(eventJava);
         assertEquals(expectedVisitlogs, returnedVisitlogs);
     }

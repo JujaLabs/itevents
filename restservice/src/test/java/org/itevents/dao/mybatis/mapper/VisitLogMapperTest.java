@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -21,15 +21,16 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 21.07.2015.
  */
+@DatabaseSetup(value = "file:src/test/resources/dbunit/VisitLogMapperTest/VisitLogMapperTest_initial.xml",
+        type = DatabaseOperation.REFRESH)
+@DatabaseTearDown(value = "file:src/test/resources/dbunit/VisitLogMapperTest/VisitLogMapperTest_initial.xml",
+        type = DatabaseOperation.DELETE_ALL)
 public class VisitLogMapperTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "VisitLogMapperTest/";
-    private final int SIZE_7 = 7;
     @Inject
     private VisitLogMapper visitLogMapper;
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogSuccess() throws ParseException {
         VisitLog expectedVisitLog = BuilderUtil.buildVisitLogFirst();
         VisitLog returnedVisitLog = visitLogMapper.getVisitLog(ID_1);
@@ -37,44 +38,37 @@ public class VisitLogMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogFail() throws Exception {
         assertNull(visitLogMapper.getVisitLog(ID_0));
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetVisitLogByEvent() throws Exception {
-        Set<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
+        List<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
-        Set<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(eventJava);
+        List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(eventJava);
         assertEquals(expectedVisitLogs, returnedVisitLogs);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddVisitLog_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "testAddVisitLog_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddVisitLog() throws Exception {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
         visitLogMapper.addVisitLog(testVisitLog);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllVisitLogs() {
-        int expectedSize = SIZE_7;
+        int expectedSize = 7;
         int returnedSize = visitLogMapper.getAllVisitLogs().size();
         assertEquals(expectedSize, returnedSize);
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveVisitLog_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "VisitLogMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "VisitLogMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "VisitLogMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveVisitLog() throws ParseException {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
         visitLogMapper.removeVisitLog(testVisitLog);

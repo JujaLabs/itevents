@@ -19,7 +19,10 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 21.07.2015.
  */
-
+@DatabaseSetup(value = "file:src/test/resources/dbunit/CurrencyMapperTest/CurrencyMapperTest_initial.xml",
+        type = DatabaseOperation.REFRESH)
+@DatabaseTearDown(value = "file:src/test/resources/dbunit/CurrencyMapperTest/CurrencyMapperTest_initial.xml",
+        type = DatabaseOperation.DELETE_ALL)
 public class CurrencyMapperTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "CurrencyMapperTest/";
@@ -27,8 +30,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
     private CurrencyMapper currencyMapper;
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+
     public void testGetCurrencySuccess() throws Exception {
         Currency expectedCurrency = BuilderUtil.buildCurrencyUsd();
         Currency returnedCurrency = currencyMapper.getCurrency(ID_1);
@@ -36,17 +38,14 @@ public class CurrencyMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetCurrencyFail() throws Exception {
         Currency returnedCurrency = currencyMapper.getCurrency(ID_0);
         assertNull(returnedCurrency);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddCurrency() throws Exception {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.addCurrency(testCurrency);
@@ -54,35 +53,32 @@ public class CurrencyMapperTest extends AbstractDbTest {
 
     @Test(expected = DuplicateKeyException.class)
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddExistingCurrency() throws Exception {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.addCurrency(testCurrency);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllCurrencies() {
-        int expectedSize = SIZE_3;
+        int expectedSize = 3;
         int returnedSize = currencyMapper.getAllCurrencies().size();
         assertEquals(expectedSize, returnedSize);
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveCurrencySuccess() {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.removeCurrency(testCurrency);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "CurrencyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveCurrencyFail() {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.removeCurrency(testCurrency);

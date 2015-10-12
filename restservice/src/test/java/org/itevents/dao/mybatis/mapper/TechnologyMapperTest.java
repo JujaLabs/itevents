@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;
 
 import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -21,16 +21,18 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 22.07.2015.
  */
+@DatabaseSetup(value = "file:src/test/resources/dbunit/TechnologyMapperTest/TechnologyMapperTest_initial.xml",
+        type = DatabaseOperation.REFRESH)
+@DatabaseTearDown(value = "file:src/test/resources/dbunit/TechnologyMapperTest/testGetTechnologiesByEventId_initial.xml",
+        type = DatabaseOperation.DELETE_ALL)
 public class TechnologyMapperTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "TechnologyMapperTest/";
-    private final int SIZE_10 = 10;
     @Inject
     private TechnologyMapper technologyMapper;
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+
     public void testGetTechnologySuccess() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
@@ -39,54 +41,47 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml",
+            type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologiesByEventId() throws Exception {
-        Set<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
-        Set<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
+        List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
+        List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
+
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologyFail() throws Exception {
         Technology returnedTechnology = technologyMapper.getTechnology(ID_0);
         assertNull(returnedTechnology);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllTechnologies() throws Exception {
-        int expectedSize = SIZE_10;
+        int expectedSize = 10;
         int returnedSize = technologyMapper.getAllTechnologies().size();
         assertEquals(expectedSize, returnedSize);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetTechnologiesByName() throws Exception {
         String[] names = {"Java", "JavaScript"};
-        Set<Technology> expectedList = new HashSet<>();
-        expectedList.add(BuilderUtil.buildTechnologyJava());
-        expectedList.add(BuilderUtil.buildTechnologyJavaScript());
-        Set<Technology> returnedTechnologies = technologyMapper.getTechnologiesByNames(names);
-        assertEquals(expectedList, returnedTechnologies);
+        List<Technology> expectedTechnologies = new ArrayList<>();
+        expectedTechnologies.add(BuilderUtil.buildTechnologyJavaScript());
+        expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
+        List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByNames(names);
+        assertEquals(expectedTechnologies, returnedTechnologies);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddTechnology_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "testAddTechnology_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.addTechnology(expectedTechnology);
     }
 
     @Test(expected = DuplicateKeyException.class)
-    @DatabaseSetup(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testAddExistingCity() throws Exception {
         Technology existingTechnology = BuilderUtil.buildTechnologyJava();
         technologyMapper.addTechnology(existingTechnology);
@@ -94,8 +89,8 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveTechnology_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveTechnologySuccess() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.removeTechnology(expectedTechnology);
@@ -103,8 +98,8 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveTechnology_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "TechnologyMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveTechnologyFail() {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.removeTechnology(expectedTechnology);

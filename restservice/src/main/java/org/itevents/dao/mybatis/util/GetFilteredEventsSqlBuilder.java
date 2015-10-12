@@ -5,7 +5,7 @@ import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class GetFilteredEventsSqlBuilder {
 
@@ -37,7 +37,7 @@ public class GetFilteredEventsSqlBuilder {
     private String makeJoin(FilteredEventsParameter params) {
         StringBuilder sb = new StringBuilder();
         sb.append("event_technology et ON ");
-        Set<Technology> technologies = params.getTechnologies();
+        List<Technology> technologies = params.getTechnologies();
         Iterator<Technology> iterator = technologies.iterator();
         while (iterator.hasNext()) {
             sb.append("et.technology_id=");

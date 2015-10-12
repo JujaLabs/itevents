@@ -1,13 +1,13 @@
 package org.itevents_utils;
 
 import org.itevents.model.*;
-import org.itevents_utils.builder.*;
+import org.itevents.model.builder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -51,11 +51,11 @@ public class BuilderUtil {
 
 
     public static Event buildEventJava() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
-        technologies.add(buildTechnologyMyBatis());
-        technologies.add(buildTechnologySpring());
-        technologies.add(buildTechnologyLiquibase());
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyJava());
+        technologies.add(buildTechnologyLiquibase());
+        technologies.add(buildTechnologySpring());
+        technologies.add(buildTechnologyMyBatis());
         return EventBuilder.anEvent()
                 .setTitle("Java")
                 .setEventDate(parseDate("10.07.2115"))
@@ -70,7 +70,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventPhp() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyJavaScript());
         return EventBuilder.anEvent()
                 .setTitle("PHP")
@@ -86,7 +86,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventJs() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyPhp());
         return EventBuilder.anEvent()
                 .setTitle("JS")
@@ -104,7 +104,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventCplus() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyJava());
         technologies.add(buildTechnologyPhp());
         return EventBuilder.anEvent()
@@ -123,7 +123,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventObjectiveC() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyGradle());
         return EventBuilder.anEvent()
                 .setTitle("ObjectiveC")
@@ -141,7 +141,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventCsharp() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyMaven());
         return EventBuilder.anEvent()
                 .setTitle("CSharp")
@@ -159,7 +159,7 @@ public class BuilderUtil {
     }
 
     public static Event buildEventDelphi() throws ParseException {
-        Set<Technology> technologies = new HashSet<>();
+        List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyAnt());
         return EventBuilder.anEvent()
                 .setTitle("Delphi")
@@ -384,11 +384,11 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Set<VisitLog> buildListVisitLogJava() throws ParseException {
-        Set<VisitLog> result = new HashSet<>();
-        result.add(buildVisitLogFirst());
-        result.add(buildVisitLogSecond());
+    public static List<VisitLog> buildListVisitLogJava() throws ParseException {
+        List<VisitLog> result = new ArrayList<>();
         result.add(buildVisitLogSeventh());
+        result.add(buildVisitLogSecond());
+        result.add(buildVisitLogFirst());
         return result;
     }
 }

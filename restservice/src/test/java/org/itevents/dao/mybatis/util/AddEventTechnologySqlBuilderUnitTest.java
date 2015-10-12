@@ -13,7 +13,8 @@ public class AddEventTechnologySqlBuilderUnitTest {
 
     @Test
     public void testAddEventTechnologyJava() throws Exception {
-        String expectedSql = "INSERT INTO event_technology (event_id, technology_id) VALUES (-1, -4), (-1, -1), (-1, -9), (-1, -8)";
+        String expectedSql = "INSERT INTO event_technology (event_id, technology_id) " +
+                "VALUES (-1, -1), (-1, -4), (-1, -8), (-1, -9)";
         Event event = BuilderUtil.buildEventJava();
         AddEventTechnologySqlBuilder builder = new AddEventTechnologySqlBuilder();
         String returnedSql = builder.addEventTechnology(event);

@@ -44,7 +44,8 @@ public class CityMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.addCity(testCity);
@@ -52,7 +53,8 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test(expected = DuplicateKeyException.class)
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddExistingCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.addCity(testCity);
@@ -67,14 +69,16 @@ public class CityMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveCitySuccess() {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.removeCity(testCity);
     }
 
     @Test
-    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveCityFail() {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.removeCity(testCity);

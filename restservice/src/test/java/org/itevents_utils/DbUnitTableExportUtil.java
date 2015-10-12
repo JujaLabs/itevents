@@ -21,6 +21,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
+ * This class helps to create dbunit xml data for test annotations @DatabaseSetup, @ExpectedDatabase, @DatabaseTearDown
+ * To rewrite dtd file uncomment "writeDtdFile();". Rewriting dtd is need when changes schema of database. When xml file
+ * consumed by @ExpectedDatabase with operation NON_STRICT_UNORDERED or NON_STRICT you will need to delete dtd reference
+ * from xml file.
+ *
  * Created by vaa25 on 28.09.2015.
  */
 
@@ -42,10 +47,28 @@ public class DbUnitTableExportUtil {
         FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream(PATH + "test.dtd"));
     }
 
+    /**
+     * Writes dbunit xml data file filled with data from specified tables and all tables that Primary Keys are in the
+     * specified tables as Foreign Keys. Path of the file is "src/test/resources/dbunit/${testName}/". Name of the file
+     * is "${testName}_initial.xml". Use it if file will be consumed by several methods
+     *
+     * @param testName  - name of test class that consumes this file
+     * @param tableName - specified tables
+     * @throws Exception
+     */
     private static void dependentTableExport(String testName, String tableName) throws Exception {
         dependentTableExport(testName, testName, tableName);
     }
 
+    /**
+     * Writes dbunit xml data file filled with data from specified tables and all tables that Primary Keys are in the
+     * specified tables as Foreign Keys. Path of the file is "src/test/resources/dbunit/${testName}/". Name of the file
+     * is "${methodName}_initial.xml". Use it if file will be consumed by one method
+     * @param testName - name of test class that consumes this file
+     * @param methodName - name of test method that consumes this file
+     * @param tableName - specified tables
+     * @throws Exception
+     */
     private static void dependentTableExport(String testName, String methodName, String... tableName) throws Exception {
         // dependent tables database export: export table X and all tables that
         // have a PK which is a FK on X, in the right order for insertion

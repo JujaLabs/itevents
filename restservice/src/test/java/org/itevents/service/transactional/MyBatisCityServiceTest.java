@@ -1,7 +1,8 @@
-package org.itevents.service;
+package org.itevents.service.transactional;
 
 import org.itevents.dao.CityDao;
 import org.itevents.model.City;
+import org.itevents.service.CityService;
 import org.itevents_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
-public class CityServiceTest {
-
-    private final int ID_1 = 1;
+public class MyBatisCityServiceTest {
 
     @InjectMocks
     @Inject
@@ -39,6 +38,7 @@ public class CityServiceTest {
 
     @Test
     public void testGetCity() throws Exception {
+        int ID_1 = 1;
         cityService.getCity(ID_1);
         verify(cityDao).getCity(ID_1);
     }

@@ -4,12 +4,12 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class AddEventTechnologySqlBuilder {
 
     public String addEventTechnology(final Event event) {
-        Set<Technology> technologies = event.getTechnologies();
+        List<Technology> technologies = event.getTechnologies();
         StringBuilder sql = new StringBuilder();
         if (technologies != null && technologies.size() > 0) {
             sql.append("INSERT INTO event_technology (event_id, technology_id) VALUES ");

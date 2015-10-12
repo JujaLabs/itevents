@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @Api("Events")
@@ -28,7 +28,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public Set<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
+    public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }
 }

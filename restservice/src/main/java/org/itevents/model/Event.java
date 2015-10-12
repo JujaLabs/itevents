@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -37,7 +37,7 @@ public class Event implements Serializable {
     @XmlElement
     private City city;
     @XmlElement
-    private Set<Technology> technologies;
+    private List<Technology> technologies;
 
     public Event() {
     }
@@ -130,11 +130,11 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public Set<Technology> getTechnologies() {
+    public List<Technology> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(Set<Technology> technologies) {
+    public void setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
     }
 

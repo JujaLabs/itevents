@@ -4,8 +4,8 @@ import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.EventService;
-import org.itevents_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
+import org.itevents_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -29,8 +29,6 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 @Transactional
 public class MyBatisEventServiceTest {
-
-    private final int ID_1 = 1;
 
     @InjectMocks
     @Inject
@@ -45,6 +43,7 @@ public class MyBatisEventServiceTest {
 
     @Test
     public void testGetEvent() {
+        int ID_1 = 1;
         eventService.getEvent(ID_1);
         verify(eventDao).getEvent(ID_1);
     }
@@ -67,8 +66,8 @@ public class MyBatisEventServiceTest {
     public void testRemoveEventSuccess() throws ParseException {
         Event expectedEvent = BuilderUtil.buildEventRuby();
         when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
-//        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-//        doNothing().when(eventDao).removeEvent(expectedEvent);
+        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
+        doNothing().when(eventDao).removeEvent(expectedEvent);
         Event returnedEvent = eventService.removeEvent(expectedEvent);
         verify(eventDao).getEvent(expectedEvent.getId());
         verify(eventDao).removeEventTechnology(expectedEvent);
@@ -92,20 +91,20 @@ public class MyBatisEventServiceTest {
 
     @Test
     public void testGetFilteredEventsSuccess() throws ParseException {
-        Set<Event> expectedEvents = new HashSet<>();
+        List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenReturn(expectedEvents);
         EventWrapper wrapper = new EventWrapper();
-        Set<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void testGetFilteredEventsFail() throws ParseException {
-        Set<Event> expectedEvents = new HashSet<>();
+        List<Event> expectedEvents = new ArrayList<>();
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenThrow(Exception.class);
         EventWrapper wrapper = new EventWrapper();
-        Set<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
+        List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
 }

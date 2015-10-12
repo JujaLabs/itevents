@@ -18,7 +18,10 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 21.07.2015.
  */
-
+@DatabaseSetup(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
+        type = DatabaseOperation.REFRESH)
+@DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
+        type = DatabaseOperation.DELETE_ALL)
 public class UserMapperTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "UserMapperTest/";
@@ -27,8 +30,6 @@ public class UserMapperTest extends AbstractDbTest {
     private UserMapper userMapper;
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetUserSuccess() throws Exception {
         User expectedUser = BuilderUtil.buildUserGuest();
         User returnedUser = userMapper.getUser(ID_1);
@@ -36,25 +37,20 @@ public class UserMapperTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetUserFail() throws Exception {
         User returnedUser = userMapper.getUser(ID_0);
         assertNull(returnedUser);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testAddUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.addUser(testUser);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "UserMapperTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void testGetAllUsers() throws Exception {
         int expectedSize = SIZE_4;
         int returnedSize = userMapper.getAllUsers().size();
@@ -63,8 +59,8 @@ public class UserMapperTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    @DatabaseTearDown(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void testRemoveUser() {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.removeUser(testUser);

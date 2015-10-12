@@ -9,9 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +39,7 @@ public class GetFilteredEventsSqlBuilderTest {
     @Test
     public void testGetFilteredEventsKyivJava() {
         parameter.setCity(BuilderUtil.buildCityKyiv());
-        Set<Technology> testTechnologies = new HashSet<>();
+        List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(testTechnologies);
 
@@ -68,7 +68,7 @@ public class GetFilteredEventsSqlBuilderTest {
     @Test
     public void testGetFilteredEventsPhpAntSql() {
 
-        Set<Technology> testTechnologies = new HashSet<>();
+        List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyPhp());
         testTechnologies.add(BuilderUtil.buildTechnologyAnt());
         testTechnologies.add(BuilderUtil.buildTechnologySql());

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by vaa25 on 17.07.2015.
@@ -25,12 +25,12 @@ public class MyBatisTechnologyService implements TechnologyService {
     }
 
     @Override
-    public Set<Technology> getAllTechnologies() {
+    public List<Technology> getAllTechnologies() {
         return technologyDao.getAllTechnologies();
     }
 
     @Override
-    public Set<Technology> getTechnologiesByNames(String[] names) {
+    public List<Technology> getTechnologiesByNames(String[] names) {
         return technologyDao.getTechnologiesByNames(names);
     }
 
