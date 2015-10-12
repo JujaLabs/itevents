@@ -28,7 +28,7 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
 
     @Override
     public IDatabaseConnection getObject() throws Exception {
-        return getDatabaseConnection();
+        return databaseConnection;
     }
 
     @Override
@@ -39,10 +39,6 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
     @Override
     public boolean isSingleton() {
         return true;
-    }
-
-    public IDatabaseConnection getDatabaseConnection() {
-        return databaseConnection;
     }
 
     private void initDatabaseConnection() {

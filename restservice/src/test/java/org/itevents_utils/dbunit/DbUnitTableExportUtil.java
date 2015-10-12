@@ -1,4 +1,4 @@
-package org.itevents_utils;
+package org.itevents_utils.dbunit;
 
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
@@ -9,7 +9,6 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlWriter;
-import org.itevents_utils.dbunit.PostgisDataTypeFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -84,7 +83,6 @@ public class DbUnitTableExportUtil {
     private static void databaseConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         Properties testProps = new Properties();
         testProps.load(new FileInputStream("src/main/resources/local.properties"));
-        testProps.getProperty("database.driver");
         Class.forName(testProps.getProperty("database.driver"));
         Connection jdbcConnection = DriverManager.getConnection(
                 testProps.getProperty("database.url"),
