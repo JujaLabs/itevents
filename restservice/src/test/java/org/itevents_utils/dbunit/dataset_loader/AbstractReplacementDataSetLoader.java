@@ -23,17 +23,17 @@ public abstract class AbstractReplacementDataSetLoader implements DataSetLoader 
         replace();
     }
 
-    protected final void replace(Object key, Object value) {
-        if (key instanceof String && value instanceof String) {
-            subStringReplacements.put((String) key, (String) value);
-        } else {
-            objectReplacements.put(key, value);
-        }
+    protected final void replace(Object oldValue, Object newValue) {
+        objectReplacements.put(oldValue, newValue);
+    }
+
+    protected final void replace(String oldValue, String newValue) {
+        subStringReplacements.put(oldValue, newValue);
     }
 
     protected abstract void replace();
 
-    public IDataSet loadDataSet(Class<?> testClass, String location) throws Exception {
+    public final IDataSet loadDataSet(Class<?> testClass, String location) throws Exception {
         IDataSet dataSet = new FlatXmlDataSetLoader().loadDataSet(testClass, location);
         return new ReplacementDataSet(dataSet, objectReplacements, subStringReplacements);
     }
