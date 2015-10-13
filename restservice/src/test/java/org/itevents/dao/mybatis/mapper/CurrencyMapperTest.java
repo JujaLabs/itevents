@@ -31,14 +31,14 @@ public class CurrencyMapperTest extends AbstractDbTest {
 
     @Test
 
-    public void testGetCurrencySuccess() throws Exception {
+    public void shouldGetCurrencyById() throws Exception {
         Currency expectedCurrency = BuilderUtil.buildCurrencyUsd();
         Currency returnedCurrency = currencyMapper.getCurrency(ID_1);
         assertEquals(expectedCurrency, returnedCurrency);
     }
 
     @Test
-    public void testGetCurrencyFail() throws Exception {
+    public void expectNullWhenCurrencyIsAbsent() throws Exception {
         Currency returnedCurrency = currencyMapper.getCurrency(ID_0);
         assertNull(returnedCurrency);
     }
@@ -46,7 +46,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddCurrency() throws Exception {
+    public void shouldAddCurrency() throws Exception {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.addCurrency(testCurrency);
     }
@@ -55,13 +55,13 @@ public class CurrencyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddCurrency_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddExistingCurrency() throws Exception {
+    public void shouldThrowDuplicateKeyExceptionWhenCurrencyIsExisting() throws Exception {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.addCurrency(testCurrency);
     }
 
     @Test
-    public void testGetAllCurrencies() {
+    public void shouldGetAllCurrencies() {
         int expectedSize = 3;
         int returnedSize = currencyMapper.getAllCurrencies().size();
         assertEquals(expectedSize, returnedSize);
@@ -71,7 +71,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveCurrencySuccess() {
+    public void shouldRemoveCurrency() {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.removeCurrency(testCurrency);
     }
@@ -79,7 +79,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveCurrencyFail() {
+    public void shouldNotRemoveAbsentCurrency() {
         Currency testCurrency = BuilderUtil.buildCurrencyTest();
         currencyMapper.removeCurrency(testCurrency);
     }

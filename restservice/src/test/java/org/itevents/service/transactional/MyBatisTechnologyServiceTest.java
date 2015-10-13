@@ -40,7 +40,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void testGetTechnology() throws Exception {
+    public void shouldGetTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
         Technology returnedTechnology = technologyService.getTechnology(expectedTechnology.getId());
@@ -49,27 +49,27 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void testGetTechnologiesByNames() throws Exception {
+    public void shouldGetTechnologiesByNames() throws Exception {
         String[] names = {"Java", "JavaScript"};
         technologyService.getTechnologiesByNames(names);
         verify(technologyDao).getTechnologiesByNames(names);
     }
 
     @Test
-    public void testGetAllTechnologies() {
+    public void shouldGetAllTechnologies() {
         technologyService.getAllTechnologies();
         verify(technologyDao).getAllTechnologies();
     }
 
     @Test
-    public void testAddTechnology() throws Exception {
+    public void shouldAddTechnology() throws Exception {
         Technology testTechnology = BuilderUtil.buildTechnologyTest();
         technologyService.addTechnology(testTechnology);
         verify(technologyDao).addTechnology(testTechnology);
     }
 
     @Test
-    public void testRemoveTechnologySuccess() {
+    public void shouldRemoveTechnology() {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
         doNothing().when(technologyDao).removeTechnology(expectedTechnology);
@@ -78,7 +78,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void testRemoveTechnologyFail() {
+    public void shouldNotRemoveTechnologyWhenItIsNotExisting() {
         Technology testTechnology = BuilderUtil.buildTechnologyTest();
         when(technologyDao.getTechnology(testTechnology.getId())).thenReturn(null);
         doNothing().when(technologyDao).removeTechnology(testTechnology);

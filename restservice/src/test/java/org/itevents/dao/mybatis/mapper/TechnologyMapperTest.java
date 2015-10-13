@@ -33,7 +33,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
 
-    public void testGetTechnologySuccess() throws Exception {
+    public void shouldGetTechnologyById() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
         assertEquals(expectedTechnology, returnedTechnology);
@@ -43,7 +43,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml",
             type = DatabaseOperation.DELETE_ALL)
-    public void testGetTechnologiesByEventId() throws Exception {
+    public void shouldGetTechnologiesByEventId() throws Exception {
         List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
@@ -51,20 +51,20 @@ public class TechnologyMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetTechnologyFail() throws Exception {
+    public void expectNullWhenTechnologyIsAbsent() throws Exception {
         Technology returnedTechnology = technologyMapper.getTechnology(ID_0);
         assertNull(returnedTechnology);
     }
 
     @Test
-    public void testGetAllTechnologies() throws Exception {
+    public void shouldGetAllTechnologies() throws Exception {
         int expectedSize = 10;
         int returnedSize = technologyMapper.getAllTechnologies().size();
         assertEquals(expectedSize, returnedSize);
     }
 
     @Test
-    public void testGetTechnologiesByName() throws Exception {
+    public void shouldGetTechnologiesByName() throws Exception {
         String[] names = {"Java", "JavaScript"};
         List<Technology> expectedTechnologies = new ArrayList<>();
         expectedTechnologies.add(BuilderUtil.buildTechnologyJavaScript());
@@ -76,13 +76,13 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddTechnology_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddTechnology() throws Exception {
+    public void shouldAddTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.addTechnology(expectedTechnology);
     }
 
     @Test(expected = DuplicateKeyException.class)
-    public void testAddExistingCity() throws Exception {
+    public void shouldThrowDuplicateKeyExceptionWhenAddExistingTechnology() throws Exception {
         Technology existingTechnology = BuilderUtil.buildTechnologyJava();
         technologyMapper.addTechnology(existingTechnology);
     }
@@ -91,16 +91,15 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testRemoveTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveTechnologySuccess() throws Exception {
+    public void shouldRemoveTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.removeTechnology(expectedTechnology);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveTechnologyFail() {
+    public void shouldNotRemoveTechnologyThatIsNotExisting() {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
         technologyMapper.removeTechnology(expectedTechnology);
     }

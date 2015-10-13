@@ -29,14 +29,14 @@ public class RoleMapperTest extends AbstractDbTest {
     private RoleMapper roleMapper;
 
     @Test
-    public void testGetRoleSuccess() throws Exception {
+    public void shouldGetRoleById() throws Exception {
         Role expectedRole = BuilderUtil.buildRoleGuest();
         Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
 
     @Test
-    public void testGetRoleFail() throws Exception {
+    public void shouldNotGetRoleWhenRoleIsAbsent() throws Exception {
         Role returnedRole = roleMapper.getRole(ID_0);
         assertNull(returnedRole);
     }
@@ -44,7 +44,7 @@ public class RoleMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddRole_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddRole() throws Exception {
+    public void shouldAddRole() throws Exception {
         Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.addRole(testRole);
         System.out.println();
@@ -54,13 +54,13 @@ public class RoleMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testRemoveRole_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "RoleMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveRole() {
+    public void shouldRemoveRole() {
         Role testRole = BuilderUtil.buildRoleTest();
         roleMapper.removeRole(testRole);
     }
 
     @Test
-    public void testGetAllRoles() throws Exception {
+    public void shouldGetAllRoles() throws Exception {
         int expectedSize = 3;
         int returnedSize = roleMapper.getAllRoles().size();
         assertEquals(expectedSize, returnedSize);

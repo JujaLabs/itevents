@@ -42,14 +42,14 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void testGetEvent() {
+    public void shouldGetEventById() {
         int ID_1 = 1;
         eventService.getEvent(ID_1);
         verify(eventDao).getEvent(ID_1);
     }
 
     @Test
-    public void testAddEvent() throws ParseException {
+    public void shouldAddEvent() throws ParseException {
         Event testEvent = BuilderUtil.buildEventRuby();
         eventService.addEvent(testEvent);
         verify(eventDao).addEvent(testEvent);
@@ -57,13 +57,13 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void testGetAllEvents() {
+    public void shouldGetAllEvents() {
         eventService.getAllEvents();
         verify(eventDao).getAllEvents();
     }
 
     @Test
-    public void testRemoveEventSuccess() throws ParseException {
+    public void shouldRemoveEvent() throws ParseException {
         Event expectedEvent = BuilderUtil.buildEventRuby();
         when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
         doNothing().when(eventDao).removeEventTechnology(expectedEvent);
@@ -77,7 +77,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void testRemoveEventFail() throws ParseException {
+    public void shouldNotRemoveEventWhenItIsNotExisting() throws ParseException {
         Event expectedEvent = BuilderUtil.buildEventRuby();
         when(eventDao.getEvent(expectedEvent.getId())).thenReturn(null);
         doNothing().when(eventDao).removeEventTechnology(expectedEvent);
@@ -90,7 +90,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void testGetFilteredEventsSuccess() throws ParseException {
+    public void shouldGetFilteredEventsByAnyParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenReturn(expectedEvents);
@@ -100,7 +100,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void testGetFilteredEventsFail() throws ParseException {
+    public void shouldNotGetFilteredEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenThrow(Exception.class);
         EventWrapper wrapper = new EventWrapper();

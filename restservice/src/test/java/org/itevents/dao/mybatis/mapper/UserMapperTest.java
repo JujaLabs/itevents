@@ -30,14 +30,14 @@ public class UserMapperTest extends AbstractDbTest {
     private UserMapper userMapper;
 
     @Test
-    public void testGetUserSuccess() throws Exception {
+    public void shouldGetUserById() throws Exception {
         User expectedUser = BuilderUtil.buildUserGuest();
         User returnedUser = userMapper.getUser(ID_1);
         assertEquals(expectedUser, returnedUser);
     }
 
     @Test
-    public void testGetUserFail() throws Exception {
+    public void expectNullWhenUserIsAbsent() throws Exception {
         User returnedUser = userMapper.getUser(ID_0);
         assertNull(returnedUser);
     }
@@ -45,13 +45,13 @@ public class UserMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddUser() throws Exception {
+    public void shouldAddUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.addUser(testUser);
     }
 
     @Test
-    public void testGetAllUsers() throws Exception {
+    public void shouldGetAllUsers() throws Exception {
         int expectedSize = SIZE_4;
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
@@ -61,7 +61,7 @@ public class UserMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveUser() {
+    public void shouldRemoveUser() {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.removeUser(testUser);
     }
