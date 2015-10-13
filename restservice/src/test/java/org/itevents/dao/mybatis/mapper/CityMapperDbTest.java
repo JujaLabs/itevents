@@ -1,11 +1,13 @@
 package org.itevents.dao.mybatis.mapper;
 
-import com.github.springtestdbunit.annotation.*;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.City;
 import org.itevents_utils.BuilderUtil;
-import org.itevents_utils.dbunit.dataset_loader.CityReplacementDataSetLoader;
 import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -22,7 +24,6 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/CityMapperTest/CityMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoader = CityReplacementDataSetLoader.class)
 public class CityMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "CityMapperTest/";
