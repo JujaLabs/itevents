@@ -26,15 +26,16 @@ public interface TechnologyMapper extends TechnologyDao {
             "   #{name}",
             "</foreach>",
             "</script>"})
-    List<Technology> getSeveralTechnologies(@Param("names") String[] names);
+    List<Technology> getTechnologiesByNames(@Param("names") String[] names);
 
     @ResultType(Technology.class)
-    @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id WHERE et.event_id = #{eventId}")
+    @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}")
     List<Technology> getTechnologiesByEventId(int eventId);
 
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addTechnology(Technology technology);
+
 
     @Update("UPDATE technology SET name=#{name} WHERE id =#{id}")
     void updateTechnology(Technology technology);

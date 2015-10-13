@@ -31,7 +31,7 @@ public class AppTests {
     }
 
     @Test
-    public void simple() throws Exception {
+    public void shouldReturnIndexPage() throws Exception {
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));

@@ -13,7 +13,7 @@ public interface TechnologyDao {
 
     List<Technology> getAllTechnologies();
 
-    List<Technology> getSeveralTechnologies(String[] names);
+    List<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
 
