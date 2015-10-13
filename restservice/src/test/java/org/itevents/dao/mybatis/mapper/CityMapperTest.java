@@ -30,14 +30,14 @@ public class CityMapperTest extends AbstractDbTest {
     private CityMapper cityMapper;
 
     @Test
-    public void testGetCitySuccess() throws Exception {
+    public void shouldFindCityById() throws Exception {
         City expectedCity = BuilderUtil.buildCityKyiv();
         City returnedCity = cityMapper.getCity(ID_1);
         assertEquals(expectedCity, returnedCity);
     }
 
     @Test
-    public void testGetCityFail() throws Exception {
+    public void exceptNullWhenCityIsAbsent() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
     }
@@ -45,7 +45,7 @@ public class CityMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddCity() throws Exception {
+    public void shouldAddCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.addCity(testCity);
     }
@@ -54,13 +54,13 @@ public class CityMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddCity_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddExistingCity() throws Exception {
+    public void shouldThrowDuplicateKeyExceptionWhenAddExistingCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.addCity(testCity);
     }
 
     @Test
-    public void testGetAllCities() {
+    public void shouldGetAllCities() {
         int expectedSize = 4;
         int returnedSize = cityMapper.getAllCities().size();
         assertEquals(expectedSize, returnedSize);
@@ -70,7 +70,7 @@ public class CityMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_Initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveCitySuccess() {
+    public void shouldRemoveCity() {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.removeCity(testCity);
     }
@@ -78,7 +78,7 @@ public class CityMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveCityFail() {
+    public void shouldNotRemoveAbsentCity() {
         City testCity = BuilderUtil.buildCityTest();
         cityMapper.removeCity(testCity);
     }
