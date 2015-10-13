@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/CurrencyMapperTest/CurrencyMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class CurrencyMapperTest extends AbstractDbTest {
+public class CurrencyMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "CurrencyMapperTest/";
     @Inject
@@ -31,7 +31,7 @@ public class CurrencyMapperTest extends AbstractDbTest {
 
     @Test
 
-    public void shouldGetCurrencyById() throws Exception {
+    public void shouldFindCurrencyById() throws Exception {
         Currency expectedCurrency = BuilderUtil.buildCurrencyUsd();
         Currency returnedCurrency = currencyMapper.getCurrency(ID_1);
         assertEquals(expectedCurrency, returnedCurrency);

@@ -40,7 +40,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void shouldGetTechnology() throws Exception {
+    public void shouldFindTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
         Technology returnedTechnology = technologyService.getTechnology(expectedTechnology.getId());
@@ -49,7 +49,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void shouldGetTechnologiesByNames() throws Exception {
+    public void shouldFindTechnologiesByNames() throws Exception {
         String[] names = {"Java", "JavaScript"};
         technologyService.getTechnologiesByNames(names);
         verify(technologyDao).getTechnologiesByNames(names);

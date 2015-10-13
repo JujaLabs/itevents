@@ -9,11 +9,11 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vaa25 on 06.10.2015.
  */
-public class AddEventTechnologySqlBuilderUnitTest {
+public class AddEventTechnologySqlBuilderTest {
 
 
     @Test
-    public void shouldBuildSqlQueryToAddEventTechnologyJava() throws Exception {
+    public void shouldBuildSqlQueryToAddTechnologiesOfGivenEventJavaToEventTechnologyTable() throws Exception {
         String expectedSql = "INSERT INTO event_technology (event_id, technology_id) " +
                 "VALUES (-1, -1), (-1, -4), (-1, -8), (-1, -9)";
         Event event = BuilderUtil.buildEventJava();
@@ -23,7 +23,7 @@ public class AddEventTechnologySqlBuilderUnitTest {
     }
 
     @Test
-    public void shouldAddEventTechnologyRuby() throws Exception {
+    public void shouldReturnEmptyStringIfEventTechnologiesAreAbsent() throws Exception {
         String expectedSql = "";
         Event event = BuilderUtil.buildEventRuby();
         AddEventTechnologySqlBuilder builder = new AddEventTechnologySqlBuilder();

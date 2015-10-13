@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/EventMapperTest/EventMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class EventMapperTest extends AbstractDbTest {
+public class EventMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
@@ -38,7 +38,7 @@ public class EventMapperTest extends AbstractDbTest {
 
     @Test
 
-    public void testGetEventSuccess() throws Exception {
+    public void testFindEventById() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
         Event returnedEvent = eventMapper.getEvent(ID_1);
         assertEquals(expectedEvent, returnedEvent);
@@ -51,7 +51,7 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetAllEvents() throws ParseException {
+    public void shouldGetAllEvents() throws ParseException {
         int expectedSize = 7;
         int returnedSize = eventMapper.getAllEvents().size();
         Assert.assertEquals(expectedSize, returnedSize);
@@ -61,7 +61,7 @@ public class EventMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testRemoveEvent_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "EventMapperTest_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveEvent() throws ParseException {
+    public void shouldRemoveEvent() throws ParseException {
         Event removingEvent = BuilderUtil.buildEventRuby();
         eventMapper.removeEvent(removingEvent);
     }
@@ -70,7 +70,7 @@ public class EventMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddEventTechnology_expected.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addEventTechnology_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testRemoveEventTechnology() throws ParseException {
+    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws ParseException {
         Event removingEvent = BuilderUtil.buildEventRuby();
         eventMapper.removeEventTechnology(removingEvent);
     }
@@ -78,7 +78,7 @@ public class EventMapperTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddEvent_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddEvent() throws ParseException {
+    public void shouldAddEvent() throws ParseException {
         Event addingEvent = BuilderUtil.buildEventRuby();
         eventMapper.addEvent(addingEvent);
     }
@@ -87,7 +87,7 @@ public class EventMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "addEventTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddEventTechnology_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void testAddEventTechnology() throws ParseException {
+    public void shouldAddTechnologiesToEventTechnologyTable() throws ParseException {
         Event addingEvent = BuilderUtil.buildEventRuby();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
@@ -97,22 +97,22 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsEmpty() {
-        FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
+    public void shouldFindEventsWithDefaultParameters() {
+        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
         int expectedSize = 7;
         int returnedSize = eventMapper.getFilteredEvents(parameter).size();
         assertEquals(expectedSize, returnedSize);
     }
 
-    private FilteredEventsParameter getEmptyFilteredEventsParameter() {
-        FilteredEventsParameter parameter = new FilteredEventsParameter();
-        parameter.setLimit(10);
-        parameter.setOffset(0);
-        return parameter;
+    private FilteredEventsParameter getDefaultFilteredEventsParameter() {
+        FilteredEventsParameter result = new FilteredEventsParameter();
+        result.setLimit(10);
+        result.setOffset(0);
+        return result;
     }
 
     @Test
-    public void testGetFilteredEventsPage3ItemsPerPage2() throws ParseException {
+    public void shouldFindEventsWithPage3ItemsPerPage2() throws ParseException {
         EventWrapper wrapper = new EventWrapper();
         wrapper.setPage(3);
         wrapper.setItemsPerPage(2);
@@ -127,7 +127,7 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsPage30ItemsPerPageMinus2() {
+    public void shouldFindEventsWithDefaultPagination() {
         EventWrapper wrapper = new EventWrapper();
         wrapper.setPage(30);
         wrapper.setItemsPerPage(-2);
@@ -140,8 +140,8 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsKyivJava() throws ParseException {
-        FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
+    public void shouldFindEventsInKyivWithTechnologyJava() throws ParseException {
+        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(technologies);
@@ -155,8 +155,8 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsBoyarkaPayed() throws ParseException {
-        FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
+    public void shouldFindPayedEventsInBoyarka() throws ParseException {
+        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
@@ -168,12 +168,12 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsPhpAntSql() throws ParseException {
+    public void shouldFindEventsWithTechnologyPhpOrAntOrSql() throws ParseException {
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
         technologies.add(BuilderUtil.buildTechnologySql());
-        FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
+        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
         parameter.setTechnologies(technologies);
 
         List<Event> expectedEvents = new ArrayList<>();
@@ -186,7 +186,7 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetFilteredEventsInRadius() throws ParseException {
+    public void shouldFindEventsInRadiusWithGivenCenter() throws ParseException {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
@@ -195,7 +195,7 @@ public class EventMapperTest extends AbstractDbTest {
         expectedEvents.add(BuilderUtil.buildEventPhp());
         expectedEvents.add(BuilderUtil.buildEventJs());
 
-        FilteredEventsParameter parameter = getEmptyFilteredEventsParameter();
+        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
         parameter.setLatitude(testLatitude);
         parameter.setLongitude(testLongitude);
         parameter.setRadius(testRadius);

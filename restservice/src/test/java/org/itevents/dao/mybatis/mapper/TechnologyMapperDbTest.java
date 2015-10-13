@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/TechnologyMapperTest/testGetTechnologiesByEventId_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class TechnologyMapperTest extends AbstractDbTest {
+public class TechnologyMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "TechnologyMapperTest/";
     @Inject
@@ -33,7 +33,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
 
     @Test
 
-    public void shouldGetTechnologyById() throws Exception {
+    public void shouldFindTechnologyById() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
         assertEquals(expectedTechnology, returnedTechnology);
@@ -43,7 +43,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml",
             type = DatabaseOperation.DELETE_ALL)
-    public void shouldGetTechnologiesByEventId() throws Exception {
+    public void shouldFindTechnologiesInGivenEvent() throws Exception {
         List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
@@ -64,7 +64,7 @@ public class TechnologyMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetTechnologiesByName() throws Exception {
+    public void shouldFindTechnologiesByName() throws Exception {
         String[] names = {"Java", "JavaScript"};
         List<Technology> expectedTechnologies = new ArrayList<>();
         expectedTechnologies.add(BuilderUtil.buildTechnologyJavaScript());

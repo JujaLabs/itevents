@@ -25,13 +25,13 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/VisitLogMapperTest/VisitLogMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class VisitLogMapperTest extends AbstractDbTest {
+public class VisitLogMapperDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "VisitLogMapperTest/";
     @Inject
     private VisitLogMapper visitLogMapper;
 
     @Test
-    public void shouldGetVisitLogById() throws ParseException {
+    public void shouldFindVisitLogById() throws ParseException {
         VisitLog expectedVisitLog = BuilderUtil.buildVisitLogFirst();
         VisitLog returnedVisitLog = visitLogMapper.getVisitLog(ID_1);
         assertEquals(expectedVisitLog, returnedVisitLog);
@@ -43,7 +43,7 @@ public class VisitLogMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetVisitLogByEvent() throws Exception {
+    public void shouldFindVisitLogByEvent() throws Exception {
         List<VisitLog> expectedVisitLogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
         List<VisitLog> returnedVisitLogs = visitLogMapper.getVisitLogsByEvent(eventJava);

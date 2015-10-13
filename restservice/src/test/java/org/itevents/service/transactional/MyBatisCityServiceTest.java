@@ -37,7 +37,7 @@ public class MyBatisCityServiceTest {
     }
 
     @Test
-    public void shouldGetCityById() throws Exception {
+    public void shouldFindCityById() throws Exception {
         int ID_1 = 1;
         cityService.getCity(ID_1);
         verify(cityDao).getCity(ID_1);

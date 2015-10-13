@@ -22,21 +22,21 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/RoleMapperTest/RoleMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class RoleMapperTest extends AbstractDbTest {
+public class RoleMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "RoleMapperTest/";
     @Inject
     private RoleMapper roleMapper;
 
     @Test
-    public void shouldGetRoleById() throws Exception {
+    public void shouldFindRoleById() throws Exception {
         Role expectedRole = BuilderUtil.buildRoleGuest();
         Role returnedRole = roleMapper.getRole(ID_1);
         assertEquals(expectedRole, returnedRole);
     }
 
     @Test
-    public void shouldNotGetRoleWhenRoleIsAbsent() throws Exception {
+    public void shouldNotFindRoleWhenRoleIsAbsent() throws Exception {
         Role returnedRole = roleMapper.getRole(ID_0);
         assertNull(returnedRole);
     }

@@ -22,15 +22,14 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class UserMapperTest extends AbstractDbTest {
+public class UserMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "UserMapperTest/";
-    private final int SIZE_4 = 4;
     @Inject
     private UserMapper userMapper;
 
     @Test
-    public void shouldGetUserById() throws Exception {
+    public void shouldFindUserById() throws Exception {
         User expectedUser = BuilderUtil.buildUserGuest();
         User returnedUser = userMapper.getUser(ID_1);
         assertEquals(expectedUser, returnedUser);
@@ -52,7 +51,7 @@ public class UserMapperTest extends AbstractDbTest {
 
     @Test
     public void shouldGetAllUsers() throws Exception {
-        int expectedSize = SIZE_4;
+        int expectedSize = 4;
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
     }

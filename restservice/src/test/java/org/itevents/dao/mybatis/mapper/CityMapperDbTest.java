@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNull;
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/CityMapperTest/CityMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
 @DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoader = CityReplacementDataSetLoader.class)
-public class CityMapperTest extends AbstractDbTest {
+public class CityMapperDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "CityMapperTest/";
     @Inject

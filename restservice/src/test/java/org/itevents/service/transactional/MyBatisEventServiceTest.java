@@ -42,7 +42,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldGetEventById() {
+    public void shouldFindEventById() {
         int ID_1 = 1;
         eventService.getEvent(ID_1);
         verify(eventDao).getEvent(ID_1);
@@ -90,7 +90,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldGetFilteredEventsByAnyParameter() throws ParseException {
+    public void shouldFindEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenReturn(expectedEvents);
@@ -100,7 +100,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldNotGetFilteredEventsByParameter() throws ParseException {
+    public void shouldNotFindEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
         when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenThrow(Exception.class);
         EventWrapper wrapper = new EventWrapper();

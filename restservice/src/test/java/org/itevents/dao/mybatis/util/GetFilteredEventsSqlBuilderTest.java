@@ -30,14 +30,14 @@ public class GetFilteredEventsSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryWithEmptyParameters() throws Exception {
+    public void shouldBuildSqlQueryWithEmptyParametersAndPagination() throws Exception {
         String expectedSql = "SELECT * FROM event e WHERE (e.event_date > NOW()) LIMIT #{limit} OFFSET #{offset}";
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
     @Test
-    public void shouldBuildSqlQueryByDateCityIdEventIdLimitOffset() {
+    public void shouldBuildSqlQueryByDateCityIdEventIdAndPagination() {
         parameter.setCity(BuilderUtil.buildCityKyiv());
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyJava());
@@ -53,7 +53,7 @@ public class GetFilteredEventsSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryByDateCityIdPriceLimitOffset() {
+    public void shouldBuildSqlQueryByDateCityIdPriceAndPagination() {
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
@@ -66,7 +66,7 @@ public class GetFilteredEventsSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuiltSqlQueryByFewTechnologies() {
+    public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() {
 
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyPhp());
@@ -86,7 +86,7 @@ public class GetFilteredEventsSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryToGetEventsInRadius() {
+    public void shouldBuildSqlQueryWithPaginationToGetEventsInRadius() {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;

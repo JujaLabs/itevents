@@ -40,7 +40,7 @@ public class MyBatisVisitLogServiceTest {
     }
 
     @Test
-    public void shouldGetVisitlog() throws Exception {
+    public void shouldFindVisitlogById() throws Exception {
         VisitLog expectedVisitlog = BuilderUtil.buildVisitLogFirst();
         when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
         VisitLog returnedVisitlog = visitLogService.getVisitLog(expectedVisitlog.getId());
@@ -80,7 +80,7 @@ public class MyBatisVisitLogServiceTest {
     }
 
     @Test
-    public void shouldGetVisitLogByEvent() throws Exception {
+    public void shouldFindVisitLogsByEvent() throws Exception {
         List<VisitLog> expectedVisitlogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
         when(visitLogDao.getVisitLogsByEvent(eventJava)).thenReturn(expectedVisitlogs);
