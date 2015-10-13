@@ -28,5 +28,6 @@
     <include file="src/main/resources/liquibase/changeset-019-fix_regLink_in_event.xml"/>
     <include file="src/main/resources/liquibase/changeset-020-insert_data_to_visitLog.xml"/>
     <include file="src/main/resources/liquibase/changeset-021-create_table_user_event.xml"/>
+    <include file="src/main/resources/liquibase/changeset-022-insert_data_to_user_event.xml"/>
 
 </databaseChangeLog>
