@@ -37,7 +37,7 @@ public class CityMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void exceptNullWhenCityIsAbsent() throws Exception {
+    public void expectNullWhenCityIsAbsent() throws Exception {
         City returnedCity = cityMapper.getCity(ID_0);
         assertNull(returnedCity);
     }

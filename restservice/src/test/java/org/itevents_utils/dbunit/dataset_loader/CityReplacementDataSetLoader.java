@@ -6,7 +6,7 @@ package org.itevents_utils.dbunit.dataset_loader;
 public class CityReplacementDataSetLoader extends AbstractReplacementDataSetLoader {
 
     @Override
-    protected void replaceStrings() {
-        subStringReplacements.put("Kyiv", "New York");
+    protected void replace() {
+        replace("Kyiv", "New York");
     }
 }

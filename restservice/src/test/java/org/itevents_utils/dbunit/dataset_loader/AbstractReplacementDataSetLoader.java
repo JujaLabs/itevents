@@ -13,24 +13,25 @@ import java.util.Map;
  */
 public abstract class AbstractReplacementDataSetLoader implements DataSetLoader {
 
-    protected Map<Object, Object> objectReplacements;
+    private Map<Object, Object> objectReplacements;
 
-    protected Map<String, String> subStringReplacements;
+    private Map<String, String> subStringReplacements;
 
     public AbstractReplacementDataSetLoader() {
         objectReplacements = new HashMap<>();
         subStringReplacements = new HashMap<>();
-        replaceObjects();
-        replaceStrings();
+        replace();
     }
 
-    protected void replaceObjects() {
-
+    protected final void replace(Object key, Object value) {
+        if (key instanceof String && value instanceof String) {
+            subStringReplacements.put((String) key, (String) value);
+        } else {
+            objectReplacements.put(key, value);
+        }
     }
 
-    protected void replaceStrings() {
-
-    }
+    protected abstract void replace();
 
     public IDataSet loadDataSet(Class<?> testClass, String location) throws Exception {
         IDataSet dataSet = new FlatXmlDataSetLoader().loadDataSet(testClass, location);
