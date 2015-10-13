@@ -45,7 +45,7 @@ public class EventMapperTest extends AbstractDbTest {
     }
 
     @Test
-    public void testGetEventFail() {
+    public void expectNullWhenEventIsAbsent() {
         Event returnedEvent = eventMapper.getEvent(ID_0);
         assertNull(returnedEvent);
     }
