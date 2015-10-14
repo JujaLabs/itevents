@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="025" author="garazd">
+        <sql>
+            CREATE TABLE users_authorization (
+            id SERIAL UNIQUE PRIMARY KEY NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            activation VARCHAR(255) UNIQUE NOT NULL,
+            status BOOLEAN NOT NULL DEFAULT FALSE);
+        </sql>
+        <rollback>
+            DROP TABLE users_authorization;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
