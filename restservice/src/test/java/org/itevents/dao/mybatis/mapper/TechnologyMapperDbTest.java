@@ -44,7 +44,11 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
     @DatabaseTearDown(value = TEST_PATH + "testGetTechnologiesByEventId_initial.xml",
             type = DatabaseOperation.DELETE_ALL)
     public void shouldFindTechnologiesInGivenEvent() throws Exception {
-        List<Technology> expectedTechnologies = BuilderUtil.buildEventJava().getTechnologies();
+        List<Technology> expectedTechnologies = new ArrayList<>();
+        expectedTechnologies.add(BuilderUtil.buildTechnologyMyBatis());
+        expectedTechnologies.add(BuilderUtil.buildTechnologySpring());
+        expectedTechnologies.add(BuilderUtil.buildTechnologyLiquibase());
+        expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
 

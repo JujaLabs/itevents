@@ -177,9 +177,9 @@ public class EventMapperDbTest extends AbstractDbTest {
         parameter.setTechnologies(technologies);
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(BuilderUtil.buildEventDelphi());
-        expectedEvents.add(BuilderUtil.buildEventCplus());
         expectedEvents.add(BuilderUtil.buildEventJs());
+        expectedEvents.add(BuilderUtil.buildEventCplus());
+        expectedEvents.add(BuilderUtil.buildEventDelphi());
 
         List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
