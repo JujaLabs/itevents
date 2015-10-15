@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
+import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
@@ -43,14 +45,21 @@ public class VisitLogRestController {
         try {
             headers.setLocation(new URL(event.getRegLink()).toURI());
         } catch (Exception e) {
-            logger.error("Exception :", e);
+            logger.error("Invalid event URL : " + event.getRegLink(), e);
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         User user = getUserFromSession();
-        VisitLog visitLog = new VisitLog(event, user);
-        visitLog.setDate(new GregorianCalendar().getTime());
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .setEvent(event)
+                .setUser(user)
+                .setDate(getCurrentDate())
+                .build();
         visitLogService.addVisitLog(visitLog);
         return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+    private Date getCurrentDate() {
+        return new GregorianCalendar().getTime();
     }
 
     private User getUserFromSession() {
