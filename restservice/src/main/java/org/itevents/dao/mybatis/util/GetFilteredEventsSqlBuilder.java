@@ -31,7 +31,7 @@ public class GetFilteredEventsSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
-        }}.toString() + " LIMIT #{limit} OFFSET #{offset}";
+        }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
     }
 
     private String makeJoin(FilteredEventsParameter params) {

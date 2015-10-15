@@ -1,4 +1,4 @@
-package org.itevents_utils.dbunit;
+package org.itevents.test_utils.dbunit;
 
 import org.dbunit.dataset.datatype.TypeCastException;
 import org.dbunit.ext.postgresql.GeometryType;

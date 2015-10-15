@@ -1,4 +1,4 @@
-package org.itevents_utils;
+package org.itevents.test_utils;
 
 import org.itevents.model.Location;
 import org.postgis.Geometry;

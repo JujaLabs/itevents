@@ -1,4 +1,4 @@
-package org.itevents_utils.dbunit;
+package org.itevents.test_utils.dbunit;
 
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;

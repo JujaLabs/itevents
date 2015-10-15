@@ -1,4 +1,4 @@
-package org.itevents_utils.dbunit.dataset_loader;
+package org.itevents.test_utils.dbunit.dataset_loader;
 
 import com.github.springtestdbunit.dataset.DataSetLoader;
 import com.github.springtestdbunit.dataset.FlatXmlDataSetLoader;

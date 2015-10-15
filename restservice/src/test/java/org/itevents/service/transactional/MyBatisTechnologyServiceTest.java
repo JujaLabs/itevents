@@ -3,7 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.TechnologyDao;
 import org.itevents.model.Technology;
 import org.itevents.service.TechnologyService;
-import org.itevents_utils.BuilderUtil;
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

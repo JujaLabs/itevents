@@ -21,11 +21,11 @@ public interface VisitLogMapper extends VisitLogDao {
     VisitLog getVisitLog(int id);
 
     @ResultMap("getVisitLog-int")
-    @Select("SELECT * FROM visit_log")
+    @Select("SELECT * FROM visit_log ORDER BY date")
     List<VisitLog> getAllVisitLogs();
 
     @ResultMap("getVisitLog-int")
-    @Select("SELECT * FROM visit_log WHERE event_id = #{id}")
+    @Select("SELECT * FROM visit_log WHERE event_id = #{id} ORDER BY date")
     List<VisitLog> getVisitLogsByEvent(Event event);
 
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")

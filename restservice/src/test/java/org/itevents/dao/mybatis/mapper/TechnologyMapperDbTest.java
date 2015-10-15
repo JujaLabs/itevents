@@ -7,7 +7,7 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Technology;
-import org.itevents_utils.BuilderUtil;
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -45,10 +45,10 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
             type = DatabaseOperation.DELETE_ALL)
     public void shouldFindTechnologiesInGivenEvent() throws Exception {
         List<Technology> expectedTechnologies = new ArrayList<>();
+        expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
+        expectedTechnologies.add(BuilderUtil.buildTechnologyLiquibase());
         expectedTechnologies.add(BuilderUtil.buildTechnologyMyBatis());
         expectedTechnologies.add(BuilderUtil.buildTechnologySpring());
-        expectedTechnologies.add(BuilderUtil.buildTechnologyLiquibase());
-        expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByEventId(ID_1);
         assertEquals(expectedTechnologies, returnedTechnologies);
 
@@ -71,8 +71,8 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
     public void shouldFindTechnologiesByName() throws Exception {
         String[] names = {"Java", "JavaScript"};
         List<Technology> expectedTechnologies = new ArrayList<>();
-        expectedTechnologies.add(BuilderUtil.buildTechnologyJavaScript());
         expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
+        expectedTechnologies.add(BuilderUtil.buildTechnologyJavaScript());
         List<Technology> returnedTechnologies = technologyMapper.getTechnologiesByNames(names);
         assertEquals(expectedTechnologies, returnedTechnologies);
     }

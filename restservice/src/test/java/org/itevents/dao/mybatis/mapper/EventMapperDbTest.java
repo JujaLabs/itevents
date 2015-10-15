@@ -10,8 +10,8 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.converter.EventConverter;
+import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
-import org.itevents_utils.BuilderUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -119,8 +119,8 @@ public class EventMapperDbTest extends AbstractDbTest {
         FilteredEventsParameter parameter = new EventConverter().convert(wrapper);
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(BuilderUtil.buildEventObjectiveC());
-        expectedEvents.add(BuilderUtil.buildEventCsharp());
+        expectedEvents.add(BuilderUtil.buildEventCplus());
+        expectedEvents.add(BuilderUtil.buildEventPhp());
 
         List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
@@ -177,9 +177,9 @@ public class EventMapperDbTest extends AbstractDbTest {
         parameter.setTechnologies(technologies);
 
         List<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(BuilderUtil.buildEventJs());
-        expectedEvents.add(BuilderUtil.buildEventCplus());
         expectedEvents.add(BuilderUtil.buildEventDelphi());
+        expectedEvents.add(BuilderUtil.buildEventCplus());
+        expectedEvents.add(BuilderUtil.buildEventJs());
 
         List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);

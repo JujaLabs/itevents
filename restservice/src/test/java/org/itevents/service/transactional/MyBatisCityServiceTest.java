@@ -3,7 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.CityDao;
 import org.itevents.model.City;
 import org.itevents.service.CityService;
-import org.itevents_utils.BuilderUtil;
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

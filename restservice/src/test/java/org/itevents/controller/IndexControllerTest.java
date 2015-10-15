@@ -1,4 +1,4 @@
-package org.itevents;
+package org.itevents.controller;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml",
         "classpath*:mvc-dispatcher-servlet.xml"})
 @WebAppConfiguration
-public class AppTests {
+public class IndexControllerTest {
     @Inject
     private WebApplicationContext context;
     private MockMvc mvc;

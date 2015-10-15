@@ -21,7 +21,7 @@ public interface UserMapper extends UserDao {
     User getUser(int id);
 
     @ResultMap("getUser-int")
-    @Select("SELECT * FROM user_profile")
+    @Select("SELECT * FROM user_profile ORDER BY login")
     List<User> getAllUsers();
 
     @Insert("INSERT INTO user_profile (login, password, role_id) VALUES(#{login}, #{password}, #{role.id})")

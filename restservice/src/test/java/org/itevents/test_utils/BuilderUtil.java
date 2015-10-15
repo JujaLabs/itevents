@@ -1,4 +1,4 @@
-package org.itevents_utils;
+package org.itevents.test_utils;
 
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
@@ -54,8 +54,8 @@ public class BuilderUtil {
         List<Technology> technologies = new ArrayList<>();
         technologies.add(buildTechnologyJava());
         technologies.add(buildTechnologyLiquibase());
-        technologies.add(buildTechnologySpring());
         technologies.add(buildTechnologyMyBatis());
+        technologies.add(buildTechnologySpring());
         return EventBuilder.anEvent()
                 .setTitle("Java")
                 .setEventDate(parseDate("10.07.2115"))
@@ -386,9 +386,9 @@ public class BuilderUtil {
 
     public static List<VisitLog> buildListVisitLogJava() throws ParseException {
         List<VisitLog> result = new ArrayList<>();
-        result.add(buildVisitLogSeventh());
         result.add(buildVisitLogSecond());
         result.add(buildVisitLogFirst());
+        result.add(buildVisitLogSeventh());
         return result;
     }
 }
