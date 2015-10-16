@@ -29,70 +29,70 @@ public class EventBuilder {
         return new EventBuilder();
     }
 
-    public EventBuilder setId(int id) {
+    public EventBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public EventBuilder setTitle(String title) {
+    public EventBuilder title(String title) {
         this.title = title;
         return this;
     }
 
-    public EventBuilder setEventDate(Date eventDate) {
+    public EventBuilder eventDate(Date eventDate) {
         this.eventDate = eventDate;
         return this;
     }
 
-    public EventBuilder setCreateDate(Date createDate) {
+    public EventBuilder сreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public EventBuilder setRegLink(String regLink) {
+    public EventBuilder regLink(String regLink) {
         this.regLink = regLink;
         return this;
     }
 
-    public EventBuilder setAddress(String address) {
+    public EventBuilder address(String address) {
         this.address = address;
         return this;
     }
 
-    public EventBuilder setLocation(Location location) {
+    public EventBuilder location(Location location) {
         this.location = location;
         return this;
     }
 
-    public EventBuilder setContact(String contact) {
+    public EventBuilder сontact(String contact) {
         this.contact = contact;
         return this;
     }
 
-    public EventBuilder setPrice(Integer price) {
+    public EventBuilder price(Integer price) {
         this.price = price;
         return this;
     }
 
-    public EventBuilder setCurrency(Currency currency) {
+    public EventBuilder сurrency(Currency currency) {
         this.currency = currency;
         return this;
     }
 
-    public EventBuilder setCity(City city) {
+    public EventBuilder сity(City city) {
         this.city = city;
         return this;
     }
 
-    public EventBuilder setTechnologies(List<Technology> technologies) {
+    public EventBuilder technologies(List<Technology> technologies) {
         this.technologies = technologies;
         return this;
     }
 
     public EventBuilder but() {
-        return anEvent().setId(id).setTitle(title).setEventDate(eventDate).setCreateDate(createDate).setRegLink(regLink)
-                .setAddress(address).setLocation(location).setContact(contact).setPrice(price).setCurrency(currency)
-                .setCity(city).setTechnologies(technologies);
+        return anEvent().id(id).title(title).eventDate(eventDate).сreateDate(createDate).regLink(regLink)
+                .address(address).location(location).сontact(contact).price(price).сurrency(currency)
+                .сity(city).technologies(technologies);
     }
 
     public Event build() {

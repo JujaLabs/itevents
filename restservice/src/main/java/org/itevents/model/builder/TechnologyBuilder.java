@@ -16,18 +16,18 @@ public class TechnologyBuilder {
         return new TechnologyBuilder();
     }
 
-    public TechnologyBuilder setId(int id) {
+    public TechnologyBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public TechnologyBuilder setName(String name) {
+    public TechnologyBuilder name(String name) {
         this.name = name;
         return this;
     }
 
     public TechnologyBuilder but() {
-        return aTechnology().setId(id).setName(name);
+        return aTechnology().id(id).name(name);
     }
 
     public Technology build() {

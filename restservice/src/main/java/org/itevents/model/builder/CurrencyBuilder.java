@@ -16,18 +16,18 @@ public class CurrencyBuilder {
         return new CurrencyBuilder();
     }
 
-    public CurrencyBuilder setId(int id) {
+    public CurrencyBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public CurrencyBuilder setName(String name) {
+    public CurrencyBuilder name(String name) {
         this.name = name;
         return this;
     }
 
     public CurrencyBuilder but() {
-        return aCurrency().setId(id).setName(name);
+        return aCurrency().id(id).name(name);
     }
 
     public Currency build() {

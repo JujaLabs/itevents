@@ -19,28 +19,28 @@ public class CityBuilder {
         return new CityBuilder();
     }
 
-    public CityBuilder setId(int id) {
+    public CityBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public CityBuilder setName(String name) {
+    public CityBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public CityBuilder setDetails(String details) {
+    public CityBuilder details(String details) {
         this.details = details;
         return this;
     }
 
-    public CityBuilder setLocation(Location location) {
+    public CityBuilder location(Location location) {
         this.location = location;
         return this;
     }
 
     public CityBuilder but() {
-        return aCity().setId(id).setName(name).setDetails(details).setLocation(location);
+        return aCity().id(id).name(name).details(details).location(location);
     }
 
     public City build() {

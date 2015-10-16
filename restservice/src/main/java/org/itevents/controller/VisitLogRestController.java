@@ -11,7 +11,6 @@ import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,23 +39,29 @@ public class VisitLogRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{event_id}/register")
     @ApiOperation(value = "Redirects to to given event page")
-    public ResponseEntity redirectToEventSite(@PathVariable("event_id") int eventId) {
+    public ResponseEntity<String> redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        HttpHeaders headers = new HttpHeaders();
-        try {
-            headers.setLocation(new URL(event.getRegLink()).toURI());
-        } catch (Exception e) {
-            logger.error("Invalid event URL : " + event.getRegLink(), e);
+        if (isValid(event)) {
+            User user = getUserFromSecurityContext();
+            VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                    .event(event)
+                    .user(user)
+                    .date(getCurrentDate())
+                    .build();
+            visitLogService.addVisitLog(visitLog);
+            return new ResponseEntity(event.getRegLink(), HttpStatus.OK);
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        User user = getUserFromSecurityContext();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog()
-                .setEvent(event)
-                .setUser(user)
-                .setDate(getCurrentDate())
-                .build();
-        visitLogService.addVisitLog(visitLog);
-        return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
+
+    private boolean isValid(Event event) {
+        try {
+            return event != null && new URL(event.getRegLink()).toURI() != null;
+        } catch (Exception e) {
+            logger.error("Invalid event URL : " + event.getRegLink(), e);
+            return false;
+        }
     }
 
     private Date getCurrentDate() {

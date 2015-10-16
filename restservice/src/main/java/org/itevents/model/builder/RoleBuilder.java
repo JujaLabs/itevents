@@ -16,18 +16,18 @@ public class RoleBuilder {
         return new RoleBuilder();
     }
 
-    public RoleBuilder setId(int id) {
+    public RoleBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public RoleBuilder setName(String name) {
+    public RoleBuilder name(String name) {
         this.name = name;
         return this;
     }
 
     public RoleBuilder but() {
-        return aRole().setId(id).setName(name);
+        return aRole().id(id).name(name);
     }
 
     public Role build() {

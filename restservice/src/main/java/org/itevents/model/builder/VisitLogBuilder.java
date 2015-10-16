@@ -22,28 +22,28 @@ public class VisitLogBuilder {
         return new VisitLogBuilder();
     }
 
-    public VisitLogBuilder setId(int id) {
+    public VisitLogBuilder id(int id) {
         this.id = id;
         return this;
     }
 
-    public VisitLogBuilder setEvent(Event event) {
+    public VisitLogBuilder event(Event event) {
         this.event = event;
         return this;
     }
 
-    public VisitLogBuilder setDate(Date date) {
+    public VisitLogBuilder date(Date date) {
         this.date = date;
         return this;
     }
 
-    public VisitLogBuilder setUser(User user) {
+    public VisitLogBuilder user(User user) {
         this.user = user;
         return this;
     }
 
     public VisitLogBuilder but() {
-        return aVisitLog().setId(id).setEvent(event).setDate(date).setUser(user);
+        return aVisitLog().id(id).event(event).date(date).user(user);
     }
 
     public VisitLog build() {
