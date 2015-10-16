@@ -20,10 +20,6 @@ public class Currency implements Serializable {
     public Currency() {
     }
 
-    public Currency(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }

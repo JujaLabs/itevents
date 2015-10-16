@@ -1,14 +1,18 @@
 package org.itevents.dao.mybatis.util;
 
 import org.apache.ibatis.jdbc.SQL;
+import org.itevents.model.Technology;
 import org.itevents.parameter.FilteredEventsParameter;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class GetFilteredEventsSqlBuilder {
 
     public String getFilteredEvents(final FilteredEventsParameter params) {
         return new SQL() {{
             SELECT("*");
-            FROM("events e");
+            FROM("event e");
             WHERE("e.event_date > NOW()");
             if (params.getCity() != null) {
                 WHERE("city_id = #{city.id}");
@@ -27,16 +31,18 @@ public class GetFilteredEventsSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
-        }}.toString() + " LIMIT #{limit} OFFSET #{offset}";
+        }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
     }
 
     private String makeJoin(FilteredEventsParameter params) {
         StringBuilder sb = new StringBuilder();
         sb.append("event_technology et ON ");
-        for (int i = 0; i < params.getTechnologies().size(); i++) {
+        List<Technology> technologies = params.getTechnologies();
+        Iterator<Technology> iterator = technologies.iterator();
+        while (iterator.hasNext()) {
             sb.append("et.technology_id=");
-            sb.append(params.getTechnologies().get(i).getId());
-            if (i < (params.getTechnologies().size() - 1)) {
+            sb.append(iterator.next().getId());
+            if (iterator.hasNext()) {
                 sb.append(" or ");
             }
         }

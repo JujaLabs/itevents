@@ -24,12 +24,6 @@ public class City implements Serializable {
     public City() {
     }
 
-    public City(String name, String details, Location location) {
-        this.name = name;
-        this.details = details;
-        this.location = location;
-    }
-
     public int getId() {
         return id;
     }

@@ -13,9 +13,13 @@ public interface EventDao {
 
     void addEvent(Event event);
 
+    void addEventTechnology(Event event);
+
     void updateEvent(Event event);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
+
+    void removeEventTechnology(Event event);
 }

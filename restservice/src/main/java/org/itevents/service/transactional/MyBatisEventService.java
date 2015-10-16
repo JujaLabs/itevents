@@ -28,6 +28,7 @@ public class MyBatisEventService implements EventService {
     @Override
     public void addEvent(Event event) {
         eventDao.addEvent(event);
+        eventDao.addEventTechnology(event);
     }
 
     @Override
@@ -44,6 +45,7 @@ public class MyBatisEventService implements EventService {
     public Event removeEvent(Event event) {
         Event deletingEvent = eventDao.getEvent(event.getId());
         if (deletingEvent != null) {
+            eventDao.removeEventTechnology(event);
             eventDao.removeEvent(event);
         }
         return deletingEvent;
@@ -55,7 +57,7 @@ public class MyBatisEventService implements EventService {
         try {
             result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
-            logger.error("Exception :", e);
+            logger.error("getFilteredEvents Exception :", e.getStackTrace());
             result = new ArrayList<>();
         }
         return result;
