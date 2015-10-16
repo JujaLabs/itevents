@@ -56,7 +56,7 @@ dependencies {
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 Properties testProps = new Properties()
-testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/test-local.properties"))
+testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
 
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
 stopPort = Integer.valueOf(props.getProperty('stopPort'));
