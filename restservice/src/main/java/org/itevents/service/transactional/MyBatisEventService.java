@@ -45,13 +45,13 @@ public class MyBatisEventService implements EventService {
 
     @Override
 //    @PreAuthorize("isAuthenticated()")
-    public String WillGo(int id) {
+    public String WillGo(int id, int userID) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
             Event event = eventDao.getEvent(id);
-            User user = userDao.getUser(1);
+            User user = userDao.getUser(userID);
             if (new Date().after(event.getEventDate())){
                 eventDao.willGoToEvent(user, event);
             }else return "Event date passed";
@@ -63,13 +63,13 @@ public class MyBatisEventService implements EventService {
 
     @Override
 //    @PreAuthorize("isAuthenticated()")
-    public String WillNotGo(int id) {
+    public String WillNotGo(int id, int userID) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
             Event event = eventDao.getEvent(id);
-            User user = userDao.getUser(1);
+            User user = userDao.getUser(userID);
             eventDao.willNotGoToEvent(user, event);
         }catch (Exception e) {
             return "Something went wrong. May be already unsubscribed";
@@ -86,11 +86,6 @@ public class MyBatisEventService implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
-    }
-
-    @Override
-    public List<Event> getEventsInRadius(Location location, int radius) {
-        return eventDao.getEventsInRadius(location, radius);
     }
 
     @Override

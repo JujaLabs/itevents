@@ -2,9 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Event;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +38,18 @@ public interface UserMapper extends UserDao {
     void removeUser(User user);
 
 //    @PreAuthorize("isAuthenticated()")
-//    @Results(value = {
-//    @Result(property = "events", column = "event_id", javaType = ArrayList.class,
-//            one = @One(select = "org.itevents.dao.mybatis.mapper.EventMapper.getEvent"))
-//    })
-    @ResultMap("getUser-int")
-    @Select("SELECT * FROM user_event WHERE user_id = #{user.id}")
+@Results(value = {
+        @Result(property = "id", column = "id", id = true),
+        @Result(property = "eventDate", column = "event_date"),
+        @Result(property = "createDate", column = "create_date"),
+        @Result(property = "regLink", column = "reg_link"),
+        @Result(property = "location", column = "id", javaType = Location.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.selectLocation")),
+        @Result(property = "currency", column = "currency_id", javaType = Currency.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
+        @Result(property = "city", column = "city_id", javaType = City.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity"))
+})
+    @Select("SELECT * FROM events e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);
 }

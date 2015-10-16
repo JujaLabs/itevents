@@ -1,7 +1,6 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.model.User;
 import org.itevents.wrapper.EventWrapper;
 
@@ -15,15 +14,13 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsInRadius(Location location, int radius);
-
     Event removeEvent(Event event);
 
     List<Event> getFilteredEvents(EventWrapper wrapper);
 
-    String WillGo(int id);
+    String WillGo(int id, int userID);
 
-    String WillNotGo(int id);
+    String WillNotGo(int id, int userID);
 
     List<User> getVisitors(int id);
 }
