@@ -305,6 +305,13 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static Role buildRoleSubscriber() {
+        return RoleBuilder.aRole()
+                .setName("subscriber")
+                .setId(-3)
+                .build();
+    }
+
     public static Role buildRoleTest() {
         return RoleBuilder.aRole()
                 .setName("testRole")
@@ -339,12 +346,30 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static User buildUserVlasov() {
+        return UserBuilder.anUser()
+                .login("vlasov@email.com")
+                .password("alex")
+                .role(buildRoleSubscriber())
+                .id(-4)
+                .build();
+    }
+
     public static User buildUserTest() {
         return UserBuilder.anUser()
                 .login("testUser")
                 .password("testUserPassword")
                 .role(buildRoleGuest())
                 .id(-5)
+                .build();
+    }
+
+    public static User buildSubscriberTest() {
+        return UserBuilder.anUser()
+                .login("testSubscriber")
+                .password("testSubscriberPassword")
+                .role(buildRoleSubscriber())
+                .id(-6)
                 .build();
     }
 
@@ -391,4 +416,6 @@ public class BuilderUtil {
         result.add(buildVisitLogSeventh());
         return result;
     }
+
+
 }

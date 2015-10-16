@@ -5,5 +5,10 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="dbUnitDatabaseConnection" class="org.itevents.test_utils.dbunit.DbUnitDatabaseConnection"/>
-
+    <bean id="userService" class="org.mockito.Mockito" factory-method="mock" scope="singleton">
+        <constructor-arg value="org.itevents.service.UserService"/>
+    </bean>
+    <bean id="roleService" class="org.mockito.Mockito" factory-method="mock" scope="singleton">
+        <constructor-arg value="org.itevents.service.RoleService"/>
+    </bean>
 </beans>
