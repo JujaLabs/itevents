@@ -1,6 +1,5 @@
 package org.itevents.dao;
 
-import org.itevents.model.Filter;
 import org.itevents.model.User;
 
 import java.util.List;
@@ -19,10 +18,4 @@ public interface UserDao {
     void addUser(User user);
 
     void removeUser(User user);
-
-    void putFilter(User user, Filter filter);
-
-    void removeFilter(User user);
-
-    Filter getFilter(User user);
 }

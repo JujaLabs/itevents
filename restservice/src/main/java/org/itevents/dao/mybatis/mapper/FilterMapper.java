@@ -1,9 +1,10 @@
 package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.itevents.dao.mybatis.FilterDao;
+import org.itevents.dao.FilterDao;
 import org.itevents.model.City;
 import org.itevents.model.Filter;
+import org.itevents.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public interface FilterMapper extends FilterDao {
     Filter getFilter(int id);
 
     @ResultMap("getFilter-int")
+    @Select("SELECT * FROM filter f JOIN user_filter uf ON f.id=uf.filter_id AND uf.user_id = #{id}")
+    Filter getFilterByUser(User user);
+
+    @ResultMap("getFilter-int")
     @Select("SELECT * FROM filter ORDER BY id")
     List<Filter> getAllFilters();
 
@@ -35,4 +40,15 @@ public interface FilterMapper extends FilterDao {
 
     @Delete("DELETE FROM filter WHERE id = #{id}")
     void removeFilter(Filter filter);
+
+    @Delete("DELETE FROM user_filter WHERE user_id = #{id}")
+    void removeFilterFromUser(User user);
+
+    @Update("UPDATE filter SET limit =#{newFilter.limit}, city_id =#{newFilter.city_id}, free =#{newFilter.free}, " +
+            "longitude =#{newFilter.longitude}, latitude =#{newFilter.latitude}, radius =#{newFilter.radius} " +
+            "WHERE id=#{oldFilter.id")
+    void updateFilter(Filter oldFilter, Filter newFilter);
+
+    @Insert("INSERT INTO user_filter (user_id, filter_id) VALUES (#{user.id}, #{filter.id})")
+    void addUserFilter(User user, Filter filter);
 }
