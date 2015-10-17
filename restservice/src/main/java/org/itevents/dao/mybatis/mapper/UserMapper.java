@@ -32,6 +32,6 @@ public interface UserMapper extends UserDao {
     @Options(useGeneratedKeys = true)
     void addUser(User user);
 
-    @Delete("DELETE FROM user_profile WHERE id =#{id}")
+    @Delete("DELETE FROM user_profile WHERE id = #{id}")
     void removeUser(User user);
 }

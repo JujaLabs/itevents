@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
-import org.itevents.service.FilterService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.wrapper.FilterWrapper;
@@ -26,13 +25,11 @@ public class SubscriptionRestController {
 
     @Inject
     private UserService userService;
-    @Inject
-    private FilterService filterService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")
     @ApiOperation(value = "Reset filter for authorized user")
     public ResponseEntity resetFilter() {
-        if (filterService.removeFilter(userService.getAuthorizedUser()) == null) {
+        if (userService.removeFilter(userService.getAuthorizedUser()) == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity(HttpStatus.OK);
@@ -44,7 +41,7 @@ public class SubscriptionRestController {
     public ResponseEntity setFilter(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
         User user = userService.getAuthorizedUser();
-        filterService.putFilter(user, filter);
+        userService.putFilter(user, filter);
         return new ResponseEntity(HttpStatus.OK);
         //todo try catch for possible exceptions
 
