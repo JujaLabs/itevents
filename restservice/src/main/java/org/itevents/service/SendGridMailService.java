@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * Created by max on 29.07.15.
  */
 @Service
-public class MailServiceDelivery implements MailService {
+public class SendGridMailService implements MailService {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String FROM_MAIL = "events@juja.com.ua";
