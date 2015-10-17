@@ -4,11 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.mybatis.util.AddEventTechnologySqlBuilder;
 import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
-import org.itevents.model.City;
-import org.itevents.model.Currency;
-import org.itevents.model.Event;
-import org.itevents.model.Location;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +55,5 @@ public interface EventMapper extends EventDao {
 
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    List<Event> getFilteredEvents(Filter params);
 }

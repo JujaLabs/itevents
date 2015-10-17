@@ -1,14 +1,11 @@
-package org.itevents.parameter;
-
-import org.itevents.model.City;
-import org.itevents.model.Technology;
+package org.itevents.model;
 
 import java.util.List;
 
 /**
  * Created by vaa25 on 28.07.2015.
  */
-public class FilteredEventsParameter {
+public class Filter {
 
     private Integer offset;
     private Integer limit;
