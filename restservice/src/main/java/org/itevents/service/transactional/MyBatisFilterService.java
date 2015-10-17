@@ -1,7 +1,6 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.FilterDao;
-import org.itevents.dao.UserDao;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.FilterService;
@@ -11,14 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 
-@Service("cityService")
+@Service("filterService")
 @Transactional
 public class MyBatisFilterService implements FilterService {
 
     @Inject
     private FilterDao filterDao;
-    @Inject
-    private UserDao userDao;
 
     @Override
     public void addFilter(Filter filter) {

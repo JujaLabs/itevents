@@ -13,7 +13,7 @@ public interface LocationMapper extends LocationDao {
             @Result(property = "latitude", column = "latitude")
     })
     @Select("SELECT ST_X(point) AS longitude, ST_Y(point) AS latitude FROM event WHERE id = #{id}")
-    Location selectLocation(int id);
+    Location getEventLocation(int id);
 
     @Results({
             @Result(property = "longitude", column = "longitude"),

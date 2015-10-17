@@ -36,14 +36,14 @@ public class VisitLogRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
         User user = BuilderUtil.buildUserGuest();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(userService.getAuthorizedUser()).thenReturn(user);
         VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(user).build();
         doNothing().when(visitLogService).addVisitLog(visitLog);
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
         verify(eventService).getEvent(event.getId());
-        verify(userService).getUserByName(user.getLogin());
+        verify(userService).getAuthorizedUser();
         verify(visitLogService).addVisitLog(any(VisitLog.class));
     }
 
