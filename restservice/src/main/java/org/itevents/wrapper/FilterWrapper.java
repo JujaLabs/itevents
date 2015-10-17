@@ -3,7 +3,7 @@ package org.itevents.wrapper;
 /**
  * Created by vaa25 on 14.09.2015.
  */
-public class EventWrapper {
+public class FilterWrapper {
 
     private Integer page;
     private Integer itemsPerPage;

@@ -5,7 +5,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,7 +94,7 @@ public class MyBatisEventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(expectedEvents);
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
@@ -103,7 +103,7 @@ public class MyBatisEventServiceTest {
     public void shouldNotFindEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
         when(eventDao.getFilteredEvents(any(Filter.class))).thenThrow(Exception.class);
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         List<Event> returnedEvents = eventService.getFilteredEvents(wrapper);
         assertEquals(expectedEvents, returnedEvents);
     }
