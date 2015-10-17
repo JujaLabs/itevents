@@ -3,6 +3,8 @@ package org.itevents.service.transactional;
 import org.itevents.dao.UserDao;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,12 @@ public class MyBatisUserService implements UserService {
     @Override
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated")
+    public User getAuthorizedUser() {
+        return getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @Override

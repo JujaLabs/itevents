@@ -13,7 +13,6 @@ import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +41,7 @@ public class VisitLogRestController {
     public ResponseEntity<String> redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         if (isValid(event)) {
-            User user = getUserFromSecurityContext();
+            User user = userService.getAuthorizedUser();
             VisitLog visitLog = VisitLogBuilder.aVisitLog()
                     .event(event)
                     .user(user)
@@ -66,9 +65,5 @@ public class VisitLogRestController {
 
     private Date getCurrentDate() {
         return new GregorianCalendar().getTime();
-    }
-
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

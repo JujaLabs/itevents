@@ -14,6 +14,8 @@ public interface UserService {
 
     User getUserByName(String name);
 
+    User getAuthorizedUser();
+
     List<User> getAllUsers();
 
     User removeUser(User user);
