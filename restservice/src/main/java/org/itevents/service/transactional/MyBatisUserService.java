@@ -34,7 +34,7 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated")
+    @PreAuthorize("isAuthenticated()")
     public User getAuthorizedUser() {
         return getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }

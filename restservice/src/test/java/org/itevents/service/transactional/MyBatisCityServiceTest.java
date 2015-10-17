@@ -57,7 +57,7 @@ public class MyBatisCityServiceTest {
     }
 
     @Test
-    public void shouldRemoveCitySuccess() {
+    public void shouldRemoveCity() {
         City expectedCity = BuilderUtil.buildCityTest();
         when(cityDao.getCity(expectedCity.getId())).thenReturn(expectedCity);
         doNothing().when(cityDao).removeCity(expectedCity);

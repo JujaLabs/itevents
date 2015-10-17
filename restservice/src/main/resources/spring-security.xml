@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="org.itevents.security"/>
+    <global-method-security pre-post-annotations="enabled"/>
     <http realm="itevents" use-expressions="true"
           entry-point-ref="restAuthenticationEntryPoint">
         <csrf disabled="true"/>
@@ -26,7 +27,6 @@
                 success-handler-ref="logoutSuccessHandler"/>
         <anonymous username="guest"/>
     </http>
-
     <beans:bean id="authenticationFailureHandler"
                 class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
     <beans:bean id="logoutSuccessHandler"
