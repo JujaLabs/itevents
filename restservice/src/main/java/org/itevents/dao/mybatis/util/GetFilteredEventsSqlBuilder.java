@@ -22,7 +22,7 @@ public class GetFilteredEventsSqlBuilder {
             }
             if (params.getFree() != null) {
                 if (params.getFree() == true) {
-                    WHERE("(price = null OR price = 0)");
+                    WHERE("(price IS NULL OR price = 0)");
                 } else {
                     WHERE("price > 0");
                 }
