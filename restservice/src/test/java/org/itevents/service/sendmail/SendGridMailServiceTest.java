@@ -3,7 +3,6 @@ package org.itevents.service.sendmail;
 import com.sendgrid.SendGrid;
 import static org.junit.Assert.*;
 
-import org.itevents.service.sendmail.SendGridMailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
