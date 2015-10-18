@@ -4,8 +4,7 @@ import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.service.MailService;
-import org.junit.Assert;
+import org.itevents.mailer.utils.MailBuilderUtil;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -18,7 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class MailServiceTest {
+public class MailUtilTest {
     @Test
     public void testGetEventById() throws JAXBException, ParseException, IOException, TransformerException {
         SimpleDateFormat formatter =  new SimpleDateFormat("dd.MM.yyyy");
@@ -50,8 +49,8 @@ public class MailServiceTest {
                 "</body>\n" +
                 "</html>\n";
 
-        MailService mailService = new MailService();
-        String generatedHtml = mailService.buildHtmlFromEventList(events);
+        MailBuilderUtil mailBuilderUtil = new MailBuilderUtil();
+        String generatedHtml = mailBuilderUtil.buildHtmlFromEventList(events);
         assertEquals(expectedHTML, generatedHtml);
     }
 }

@@ -1,13 +1,9 @@
-package org.itevents.service;
+package org.itevents.mailer.utils;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.util.ResourceUtils;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -18,29 +14,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MailService {
+public class MailBuilderUtil {
 
-    public String buildHtmlFromEventList(List<Event> events) throws ParseException, JAXBException, IOException, TransformerException {
-        String  html = buildHtmlFromXml(buildXmlFromEventsList(events));
-        return html;
+    public String buildHtmlFromEventList(List<Event> events) throws ParseException, JAXBException, IOException
+            , TransformerException {
+        String  emailFormattedInHTML = buildHtmlFromXml(buildXmlFromEventList(events));
+        return emailFormattedInHTML;
     }
 
-    private String buildXmlFromEventsList(List<Event> events) throws JAXBException {
+    private String buildXmlFromEventList(List<Event> events) throws JAXBException {
         EventsList<Event> eventsList = new EventsList<>(events);
         JAXBContext jaxbContext = JAXBContext.newInstance(EventsList.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         StringWriter stringWriter = new StringWriter();
-
         marshaller.marshal(eventsList, stringWriter);
-
         return stringWriter.toString();
     }
 
@@ -50,19 +46,22 @@ public class MailService {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         ClassLoader classLoader = getClass().getClassLoader();
         File xslFile = null;
-        Resource resource = context.getResource("mail.xsl");
+        Resource resource = context.getResource("xsl/mail.xsl");
         TransformerFactory tFactory = TransformerFactory.newInstance();
 
         Transformer transformer =
-                    tFactory.newTransformer
-                            (new javax.xml.transform.stream.StreamSource
-                                    (resource.getFile())); // todo fixme filepath
+                    tFactory.newTransformer(
+                            new javax.xml.transform.stream.StreamSource(
+                                    resource.getFile()
+                            )
+                    );
 
-        transformer.transform
-                (new javax.xml.transform.stream.StreamSource
-                                (new StringReader(xml)),
-                        new javax.xml.transform.stream.StreamResult
-                                (writer));
+        transformer.transform(
+                new javax.xml.transform.stream.StreamSource(
+                        new StringReader(xml)
+                ),
+                new javax.xml.transform.stream.StreamResult(writer)
+        );
 
         return writer.toString();
     }
