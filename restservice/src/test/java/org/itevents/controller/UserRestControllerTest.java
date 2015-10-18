@@ -76,20 +76,4 @@ public class UserRestControllerTest extends AbstractControllerTest {
         verify(userService).removeUser(user);
 
     }
-
-    @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldNotRemoveNonExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(userService.removeUser(user)).thenReturn(null);
-
-        mvc.perform(delete("/users/delete"))
-                .andExpect(status().isNotFound());
-
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService).removeUser(user);
-
-    }
 }
