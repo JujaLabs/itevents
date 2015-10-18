@@ -29,14 +29,17 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        when(roleService.getRole(subscriberRole.getId())).thenReturn(subscriberRole);
         User testSubscriber = BuilderUtil.buildSubscriberTest();
+
+        when(roleService.getRole(subscriberRole.getId())).thenReturn(subscriberRole);
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
+
         mvc.perform(post("/users/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
+
         verify(roleService).getRole(subscriberRole.getId());
         verify(userService).getUserByName(testSubscriber.getLogin());
         verify(userService).addUser(testSubscriber);
@@ -57,7 +60,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldRemoveUser() throws Exception {
+    public void shouldRemoveExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
@@ -70,7 +73,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldNotRemoveUser() throws Exception {
+    public void shouldNotRemoveNonExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(null);
