@@ -2,19 +2,19 @@
 *.class
 
 # Project properies
-restservice/src/main/resources/local.properties
+*local.properties
 
 # Intellij project files
 *.iml
 .idea/
 $APP_CONFIG$/
 
-# Gradle
+#Gradle
 .gradle/
 build/
 classes/
 
 # Logs
-*logs/*
+logs/
 *.log
 *.gz

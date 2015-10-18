@@ -2,9 +2,9 @@
 <Configuration>
 
     <Properties>
-        <property name="log-dir">logs</property>
-        <property name="archive">${log-dir}/archive</property>
-        <property name="pattern">%d %-5p [%t] %C{2} (%F:%L) - %m%n</property>
+        <property name="logs">logs</property>
+        <property name="archives">${logs}/archives</property>
+        <property name="pattern">%date{ABSOLUTE} %-5level [%-4.4thread] %-50.50logger{3} - %message%n</property>
     </Properties>
 
     <Appenders>
@@ -14,15 +14,15 @@
         </Console>
 
         <RollingFile name="DebugLog"
-                     fileName="${log-dir}/debug.log"
-                     filePattern="${archive}/debug.log.%d{yyyy-MM-dd-hh-mm}.gz">
+                     fileName="${logs}/debug.log"
+                     filePattern="${archives}/debug.log.%d{yyyy-MM-dd}.gz">
             <PatternLayout pattern="${pattern}"/>
             <TimeBasedTriggeringPolicy/>
         </RollingFile>
 
         <RollingFile name="FatalLog"
-                     fileName="${log-dir}/fatal.log"
-                     filePattern="${archive}/fatal.log.%d{yyyy-MM-dd-hh-mm}.gz">
+                     fileName="${logs}/fatal.log"
+                     filePattern="${archives}/fatal.log.%d{yyyy-MM-dd}.gz">
             <PatternLayout pattern="${pattern}"/>
             <TimeBasedTriggeringPolicy/>
         </RollingFile>

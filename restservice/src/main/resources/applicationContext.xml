@@ -10,9 +10,9 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mybatis:scan base-package="org.itevents.mybatis.mapper"/>
+    <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
-    <context:property-placeholder location="local.properties"/>
+    <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${database.driver}"/>

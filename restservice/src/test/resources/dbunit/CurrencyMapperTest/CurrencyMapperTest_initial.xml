@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">
+<dataset>
+    <currency id="-1" name="USD"/>
+    <currency id="-2" name="&#1043;&#1088;&#1080;&#1074;&#1085;&#1072;"/>
+    <currency id="-3" name="Euro"/>
+</dataset>
