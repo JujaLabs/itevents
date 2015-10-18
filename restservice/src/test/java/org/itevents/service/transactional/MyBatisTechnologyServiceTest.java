@@ -42,8 +42,11 @@ public class MyBatisTechnologyServiceTest {
     @Test
     public void shouldFindTechnology() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
+
         when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
+
         Technology returnedTechnology = technologyService.getTechnology(expectedTechnology.getId());
+
         verify(technologyDao).getTechnology(expectedTechnology.getId());
         assertEquals(expectedTechnology, returnedTechnology);
     }
@@ -51,38 +54,49 @@ public class MyBatisTechnologyServiceTest {
     @Test
     public void shouldFindTechnologiesByNames() throws Exception {
         String[] names = {"Java", "JavaScript"};
+
         technologyService.getTechnologiesByNames(names);
+
         verify(technologyDao).getTechnologiesByNames(names);
     }
 
     @Test
     public void shouldGetAllTechnologies() {
         technologyService.getAllTechnologies();
+
         verify(technologyDao).getAllTechnologies();
     }
 
     @Test
     public void shouldAddTechnology() throws Exception {
         Technology testTechnology = BuilderUtil.buildTechnologyTest();
+
         technologyService.addTechnology(testTechnology);
+
         verify(technologyDao).addTechnology(testTechnology);
     }
 
     @Test
     public void shouldRemoveTechnology() {
         Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
+
         when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
         doNothing().when(technologyDao).removeTechnology(expectedTechnology);
+
         Technology returnedTechnology = technologyService.removeTechnology(expectedTechnology);
+
         assertEquals(expectedTechnology, returnedTechnology);
     }
 
     @Test
     public void shouldNotRemoveTechnologyWhenItIsNotExisting() {
         Technology testTechnology = BuilderUtil.buildTechnologyTest();
+
         when(technologyDao.getTechnology(testTechnology.getId())).thenReturn(null);
         doNothing().when(technologyDao).removeTechnology(testTechnology);
+
         Technology returnedTechnology = technologyService.removeTechnology(testTechnology);
+
         assertNull(returnedTechnology);
     }
 }

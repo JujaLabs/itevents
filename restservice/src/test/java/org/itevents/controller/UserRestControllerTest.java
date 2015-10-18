@@ -48,11 +48,14 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
+
         mvc.perform(post("/users/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
+
         verify(roleService, never()).getRole(anyInt());
         verify(userService).getUserByName(user.getLogin());
         verify(userService, never()).addUser(user);
@@ -62,10 +65,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldRemoveExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
+
         mvc.perform(delete("/users/delete"))
                 .andExpect(status().isOk());
+
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
 
@@ -75,10 +81,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldNotRemoveNonExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(null);
+
         mvc.perform(delete("/users/delete"))
                 .andExpect(status().isNotFound());
+
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
 

@@ -39,38 +39,53 @@ public class MyBatisCityServiceTest {
     @Test
     public void shouldFindCityById() throws Exception {
         int ID_1 = 1;
+
         cityService.getCity(ID_1);
+
         verify(cityDao).getCity(ID_1);
     }
 
     @Test
     public void shouldAddCity() throws Exception {
         City testCity = BuilderUtil.buildCityTest();
+
         cityService.addCity(testCity);
+
         verify(cityDao).addCity(testCity);
     }
 
     @Test
     public void shouldGetAllCities() {
         cityService.getAllCities();
+
         verify(cityDao).getAllCities();
     }
 
     @Test
-    public void shouldRemoveCitySuccess() {
+    public void shouldRemoveCity() {
         City expectedCity = BuilderUtil.buildCityTest();
+
         when(cityDao.getCity(expectedCity.getId())).thenReturn(expectedCity);
         doNothing().when(cityDao).removeCity(expectedCity);
+
         City returnedCity = cityService.removeCity(expectedCity);
+
+        verify(cityDao).getCity(expectedCity.getId());
+        verify(cityDao).removeCity(expectedCity);
         assertEquals(expectedCity, returnedCity);
     }
 
     @Test
-    public void shouldNotRemoveCityWhenItIsNotExisting() {
+    public void shouldNotRemoveNonExistingCity() {
         City testCity = BuilderUtil.buildCityTest();
+
         when(cityDao.getCity(testCity.getId())).thenReturn(null);
         doNothing().when(cityDao).removeCity(testCity);
+
         City returnedCity = cityService.removeCity(testCity);
+
+        verify(cityDao).getCity(testCity.getId());
+        verify(cityDao, never()).removeCity(any(City.class));
         assertNull(returnedCity);
     }
 }

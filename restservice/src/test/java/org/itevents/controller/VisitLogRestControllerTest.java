@@ -34,14 +34,17 @@ public class VisitLogRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        when(eventService.getEvent(event.getId())).thenReturn(event);
         User user = BuilderUtil.buildUserGuest();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(user).build();
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         doNothing().when(visitLogService).addVisitLog(visitLog);
+
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
+
         verify(eventService).getEvent(event.getId());
         verify(userService).getUserByName(user.getLogin());
         verify(visitLogService).addVisitLog(any(VisitLog.class));
@@ -50,13 +53,16 @@ public class VisitLogRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldNotFoundIfEventIsAbsent() throws Exception {
         Event event = BuilderUtil.buildEventRuby();
-        when(eventService.getEvent(event.getId())).thenReturn(null);
         User user = BuilderUtil.buildUserGuest();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(user).build();
+
+        when(eventService.getEvent(event.getId())).thenReturn(null);
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         doNothing().when(visitLogService).addVisitLog(visitLog);
+
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
+
         verify(eventService).getEvent(event.getId());
         verify(userService, never()).getUserByName(user.getLogin());
         verify(visitLogService, never()).addVisitLog(any(VisitLog.class));

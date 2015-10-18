@@ -42,8 +42,11 @@ public class MyBatisVisitLogServiceTest {
     @Test
     public void shouldFindVisitlogById() throws Exception {
         VisitLog expectedVisitlog = BuilderUtil.buildVisitLogFirst();
+
         when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
+
         VisitLog returnedVisitlog = visitLogService.getVisitLog(expectedVisitlog.getId());
+
         verify(visitLogDao).getVisitLog(expectedVisitlog.getId());
         assertEquals(expectedVisitlog, returnedVisitlog);
     }
@@ -51,31 +54,40 @@ public class MyBatisVisitLogServiceTest {
     @Test
     public void shouldGetAllVisitlogs() {
         visitLogService.getAllVisitLogs();
+
         verify(visitLogDao).getAllVisitLogs();
     }
 
     @Test
     public void shouldAddVisitlog() throws Exception {
         VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
+
         visitLogService.addVisitLog(testVisitLog);
+
         verify(visitLogDao).addVisitLog(testVisitLog);
     }
 
     @Test
     public void shouldRemoveVisitlog() throws ParseException {
         VisitLog expectedVisitlog = BuilderUtil.buildVisitLogTest();
+
         when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
         doNothing().when(visitLogDao).removeVisitLog(expectedVisitlog);
+
         VisitLog returnedVisitlog = visitLogService.removeVisitLog(expectedVisitlog);
+
         assertEquals(expectedVisitlog, returnedVisitlog);
     }
 
     @Test
     public void shouldNotRemoveVisitlogWhenItIsNotExisting() throws ParseException {
         VisitLog testVisitlog = BuilderUtil.buildVisitLogTest();
+
         when(visitLogDao.getVisitLog(testVisitlog.getId())).thenReturn(null);
         doNothing().when(visitLogDao).removeVisitLog(testVisitlog);
+
         VisitLog returnedVisitlog = visitLogService.removeVisitLog(testVisitlog);
+
         assertNull(returnedVisitlog);
     }
 
@@ -83,8 +95,11 @@ public class MyBatisVisitLogServiceTest {
     public void shouldFindVisitLogsByEvent() throws Exception {
         List<VisitLog> expectedVisitlogs = BuilderUtil.buildListVisitLogJava();
         Event eventJava = BuilderUtil.buildEventJava();
+
         when(visitLogDao.getVisitLogsByEvent(eventJava)).thenReturn(expectedVisitlogs);
+
         List<VisitLog> returnedVisitlogs = visitLogService.getVisitLogsByEvent(eventJava);
+
         verify(visitLogDao).getVisitLogsByEvent(eventJava);
         assertEquals(expectedVisitlogs, returnedVisitlogs);
     }
