@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <city id="-1" name="Kyiv" point="POINT(30.523 50.4505)"/>
+    <city id="-2" name="Odessa" point="POINT(30.73333 46.46667)"/>
+    <currency id="-3" name="Euro"/>
+
+    <technology id="-1" name="Java"/>
+    <technology id="-2" name="JavaScript"/>
+    <technology id="-5" name="Gradle"/>
+    <technology id="-8" name="Spring"/>
+
+    <event id="-1" title="Event1" event_date="{now-5}" reg_link="http://www.Event1.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event1@gmail.com" city_id="-1"/>
+    <event_technology event_id="-1" technology_id="-1"/>
+
+    <event id="-2" title="Event2" event_date="{now+2}" reg_link="http://www.Event2.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event2@gmail.com" city_id="-1"/>
+    <event_technology event_id="-2" technology_id="-5"/>
+
+    <event id="-3" title="Event3" event_date="{now+5}" reg_link="http://www.Event3.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event3@gmail.com" city_id="-1"/>
+    <event_technology event_id="-3" technology_id="-8"/>
+
+    <event id="-4" title="Event4" event_date="{now+3}" reg_link="http://www.Event4.com.ua"
+           address="Provectus"
+           point="POINT(30.758417 46.472508)" contact="Event4@gmail.com" city_id="-2"/>
+    <event_technology event_id="-4" technology_id="-1"/>
+
+    <event id="-5" title="Event5" event_date="{now+2}" reg_link="http://www.Event5.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event5@gmail.com" city_id="-1"/>
+    <event_technology event_id="-5" technology_id="-2"/>
+
+    <event id="-6" title="Event6" event_date="{now+2}" reg_link="http://www.Event6.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event6@gmail.com" city_id="-1" currency_id="-3" price="20" />
+    <event_technology event_id="-6" technology_id="-5"/>
+
+    <event id="-7" title="Event7" event_date="{now+8}" reg_link="http://www.Event7.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="Event7@gmail.com" city_id="-1"/>
+    <event_technology event_id="-7" technology_id="-1"/>
+
+    <role id="-2" name="admin"/>
+    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
+
+    <visit_log id="-1" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-2" event_id="-3" date="2015-09-20" user_id="-2"/>
+
+    <filter id="-1" user_id="-2" city_id="-1" free="true"/>
+    <filter_technology filter_id="-1" technology_id="-1"/>
+    <filter_technology filter_id="-1" technology_id="-5"/>
+    <filter_technology filter_id="-1" technology_id="-8"/>
+</dataset>

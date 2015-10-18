@@ -8,7 +8,7 @@ import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public interface EventMapper extends EventDao {
     Event getEvent(int id);
 
     @ResultMap("getEvent-int")
-    @Select("SELECT * FROM event ORDER BY title")
+    @Select("SELECT * FROM event")
     List<Event> getAllEvents();
 
     @Insert("INSERT INTO event(title, event_date, create_date, reg_link, address, point, contact, price, " +
@@ -59,5 +59,9 @@ public interface EventMapper extends EventDao {
 
     @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
-    List<Event> getFilteredEvents(FilteredEventsParameter params);
+    List<Event> getFilteredEvents(Filter params);
+
+    @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEventsInDateRangeWithRating")
+    @ResultMap("getEvent-int")
+    List<Event> getFilteredEventsWithRating(Filter params);
 }

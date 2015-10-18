@@ -417,5 +417,16 @@ public class BuilderUtil {
         return result;
     }
 
+    public static Filter buildTestFilter() {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(BuilderUtil.buildTechnologyJava());
+        technologies.add(BuilderUtil.buildTechnologyGradle());
+        technologies.add(BuilderUtil.buildTechnologySpring());
+        Filter filter = new Filter();
+        filter.setCity(BuilderUtil.buildCityKyiv());
+        filter.setFree(true);
+        filter.setTechnologies(technologies);
+        return filter;
+    }
 
 }

@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.util;
 
 import org.itevents.model.Technology;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +22,11 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class GetFilteredEventsSqlBuilderTest {
 
-    private FilteredEventsParameter parameter;
+    private Filter parameter;
 
     @Before
     public void setup() {
-        parameter = new FilteredEventsParameter();
+        parameter = new Filter();
     }
 
     @Test

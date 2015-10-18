@@ -1,6 +1,6 @@
 package org.itevents.service.converter;
 
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
 import org.itevents.wrapper.EventWrapper;
@@ -20,8 +20,8 @@ public class EventConverter {
     @Inject
     private CityService cityService;
 
-    public FilteredEventsParameter convert(EventWrapper wrapper) {
-        FilteredEventsParameter result = new FilteredEventsParameter();
+    public Filter convert(EventWrapper wrapper) {
+        Filter result = new Filter();
         int itemsPerPage;
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
             itemsPerPage = wrapper.getItemsPerPage();
