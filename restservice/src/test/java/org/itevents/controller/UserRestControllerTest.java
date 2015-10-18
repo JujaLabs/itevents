@@ -29,15 +29,18 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        when(roleService.getRole(subscriberRole.getId())).thenReturn(subscriberRole);
         User testSubscriber = BuilderUtil.buildSubscriberTest();
+
+        when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
+
         mvc.perform(post("/users/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
-        verify(roleService).getRole(subscriberRole.getId());
+
+        verify(roleService).getRoleByName(subscriberRole.getName());
         verify(userService).getUserByName(testSubscriber.getLogin());
         verify(userService).addUser(testSubscriber);
     }
@@ -45,11 +48,14 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
+
         mvc.perform(post("/users/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
+
         verify(roleService, never()).getRole(anyInt());
         verify(userService).getUserByName(user.getLogin());
         verify(userService, never()).addUser(user);
@@ -57,25 +63,15 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldRemoveUser() throws Exception {
+    public void shouldRemoveExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
+
         mvc.perform(delete("/users/delete"))
                 .andExpect(status().isOk());
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService).removeUser(user);
 
-    }
-
-    @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldNotRemoveUser() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(userService.removeUser(user)).thenReturn(null);
-        mvc.perform(delete("/users/delete"))
-                .andExpect(status().isNotFound());
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
 

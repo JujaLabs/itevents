@@ -16,6 +16,10 @@ public interface RoleMapper extends RoleDao {
     Role getRole(int id);
 
     @ResultType(Role.class)
+    @Select("SELECT * FROM role WHERE name = #{name}")
+    Role getRoleByName(String name);
+
+    @ResultType(Role.class)
     @Select("SELECT * FROM role ORDER BY name")
     List<Role> getAllRoles();
 
