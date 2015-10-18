@@ -33,7 +33,7 @@ public interface EventMapper extends EventDao {
     Event getEvent(int id);
 
     @ResultMap("getEvent-int")
-    @Select("SELECT * FROM event")
+    @Select("SELECT * FROM event ORDER BY title")
     List<Event> getAllEvents();
 
     @Insert("INSERT INTO event(title, event_date, create_date, reg_link, address, point, contact, price, " +

@@ -21,7 +21,7 @@ public interface TechnologyMapper extends TechnologyDao {
 
     @ResultType(Technology.class)
     @Select({"<script>",
-            "SELECT * FROM technology WHERE lower(name) IN ",
+            "SELECT * FROM technology WHERE name IN ",
             "<foreach item='name' index='index' collection='names' open='(' separator=',' close=')'>",
             "   #{name}",
             "</foreach>",
