@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml",
 		"classpath*:mvc-dispatcher-servlet.xml", "classpath*:spring-security.xml"})
 @WebAppConfiguration
+//@alex-anakin: use test DB for this test with DBUnit
 public class SequrityTests {
 
 	@Inject
@@ -41,6 +42,7 @@ public class SequrityTests {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
 
+	//@alex-anakin: remove this test
 	@Test
 	public void testLoginFail() throws Exception {
 		mvc.perform(formLogin().user("vlasov@email.com").password("wrongPassword"))
@@ -48,6 +50,7 @@ public class SequrityTests {
 				.andExpect(status().isUnauthorized());
 	}
 
+	//@alex-anakin: remove this test
 	@Test
 	public void testLoginSuccess() throws Exception {
 		mvc.perform(formLogin().user("vlasov@email.com").password("alex"))
@@ -55,6 +58,8 @@ public class SequrityTests {
 				.andExpect(status().isOk());
 	}
 
+	//@alex-anakin: remove 'Post' from test name
+	// make same test for Fail
 	@Test
 	public void testLoginSuccessPost() throws Exception {
 		mvc.perform(post("/login")
@@ -90,6 +95,9 @@ public class SequrityTests {
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isOk());
 	}
+
+	//@alex-anakin: make test for anonymous go to subscribe
+	//@alex-anakin: make test for authorized go to subscribe
 
 	@Test
 	public void testAdminAnonymous() throws Exception {
