@@ -10,6 +10,8 @@ public interface RoleService {
 
     Role getRole(int id);
 
+    Role getRoleByName(String name);
+
     List<Role> getAllRoles();
 
     Role removeRole(Role role);

@@ -2,7 +2,7 @@
 *.class
 
 # Project properies
-restservice/src/main/resources/local.properties
+*local.properties
 
 # Intellij project files
 *.iml
@@ -15,7 +15,7 @@ build/
 classes/
 
 # Logs
-*logs/*
+logs/
 *.log
 *.gz
 

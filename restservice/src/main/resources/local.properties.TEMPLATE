@@ -9,14 +9,12 @@ database.password=DB_PASSWORD
 # Liquibase
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
+
 # SendGrid
 sendgrid_api_key=SEND_GRID_TOKEN
 
-# TestDatabase
-databaseTest.url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
-databaseTest.username=DB_USERNAME
-databaseTest.password=DB_PASSWORD
 
-# TestLiquibase
-changeLogFileTest=src\\main\\resources\\liquibase-test\\db.changelog-master.xml
+httpPort=8080
+stopPort=9080
+stopKey=stop
 

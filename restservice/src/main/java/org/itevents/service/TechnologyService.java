@@ -13,7 +13,7 @@ public interface TechnologyService {
 
     List<Technology> getAllTechnologies();
 
-    List<Technology> getSeveralTechnologiesByName(String[] names);
+    List<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
 
