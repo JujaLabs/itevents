@@ -116,7 +116,7 @@ public class SequrityTests extends AbstractDbTest {
 	}
 
 	@Test
-	public void shouldGrantAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
+	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		User testSubscriber = BuilderUtil.buildSubscriberTest();
 
 		mvc.perform(post("/users/register")

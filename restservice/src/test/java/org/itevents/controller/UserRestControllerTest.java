@@ -31,7 +31,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
         User testSubscriber = BuilderUtil.buildSubscriberTest();
 
-        when(roleService.getRole(subscriberRole.getId())).thenReturn(subscriberRole);
+        when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
 
@@ -40,7 +40,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
 
-        verify(roleService).getRole(subscriberRole.getId());
+        verify(roleService).getRoleByName(subscriberRole.getName());
         verify(userService).getUserByName(testSubscriber.getLogin());
         verify(userService).addUser(testSubscriber);
     }
@@ -71,22 +71,6 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         mvc.perform(delete("/users/delete"))
                 .andExpect(status().isOk());
-
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService).removeUser(user);
-
-    }
-
-    @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldNotRemoveNonExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(userService.removeUser(user)).thenReturn(null);
-
-        mvc.perform(delete("/users/delete"))
-                .andExpect(status().isNotFound());
 
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
