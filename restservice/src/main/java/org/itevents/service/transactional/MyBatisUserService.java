@@ -27,6 +27,11 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    public User getUserByName(String name) {
+        return userDao.getUserByName(name);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }

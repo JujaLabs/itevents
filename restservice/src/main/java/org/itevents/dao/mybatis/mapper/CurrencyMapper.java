@@ -16,7 +16,7 @@ public interface CurrencyMapper extends CurrencyDao {
     Currency getCurrency(int id);
 
     @ResultType(Currency.class)
-    @Select("SELECT * FROM currency")
+    @Select("SELECT * FROM currency  ORDER BY name")
     List<Currency> getAllCurrencies();
 
     @Insert("INSERT INTO currency(name) VALUES(#{name})")

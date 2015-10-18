@@ -30,8 +30,8 @@ public class MyBatisTechnologyService implements TechnologyService {
     }
 
     @Override
-    public List<Technology> getSeveralTechnologiesByName(String[] names) {
-        return technologyDao.getSeveralTechnologies(names);
+    public List<Technology> getTechnologiesByNames(String[] names) {
+        return technologyDao.getTechnologiesByNames(names);
     }
 
     @Override
