@@ -9,6 +9,7 @@ import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,8 @@ public class UserRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
-    public ResponseEntity registerNewSubscriber(String username, String password) {
+    public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
+                                                @ModelAttribute("password") String password) {
         if (exists(username)) {
             return new ResponseEntity(HttpStatus.IM_USED);
         }
