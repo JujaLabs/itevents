@@ -1,6 +1,4 @@
-package org.itevents.service;
-
-import org.itevents.model.User;
+package org.itevents.service.sendmail;
 
 public interface MailService {
     void sendMail(String htmlLetter, String mail);
