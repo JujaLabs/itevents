@@ -33,12 +33,10 @@ public class UserRestController {
         if (exists(username)) {
             return new ResponseEntity(HttpStatus.IM_USED);
         }
-        //todo something with magic role id
-        final int SUBSCRIBER_ROLE_ID = -3;
         User user = UserBuilder.anUser()
                 .login(username)
                 .password(password)
-                .role(roleService.getRole(SUBSCRIBER_ROLE_ID))
+                .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
         return new ResponseEntity(HttpStatus.OK);
