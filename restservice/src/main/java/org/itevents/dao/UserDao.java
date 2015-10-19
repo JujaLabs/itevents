@@ -11,6 +11,8 @@ public interface UserDao {
 
     User getUser(int id);
 
+    User getUserByName(String name);
+
     List<User> getAllUsers();
 
     void addUser(User user);
