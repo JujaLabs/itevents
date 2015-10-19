@@ -18,11 +18,15 @@ public interface FilterDao {
 
     void addFilter(Filter filter);
 
+    void addFilterTechnology(Filter filter);
+
     void removeFilter(Filter filter);
 
-    void removeFilterFromUser(User user);
+    void removeFilterTechnology(User user);
 
     void updateFilter(Filter oldFilter, Filter newFilter);
 
     void addUserFilter(User user, Filter filter);
+
+    void removeUserFilter(User user);
 }

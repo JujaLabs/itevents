@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.FilterDao;
+import org.itevents.dao.mybatis.util.AddFilterTechnologySqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
@@ -38,11 +39,14 @@ public interface FilterMapper extends FilterDao {
     @Options(useGeneratedKeys = true)
     void addFilter(Filter filter);
 
+    @InsertProvider(type = AddFilterTechnologySqlBuilder.class, method = "addFilterTechnology")
+    void addFilterTechnology(Filter filter);
+
     @Delete("DELETE FROM filter WHERE id = #{id}")
     void removeFilter(Filter filter);
 
     @Delete("DELETE FROM user_filter WHERE user_id = #{id}")
-    void removeFilterFromUser(User user);
+    void removeFilterTechnology(User user);
 
     @Update("UPDATE filter SET limit =#{newFilter.limit}, city_id =#{newFilter.city_id}, free =#{newFilter.free}, " +
             "longitude =#{newFilter.longitude}, latitude =#{newFilter.latitude}, radius =#{newFilter.radius} " +
@@ -51,4 +55,7 @@ public interface FilterMapper extends FilterDao {
 
     @Insert("INSERT INTO user_filter (user_id, filter_id) VALUES (#{user.id}, #{filter.id})")
     void addUserFilter(User user, Filter filter);
+
+    @Delete("DELETE FROM user_filter WHERE user_id=#{id}")
+    void removeUserFilter(User user);
 }

@@ -50,18 +50,21 @@ public class MyBatisFilterService implements FilterService {
     public void putFilter(User user, Filter filter) {
         Filter oldFilter = filterDao.getFilterByUser(user);
         if (oldFilter != null) {
+            filterDao.removeFilterTechnology(user);
             filterDao.updateFilter(oldFilter, filter);
         } else {
             filterDao.addFilter(filter);
             filterDao.addUserFilter(user, filter);
         }
+        filterDao.addFilterTechnology(filter);
     }
 
     @Override
     public Filter removeFilterByUser(User user) {
         Filter oldFilter = filterDao.getFilterByUser(user);
         if (oldFilter != null) {
-            filterDao.removeFilterFromUser(user);
+            filterDao.removeUserFilter(user);
+            filterDao.removeFilterTechnology(user);
             filterDao.removeFilter(oldFilter);
             return oldFilter;
         } else {
