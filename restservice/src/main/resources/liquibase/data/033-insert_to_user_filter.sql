@@ -5,6 +5,6 @@ INSERT INTO user_filter (user_id, filter_id) VALUES
   (-1, -1),
   (-4, -3),
   (-2, -2),
-  (-3, -3)
+  (-3, -4)
 
 --rollback DELETE FROM user_filter;

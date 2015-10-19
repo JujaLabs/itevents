@@ -21,7 +21,7 @@ import javax.inject.Inject;
  * Created by vaa25 on 16.10.2015.
  */
 @RestController
-@Api("Subscribe with filter/unsubscribe")
+@Api("Subscriptions")
 public class SubscriptionRestController {
 
     @Inject
