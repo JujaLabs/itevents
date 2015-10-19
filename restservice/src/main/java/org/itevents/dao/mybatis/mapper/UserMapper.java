@@ -21,7 +21,7 @@ public interface UserMapper extends UserDao {
     User getUser(int id);
 
     @ResultMap("getUser-int")
-    @Select("SELECT * FROM users WHERE login = #{name}")
+    @Select("SELECT * FROM user_profile WHERE login = #{name}")
     User getUserByName(String name);
 
     @ResultMap("getUser-int")
