@@ -2,6 +2,8 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.FilterService;
@@ -24,6 +26,8 @@ import javax.inject.Inject;
 @Api("Subscriptions")
 public class SubscriptionRestController {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private UserService userService;
     @Inject
@@ -43,6 +47,7 @@ public class SubscriptionRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Set filter for authorized user")
     public ResponseEntity setFilter(@ModelAttribute FilterWrapper wrapper) {
+        logger.info(wrapper);
         Filter filter = new FilterConverter().toFilter(wrapper);
         User user = userService.getAuthorizedUser();
         filterService.putFilter(user, filter);

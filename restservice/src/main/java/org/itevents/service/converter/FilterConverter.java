@@ -1,5 +1,7 @@
 package org.itevents.service.converter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.model.Filter;
 import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
@@ -13,6 +15,8 @@ import javax.inject.Inject;
  */
 @Component
 public class FilterConverter {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
@@ -38,6 +42,8 @@ public class FilterConverter {
             result.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
         }
         if (wrapper.getCityId() != null) {
+            logger.info("CityService: " + cityService);
+            logger.info("wrapper.getCityId(): " + wrapper.getCityId());
             result.setCity(cityService.getCity(wrapper.getCityId()));
         }
         if (wrapper.getFree() != null) {

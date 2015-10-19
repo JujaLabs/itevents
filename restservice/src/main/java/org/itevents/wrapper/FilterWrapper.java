@@ -1,5 +1,7 @@
 package org.itevents.wrapper;
 
+import java.util.Arrays;
+
 /**
  * Created by vaa25 on 14.09.2015.
  */
@@ -76,5 +78,20 @@ public class FilterWrapper {
 
     public void setTechnologiesNames(String[] techTag) {
         this.techTag = techTag;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("FilterWrapper{");
+        sb.append("page=").append(page);
+        sb.append(", itemsPerPage=").append(itemsPerPage);
+        sb.append(", cityId=").append(cityId);
+        sb.append(", free=").append(free);
+        sb.append(", lat=").append(lat);
+        sb.append(", lon=").append(lon);
+        sb.append(", radius=").append(radius);
+        sb.append(", techTag=").append(Arrays.toString(techTag));
+        sb.append('}');
+        return sb.toString();
     }
 }
