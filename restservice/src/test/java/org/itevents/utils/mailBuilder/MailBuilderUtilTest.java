@@ -1,10 +1,9 @@
-package org.itevents;
+package org.itevents.utils.mailBuilder;
 
 import org.itevents.model.City;
 import org.itevents.model.Currency;
 import org.itevents.model.Event;
 import org.itevents.model.Location;
-import org.itevents.mailer.utils.MailBuilderUtil;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -17,14 +16,14 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class MailUtilTest {
+public class MailBuilderUtilTest {
     @Test
-    public void testGetEventById() throws JAXBException, ParseException, IOException, TransformerException {
-        SimpleDateFormat formatter =  new SimpleDateFormat("dd.MM.yyyy");
+    public void MailBuilderUtil() throws JAXBException, ParseException, IOException, TransformerException {
+        SimpleDateFormat eventsDateFormat =  new SimpleDateFormat("dd.MM.yyyy");
         List<Event> events = new ArrayList<>();
-        events.add(new Event(1, "Java", formatter.parse("10.07.2015"), null, "http://www.java.com.ua",
+        events.add(new Event(1, "Java", eventsDateFormat.parse("10.07.2015"), null, "http://www.java.com.ua",
                 "Beresteyska", new Location(50.458585, 30.742017), "java@gmail.com", true, 0, new Currency("USD"), new City()));
-        events.add(new Event(2, "Ruby", formatter.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
+        events.add(new Event(2, "Ruby", eventsDateFormat.parse("20.07.2015"), null, "http://www.ruby.com.ua", "Shulyavska",
                 new Location(50.454605, 30.445495), "ruby@gmail.com", true, 0, new Currency("USD"), new City()));
 
         String expectedHTML = "<html>\n" +
@@ -49,8 +48,7 @@ public class MailUtilTest {
                 "</body>\n" +
                 "</html>\n";
 
-        MailBuilderUtil mailBuilderUtil = new MailBuilderUtil();
-        String generatedHtml = mailBuilderUtil.buildHtmlFromEventList(events);
-        assertEquals(expectedHTML, generatedHtml);
+        String mailHtml = new MailBuilderUtil().buildHtmlFromEventsList(events);
+        assertEquals(expectedHTML, mailHtml);
     }
 }

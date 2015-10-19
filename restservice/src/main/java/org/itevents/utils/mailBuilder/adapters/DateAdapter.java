@@ -1,4 +1,4 @@
-package org.itevents.mailer.xml;
+package org.itevents.utils.mailBuilder.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.text.SimpleDateFormat;

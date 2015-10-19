@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
-import org.itevents.mailer.xml.DateAdapter;
+import org.itevents.utils.mailBuilder.adapters.DateAdapter;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
