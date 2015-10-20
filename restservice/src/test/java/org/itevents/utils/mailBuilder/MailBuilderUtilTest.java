@@ -29,7 +29,7 @@ public class MailBuilderUtilTest {
         String expectedHTML = "<html>\n" +
                 "<head>\n" +
                 "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
-                "<title>Ближайшие интересные Вам ивенты!</title>\n" +
+                "<title>Р‘Р»РёР¶Р°Р№С€РёРµ РёРЅС‚РµСЂРµСЃРЅС‹Рµ Р’Р°Рј РёРІРµРЅС‚С‹!</title>\n" +
                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
                 "<meta name=\"robots\" content=\"noindex, nofollow\">\n" +
                 "</head>\n" +
@@ -95,8 +95,7 @@ public class MailBuilderUtilTest {
                 "</tr>\n" +
                 "</table>\n" +
                 "</body>\n" +
-                "</html>\n" +
-                "\n";
+                "</html>\n";
         String mailHtml = new MailBuilderUtil().buildHtmlFromEventsList(events);
         assertEquals(expectedHTML, mailHtml);
     }

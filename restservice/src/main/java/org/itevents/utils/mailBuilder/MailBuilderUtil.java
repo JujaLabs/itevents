@@ -41,7 +41,6 @@ public class MailBuilderUtil {
 
         StringWriter eventsInXmlStringWriter = new StringWriter();
         marshaller.marshal(rootXmlNodeWrapper, eventsInXmlStringWriter);
-        System.out.println(eventsInXmlStringWriter.toString());
         return eventsInXmlStringWriter.toString();
     }
 
