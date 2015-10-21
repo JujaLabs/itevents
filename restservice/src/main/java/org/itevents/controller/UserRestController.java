@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Api("Users")
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserRestController {
     @Inject
     private UserService userService;
@@ -65,12 +65,12 @@ public class UserRestController {
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
-    public ResponseEntity<User> getUserByID(@PathVariable("id") int id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{userID}")
+    public ResponseEntity<User> getUserByID(@PathVariable("userID") int id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
-    public ResponseEntity<List<Event>> myEvents(@PathVariable("id") int id){
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{userID}/events")
+    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int id){
         List<Event> events = userService.getUserEvents(userService.getUser(id));
         return new ResponseEntity<>(events,HttpStatus.OK);
     }

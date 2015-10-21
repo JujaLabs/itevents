@@ -40,8 +40,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int id) {
-        return eventDao.getEvent(id);
+    public Event getEvent(int eventID) {
+        return eventDao.getEvent(eventID);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class MyBatisEventService implements EventService {
         return eventDao.getAllEvents();
     }
     //    @PreAuthorize("isAuthenticated()")
-    public String WillGo(int id, int userID) {
+    public String WillGo(int eventID, int userID) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
-            Event event = eventDao.getEvent(id);
+            Event event = eventDao.getEvent(eventID);
             User user = userDao.getUser(userID);
             if (new Date().after(event.getEventDate())){
                 eventDao.willGoToEvent(user, event);
@@ -67,12 +67,12 @@ public class MyBatisEventService implements EventService {
 
     @Override
 //    @PreAuthorize("isAuthenticated()")
-    public String WillNotGo(int id, int userID) {
+    public String WillNotGo(int eventID, int userID) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
-            Event event = eventDao.getEvent(id);
+            Event event = eventDao.getEvent(eventID);
             User user = userDao.getUser(userID);
             eventDao.willNotGoToEvent(user, event);
         }catch (Exception e) {
@@ -83,8 +83,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<User> getVisitors(int id) {
-        return eventDao.getVisitors(getEvent(id));
+    public List<User> getVisitors(int eventID) {
+        return eventDao.getVisitors(getEvent(eventID));
     }
 
     @Override

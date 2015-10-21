@@ -10,7 +10,7 @@ public interface EventService {
 
     void addEvent(Event event);
 
-    Event getEvent(int id);
+    Event getEvent(int eventID);
 
     List<Event> getAllEvents();
 
@@ -18,9 +18,9 @@ public interface EventService {
 
     List<Event> getFilteredEvents(EventWrapper wrapper);
 
-    String WillGo(int id, int userID);
+    String WillGo(int eventID, int userID);
 
-    String WillNotGo(int id, int userID);
+    String WillNotGo(int eventID, int userID);
 
-    List<User> getVisitors(int id);
+    List<User> getVisitors(int eventID);
 }

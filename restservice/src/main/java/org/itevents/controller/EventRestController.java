@@ -14,14 +14,14 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
-@Api("Events")
+@Api("Event")
 public class EventRestController {
 
     @Inject
     private EventService eventService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable("id") int id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/event/{eventID}")
+    public ResponseEntity<Event> getEventById(@PathVariable("eventID") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -29,28 +29,28 @@ public class EventRestController {
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/event")
     @ApiOperation(value = "Returns events with the given parameters ")
     public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }
-    @RequestMapping(method = RequestMethod.POST, value = "/events/{id}/willGo/{userID}")
-    public ResponseEntity<Event> iWillGo(@PathVariable("id") int id, @PathVariable("userID") int userID) {
+    @RequestMapping(method = RequestMethod.POST, value = "/event/{eventID}/willGo/{userID}")
+    public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int id, @PathVariable("userID") int userID) {
         Event event = eventService.getEvent(id);
         eventService.WillGo(id, userID);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
 
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/events/{id}/willNotGo/{userID}")
-    public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id, @PathVariable("userID") int userID) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/event/{eventID}/willNotGo/{userID}")
+    public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int id, @PathVariable("userID") int userID) {
         Event event = eventService.getEvent(id);
         eventService.WillNotGo(id, userID);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
-    public ResponseEntity<List<User>> getVisitors(@PathVariable("id") int id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/event/{eventID}/getVisitors")
+    public ResponseEntity<List<User>> getVisitors(@PathVariable("eventID") int id) {
         List<User> visitors = eventService.getVisitors(id);
         return new ResponseEntity<>(visitors,HttpStatus.OK);
     }

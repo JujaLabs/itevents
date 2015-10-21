@@ -11,7 +11,7 @@ public interface UserService {
 
     void addUser(User user);
 
-    User getUser(int id);
+    User getUser(int userID);
 
     User getUserByName(String name);
 

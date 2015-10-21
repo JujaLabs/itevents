@@ -44,6 +44,6 @@ public interface UserMapper extends UserDao {
         @Result(property = "city", column = "city_id", javaType = City.class,
                 one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity"))
 })
-    @Select("SELECT * FROM events e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
+    @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);
 }
