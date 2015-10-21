@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
@@ -11,23 +12,11 @@ import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.itevents.model.Event;
-import org.itevents.model.User;
-import org.itevents.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
 
-/**
- * Created by vaa25 on 16.10.2015.
- */
 @RestController
 @Api("Users")
 @RequestMapping("/users")
@@ -75,10 +64,10 @@ public class UserRestController {
 
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-
+    }
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
     public ResponseEntity<User> getUserByID(@PathVariable("id") int id) {
-        return getUserResponseEntity(userService.getUser(id));
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/users/{id}/getMyEvents")
     public ResponseEntity<List<Event>> myEvents(@PathVariable("id") int id){
@@ -86,10 +75,4 @@ public class UserRestController {
         return new ResponseEntity<>(events,HttpStatus.OK);
     }
 
-    private ResponseEntity<User> getUserResponseEntity(User user) {
-        if (user == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
 }

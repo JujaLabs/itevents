@@ -2,15 +2,10 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by vaa25 on 17.07.2015.
- */
 public interface UserMapper extends UserDao {
 
     @Results({

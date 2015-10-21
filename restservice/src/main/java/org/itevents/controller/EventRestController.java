@@ -38,7 +38,7 @@ public class EventRestController {
     public ResponseEntity<Event> iWillGo(@PathVariable("id") int id, @PathVariable("userID") int userID) {
         Event event = eventService.getEvent(id);
         eventService.WillGo(id, userID);
-        return getEventResponseEntity(event);
+        return new ResponseEntity<>(event, HttpStatus.CREATED);
 
     }
 
@@ -46,7 +46,7 @@ public class EventRestController {
     public ResponseEntity<Event> iWillNotGo(@PathVariable("id") int id, @PathVariable("userID") int userID) {
         Event event = eventService.getEvent(id);
         eventService.WillNotGo(id, userID);
-        return getEventResponseEntity(event);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}/getVisitors")
