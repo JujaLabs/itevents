@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <role id="-3" name="subscriber"/>
+    <role id="-2" name="admin"/>
+    <role id="-1" name="guest"/>
+    <user_profile login="vlasov@email.com" password="alex" role_id="-3"/>
+    <user_profile login="kuchin@email.com" password="viktor" role_id="-2"/>
+    <user_profile login="anakin@email.com" password="alex" role_id="-2"/>
+    <user_profile login="guest" password="guest" role_id="-1"/>
+    <user_profile login="testUser" password="testUserPassword" role_id="-1"/>
+</dataset>

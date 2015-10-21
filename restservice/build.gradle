@@ -4,42 +4,65 @@ version '1.0-SNAPSHOT'
 apply plugin: 'war'
 apply plugin: 'jetty'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 repositories {
-    mavenLocal()
-    mavenCentral()
+    maven {
+        url "http://download.osgeo.org/webdav/geotools/"
+    }
 }
 
 configurations {
     liquibase
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 dependencies {
-    compile 'junit:junit:4.12'
     compile 'org.springframework:spring-core:4.1.6.RELEASE'
     compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
-    compile 'org.springframework:spring-test:4.1.6.RELEASE'
     compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
+    compile 'org.springframework.security:spring-security-core:4.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-web:4.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
     compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'javax.servlet:jstl:1.2'
     compile 'org.mybatis:mybatis:3.3.0'
     compile 'org.mybatis:mybatis-spring:1.2.3'
     compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
+    compile 'org.apache.logging.log4j:log4j-api:2.3'
+    compile 'org.apache.logging.log4j:log4j-core:2.3'
+    compile 'org.apache.logging.log4j:log4j-web:2.3'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
+    compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
+    compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
+    compile 'io.springfox:springfox-swagger2:2.1.1'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
-    liquibase 'org.liquibase:liquibase-core:3.4.0'
-}
-
-httpPort = 8080
-stopPort = 9080
-stopKey = "stop"
+    liquibase 'org.liquibase:liquibase-core:3.4.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
+    testCompile 'org.dbunit:dbunit:2.5.1'
+    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
+    testCompile 'org.postgis:postgis-jdbc:1.1.6'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+  }
 
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
+Properties testProps = new Properties()
+testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
 
-defaultTasks 'liquibaseUpdate'
+httpPort = Integer.valueOf(props.getProperty('httpPort'));
+stopPort = Integer.valueOf(props.getProperty('stopPort'));
+stopKey = props.getProperty('stopKey');
+
+test.dependsOn "liquibaseTestUpdate"
 
 task liquibaseUpdate(type: JavaExec) {
     description 'Liquibase updates DB by all not used changesets'
@@ -64,7 +87,6 @@ task liquibaseUpdate(type: JavaExec) {
     args 'update'
 }
 
-
 task liquibaseRollback(type: JavaExec) {
     description 'Liquibase rollbacks DB by specified number of changesets'
     group = "Liquibase"
@@ -76,4 +98,16 @@ task liquibaseRollback(type: JavaExec) {
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
+}
+
+task liquibaseTestUpdate(type: JavaExec) {
+    description 'Liquibase updates Test DB by all not used changesets'
+    group = 'Liquibase'
+    classpath configurations.liquibase
+    main = 'liquibase.integration.commandline.Main'
+    args "--username=${testProps.getProperty('database.username')}"
+    args "--password=${testProps.getProperty('database.password')}"
+    args "--url=${testProps.getProperty('database.url')}"
+    args "--changeLogFile=${testProps.getProperty('changeLogFile')}"
+    args 'update'
 }

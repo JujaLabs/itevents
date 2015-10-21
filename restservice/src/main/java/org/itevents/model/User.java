@@ -6,14 +6,9 @@ public class User {
     private String login;
     private String password;
     private Role role;
+    private Filter filter;
 
     public User() {
-    }
-
-    public User(String login, String password, Role role) {
-        this.login = login;
-        this.password = password;
-        this.role = role;
     }
 
     public int getId() {
@@ -48,14 +43,12 @@ public class User {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
     @Override
@@ -65,20 +58,28 @@ public class User {
 
         User user = (User) o;
 
-        if (id != user.id) return false;
-        if (!login.equals(user.login)) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return role.equals(user.role);
+        return !(role != null ? !role.equals(user.role) : user.role != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + login.hashCode();
+        int result = login != null ? login.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + role.hashCode();
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
 

@@ -1,0 +1,110 @@
+<!ELEMENT dataset (
+        city*,
+        currency*,
+        databasechangelog*,
+        databasechangeloglock*,
+        event*,
+        event_technology*,
+        role*,
+        spatial_ref_sys*,
+        technology*,
+        user_profile*,
+        visit_log*)>
+
+        <!ELEMENT city EMPTY>
+        <!ATTLIST city
+                id CDATA #IMPLIED
+                name CDATA #REQUIRED
+                details CDATA #IMPLIED
+                point CDATA #REQUIRED
+                >
+
+        <!ELEMENT currency EMPTY>
+        <!ATTLIST currency
+                id CDATA #IMPLIED
+                name CDATA #REQUIRED
+                >
+
+        <!ELEMENT databasechangelog EMPTY>
+        <!ATTLIST databasechangelog
+                id CDATA #REQUIRED
+                author CDATA #REQUIRED
+                filename CDATA #REQUIRED
+                dateexecuted CDATA #REQUIRED
+                orderexecuted CDATA #REQUIRED
+                exectype CDATA #REQUIRED
+                md5sum CDATA #IMPLIED
+                description CDATA #IMPLIED
+                comments CDATA #IMPLIED
+                tag CDATA #IMPLIED
+                liquibase CDATA #IMPLIED
+                contexts CDATA #IMPLIED
+                labels CDATA #IMPLIED
+                >
+
+        <!ELEMENT databasechangeloglock EMPTY>
+        <!ATTLIST databasechangeloglock
+                id CDATA #REQUIRED
+                locked CDATA #REQUIRED
+                lockgranted CDATA #IMPLIED
+                lockedby CDATA #IMPLIED
+                >
+
+        <!ELEMENT event EMPTY>
+        <!ATTLIST event
+                id CDATA #IMPLIED
+                title CDATA #REQUIRED
+                event_date CDATA #REQUIRED
+                create_date CDATA #IMPLIED
+                reg_link CDATA #IMPLIED
+                address CDATA #IMPLIED
+                point CDATA #IMPLIED
+                contact CDATA #IMPLIED
+                price CDATA #IMPLIED
+                currency_id CDATA #IMPLIED
+                city_id CDATA #IMPLIED
+                >
+
+        <!ELEMENT event_technology EMPTY>
+        <!ATTLIST event_technology
+                event_id CDATA #REQUIRED
+                technology_id CDATA #REQUIRED
+                >
+
+        <!ELEMENT role EMPTY>
+        <!ATTLIST role
+                id CDATA #IMPLIED
+                name CDATA #IMPLIED
+                >
+
+        <!ELEMENT spatial_ref_sys EMPTY>
+        <!ATTLIST spatial_ref_sys
+                srid CDATA #REQUIRED
+                auth_name CDATA #IMPLIED
+                auth_srid CDATA #IMPLIED
+                srtext CDATA #IMPLIED
+                proj4text CDATA #IMPLIED
+                >
+
+        <!ELEMENT technology EMPTY>
+        <!ATTLIST technology
+                id CDATA #IMPLIED
+                name CDATA #REQUIRED
+                >
+
+        <!ELEMENT user_profile EMPTY>
+        <!ATTLIST user_profile
+                id CDATA #IMPLIED
+                login CDATA #REQUIRED
+                password CDATA #REQUIRED
+                role_id CDATA #REQUIRED
+                >
+
+        <!ELEMENT visit_log EMPTY>
+        <!ATTLIST visit_log
+                id CDATA #IMPLIED
+                event_id CDATA #REQUIRED
+                date CDATA #REQUIRED
+                user_id CDATA #REQUIRED
+                >
+
