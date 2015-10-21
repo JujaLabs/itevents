@@ -17,4 +17,11 @@
     <bean id="visitLogService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="org.itevents.service.VisitLogService"/>
     </bean>
+    <bean id="expectedDigestEmail" class="java.lang.String">
+        <constructor-arg>
+            <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">
+                <constructor-arg value="classpath:util/mail/weeklyDigestEmail.html" type="java.io.InputStream" />
+            </bean>
+        </constructor-arg>
+    </bean>
 </beans>

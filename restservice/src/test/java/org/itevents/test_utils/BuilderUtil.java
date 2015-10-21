@@ -429,4 +429,11 @@ public class BuilderUtil {
         return filter;
     }
 
+    public static List<Event> buildEventsForMailUtilTest() throws ParseException {
+        List<Event> events = new ArrayList<>();
+        events.add(BuilderUtil.buildEventJava());
+        events.add(BuilderUtil.buildEventRuby());
+        return  events;
+    }
+
 }

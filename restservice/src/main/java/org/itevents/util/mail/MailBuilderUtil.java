@@ -1,4 +1,4 @@
-package org.itevents.utils.mailBuilder;
+package org.itevents.util.mail;
 
 import org.itevents.model.Event;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;

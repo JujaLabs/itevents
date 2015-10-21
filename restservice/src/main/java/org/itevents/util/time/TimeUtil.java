@@ -1,4 +1,4 @@
-package org.itevents.util;
+package org.itevents.util.time;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

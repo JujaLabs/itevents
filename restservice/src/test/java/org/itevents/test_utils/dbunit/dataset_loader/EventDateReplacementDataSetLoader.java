@@ -1,6 +1,6 @@
 package org.itevents.test_utils.dbunit.dataset_loader;
 
-import org.itevents.util.TimeUtil;
+import org.itevents.util.time.TimeUtil;
 
 /**
  * Created by roma on 13.10.15.

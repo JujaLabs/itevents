@@ -4,7 +4,7 @@ import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.service.MailFilterService;
-import org.itevents.util.TimeUtil;
+import org.itevents.util.time.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
