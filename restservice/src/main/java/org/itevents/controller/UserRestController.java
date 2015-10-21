@@ -31,9 +31,21 @@ public class UserRestController {
     private RoleService roleService;
 
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
+    })
+    @RequestMapping(method = RequestMethod.POST, value = "login")
+    public void login() {
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "logout")
+    public void logout() {
+    }
+    @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
+
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
