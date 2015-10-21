@@ -13,15 +13,17 @@ public interface EventDao {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsInRadius(Location location, int radius);
-
     void addEvent(Event event);
+
+    void addEventTechnology(Event event);
 
     void updateEvent(Event event);
 
     List<Event> getFilteredEvents(FilteredEventsParameter params);
     
     void removeEvent(Event event);
+
+    void removeEventTechnology(Event event);
 
     void willGoToEvent(User user, Event event);
 

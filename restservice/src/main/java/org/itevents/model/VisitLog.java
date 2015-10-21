@@ -12,11 +12,6 @@ public class VisitLog {
     public VisitLog() {
     }
 
-    public VisitLog(Event event, User user) {
-        this.event = event;
-        this.user = user;
-    }
-
     public int getId() {
         return id;
     }

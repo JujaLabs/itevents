@@ -36,6 +36,7 @@ public class MyBatisEventService implements EventService {
     @Override
     public void addEvent(Event event) {
         eventDao.addEvent(event);
+        eventDao.addEventTechnology(event);
     }
 
     @Override
@@ -44,7 +45,10 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-//    @PreAuthorize("isAuthenticated()")
+    public List<Event> getAllEvents() {
+        return eventDao.getAllEvents();
+    }
+    //    @PreAuthorize("isAuthenticated()")
     public String WillGo(int id, int userID) {
         try {
 //        if (event != null) {
@@ -84,14 +88,10 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getAllEvents() {
-        return eventDao.getAllEvents();
-    }
-
-    @Override
     public Event removeEvent(Event event) {
         Event deletingEvent = eventDao.getEvent(event.getId());
         if (deletingEvent != null) {
+            eventDao.removeEventTechnology(event);
             eventDao.removeEvent(event);
         }
         return deletingEvent;
@@ -103,7 +103,7 @@ public class MyBatisEventService implements EventService {
         try {
             result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
         } catch (Exception e) {
-            logger.error("Exception :", e);
+            logger.error("getFilteredEvents Exception :", e.getStackTrace());
             result = new ArrayList<>();
         }
         return result;
