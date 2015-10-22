@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
-@Api("Users")
+@Api("User")
 @RequestMapping("/user")
 public class UserRestController {
     @Inject

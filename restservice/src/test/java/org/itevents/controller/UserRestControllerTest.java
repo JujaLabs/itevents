@@ -35,7 +35,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
 
-        mvc.perform(post("/users/register")
+        mvc.perform(post("/user/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
@@ -51,7 +51,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        mvc.perform(post("/users/register")
+        mvc.perform(post("/user/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
@@ -69,7 +69,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
 
-        mvc.perform(delete("/users/delete"))
+        mvc.perform(delete("/user/delete"))
                 .andExpect(status().isOk());
 
         verify(userService).getUserByName(user.getLogin());
