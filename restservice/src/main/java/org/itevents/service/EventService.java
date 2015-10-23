@@ -18,9 +18,9 @@ public interface EventService {
 
     List<Event> getFilteredEvents(EventWrapper wrapper);
 
-    String WillGo(int eventID, int userID);
+    String WillGo(Event event, User user);
 
-    String WillNotGo(int eventID, int userID);
+    String WillNotGo(Event event, User user);
 
-    List<User> getVisitors(int eventID);
+    List<User> getVisitors(Event event);
 }

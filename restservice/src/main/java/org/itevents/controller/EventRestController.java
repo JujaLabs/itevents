@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.wrapper.EventWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class EventRestController {
 
     @Inject
     private EventService eventService;
+
+    @Inject
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/event/{eventID}")
     public ResponseEntity<Event> getEventById(@PathVariable("eventID") int id) {
@@ -35,23 +39,26 @@ public class EventRestController {
         return eventService.getFilteredEvents(wrapper);
     }
     @RequestMapping(method = RequestMethod.POST, value = "/event/{eventID}/willGo/{userID}")
-    public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int id, @PathVariable("userID") int userID) {
-        Event event = eventService.getEvent(id);
-        eventService.WillGo(id, userID);
+    public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int eventID, @PathVariable("userID") int userID) {
+        Event event = eventService.getEvent(eventID);
+        User user = userService.getUser(userID);
+        eventService.WillGo(event, user);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
 
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/event/{eventID}/willNotGo/{userID}")
-    public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int id, @PathVariable("userID") int userID) {
-        Event event = eventService.getEvent(id);
-        eventService.WillNotGo(id, userID);
+    public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int eventID, @PathVariable("userID") int userID) {
+        Event event = eventService.getEvent(eventID);
+        User user = userService.getUser(userID);
+        eventService.WillNotGo(event, user);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/event/{eventID}/getVisitors")
     public ResponseEntity<List<User>> getVisitors(@PathVariable("eventID") int id) {
-        List<User> visitors = eventService.getVisitors(id);
+        Event event = eventService.getEvent(id);
+        List<User> visitors = eventService.getVisitors(event);
         return new ResponseEntity<>(visitors,HttpStatus.OK);
     }
 }
