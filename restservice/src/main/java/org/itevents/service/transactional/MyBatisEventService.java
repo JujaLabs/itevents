@@ -48,17 +48,19 @@ public class MyBatisEventService implements EventService {
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
+
+    @Override
     //    @PreAuthorize("isAuthenticated()")
-    public String WillGo(int eventID, int userID) {
+    public String WillGo(Event event, User user) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
-            Event event = eventDao.getEvent(eventID);
-            User user = userDao.getUser(userID);
-            if (new Date().after(event.getEventDate())){
+//            Event event = eventDao.getEvent(eventID);
+//            User user = userDao.getUser(userID);
+//            if (new Date().after(event.getEventDate())){
                 eventDao.willGoToEvent(user, event);
-            }else return "Event date passed";
+//            }else return "Event date passed";
         }catch (Exception e) {
             return "Something went wrong. May be already subscribed";
         }
@@ -67,13 +69,13 @@ public class MyBatisEventService implements EventService {
 
     @Override
 //    @PreAuthorize("isAuthenticated()")
-    public String WillNotGo(int eventID, int userID) {
+    public String WillNotGo(Event event, User user) {
         try {
 //        if (event != null) {
 //            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 //        }
-            Event event = eventDao.getEvent(eventID);
-            User user = userDao.getUser(userID);
+//            Event event = eventDao.getEvent(eventID);
+//            User user = userDao.getUser(userID);
             eventDao.willNotGoToEvent(user, event);
         }catch (Exception e) {
             return "Something went wrong. May be already unsubscribed";
@@ -83,8 +85,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<User> getVisitors(int eventID) {
-        return eventDao.getVisitors(getEvent(eventID));
+    public List<User> getVisitors(Event event) {
+        return eventDao.getVisitors(event);
     }
 
     @Override
