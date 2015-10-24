@@ -8,7 +8,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Ближайшие интересные Вам ивенты!</title>
+                <title>Future events!</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <meta name="robots" content="noindex, nofollow"/>
             </head>
