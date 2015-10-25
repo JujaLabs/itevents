@@ -20,7 +20,5 @@ public interface FilterService {
 
     Filter getFilterByUser(User user);
 
-    void putFilter(User user, Filter filter);
-
-    Filter removeFilterByUser(User user);
+    void addFilter(User user, Filter filter);
 }

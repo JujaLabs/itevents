@@ -4,10 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
+import org.itevents.service.converter.FilterConverter;
+import org.itevents.util.time.TimeUtil;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,10 +32,15 @@ import javax.inject.Inject;
 @Api("Users")
 @RequestMapping("/users")
 public class UserRestController {
+
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private UserService userService;
     @Inject
     private RoleService roleService;
+    @Inject
+    private FilterService filterService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -80,5 +92,18 @@ public class UserRestController {
 
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
+    @ApiOperation(value = "Set filter for authorized user")
+    public ResponseEntity setFilter(@ModelAttribute FilterWrapper wrapper) {
+        logger.info(wrapper);
+        Filter filter = new FilterConverter().toFilter(wrapper);
+        filter.setCreateDate(TimeUtil.getNowDate());
+        User user = userService.getAuthorizedUser();
+        filterService.addFilter(user, filter);
+        return new ResponseEntity(HttpStatus.OK);
+        //todo try catch for possible exceptions
+
     }
 }

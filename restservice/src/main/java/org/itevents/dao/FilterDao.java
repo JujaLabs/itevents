@@ -27,6 +27,4 @@ public interface FilterDao {
     void updateFilter(Filter oldFilter, Filter newFilter);
 
     void addUserFilter(User user, Filter filter);
-
-    void removeUserFilter(User user);
 }

@@ -1,5 +1,6 @@
 package org.itevents.model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class Filter {
     private Double longitude;
     private Double latitude;
     private Integer radius;
+    private Date createDate;
     private List<Technology> technologies;
 
     public Integer getId() {
@@ -81,6 +83,14 @@ public class Filter {
         this.radius = radius;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     public List<Technology> getTechnologies() {
         return technologies;
     }
@@ -103,6 +113,7 @@ public class Filter {
         if (longitude != null ? !longitude.equals(filter.longitude) : filter.longitude != null) return false;
         if (latitude != null ? !latitude.equals(filter.latitude) : filter.latitude != null) return false;
         if (radius != null ? !radius.equals(filter.radius) : filter.radius != null) return false;
+        if (createDate != null ? !createDate.equals(filter.createDate) : filter.createDate != null) return false;
         return !(technologies != null ? !technologies.equals(filter.technologies) : filter.technologies != null);
 
     }
@@ -116,6 +127,7 @@ public class Filter {
         result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
         result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
         result = 31 * result + (radius != null ? radius.hashCode() : 0);
+        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
         return result;
     }
@@ -131,6 +143,7 @@ public class Filter {
         sb.append(", longitude=").append(longitude);
         sb.append(", latitude=").append(latitude);
         sb.append(", radius=").append(radius);
+        sb.append(", createDate=").append(createDate);
         sb.append(", technologies=").append(technologies);
         sb.append('}');
         return sb.toString();

@@ -55,7 +55,4 @@ public interface FilterMapper extends FilterDao {
 
     @Insert("INSERT INTO user_filter (user_id, filter_id) VALUES (#{user.id}, #{filter.id})")
     void addUserFilter(User user, Filter filter);
-
-    @Delete("DELETE FROM user_filter WHERE user_id=#{id}")
-    void removeUserFilter(User user);
 }
