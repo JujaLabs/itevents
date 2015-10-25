@@ -17,7 +17,6 @@ import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,17 +80,13 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
     @ApiOperation(value = "Removes user from database ")
     public ResponseEntity removeUser() {
-        User user = getUserFromSecurityContext();
+        User user = userService.getAuthorizedUser();
         User removed = userService.removeUser(user);
         if (removed == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity(HttpStatus.OK);
         }
-    }
-
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")

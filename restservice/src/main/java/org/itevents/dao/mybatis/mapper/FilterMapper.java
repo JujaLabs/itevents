@@ -35,8 +35,8 @@ public interface FilterMapper extends FilterDao {
     @Select("SELECT * FROM filter ORDER BY id")
     List<Filter> getAllFilters();
 
-    @Insert("INSERT INTO filter (limit, city_id, free, longitude, latitude, radius)" +
-            "VALUES (#{limit}, #{city.id}, #{free}, #{longitude}, #{latitude}, #{radius})")
+    @Insert("INSERT INTO filter (limit, city_id, create_date, free, longitude, latitude, radius)" +
+            "VALUES (#{limit}, #{createDate}, #{city.id}, #{free}, #{longitude}, #{latitude}, #{radius})")
     @Options(useGeneratedKeys = true)
     void addFilter(Filter filter);
 
@@ -49,8 +49,9 @@ public interface FilterMapper extends FilterDao {
     @Delete("DELETE FROM user_filter WHERE user_id = #{id}")
     void removeFilterTechnology(User user);
 
-    @Update("UPDATE filter SET limit =#{newFilter.limit}, city_id =#{newFilter.city_id}, free =#{newFilter.free}, " +
-            "longitude =#{newFilter.longitude}, latitude =#{newFilter.latitude}, radius =#{newFilter.radius} " +
+    @Update("UPDATE filter SET limit =#{newFilter.limit}, create_date=#{createDate}, city_id =#{newFilter.city_id}," +
+            " free =#{newFilter.free}, longitude =#{newFilter.longitude}, latitude =#{newFilter.latitude}," +
+            " radius =#{newFilter.radius} " +
             "WHERE id=#{oldFilter.id")
     void updateFilter(Filter oldFilter, Filter newFilter);
 

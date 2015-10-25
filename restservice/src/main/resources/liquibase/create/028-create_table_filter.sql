@@ -3,6 +3,7 @@
 CREATE TABLE filter (
   id        SERIAL UNIQUE PRIMARY KEY NOT NULL,
   "limit" INT,
+  create_date TIMESTAMP NOT NULL,
   city_id   INT,
   free      BOOLEAN,
   longitude FLOAT,
