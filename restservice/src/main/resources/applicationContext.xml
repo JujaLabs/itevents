@@ -33,6 +33,7 @@
         <constructor-arg value="${sendgrid_api_key}"/>
     </bean>
 
+    <!-- @alex-anakin: don't need declaring this -->
     <bean id="mailService" class="org.itevents.service.sendmail.SendGridMailService">
         <constructor-arg ref="sendgrid"/>
     </bean>

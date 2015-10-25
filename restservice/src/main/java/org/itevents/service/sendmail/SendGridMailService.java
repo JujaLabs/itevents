@@ -6,12 +6,14 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by max on 29.07.15.
  */
+//@alex-anakin: specify tte class as service
 public class SendGridMailService implements MailService {
 
     private static final Logger logger = LogManager.getLogger();
     private static final String FROM_MAIL = "events@juja.com.ua";
     private static final String SUBJECT_MAIL = "IT Events";
 
+    //@alex-anakin: inject this bean
     private SendGrid sendgrid;
 
     public SendGridMailService(SendGrid sendgrid) {

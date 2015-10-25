@@ -24,8 +24,10 @@ public class SendGridMailServiceTest {
     @Inject
     SendGridMailService mailService;
 
+    //@alex-anakin: make mail creation in private method
     public SendGrid.Email createMail() {
         SendGrid.Email sendGridMail = mailService.createMail(htmlLetter, userEmailAddress);
+        // @alex-anakin: make assertions in particular method specified as @Test
         assertNotNull(sendGridMail);
         assertNotNull(sendGridMail.getFrom());
 
