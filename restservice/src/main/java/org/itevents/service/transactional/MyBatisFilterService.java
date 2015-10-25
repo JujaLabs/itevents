@@ -42,8 +42,8 @@ public class MyBatisFilterService implements FilterService {
     }
 
     @Override
-    public Filter getFilterByUser(User user) {
-        return filterDao.getFilterByUser(user);
+    public Filter getLastFilterByUser(User user) {
+        return filterDao.getLastFilterByUser(user);
     }
 
     @Override

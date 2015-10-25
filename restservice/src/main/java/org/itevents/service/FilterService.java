@@ -18,7 +18,7 @@ public interface FilterService {
 
     Filter removeFilter(Filter filter);
 
-    Filter getFilterByUser(User user);
+    Filter getLastFilterByUser(User user);
 
     void addFilter(User user, Filter filter);
 }

@@ -27,8 +27,9 @@ public interface FilterMapper extends FilterDao {
     Filter getFilter(int id);
 
     @ResultMap("getFilter-int")
-    @Select("SELECT * FROM filter f JOIN user_filter uf ON f.id=uf.filter_id AND uf.user_id = #{id}")
-    Filter getFilterByUser(User user);
+    @Select("SELECT * FROM filter f JOIN user_filter uf ON f.id=uf.filter_id AND uf.user_id = #{id} " +
+            "ORDER BY create_date DESC LIMIT 1")
+    Filter getLastFilterByUser(User user);
 
     @ResultMap("getFilter-int")
     @Select("SELECT * FROM filter ORDER BY id")

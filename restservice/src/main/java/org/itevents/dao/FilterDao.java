@@ -12,7 +12,7 @@ public interface FilterDao {
 
     Filter getFilter(int id);
 
-    Filter getFilterByUser(User user);
+    Filter getLastFilterByUser(User user);
 
     List<Filter> getAllFilters();
 
