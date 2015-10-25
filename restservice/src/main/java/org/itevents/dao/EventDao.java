@@ -19,6 +19,8 @@ public interface EventDao {
 
     List<Event> getFilteredEvents(Filter params);
 
+    // @alex-anakin: it would be good to use method getFilteredEvents(Filter params)
+    // making Filter more complicated
     List<Event> getFilteredEventsWithRating(Filter params);
 
     void removeEvent(Event event);

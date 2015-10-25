@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * Created by roma on 18.10.15.
  */
+// @alex-anakin: rename to DateTimeUtil
 public class TimeUtil {
     public static String getFormattedNowDatePlusDays(int days) {
         String dateFormat = "yyyy-MM-dd HH:mm:ss";

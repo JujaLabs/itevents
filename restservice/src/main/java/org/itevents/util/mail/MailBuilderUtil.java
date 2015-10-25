@@ -23,10 +23,13 @@ import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.List;
 
+// @alex-anakin: make as a spring bean
 public class MailBuilderUtil {
 
+    // @alex-anakin: don't break the comma to the next line
     public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException
             , TransformerException {
+        // @alex-anakin: redundant variable emailFormattedInHTML - make return method output
         String  emailFormattedInHTML = buildMailFromXmlEvents(buildXmlFromEventList(events));
         return emailFormattedInHTML;
     }
@@ -46,6 +49,7 @@ public class MailBuilderUtil {
     }
 
     private String buildMailFromXmlEvents(String eventsInXml) throws IOException, TransformerException {
+        // @alex-anakin: load resource using annotations
         File mailXslFile = new ClassPathXmlApplicationContext("applicationContext.xml")
                 .getResource("utils/mailBuilder/mail.xsl")
                 .getFile();
@@ -64,6 +68,7 @@ public class MailBuilderUtil {
         return mailStringWriter.toString();
     }
 
+    // @alex-anakin: class name should tell us what entity it wrap
     @XmlRootElement(name="events")
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class RootXmlNodeWrapper{

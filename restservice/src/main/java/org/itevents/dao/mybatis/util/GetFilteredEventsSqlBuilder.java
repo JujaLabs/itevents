@@ -21,6 +21,7 @@ public class GetFilteredEventsSqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
+                // @alex-anakin: statement can be simplified
                 if (params.getFree() == true) {
                     WHERE("(price IS NULL OR price = 0)");
                 } else {
@@ -34,6 +35,10 @@ public class GetFilteredEventsSqlBuilder {
         }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
     }
 
+    // @alex-anakin: if need to build more complicate SQL
+    // make new method that use method getFilteredEvents() as is
+    // and adds functionality, don't copy-paste
+    // Than make test for it
     public String getFilteredEventsInDateRangeWithRating(final Filter params) {
         return new SQL() {{
             SELECT("*");
@@ -49,6 +54,7 @@ public class GetFilteredEventsSqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
+                // @alex-anakin: statement can be simplified
                 if (params.getFree() == true) {
                     WHERE("(price IS NULL OR price = 0)");
                 } else {
