@@ -12,6 +12,7 @@
 
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
+    <context:component-scan base-package="org.itevents.util"/>
     <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -27,13 +28,5 @@
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="templateDigestEmail" class="java.net.URI">
-        <constructor-arg>
-            <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">
-                <constructor-arg value="classpath:utils/mailBuilder/mail.xsl" type="java.io.InputStream" />
-            </bean>
-        </constructor-arg>
     </bean>
 </beans>

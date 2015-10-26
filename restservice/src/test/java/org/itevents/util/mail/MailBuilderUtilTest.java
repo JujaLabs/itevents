@@ -22,10 +22,13 @@ public class MailBuilderUtilTest {
     @Inject
     String expectedDigestEmail;
 
+    @Inject
+    MailBuilderUtil mailBuilderUtil;
+
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
         List<Event> filteredEvents = BuilderUtil.buildEventsForMailUtilTest();
-        String returnedDigestEmail = new MailBuilderUtil().buildHtmlFromEventsList(filteredEvents);
+        String returnedDigestEmail = mailBuilderUtil.buildHtmlFromEventsList(filteredEvents);
         assertEquals(expectedDigestEmail, returnedDigestEmail);
     }
 }
