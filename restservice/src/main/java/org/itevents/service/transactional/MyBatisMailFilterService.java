@@ -25,7 +25,6 @@ public class MyBatisMailFilterService implements MailFilterService {
         Date maximumDate = TimeUtil.addDaysToDate(TimeUtil.getNowDate(), FILTER_RANGE_IN_DAYS);
         filter.setMaximumDate(maximumDate);
         filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
-        filter.setOffset(0);
         return eventDao.getFilteredEventsWithRating(filter);
     }
 }
