@@ -3,8 +3,6 @@ package org.itevents.test_utils;
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
 import org.itevents.service.transactional.MyBatisMailFilterService;
-import org.itevents.util.time.TimeUtil;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

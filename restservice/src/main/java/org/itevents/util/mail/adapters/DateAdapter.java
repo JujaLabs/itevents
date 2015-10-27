@@ -5,17 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateAdapter extends XmlAdapter<String, Date> {
-
-    // @alex-anakin: used varied formats of date - it's confused
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    
+    private SimpleDateFormat dateFormatForXml = new SimpleDateFormat("dd.MM.yyyy");
 
     @Override
     public String marshal(Date date) throws Exception {
-        return dateFormat.format(date);
+        return dateFormatForXml.format(date);
     }
 
     @Override
     public Date unmarshal(String dateString) throws Exception {
-        return dateFormat.parse(dateString);
+        return dateFormatForXml.parse(dateString);
     }
 }
