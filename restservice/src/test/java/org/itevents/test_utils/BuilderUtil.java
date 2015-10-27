@@ -431,6 +431,8 @@ public class BuilderUtil {
     public static Filter buildFilterFifth() {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
+                .free(false)
+                .technologies(new ArrayList<>())
                 .id(-5)
                 .build();
     }

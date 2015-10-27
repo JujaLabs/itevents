@@ -8,6 +8,7 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
+import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,20 +37,35 @@ public class FilterMapperDbTest extends AbstractDbTest {
     @Test
     public void shouldFindFilterById() throws Exception {
         Filter expectedFilter = BuilderUtil.buildFilterFirst();
+
         Filter returnedFilter = filterMapper.getFilter(expectedFilter.getId());
+
         assertEquals(expectedFilter, returnedFilter);
     }
 
     @Test
     public void expectNullWhenFilterIsAbsent() {
         Filter returnedFilter = filterMapper.getFilter(ID_0);
+
         assertNull(returnedFilter);
+    }
+
+    @Test
+    public void shouldFindLastFilterOfUser() {
+        Filter expectedFilter = BuilderUtil.buildFilterFifth();
+        User user = BuilderUtil.buildUserKuchin();
+
+        Filter returnedFilter = filterMapper.getLastFilterByUser(user);
+
+        assertEquals(expectedFilter, returnedFilter);
     }
 
     @Test
     public void shouldGetAllFilters() throws ParseException {
         int expectedSize = 5;
+
         int returnedSize = filterMapper.getAllFilters().size();
+
         Assert.assertEquals(expectedSize, returnedSize);
     }
 
@@ -58,6 +74,7 @@ public class FilterMapperDbTest extends AbstractDbTest {
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAddFilter() throws ParseException {
         Filter addingFilter = BuilderUtil.buildFilterTest();
+
         filterMapper.addFilter(addingFilter);
     }
 
@@ -71,6 +88,7 @@ public class FilterMapperDbTest extends AbstractDbTest {
         technologies.add(BuilderUtil.buildTechnologyJava());
         technologies.add(BuilderUtil.buildTechnologyJavaScript());
         addingFilter.setTechnologies(technologies);
+
         filterMapper.addFilterTechnology(addingFilter);
     }
 }
