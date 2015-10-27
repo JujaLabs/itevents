@@ -50,7 +50,7 @@ public class GetFilteredEventsSqlBuilder {
     private SQL getFilteredEventsInDateRangeWithRatingSQL(final Filter params) {
         SQL sql = getFilteredEventsSQL(params);
         sql.LEFT_OUTER_JOIN(" (SELECT event_id, COUNT(*) as visits FROM visit_log " +
-                "GROUP BY event_id) AS visits ON e.id = visits.event_id ");
+                "GROUP BY event_id) AS visits ON e.id = visits.event_id");
         return sql;
     }
 

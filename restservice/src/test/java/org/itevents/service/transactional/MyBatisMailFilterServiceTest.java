@@ -11,7 +11,6 @@ import org.itevents.service.MailFilterService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.test_utils.dbunit.dataset_loader.EventDateReplacementDataSetLoader;
 import org.junit.Test;
-
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.List;
@@ -32,6 +31,6 @@ public class MyBatisMailFilterServiceTest extends AbstractDbTest {
     public void testFilterUtil() throws ParseException {
         Filter filter = BuilderUtil.buildTestFilter();
         List<Event> filteredEvents = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);
-        assertEquals(2, filteredEvents.size());
+        assertEquals(2, filteredEvents.size()); // todo: improve assertion
     }
 }

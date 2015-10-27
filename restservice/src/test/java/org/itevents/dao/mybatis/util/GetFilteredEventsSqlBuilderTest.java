@@ -104,4 +104,21 @@ public class GetFilteredEventsSqlBuilderTest {
         assertEquals(expectedSql, returnedSql);
     }
 
+    @Test
+    public void shouldBuildSqlQueryWithDateRangeWithRating() {
+        Filter filter = BuilderUtil.buildTestFilter();
+        String expectedSql = "SELECT * FROM event e " +
+                "JOIN event_technology et ON et.technology_id=-1 or et.technology_id=-5 or et.technology_id=-8 " +
+                "LEFT OUTER JOIN  (SELECT event_id, COUNT(*) as visits FROM visit_log GROUP BY event_id) " +
+                    "AS visits ON e.id = visits.event_id " +
+                "WHERE (e.event_date > NOW() AND e.event_date < #{maximumDate} " +
+                "AND city_id = #{city.id} " +
+                "AND (price IS NULL OR price = 0) " +
+                "AND e.id=et.event_id) ORDER BY event_date " +
+                "LIMIT #{limit}";
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEventsInDateRangeWithRating(filter)
+                .replace('\n', ' ');
+        assertEquals(expectedSql, returnedSql);
+    }
+
 }
