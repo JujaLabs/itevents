@@ -17,13 +17,14 @@ public interface FilterMapper extends FilterDao {
 
     @Results({
             @Result(property = "id", column = "id", id = true),
+            @Result(property = "limit", column = "row_limit"),
             @Result(property = "city", javaType = City.class, column = "city_id",
                     one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
             @Result(property = "technologies", column = "id", javaType = ArrayList.class,
                     many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByFilterId"))
 
     })
-    @Select("SELECT * FROM filter WHERE user_id = #{id}")
+    @Select("SELECT * FROM filter WHERE id = #{id}")
     Filter getFilter(int id);
 
     @ResultMap("getFilter-int")
@@ -35,25 +36,13 @@ public interface FilterMapper extends FilterDao {
     @Select("SELECT * FROM filter ORDER BY id")
     List<Filter> getAllFilters();
 
-    @Insert("INSERT INTO filter (limit, city_id, create_date, free, longitude, latitude, radius)" +
-            "VALUES (#{limit}, #{createDate}, #{city.id}, #{free}, #{longitude}, #{latitude}, #{radius})")
+    @Insert("INSERT INTO filter (row_limit, city_id, create_date, free, longitude, latitude, radius)" +
+            "VALUES (#{limit}, #{city.id}, #{createDate}, #{free}, #{longitude}, #{latitude}, #{radius})")
     @Options(useGeneratedKeys = true)
     void addFilter(Filter filter);
 
     @InsertProvider(type = AddFilterTechnologySqlBuilder.class, method = "addFilterTechnology")
     void addFilterTechnology(Filter filter);
-
-    @Delete("DELETE FROM filter WHERE id = #{id}")
-    void removeFilter(Filter filter);
-
-    @Delete("DELETE FROM user_filter WHERE user_id = #{id}")
-    void removeFilterTechnology(User user);
-
-    @Update("UPDATE filter SET limit =#{newFilter.limit}, create_date=#{createDate}, city_id =#{newFilter.city_id}," +
-            " free =#{newFilter.free}, longitude =#{newFilter.longitude}, latitude =#{newFilter.latitude}," +
-            " radius =#{newFilter.radius} " +
-            "WHERE id=#{oldFilter.id")
-    void updateFilter(Filter oldFilter, Filter newFilter);
 
     @Insert("INSERT INTO user_filter (user_id, filter_id) VALUES (#{user.id}, #{filter.id})")
     void addUserFilter(User user, Filter filter);

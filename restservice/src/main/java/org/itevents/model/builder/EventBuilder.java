@@ -2,7 +2,6 @@ package org.itevents.model.builder;
 
 import org.itevents.model.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -90,13 +89,13 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder technology(Technology technology) {
-        if (technologies == null) {
-            technologies = new ArrayList<>();
-        }
-        this.technologies.add(technology);
-        return this;
-    }
+//    public EventBuilder technology(Technology technology) {
+//        if (technologies == null) {
+//            technologies = new ArrayList<>();
+//        }
+//        this.technologies.add(technology);
+//        return this;
+//    }
 
     public EventBuilder but() {
         return anEvent().id(id).title(title).eventDate(eventDate).сreateDate(createDate).regLink(regLink)

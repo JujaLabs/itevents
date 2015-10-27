@@ -16,8 +16,6 @@ public interface FilterService {
 
     List<Filter> getAllFilters();
 
-    Filter removeFilter(Filter filter);
-
     Filter getLastFilterByUser(User user);
 
     void addFilter(User user, Filter filter);

@@ -34,6 +34,11 @@ public interface TechnologyMapper extends TechnologyDao {
             " ORDER BY name")
     List<Technology> getTechnologiesByEventId(int eventId);
 
+    @ResultType(Technology.class)
+    @Select("SELECT * FROM technology t JOIN filter_technology ft ON t.id=ft.technology_id AND ft.filter_id = #{filterId}" +
+            " ORDER BY name")
+    List<Technology> getTechnologiesByFilterId(int filterId);
+
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addTechnology(Technology technology);

@@ -33,15 +33,6 @@ public class MyBatisFilterService implements FilterService {
     }
 
     @Override
-    public Filter removeFilter(Filter filter) {
-        Filter deletingFilter = filterDao.getFilter(filter.getId());
-        if (deletingFilter != null) {
-            filterDao.removeFilter(deletingFilter);
-        }
-        return deletingFilter;
-    }
-
-    @Override
     public Filter getLastFilterByUser(User user) {
         return filterDao.getLastFilterByUser(user);
     }

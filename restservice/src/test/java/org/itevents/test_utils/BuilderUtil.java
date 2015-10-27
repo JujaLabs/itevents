@@ -420,11 +420,10 @@ public class BuilderUtil {
     public static Filter buildFilterFirst() {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
-                .free(false)
                 .technology(buildTechnologyJava())
                 .technology(buildTechnologyMaven())
-                .technology(buildTechnologySpring())
                 .technology(buildTechnologyMyBatis())
+                .technology(buildTechnologySpring())
                 .id(-1)
                 .build();
     }
@@ -433,6 +432,17 @@ public class BuilderUtil {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
                 .id(-5)
+                .build();
+    }
+
+    public static Filter buildFilterTest() throws ParseException {
+        return FilterBuilder.aFilter()
+                .city(buildCityOdessa())
+                .free(true)
+                .createDate(parseDate("16.07.2015"))
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyJavaScript())
+                .id(-6)
                 .build();
     }
 

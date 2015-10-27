@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by vaa25 on 27.10.2015.
@@ -80,29 +80,4 @@ public class MyBatisFilterServiceTest {
 
         verify(filterDao).addFilter(testFilter);
     }
-
-    @Test
-    public void shouldRemoveFilter() {
-        Filter expectedFilter = BuilderUtil.buildFilterFirst();
-
-        when(filterDao.getFilter(expectedFilter.getId())).thenReturn(expectedFilter);
-        doNothing().when(filterDao).removeFilter(expectedFilter);
-
-        Filter returnedFilter = filterService.removeFilter(expectedFilter);
-
-        assertEquals(expectedFilter, returnedFilter);
-    }
-
-    @Test
-    public void shouldNotRemoveFilterWhenItIsNotExisting() {
-        Filter testFilter = BuilderUtil.buildFilterFirst();
-
-        when(filterDao.getFilter(testFilter.getId())).thenReturn(null);
-        doNothing().when(filterDao).removeFilter(testFilter);
-
-        Filter returnedFilter = filterService.removeFilter(testFilter);
-
-        assertNull(returnedFilter);
-    }
-
 }
