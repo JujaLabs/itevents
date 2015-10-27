@@ -4,9 +4,6 @@ import org.itevents.model.Event;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.core.io.Resource;
-
-import javax.inject.Inject;
-import javax.sql.DataSource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -28,11 +25,10 @@ import java.util.List;
 @Component
 public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/mail.xsl")
-    private Resource templateDigestEmail;
+    private Resource emailTemplateXslResource;
 
     public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
             TransformerException {
-
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
 
@@ -53,7 +49,7 @@ public class MailBuilderUtil {
     private String buildMailFromXmlEvents(String eventsInXml) throws IOException, TransformerException {
         Transformer transformer =
                 TransformerFactory.newInstance().newTransformer(
-                        new StreamSource(templateDigestEmail.getFile())
+                        new StreamSource(emailTemplateXslResource.getFile())
                 );
 
         StringWriter mailStringWriter = new StringWriter();
