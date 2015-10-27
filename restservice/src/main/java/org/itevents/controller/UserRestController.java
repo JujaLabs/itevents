@@ -91,7 +91,7 @@ public class UserRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Set filter for authorized user")
-    public ResponseEntity setFilter(@ModelAttribute FilterWrapper wrapper) {
+    public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
         logger.info(wrapper);
         Filter filter = new FilterConverter().toFilter(wrapper);
         filter.setCreateDate(TimeUtil.getNowDate());

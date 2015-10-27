@@ -417,5 +417,23 @@ public class BuilderUtil {
         return result;
     }
 
+    public static Filter buildFilterFirst() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .free(false)
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyMaven())
+                .technology(buildTechnologySpring())
+                .technology(buildTechnologyMyBatis())
+                .id(-1)
+                .build();
+    }
+
+    public static Filter buildFilterFifth() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .id(-5)
+                .build();
+    }
 
 }

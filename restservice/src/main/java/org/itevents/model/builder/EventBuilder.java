@@ -2,6 +2,7 @@ package org.itevents.model.builder;
 
 import org.itevents.model.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +87,14 @@ public class EventBuilder {
 
     public EventBuilder technologies(List<Technology> technologies) {
         this.technologies = technologies;
+        return this;
+    }
+
+    public EventBuilder technology(Technology technology) {
+        if (technologies == null) {
+            technologies = new ArrayList<>();
+        }
+        this.technologies.add(technology);
         return this;
     }
 

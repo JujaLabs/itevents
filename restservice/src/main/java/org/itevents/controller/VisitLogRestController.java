@@ -11,6 +11,7 @@ import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
+import org.itevents.util.time.TimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 @RestController
 @Api(value = "visits", description = "Visit log")
@@ -45,7 +44,7 @@ public class VisitLogRestController {
             VisitLog visitLog = VisitLogBuilder.aVisitLog()
                     .event(event)
                     .user(user)
-                    .date(getCurrentDate())
+                    .date(TimeUtil.getNowDate())
                     .build();
             visitLogService.addVisitLog(visitLog);
             return new ResponseEntity(event.getRegLink(), HttpStatus.OK);
@@ -61,9 +60,5 @@ public class VisitLogRestController {
             logger.error("Invalid event URL : " + event.getRegLink(), e);
             return false;
         }
-    }
-
-    private Date getCurrentDate() {
-        return new GregorianCalendar().getTime();
     }
 }
