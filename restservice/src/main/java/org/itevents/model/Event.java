@@ -1,6 +1,9 @@
 package org.itevents.model;
 
+import org.itevents.util.mail.adapters.DateAdapter;
+
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,7 @@ public class Event implements Serializable {
     @XmlElement
     private String title;
     @XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date eventDate;
     @XmlElement
     private Date createDate;

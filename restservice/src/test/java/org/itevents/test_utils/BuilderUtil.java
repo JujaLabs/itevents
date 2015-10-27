@@ -2,7 +2,7 @@ package org.itevents.test_utils;
 
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
-
+import org.itevents.service.transactional.MyBatisMailFilterService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -417,5 +417,25 @@ public class BuilderUtil {
         return result;
     }
 
+    public static Filter buildTestFilter() {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(BuilderUtil.buildTechnologyJava());
+        technologies.add(BuilderUtil.buildTechnologyGradle());
+        technologies.add(BuilderUtil.buildTechnologySpring());
+        Filter filter = new Filter();
+        filter.setCity(BuilderUtil.buildCityKyiv());
+        filter.setFree(true);
+        filter.setTechnologies(technologies);
+        filter.setRangeInDays(MyBatisMailFilterService.FILTER_RANGE_IN_DAYS);
+        filter.setLimit(MyBatisMailFilterService.COUNT_OF_EVENTS_IN_EMAIL);
+        return filter;
+    }
+
+    public static List<Event> buildEventsForMailUtilTest() throws ParseException {
+        List<Event> events = new ArrayList<>();
+        events.add(BuilderUtil.buildEventJava());
+        events.add(BuilderUtil.buildEventRuby());
+        return  events;
+    }
 
 }
