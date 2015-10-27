@@ -1,6 +1,5 @@
 package org.itevents.model;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ public class Filter {
     private Double latitude;
     private Integer radius;
     private List<Technology> technologies;
-    private Date maximumDate;
+    private Integer rangeInDays;
 
     public int getId() {
         return id;
@@ -91,12 +90,12 @@ public class Filter {
         this.technologies = technologies;
     }
 
-    public Date getMaximumDate() {
-        return maximumDate;
+    public Integer getRangeInDays() {
+        return rangeInDays;
     }
 
-    public void setMaximumDate(Date maximumDate) {
-        this.maximumDate = maximumDate;
+    public void setRangeInDays(Integer rangeInDays) {
+        this.rangeInDays = rangeInDays;
     }
 
     @Override

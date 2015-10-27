@@ -17,9 +17,6 @@ public class GetFilteredEventsSqlBuilder {
             SELECT("*");
             FROM("event e");
             WHERE("e.event_date > NOW()");
-            if (params.getMaximumDate() != null) {
-                WHERE("e.event_date < #{maximumDate}");
-            }
             if (params.getCity() != null) {
                 WHERE("city_id = #{city.id}");
             }
@@ -42,13 +39,14 @@ public class GetFilteredEventsSqlBuilder {
     }
 
     public String getFilteredEventsInDateRangeWithRating(final Filter params) {
-        SQL sql =  getFilteredEventsInDateRangeWithRatingSQL(params);
-        return sql + " LIMIT #{limit}";
-
+        return getFilteredEventsInDateRangeWithRatingSQL(params).toString() + " LIMIT #{limit}";
     }
 
     private SQL getFilteredEventsInDateRangeWithRatingSQL(final Filter params) {
         SQL sql = getFilteredEventsSQL(params);
+        if (params.getRangeInDays() != null) {
+            sql.WHERE("e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL");
+        }
         sql.LEFT_OUTER_JOIN(" (SELECT event_id, COUNT(*) as visits FROM visit_log " +
                 "GROUP BY event_id) AS visits ON e.id = visits.event_id");
         return sql;

@@ -428,7 +428,7 @@ public class BuilderUtil {
         filter.setCity(BuilderUtil.buildCityKyiv());
         filter.setFree(true);
         filter.setTechnologies(technologies);
-        filter.setMaximumDate(TimeUtil.addDaysToDate(TimeUtil.getNowDate(), MyBatisMailFilterService.FILTER_RANGE_IN_DAYS));
+        filter.setRangeInDays(MyBatisMailFilterService.FILTER_RANGE_IN_DAYS);
         filter.setLimit(MyBatisMailFilterService.COUNT_OF_EVENTS_IN_EMAIL);
         return filter;
     }
