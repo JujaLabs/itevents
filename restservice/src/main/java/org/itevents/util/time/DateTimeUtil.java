@@ -22,7 +22,7 @@ public class DateTimeUtil {
         return calendar.getTime();
     }
 
-    private static String dateToString(Date date, String format) {
+    public static String dateToString(Date date, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.format(date);
     }
