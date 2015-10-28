@@ -19,12 +19,12 @@
         <intercept-url pattern="/users/delete" access='isAuthenticated()'/>
         <intercept-url pattern="/users/subscribe" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
-        <form-login login-processing-url="/login"
+        <form-login login-processing-url="/users/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
                     authentication-failure-handler-ref="authenticationFailureHandler"
                     username-parameter="username"
                     password-parameter="password"/>
-        <logout logout-url="/logout"
+        <logout logout-url="/users/logout"
                 success-handler-ref="logoutSuccessHandler"/>
         <anonymous username="guest"/>
     </http>

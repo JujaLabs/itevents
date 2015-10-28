@@ -89,14 +89,6 @@ public class EventBuilder {
         return this;
     }
 
-//    public EventBuilder technology(Technology technology) {
-//        if (technologies == null) {
-//            technologies = new ArrayList<>();
-//        }
-//        this.technologies.add(technology);
-//        return this;
-//    }
-
     public EventBuilder but() {
         return anEvent().id(id).title(title).eventDate(eventDate).сreateDate(createDate).regLink(regLink)
                 .address(address).location(location).сontact(contact).price(price).сurrency(currency)
