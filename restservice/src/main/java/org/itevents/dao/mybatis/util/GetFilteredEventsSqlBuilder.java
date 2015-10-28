@@ -2,14 +2,17 @@ package org.itevents.dao.mybatis.util;
 
 import org.apache.ibatis.jdbc.SQL;
 import org.itevents.model.Technology;
-import org.itevents.parameter.FilteredEventsParameter;
-
+import org.itevents.model.Filter;
 import java.util.Iterator;
 import java.util.List;
 
 public class GetFilteredEventsSqlBuilder {
 
-    public String getFilteredEvents(final FilteredEventsParameter params) {
+    public String getFilteredEvents(final Filter params) {
+        return getFilteredEventsSQL(params).toString() + " LIMIT #{limit} OFFSET #{offset}";
+    }
+
+    private SQL getFilteredEventsSQL(final Filter params) {
         return new SQL() {{
             SELECT("*");
             FROM("event e");
@@ -21,7 +24,7 @@ public class GetFilteredEventsSqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
-                if (params.getFree() == true) {
+                if (params.getFree()) {
                     WHERE("(price IS NULL OR price = 0)");
                 } else {
                     WHERE("price > 0");
@@ -31,10 +34,25 @@ public class GetFilteredEventsSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
-        }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
+            ORDER_BY("event_date");
+        }};
     }
 
-    private String makeJoin(FilteredEventsParameter params) {
+    public String getFilteredEventsInDateRangeWithRating(final Filter params) {
+        return getFilteredEventsInDateRangeWithRatingSQL(params).toString() + " LIMIT #{limit}";
+    }
+
+    private SQL getFilteredEventsInDateRangeWithRatingSQL(final Filter params) {
+        SQL sql = getFilteredEventsSQL(params);
+        if (params.getRangeInDays() != null) {
+            sql.WHERE("e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL");
+        }
+        sql.LEFT_OUTER_JOIN(" (SELECT event_id, COUNT(*) as visits FROM visit_log " +
+                "GROUP BY event_id) AS visits ON e.id = visits.event_id");
+        return sql;
+    }
+
+    private String makeJoin(Filter params) {
         StringBuilder sb = new StringBuilder();
         sb.append("event_technology et ON ");
         List<Technology> technologies = params.getTechnologies();
@@ -48,5 +66,4 @@ public class GetFilteredEventsSqlBuilder {
         }
         return sb.toString();
     }
-
 }

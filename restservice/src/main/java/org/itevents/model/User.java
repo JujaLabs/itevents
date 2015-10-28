@@ -6,6 +6,7 @@ public class User {
     private String login;
     private String password;
     private Role role;
+    private Filter filter;
 
     public User() {
     }
@@ -40,6 +41,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
     @Override
