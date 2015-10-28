@@ -20,7 +20,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldFindEventById() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        mvc.perform(get("/events/" + event.getId()))
+        mvc.perform(get("/events/"+ event.getId()))
                 .andExpect(status().isOk());
     }
 }
