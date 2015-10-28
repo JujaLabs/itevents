@@ -28,7 +28,7 @@ public class DateTimeUtilTest {
     }
 
     @Test
-    public void shouldReturnFormattedDate() throws ParseException {
+    public void shouldReturnFormattedDate(){
         assertEquals(expectedFormattedDate, DateTimeUtil.dateToString(initialDate, dateFormatForTest));
     }
 
