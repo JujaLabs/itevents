@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vaa25:33
+--changeset vaa25:27
 INSERT INTO user_filter (user_id, filter_id) VALUES
   (-2, -1),
   (-3, -5),

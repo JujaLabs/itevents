@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vaa25:32
+--changeset vaa25:26
 CREATE TABLE user_filter (
   user_id INT NOT NULL,
   filter_id INT UNIQUE NOT NULL,

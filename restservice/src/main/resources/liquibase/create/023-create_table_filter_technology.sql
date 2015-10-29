@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vaa25:30
+--changeset vaa25:23
 CREATE TABLE filter_technology (
   filter_id     INT NOT NULL,
   technology_id INT NOT NULL,

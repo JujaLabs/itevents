@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset vaa25:31
+--changeset vaa25:24
 INSERT INTO filter_technology (filter_id, technology_id) VALUES
   (-1, -1),
   (-2, -4),

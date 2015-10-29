@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset vaa25:28
+--changeset vaa25:21
 CREATE TABLE filter (
   id        SERIAL UNIQUE PRIMARY KEY NOT NULL,
   row_limit INT,
