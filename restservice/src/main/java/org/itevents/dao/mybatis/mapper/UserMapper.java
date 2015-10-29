@@ -28,9 +28,14 @@ public interface UserMapper extends UserDao {
     @Select("SELECT * FROM user_profile ORDER BY login")
     List<User> getAllUsers();
 
-    @Insert("INSERT INTO user_profile (login, password, role_id) VALUES(#{login}, #{password}, #{role.id})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{login}, #{password}, " +
+            "#{role.id}, #{subscribed})")
     @Options(useGeneratedKeys = true)
     void addUser(User user);
+
+    @Update("UPDATE user_profile SET login=#{login}, password=#{password}, role_id=#{role.id}, subscribed=#{subscribed} " +
+            "WHERE id=#{id})")
+    void updateUser(User user);
 
     @Delete("DELETE FROM user_profile WHERE id = #{id}")
     void removeUser(User user);

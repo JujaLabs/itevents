@@ -16,6 +16,8 @@ public interface UserService {
 
     User getAuthorizedUser();
 
+    void activateUserSubscription(User user);
+
     List<User> getAllUsers();
 
     User removeUser(User user);

@@ -97,6 +97,7 @@ public class UserRestController {
         filter.setCreateDate(TimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
+        userService.activateUserSubscription(user);
         return new ResponseEntity(HttpStatus.OK);
         //todo try catch for possible exceptions
 

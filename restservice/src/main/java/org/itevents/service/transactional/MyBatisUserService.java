@@ -40,6 +40,13 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
+    public void activateUserSubscription(User user) {
+        user.setSubscribed(true);
+        userDao.updateUser(user);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }

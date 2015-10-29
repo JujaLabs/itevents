@@ -432,7 +432,7 @@ public class BuilderUtil {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
                 .free(false)
-                .technologies(new ArrayList<>())
+                .technologies(new ArrayList<Technology>())
                 .id(-5)
                 .build();
     }
