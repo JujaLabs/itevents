@@ -43,7 +43,7 @@ public class User {
         this.role = role;
     }
 
-    public boolean getSubscribed() {
+    public boolean isSubscribed() {
         return subscribed;
     }
 

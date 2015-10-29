@@ -34,7 +34,7 @@ public interface UserMapper extends UserDao {
     void addUser(User user);
 
     @Update("UPDATE user_profile SET login=#{login}, password=#{password}, role_id=#{role.id}, subscribed=#{subscribed} " +
-            "WHERE id=#{id})")
+            "WHERE id=#{id}")
     void updateUser(User user);
 
     @Delete("DELETE FROM user_profile WHERE id = #{id}")

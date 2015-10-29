@@ -6,9 +6,7 @@ import org.itevents.model.User;
 import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -82,17 +80,20 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     }
 
+    @Test
+    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldAddFilterForSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
-        Filter filter = new FilterConverter().toFilter(new FilterWrapper());
 
         when(userService.getAuthorizedUser()).thenReturn(user);
-        doNothing().when(filterService).addFilter(user, filter);
+        doNothing().when(filterService).addFilter(eq(user), any(Filter.class));
+        doNothing().when(userService).activateUserSubscription(user);
 
         mvc.perform(get("/users/subscribe"))
                 .andExpect(status().isOk());
 
         verify(userService).getAuthorizedUser();
-        verify(filterService).addFilter(user, filter);
+        verify(userService).activateUserSubscription(user);
+        verify(filterService).addFilter(eq(user), any(Filter.class));
     }
 }

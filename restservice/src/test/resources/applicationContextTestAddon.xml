@@ -17,4 +17,7 @@
     <bean id="visitLogService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="org.itevents.service.VisitLogService"/>
     </bean>
+    <bean id="filterService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.FilterService"/>
+    </bean>
 </beans>

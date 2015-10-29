@@ -125,6 +125,7 @@
                 login CDATA #REQUIRED
                 password CDATA #REQUIRED
                 role_id CDATA #REQUIRED
+                subscribed CDATA #IMPLIED
                 >
 
         <!ELEMENT visit_log EMPTY>

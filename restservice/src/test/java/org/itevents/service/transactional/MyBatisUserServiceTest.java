@@ -110,4 +110,20 @@ public class MyBatisUserServiceTest {
         verify(userDao, never()).removeUser(any(User.class));
         assertNull(returnedUser);
     }
+
+    @Test
+    public void shouldActivateUserSubscription() {
+        User testUser = BuilderUtil.buildUserTest();
+        boolean expectedSubscribed = true;
+
+        doNothing().when(userDao).updateUser(testUser);
+
+        userService.activateUserSubscription(testUser);
+        boolean returnedSubscribed = testUser.isSubscribed();
+
+        verify(userDao).updateUser(testUser);
+        assertEquals(expectedSubscribed, returnedSubscribed);
+
+
+    }
 }
