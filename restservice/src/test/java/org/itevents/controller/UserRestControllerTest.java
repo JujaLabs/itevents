@@ -11,9 +11,13 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -35,7 +39,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
 
-        mvc.perform(post("/user/register")
+        mvc.perform(post("/POST/users/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
@@ -51,13 +55,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        mvc.perform(post("/user/register")
+        mvc.perform(post("/POST/users/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
 
         verify(roleService, never()).getRole(anyInt());
-        verify(userService).getUserByName(user.getLogin());
+        verify(userService,atLeastOnce()).getUserByName(user.getLogin());
         verify(userService, never()).addUser(user);
     }
 
@@ -69,11 +73,21 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
 
-        mvc.perform(delete("/user/delete"))
+        mvc.perform(delete("/DELETE/users/delete"))
                 .andExpect(status().isOk());
 
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
+    }
 
+    @Test
+    public void shouldReturnUserSubscribedEvents() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        List expectedList = userService.getUserEvents(user);
+        when(userService.getUser(user.getId())).thenReturn(user);
+        mvc.perform(get("/GET/users/" +user.getId() + "/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedList.toString()));
+        verify(userService, atLeastOnce()).getUserEvents(user);
     }
 }

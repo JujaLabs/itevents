@@ -31,7 +31,6 @@ public interface UserMapper extends UserDao {
     @Delete("DELETE FROM user_profile WHERE id =#{id}")
     void removeUser(User user);
 
-//    @PreAuthorize("isAuthenticated()")
 @Results(value = {
         @Result(property = "id", column = "id", id = true),
         @Result(property = "eventDate", column = "event_date"),

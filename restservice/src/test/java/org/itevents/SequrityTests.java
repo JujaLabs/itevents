@@ -110,7 +110,7 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	@WithUserDetails("vlasov@email.com")
 	public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
-		mvc.perform(post("/user/register"))
+		mvc.perform(post("/POST/users/register"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isForbidden());
 	}
@@ -119,7 +119,7 @@ public class SequrityTests extends AbstractDbTest {
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		User testSubscriber = BuilderUtil.buildSubscriberTest();
 
-		mvc.perform(post("/user/register")
+		mvc.perform(post("/POST/users/register")
 				.param("username", testSubscriber.getLogin())
 				.param("password", testSubscriber.getPassword()))
 				.andExpect(authenticated().withUsername("guest"))

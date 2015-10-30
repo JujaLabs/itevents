@@ -5,19 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -50,38 +46,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    //    @PreAuthorize("isAuthenticated()")
-    public String WillGo(Event event, User user) {
-        try {
-//        if (event != null) {
-//            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-//        }
-//            Event event = eventDao.getEvent(eventID);
-//            User user = userDao.getUser(userID);
-//            if (new Date().after(event.getEventDate())){
-                eventDao.willGoToEvent(user, event);
-//            }else return "Event date passed";
-        }catch (Exception e) {
-            return "Something went wrong. May be already subscribed";
-        }
-        return "successfully subscribed";
+    public void willGoToEvent(User user, Event event) {
+        eventDao.willGoToEvent(user, event);
     }
 
     @Override
-//    @PreAuthorize("isAuthenticated()")
-    public String WillNotGo(Event event, User user) {
-        try {
-//        if (event != null) {
-//            User user = userDao.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-//        }
-//            Event event = eventDao.getEvent(eventID);
-//            User user = userDao.getUser(userID);
+    public void willNotGoToEvent(User user, Event event) {
             eventDao.willNotGoToEvent(user, event);
-        }catch (Exception e) {
-            return "Something went wrong. May be already unsubscribed";
-        }
-        return "successfully unsubscribed";
-
     }
 
     @Override
