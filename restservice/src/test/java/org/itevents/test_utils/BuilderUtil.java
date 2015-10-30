@@ -13,6 +13,7 @@ import java.util.List;
  * Created by vaa25 on 30.09.2015.
  */
 public class BuilderUtil {
+
     public static City buildCityKyiv() {
         return CityBuilder.aCity()
                 .name("Kyiv")
@@ -62,7 +63,7 @@ public class BuilderUtil {
                 .regLink("http://www.java.com.ua")
                 .address("Beresteyska")
                 .location(new Location(50.458585, 30.742017))
-                .сontact("java@gmail.com")
+                .withContact("java@gmail.com")
                 .сity(buildCityKyiv())
                 .technologies(technologies)
                 .id(-1)
@@ -78,7 +79,7 @@ public class BuilderUtil {
                 .regLink("http://www.php.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("php@gmail.com")
+                .withContact("php@gmail.com")
                 .сity(buildCityBoyarka())
                 .technologies(technologies)
                 .id(-2)
@@ -94,7 +95,7 @@ public class BuilderUtil {
                 .regLink("http://www.js.com.ua")
                 .address("Nyvky")
                 .location(new Location(50.458651, 30.403965))
-                .сontact("js@gmail.com")
+                .withContact("js@gmail.com")
                 .сity(buildCityKyiv())
                 .technologies(technologies)
                 .price(20)
@@ -113,7 +114,7 @@ public class BuilderUtil {
                 .regLink("http://www.cplusplus.com.ua")
                 .address("Impact Hub")
                 .location(new Location(46.481782, 30.747175))
-                .сontact("cplusplus@gmail.com")
+                .withContact("cplusplus@gmail.com")
                 .сity(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
@@ -131,7 +132,7 @@ public class BuilderUtil {
                 .regLink("http://www.objective-c.com.ua")
                 .address("Provectus")
                 .location(new Location(46.472508, 30.758417))
-                .сontact("objectivec@gmail.com")
+                .withContact("objectivec@gmail.com")
                 .сity(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
@@ -149,7 +150,7 @@ public class BuilderUtil {
                 .regLink("http://www.c#.com.ua")
                 .address("Khreschatyk")
                 .location(new Location(50.447694, 30.52239))
-                .сontact("csharp@gmail.com")
+                .withContact("csharp@gmail.com")
                 .сity(buildCityBoyarka())
                 .price(20)
                 .сurrency(buildCurrencyEuro())
@@ -167,7 +168,7 @@ public class BuilderUtil {
                 .regLink("http://www.delphi.com.ua")
                 .address("Arsenalna")
                 .location(new Location(50.442843, 30.547603))
-                .сontact("delphi@gmail.com")
+                .withContact("delphi@gmail.com")
                 .price(30)
                 .сurrency(buildCurrencyUsd())
                 .сity(buildCityKyiv())
@@ -183,7 +184,7 @@ public class BuilderUtil {
                 .regLink("http://www.ruby.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("ruby@gmail.com")
+                .withContact("ruby@gmail.com")
                 .сity(buildCityKyiv())
                 .id(-8)
                 .build();
@@ -331,7 +332,7 @@ public class BuilderUtil {
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
                 .login("anakin@email.com")
-                .password("alex")
+                .password("$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq") //alex
                 .role(buildRoleAdmin())
                 .id(-2)
                 .build();
@@ -340,7 +341,7 @@ public class BuilderUtil {
     public static User buildUserKuchin() {
         return UserBuilder.anUser()
                 .login("kuchin@email.com")
-                .password("viktor")
+                .password("$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq") //viktor
                 .role(buildRoleAdmin())
                 .id(-3)
                 .build();
@@ -349,7 +350,7 @@ public class BuilderUtil {
     public static User buildUserVlasov() {
         return UserBuilder.anUser()
                 .login("vlasov@email.com")
-                .password("alex")
+                .password("$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm") //alex
                 .role(buildRoleSubscriber())
                 .id(-4)
                 .build();

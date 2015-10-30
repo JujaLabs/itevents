@@ -36,7 +36,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
-        doNothing().when(userService).addUser(testSubscriber);
+        doNothing().when(userService).addUser(any(User.class));
 
         mvc.perform(post("/users/register")
                 .param("username", testSubscriber.getLogin())
@@ -45,7 +45,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         verify(roleService).getRoleByName(subscriberRole.getName());
         verify(userService).getUserByName(testSubscriber.getLogin());
-        verify(userService).addUser(testSubscriber);
+        verify(userService).addUser(any(User.class));
     }
 
     @Test

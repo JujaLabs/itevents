@@ -17,6 +17,7 @@ import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,8 @@ public class UserRestController {
     private RoleService roleService;
     @Inject
     private FilterService filterService;
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -66,7 +69,7 @@ public class UserRestController {
         }
         User user = UserBuilder.anUser()
                 .login(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);

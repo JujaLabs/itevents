@@ -60,7 +60,7 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	public void shouldLoginWithCorrectPassword() throws Exception {
 		mvc.perform(post("/users/login")
-						.param("username", "vlasov@email.com")
+				.param("username", "vlasov@email.com")
 				.param("password", "alex"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isOk());

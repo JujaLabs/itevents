@@ -64,7 +64,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder сontact(String contact) {
+    public EventBuilder withContact(String contact) {
         this.contact = contact;
         return this;
     }
@@ -91,7 +91,7 @@ public class EventBuilder {
 
     public EventBuilder but() {
         return anEvent().id(id).title(title).eventDate(eventDate).сreateDate(createDate).regLink(regLink)
-                .address(address).location(location).сontact(contact).price(price).сurrency(currency)
+                .address(address).location(location).withContact(contact).price(price).сurrency(currency)
                 .сity(city).technologies(technologies);
     }
 
