@@ -1,8 +1,10 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +36,10 @@ public class MyBatisUserServiceTest {
     private UserService userService;
     @Mock
     private UserDao userDao;
+    @Inject
+    private EventService eventService;
+    @Mock
+    private EventDao eventDao;
 
     @Before
     public void setUp() {
@@ -41,14 +48,14 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldReturnUserEvents() throws Exception{
-//        TODO: Õ≈œ–¿¬»À‹ÕŒ, œ≈–≈ƒ≈À¿“‹!
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        event.addVisitor(user);
-        List expectedEvents = event.getVisitors();
-        List returnedEvents = new ArrayList<>();
-        when(userDao.getUserEvents(user)).thenReturn(returnedEvents);
-        returnedEvents = userDao.getUserEvents(user);
+        List expectedEvents = new ArrayList<>();
+        List returnedEvents;
+        expectedEvents.add(event);
+        doNothing().when(eventDao).willGoToEvent(user, event);
+        when(userService.getUserEvents(user)).thenReturn(expectedEvents);
+        returnedEvents = userService.getUserEvents(user);
         verify(userDao).getUserEvents(user);
         assertEquals(expectedEvents,returnedEvents);
     }
