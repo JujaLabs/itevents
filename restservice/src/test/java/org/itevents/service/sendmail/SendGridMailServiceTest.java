@@ -22,19 +22,19 @@ public class SendGridMailServiceTest {
             + userEmailAddress +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
 
     @Inject
-    SendGridMailService mailService;
+    private SendGridMailService mailService;
 
-    public SendGrid.Email createMail() {
+    @Test
+    public void createMail() {
         SendGrid.Email sendGridMail = mailService.createMail(htmlLetter, userEmailAddress);
         assertNotNull(sendGridMail);
         assertNotNull(sendGridMail.getFrom());
-
-        return sendGridMail;
     }
 
     @Test
     public void testSend() {
-        boolean isMailSent = mailService.send(createMail());
+        SendGrid.Email sendGridMail = mailService.createMail(htmlLetter, userEmailAddress);
+        boolean isMailSent = mailService.send(sendGridMail);
         assertTrue(isMailSent);
     }
 
