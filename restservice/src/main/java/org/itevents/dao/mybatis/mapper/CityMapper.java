@@ -17,7 +17,7 @@ public interface CityMapper extends CityDao {
     City getCity(int id);
 
     @ResultMap("getCity-int")
-    @Select("SELECT * FROM city")
+    @Select("SELECT * FROM city ORDER BY name")
     List<City> getAllCities();
 
     @Insert("INSERT INTO city(name, details, point) " +

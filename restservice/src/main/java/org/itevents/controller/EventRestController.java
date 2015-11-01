@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
 import org.itevents.wrapper.EventWrapper;
@@ -19,7 +20,8 @@ public class EventRestController {
     private EventService eventService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{id}")
-    public ResponseEntity<Event> getEvent(@PathVariable("id") int id) {
+    @ApiOperation(value = "Returns one event with the given id")
+    public ResponseEntity<Event> getEventById(@PathVariable("id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -28,6 +30,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
+    @ApiOperation(value = "Returns events with the given parameters ")
     public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }

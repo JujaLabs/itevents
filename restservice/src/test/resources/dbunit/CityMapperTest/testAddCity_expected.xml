@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <city name="Kyiv" point="POINT(30.523 50.4505)"/>
+    <city name="Odessa" point="POINT(30.73333 46.46667)"/>
+    <city name="Boyarka" point="POINT(30.28861 50.32917)"/>
+    <city name="Odessa" details="Odessa, Florida, USA" point="POINT(-82.568333 28.183333)"/>
+    <city name="TestCity" details="Test city details" point="POINT(0 0)"/>
+</dataset>

@@ -20,10 +20,6 @@ public class Technology implements Serializable {
     public Technology() {
     }
 
-    public Technology(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }

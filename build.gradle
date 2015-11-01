@@ -1,10 +1,14 @@
 subprojects {
-  
-  apply plugin : 'java'
- 
-  repositories {
-     mavenCentral()
-  }
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 }
 
 defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'
