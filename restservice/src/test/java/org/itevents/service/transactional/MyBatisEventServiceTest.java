@@ -127,24 +127,17 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldSubsribeUserToEventAndReturnVisitors() throws Exception {
-        User user = BuilderUtil.buildUserAnakin();
+    public void shouldReturnVisitors() throws Exception {
         Event event = BuilderUtil.buildEventJs();
-        List expectedVisitors = new ArrayList<>();
-        expectedVisitors.add(user);
-        when(eventService.getVisitors(event)).thenReturn(expectedVisitors);
-        doNothing().when(eventDao).willGoToEvent(user, event);
-        List returnedVisitors =  eventService.getVisitors(event);
-        assertEquals(expectedVisitors, returnedVisitors);
+        eventService.getVisitors(event);
+        verify(eventDao).getVisitors(event);
     }
 
     @Test
-    public void shouldUnSubscribeUserFromEvent()throws Exception {
+    public void shouldUnsubscribeUserFromEvent()throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
         eventService.willNotGoToEvent(user, event);
-        doNothing().when(eventDao).willNotGoToEvent(user, event);
-        List returnedVisitors =  eventService.getVisitors(event);
-        assertEquals("[]",returnedVisitors.toString());
+        verify(eventDao).willNotGoToEvent(user, event);
     }
 }

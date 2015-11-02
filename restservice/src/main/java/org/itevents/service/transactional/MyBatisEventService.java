@@ -3,7 +3,6 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
-import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -22,8 +21,6 @@ public class MyBatisEventService implements EventService {
 
     private static final Logger logger = LogManager.getLogger();
 
-    @Inject
-    private UserDao userDao;
     @Inject
     private EventDao eventDao;
     @Inject

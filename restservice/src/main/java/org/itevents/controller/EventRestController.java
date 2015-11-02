@@ -26,7 +26,7 @@ public class EventRestController {
     @Inject
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/GET/events/{eventID}")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{eventID}")
     public ResponseEntity<Event> getEventById(@PathVariable("eventID") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
@@ -35,13 +35,13 @@ public class EventRestController {
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/GET/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
     @ApiOperation(value = "Returns events with the given parameters ")
     public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/POST/events/{eventID}/willGo")
+    @RequestMapping(method = RequestMethod.POST, value = "/events/{eventID}/willGo")
     public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int eventID) {
         Event event = eventService.getEvent(eventID);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -52,7 +52,7 @@ public class EventRestController {
 
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/DELETE/events/{eventID}/willNotGo")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/events/{eventID}/willNotGo")
     public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int eventID) {
         Event event = eventService.getEvent(eventID);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -61,7 +61,7 @@ public class EventRestController {
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/GET/events/{eventID}/getVisitors")
+    @RequestMapping(method = RequestMethod.GET, value = "/events/{eventID}/getVisitors")
     public ResponseEntity<List<User>> getVisitors(@PathVariable("eventID") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);

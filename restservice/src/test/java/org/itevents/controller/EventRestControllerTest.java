@@ -26,7 +26,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     public void shouldFindEventById() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(get("/GET/events/" + event.getId()))
+        mvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isOk());
         verify(eventService).getEvent(event.getId());
     }
@@ -38,7 +38,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(post("/POST/events/" + event.getId() + "/willGo"))
+        mvc.perform(post("/events/" + event.getId() + "/willGo"))
                 .andExpect(status().isCreated());
         verify(eventService, atLeastOnce()).getEvent(event.getId());
     }
@@ -50,7 +50,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(delete("/DELETE/events/" + event.getId() + "/willNotGo"))
+        mvc.perform(delete("/events/" + event.getId() + "/willNotGo"))
                 .andExpect(status().isOk());
         verify(eventService, atLeastOnce()).getEvent(event.getId());
     }
@@ -60,7 +60,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         List expectedList = eventService.getVisitors(event);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(get("/GET/events/" + event.getId() + "/getVisitors"))
+        mvc.perform(get("/events/" + event.getId() + "/getVisitors"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedList.toString()));
         verify(eventService, atLeastOnce()).getVisitors(event);

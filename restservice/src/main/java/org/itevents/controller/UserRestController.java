@@ -29,7 +29,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
-    @RequestMapping(method = RequestMethod.POST, value = "/POST/users/register")
+    @RequestMapping(method = RequestMethod.POST, value = "/users/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
                                                 @ModelAttribute("password") String password) {
@@ -49,7 +49,7 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/DELETE/users/delete")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/delete")
     @ApiOperation(value = "Removes user from database ")
     public ResponseEntity removeUser() {
         User user = getUserFromSecurityContext();
@@ -65,12 +65,12 @@ public class UserRestController {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/GET/users/{userID}")
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}")
     public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
         return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/GET/users/{userID}/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/events")
     public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
         User user = userService.getUser(userID);
         if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);

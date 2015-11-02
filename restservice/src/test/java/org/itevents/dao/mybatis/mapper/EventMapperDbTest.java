@@ -210,29 +210,18 @@ public class EventMapperDbTest extends AbstractDbTest {
     @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldSubscribeUserToEvent() throws Exception {
-        User user1 = BuilderUtil.buildUserAnakin();
-        User user2 = BuilderUtil.buildUserKuchin();
-        List expectedUsers = new ArrayList<>();
-        expectedUsers.add(user2);
-        expectedUsers.add(user1);
+        User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willGoToEvent(user1, event);
-        List returnedUsers = eventMapper.getVisitors(event);
-        assertEquals(expectedUsers, returnedUsers);
+        eventMapper.willGoToEvent(user, event);
     }
 
     @Test
     @DatabaseSetup(value =TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUnSubscribeUserFromEvent() throws Exception {
-        User user1 = BuilderUtil.buildUserAnakin();
-        User user2 = BuilderUtil.buildUserKuchin();
-        List expectedUsers = new ArrayList<>();
-        expectedUsers.add(user2);
+        User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willNotGoToEvent(user1, event);
-        List returnedUsers = eventMapper.getVisitors(event);
-        assertEquals(expectedUsers, returnedUsers);
+        eventMapper.willNotGoToEvent(user, event);
     }
     @Test
     @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)

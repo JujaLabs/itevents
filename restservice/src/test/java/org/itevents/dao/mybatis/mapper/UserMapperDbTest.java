@@ -79,6 +79,7 @@ public class UserMapperDbTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value = PATH + "EventMapperTest/addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
     public void shouldReturnUserEvents() throws Exception{
+//        TODO: ѕ≈ределевть, вернуть список технологий.
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
         event.setTechnologies(null);
