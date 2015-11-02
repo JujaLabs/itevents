@@ -39,7 +39,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
 
-        mvc.perform(post("/POST/users/register")
+        mvc.perform(post("/users/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
@@ -55,7 +55,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        mvc.perform(post("/POST/users/register")
+        mvc.perform(post("/users/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
@@ -73,7 +73,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
 
-        mvc.perform(delete("/DELETE/users/delete"))
+        mvc.perform(delete("/users/delete"))
                 .andExpect(status().isOk());
 
         verify(userService).getUserByName(user.getLogin());
@@ -85,7 +85,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         User user = BuilderUtil.buildUserAnakin();
         List expectedList = userService.getUserEvents(user);
         when(userService.getUser(user.getId())).thenReturn(user);
-        mvc.perform(get("/GET/users/" +user.getId() + "/events"))
+        mvc.perform(get("/users/" +user.getId() + "/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedList.toString()));
         verify(userService, atLeastOnce()).getUserEvents(user);

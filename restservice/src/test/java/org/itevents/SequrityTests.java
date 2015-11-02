@@ -119,7 +119,7 @@ public class SequrityTests extends AbstractDbTest {
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		User testSubscriber = BuilderUtil.buildSubscriberTest();
 
-		mvc.perform(post("/POST/users/register")
+		mvc.perform(post("/users/register")
 				.param("username", testSubscriber.getLogin())
 				.param("password", testSubscriber.getPassword()))
 				.andExpect(authenticated().withUsername("guest"))
