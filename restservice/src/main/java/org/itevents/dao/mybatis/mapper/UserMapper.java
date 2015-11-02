@@ -2,14 +2,10 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.model.*;
 
 import java.util.List;
 
-/**
- * Created by vaa25 on 17.07.2015.
- */
 public interface UserMapper extends UserDao {
 
     @Results({
@@ -34,4 +30,19 @@ public interface UserMapper extends UserDao {
 
     @Delete("DELETE FROM user_profile WHERE id =#{id}")
     void removeUser(User user);
+
+@Results(value = {
+        @Result(property = "id", column = "id", id = true),
+        @Result(property = "eventDate", column = "event_date"),
+        @Result(property = "createDate", column = "create_date"),
+        @Result(property = "regLink", column = "reg_link"),
+        @Result(property = "location", column = "id", javaType = Location.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.selectLocation")),
+        @Result(property = "currency", column = "currency_id", javaType = Currency.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
+        @Result(property = "city", column = "city_id", javaType = City.class,
+                one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity"))
+})
+    @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
+    List<Event> getUserEvents(@Param("user") User user);
 }

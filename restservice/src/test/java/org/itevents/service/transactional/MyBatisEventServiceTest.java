@@ -2,6 +2,7 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
@@ -123,5 +124,27 @@ public class MyBatisEventServiceTest {
 
         verify(eventDao).getFilteredEvents(any(FilteredEventsParameter.class));
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    public void shouldSubsribeUserToEventAndReturnVisitors() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        List expectedVisitors = new ArrayList<>();
+        expectedVisitors.add(user);
+        when(eventService.getVisitors(event)).thenReturn(expectedVisitors);
+        doNothing().when(eventDao).willGoToEvent(user, event);
+        List returnedVisitors =  eventService.getVisitors(event);
+        assertEquals(expectedVisitors, returnedVisitors);
+    }
+
+    @Test
+    public void shouldUnSubscribeUserFromEvent()throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        eventService.willNotGoToEvent(user, event);
+        doNothing().when(eventDao).willNotGoToEvent(user, event);
+        List returnedVisitors =  eventService.getVisitors(event);
+        assertEquals("[]",returnedVisitors.toString());
     }
 }
