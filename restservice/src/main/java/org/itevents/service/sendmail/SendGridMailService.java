@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @Service("mailService")
 public class SendGridMailService implements MailService {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final String FROM_MAIL = "events@juja.com.ua";
     private static final String SUBJECT_MAIL = "IT Events";
 
@@ -25,7 +25,7 @@ public class SendGridMailService implements MailService {
         boolean status = send(email);
 
         if (!status) {
-            logger.error("Email sending error: ", emailAddress);
+            LOGGER.error("Email sending error: ", emailAddress);
         }
 
     }
