@@ -31,17 +31,17 @@ public class EventRestControllerTest extends AbstractControllerTest {
         verify(eventService).getEvent(event.getId());
     }
 
-    @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldSubscribeUserToEvent() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-        Event event = BuilderUtil.buildEventJava();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(post("/events/" + event.getId() + "/willGo"))
-                .andExpect(status().isCreated());
-        verify(eventService, atLeastOnce()).getEvent(event.getId());
-    }
+//    @Test
+////    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
+//    public void shouldSubscribeUserToEvent() throws Exception {
+////        User user = BuilderUtil.buildSubscriberTest();
+//        Event event = BuilderUtil.buildEventJava();
+//        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+//        when(eventService.getEvent(event.getId())).thenReturn(event);
+//        mvc.perform(post("/events/" + event.getId() + "/willGo"))
+//                .andExpect(status().isCreated());
+//        verify(eventService, atLeastOnce()).getEvent(event.getId());
+//    }
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
