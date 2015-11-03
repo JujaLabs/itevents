@@ -24,26 +24,32 @@ public interface FilterMapper extends FilterDao {
                     many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByFilterId"))
 
     })
+    @Override
     @Select("SELECT * FROM filter WHERE id = #{id}")
     Filter getFilter(int id);
 
+    @Override
     @ResultMap("getFilter-int")
     @Select("SELECT * FROM filter f JOIN user_filter uf ON f.id=uf.filter_id AND uf.user_id = #{id} " +
             "ORDER BY create_date DESC LIMIT 1")
     Filter getLastFilterByUser(User user);
 
+    @Override
     @ResultMap("getFilter-int")
     @Select("SELECT * FROM filter ORDER BY id")
     List<Filter> getAllFilters();
 
+    @Override
     @Insert("INSERT INTO filter (row_limit, city_id, create_date, free, longitude, latitude, radius)" +
             "VALUES (#{limit}, #{city.id}, #{createDate}, #{free}, #{longitude}, #{latitude}, #{radius})")
     @Options(useGeneratedKeys = true)
     void addFilter(Filter filter);
 
+    @Override
     @InsertProvider(type = AddFilterTechnologySqlBuilder.class, method = "addFilterTechnology")
     void addFilterTechnology(Filter filter);
 
+    @Override
     @Insert("INSERT INTO user_filter (user_id, filter_id) VALUES (#{user.id}, #{filter.id})")
     void addUserFilter(User user, Filter filter);
 }

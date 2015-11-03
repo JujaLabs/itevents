@@ -3,6 +3,7 @@ package org.itevents.dao.mybatis.util;
 import org.apache.ibatis.jdbc.SQL;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,13 +22,13 @@ public class GetFilteredEventsSqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
-                if (params.getFree() == true) {
+                if (params.getFree()) {
                     WHERE("(price IS NULL OR price = 0)");
                 } else {
                     WHERE("price > 0");
                 }
             }
-            if (params.getTechnologies() != null) {
+            if (!CollectionUtils.isEmpty(params.getTechnologies())) {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }

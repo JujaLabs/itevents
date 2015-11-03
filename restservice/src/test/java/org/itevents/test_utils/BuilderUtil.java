@@ -64,7 +64,7 @@ public class BuilderUtil {
                 .address("Beresteyska")
                 .location(new Location(50.458585, 30.742017))
                 .withContact("java@gmail.com")
-                .сity(buildCityKyiv())
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .id(-1)
                 .build();
@@ -80,7 +80,7 @@ public class BuilderUtil {
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
                 .withContact("php@gmail.com")
-                .сity(buildCityBoyarka())
+                .city(buildCityBoyarka())
                 .technologies(technologies)
                 .id(-2)
                 .build();
@@ -96,10 +96,10 @@ public class BuilderUtil {
                 .address("Nyvky")
                 .location(new Location(50.458651, 30.403965))
                 .withContact("js@gmail.com")
-                .сity(buildCityKyiv())
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-3)
                 .build();
     }
@@ -115,10 +115,10 @@ public class BuilderUtil {
                 .address("Impact Hub")
                 .location(new Location(46.481782, 30.747175))
                 .withContact("cplusplus@gmail.com")
-                .сity(buildCityOdessa())
+                .city(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-4)
                 .build();
     }
@@ -133,10 +133,10 @@ public class BuilderUtil {
                 .address("Provectus")
                 .location(new Location(46.472508, 30.758417))
                 .withContact("objectivec@gmail.com")
-                .сity(buildCityOdessa())
+                .city(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-5)
                 .build();
     }
@@ -151,9 +151,9 @@ public class BuilderUtil {
                 .address("Khreschatyk")
                 .location(new Location(50.447694, 30.52239))
                 .withContact("csharp@gmail.com")
-                .сity(buildCityBoyarka())
+                .city(buildCityBoyarka())
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .technologies(technologies)
                 .id(-6)
                 .build();
@@ -170,8 +170,8 @@ public class BuilderUtil {
                 .location(new Location(50.442843, 30.547603))
                 .withContact("delphi@gmail.com")
                 .price(30)
-                .сurrency(buildCurrencyUsd())
-                .сity(buildCityKyiv())
+                .currency(buildCurrencyUsd())
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .id(-7)
                 .build();
@@ -185,7 +185,7 @@ public class BuilderUtil {
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
                 .withContact("ruby@gmail.com")
-                .сity(buildCityKyiv())
+                .city(buildCityKyiv())
                 .id(-8)
                 .build();
     }

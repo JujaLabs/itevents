@@ -26,7 +26,7 @@ import java.net.URL;
 @Api(value = "visits", description = "Visit log")
 public class VisitLogRestController {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private EventService eventService;
@@ -57,7 +57,7 @@ public class VisitLogRestController {
         try {
             return event != null && new URL(event.getRegLink()).toURI() != null;
         } catch (Exception e) {
-            logger.error("Invalid event URL : " + event.getRegLink(), e);
+            LOGGER.error("Invalid event URL : " + event.getRegLink(), e);
             return false;
         }
     }
