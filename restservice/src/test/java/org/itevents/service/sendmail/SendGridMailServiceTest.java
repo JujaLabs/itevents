@@ -17,23 +17,23 @@ import javax.inject.Inject;
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
 public class SendGridMailServiceTest {
 
-    private String userEmailAddress ="it-events@ex.ua";
-    private String htmlLetter ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
-            + userEmailAddress +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
+    private final String USER_EMAIL_ADDRESS ="it-events@ex.ua";
+    private final String HTML_LATTER ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
+            + USER_EMAIL_ADDRESS +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
 
     @Inject
     private SendGridMailService mailService;
 
     @Test
     public void createMail() {
-        SendGrid.Email sendGridMail = mailService.createMail(htmlLetter, userEmailAddress);
+        SendGrid.Email sendGridMail = mailService.createMail(HTML_LATTER, USER_EMAIL_ADDRESS);
         assertNotNull(sendGridMail);
         assertNotNull(sendGridMail.getFrom());
     }
 
     @Test
     public void testSend() {
-        SendGrid.Email sendGridMail = mailService.createMail(htmlLetter, userEmailAddress);
+        SendGrid.Email sendGridMail = mailService.createMail(HTML_LATTER, USER_EMAIL_ADDRESS);
         boolean isMailSent = mailService.send(sendGridMail);
         assertTrue(isMailSent);
     }

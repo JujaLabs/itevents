@@ -22,9 +22,9 @@ public class SendGridMailService implements MailService {
     public void sendMail(String htmlLetter, String emailAddress){
 
         SendGrid.Email email = createMail(htmlLetter, emailAddress);
-        boolean status = send(email);
+        boolean isEmailSent = send(email);
 
-        if (!status) {
+        if (!isEmailSent) {
             LOGGER.error("Email sending error: ", emailAddress);
         }
 
