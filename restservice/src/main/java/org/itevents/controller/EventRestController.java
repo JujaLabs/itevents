@@ -42,6 +42,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/events/{eventID}/willGo")
+    @ApiOperation(value = "Subscribes logged in user on event")
     public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int eventID) {
         Event event = eventService.getEvent(eventID);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -53,6 +54,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/events/{eventID}/willNotGo")
+    @ApiOperation(value = "Unsubscribes logged in user from event")
     public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int eventID) {
         Event event = eventService.getEvent(eventID);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -62,6 +64,7 @@ public class EventRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events/{eventID}/getVisitors")
+    @ApiOperation(value = "Returns list of visitors of event")
     public ResponseEntity<List<User>> getVisitors(@PathVariable("eventID") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);

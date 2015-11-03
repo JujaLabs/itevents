@@ -71,6 +71,7 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/events")
+    @ApiOperation(value = "Returns list of events, to which user is subscribed")
     public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
         User user = userService.getUser(userID);
         if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
