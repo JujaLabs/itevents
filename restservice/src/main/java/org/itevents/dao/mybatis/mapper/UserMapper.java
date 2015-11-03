@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
 import org.itevents.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface UserMapper extends UserDao {
@@ -41,7 +42,9 @@ public interface UserMapper extends UserDao {
         @Result(property = "currency", column = "currency_id", javaType = Currency.class,
                 one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
         @Result(property = "city", column = "city_id", javaType = City.class,
-                one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity"))
+                one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
+        @Result(property = "technologies", column = "id", javaType = ArrayList.class,
+                many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
 })
     @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);

@@ -134,6 +134,14 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
+    public void shouldSubscribeToEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventRuby();
+        eventService.willGoToEvent(user,event);
+        verify(eventDao).willGoToEvent(user,event);
+    }
+
+    @Test
     public void shouldUnsubscribeUserFromEvent()throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
