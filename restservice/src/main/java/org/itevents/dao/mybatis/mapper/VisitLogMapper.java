@@ -34,5 +34,5 @@ public interface VisitLogMapper extends VisitLogDao {
 
     @Delete("DELETE FROM visit_log WHERE id=#{id}")
     void removeVisitLog(VisitLog visitLog);
-
+// to delete
 }

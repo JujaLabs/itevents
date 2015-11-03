@@ -28,6 +28,8 @@ public abstract class AbstractControllerTest {
     @Inject
     protected WebApplicationContext context;
     protected MockMvc mvc;
+    protected final static int ID_0 = 0;
+    protected final static int ID_1 = -1;
 
     @Before
     public void setup() {
