@@ -1,0 +1,53 @@
+package org.itevents.model;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
+public class Otp implements Serializable {
+    String otp;
+    Date creationDate;
+    Date expirationDate;
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void generateOtp(long lifetimeInMinutes) {
+        setCreationDate(new Date());
+        if (lifetimeInMinutes>0){
+            setExpirationDate(new Date(creationDate.getTime()+lifetimeInMinutes*60*1000));
+            otp = UUID.randomUUID().toString();
+        }else
+            otp = UUID.randomUUID().toString();
+    }
+
+    public Otp() {
+    }
+
+    private static Date parseDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd.MM.yyyy").parse(date);
+    }
+}

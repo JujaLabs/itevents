@@ -7,5 +7,5 @@ CREATE TABLE user_profile (
   password VARCHAR(30)               NOT NULL,
   role_id  INT                       NOT NULL,
   isActive BOOL DEFAULT FALSE,
-  FOREIGN KEY (role_id) REFERENCES role
+  FOREIGN KEY (role_id) REFERENCES role ON DELETE CASCADE
 );

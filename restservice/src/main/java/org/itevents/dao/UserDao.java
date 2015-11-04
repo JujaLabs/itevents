@@ -1,6 +1,7 @@
 package org.itevents.dao;
 
 import org.itevents.model.Otp;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface UserDao {
     void addUser(User user);
 
     void removeUser(User user);
+
+    List<Event> getUserEvents(User user);
 
     void activateUser(User user);
 

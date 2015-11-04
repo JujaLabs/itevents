@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Otp;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
@@ -16,10 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
-/**
- * Created by vaa25 on 16.10.2015.
- */
 @RestController
 @Api("Users")
 @RequestMapping("/users")
@@ -81,5 +80,19 @@ public class UserRestController {
 
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userID}")
+    public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
+        return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userID}/events")
+    @ApiOperation(value = "Returns list of events, to which user is subscribed")
+    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
+        User user = userService.getUser(userID);
+        if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        List<Event> events = userService.getUserEvents(user);
+        return new ResponseEntity<>(events,HttpStatus.OK);
     }
 }

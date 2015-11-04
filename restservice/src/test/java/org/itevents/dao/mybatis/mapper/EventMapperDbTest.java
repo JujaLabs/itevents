@@ -8,7 +8,9 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
 import org.itevents.model.Technology;
+import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
@@ -202,5 +204,34 @@ public class EventMapperDbTest extends AbstractDbTest {
 
         List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldSubscribeUserToEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventPhp();
+        eventMapper.willGoToEvent(user, event);
+    }
+
+    @Test
+    @DatabaseSetup(value =TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "addUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldUnSubscribeUserFromEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventPhp();
+        eventMapper.willNotGoToEvent(user, event);
+    }
+    @Test
+    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    public void shouldReturnVisitors() throws Exception {
+        User user = BuilderUtil.buildUserKuchin();
+        List expectedUsers = new ArrayList<>();
+        expectedUsers.add(user);
+        Event event = BuilderUtil.buildEventPhp();
+        eventMapper.getVisitors(event);
+        List returnedUsers = eventMapper.getVisitors(event);
+        assertEquals(expectedUsers,returnedUsers);
     }
 }
