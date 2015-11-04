@@ -37,7 +37,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void shouldThrowEventNotFoundControllerExceptionIfEventIsAbsent() throws Exception {
+    public void shouldReturn400WhenEventIsAbsent() throws Exception {
         Event event = BuilderUtil.buildEventRuby();
 
         when(eventService.getEvent(event.getId())).thenThrow(EventNotFoundServiceException.class);
