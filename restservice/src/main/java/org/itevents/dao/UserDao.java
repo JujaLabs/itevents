@@ -1,5 +1,6 @@
 package org.itevents.dao;
 
+import org.itevents.model.Otp;
 import org.itevents.model.User;
 
 import java.util.List;
@@ -18,4 +19,14 @@ public interface UserDao {
     void addUser(User user);
 
     void removeUser(User user);
+
+    void activateUser(User user);
+
+    void deactivateUser(User user);
+
+    void addOtp(User user, Otp otp);
+
+    Otp getOtp(User user);
+
+    void DeleteOtp(User user);
 }

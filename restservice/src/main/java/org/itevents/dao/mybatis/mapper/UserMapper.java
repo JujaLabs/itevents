@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
+import org.itevents.model.Otp;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 
@@ -34,4 +35,24 @@ public interface UserMapper extends UserDao {
 
     @Delete("DELETE FROM user_profile WHERE id =#{id}")
     void removeUser(User user);
+
+    @Insert("UPDATE user_profile SET isActive = true WHERE id = #{id}")
+    void activateUser(User user);
+
+    @Insert("UPDATE user_profile SET isActive = false WHERE id = #{id}")
+    void deactivateUser(User user);
+
+    @Insert("INSERT INTO user_otp(user_id, otp, creationDate, expirationDate) VALUES(#user_id, #otp, #creationDate, #expirationDate) ")
+    void addOtp(User user, Otp otp);
+
+    @Results({
+            @Result(property = "otp", column = "otp"),
+            @Result(property = "creationDate", column = "creationDate"),
+            @Result(property = "expirationDate", column = "creationDate")
+    })
+    @Select("Select * FROM user_otp WHERE user_id = #{id}")
+    Otp getOtp(User user);
+
+    @Delete("DELETE FROM user_otp WHERE user_id = #user_id")
+    void DeleteOtp(User user);
 }

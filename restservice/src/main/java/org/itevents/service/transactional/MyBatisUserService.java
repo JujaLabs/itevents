@@ -1,6 +1,7 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
+import org.itevents.model.Otp;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,30 @@ public class MyBatisUserService implements UserService {
             userDao.removeUser(user);
         }
         return deletingUser;
+    }
+
+    @Override
+    public void activateUser(User user) {
+        userDao.activateUser(user);
+    }
+
+    @Override
+    public void deactivateUser(User user) {
+        userDao.deactivateUser(user);
+    }
+
+    @Override
+    public void addOtp(User user, Otp otp) {
+        userDao.addOtp(user,otp);
+    }
+
+    @Override
+    public Otp getOtp(User user) {
+        return userDao.getOtp(user);
+    }
+
+    @Override
+    public void DeleteOtp(User user) {
+        userDao.DeleteOtp(user);
     }
 }

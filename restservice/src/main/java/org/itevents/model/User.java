@@ -6,6 +6,7 @@ public class User {
     private String login;
     private String password;
     private Role role;
+    boolean isActive;
 
     public User() {
     }
@@ -40,6 +41,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     @Override

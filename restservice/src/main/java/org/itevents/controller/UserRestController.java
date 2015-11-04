@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.itevents.model.Otp;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
@@ -11,12 +12,10 @@ import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * Created by vaa25 on 16.10.2015.
@@ -47,6 +46,9 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
+        Otp otp = new Otp();
+        otp.generateOtp(1440);
+        userService.addOtp(user,otp);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -64,6 +66,17 @@ public class UserRestController {
         } else {
             return new ResponseEntity(HttpStatus.OK);
         }
+    }
+    @RequestMapping(method = RequestMethod.POST,value = "/activate/{otp}")
+    public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
+        User user = getUserFromSecurityContext();
+        Otp otp = userService.getOtp(user);
+        password = otp.getOtp();
+        if (otp!=null && otp.getExpirationDate().after(new Date())) {
+            userService.activateUser(user);
+            userService.DeleteOtp(user);
+            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     private User getUserFromSecurityContext() {

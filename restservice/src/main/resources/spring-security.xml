@@ -16,6 +16,7 @@
         <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/users/register" access='isAnonymous()'/>
         <intercept-url pattern="/users/delete" access='isAuthenticated()'/>
+        <intercept-url pattern="/users/activate/*" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"

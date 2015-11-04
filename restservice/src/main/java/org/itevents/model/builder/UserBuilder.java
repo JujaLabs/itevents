@@ -11,6 +11,7 @@ public class UserBuilder {
     private String login;
     private String password;
     private Role role;
+    private boolean isActive;
 
     private UserBuilder() {
     }
@@ -39,8 +40,13 @@ public class UserBuilder {
         return this;
     }
 
+    public UserBuilder isActive(boolean isActive) {
+        this.isActive = isActive;
+        return this;
+    }
+
     public UserBuilder but() {
-        return anUser().id(id).login(login).password(password).role(role);
+        return anUser().id(id).login(login).password(password).role(role).isActive(isActive);
     }
 
     public User build() {
@@ -49,6 +55,7 @@ public class UserBuilder {
         user.setLogin(login);
         user.setPassword(password);
         user.setRole(role);
+        user.setIsActive(isActive);
         return user;
     }
 }
