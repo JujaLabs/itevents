@@ -62,14 +62,14 @@ public interface UserMapper extends UserDao {
     void addOtp(@Param("user")User user,
                 @Param("otp")Otp otp);
 
-    @Results({
+    @Results(value = {
             @Result(property = "otp", column = "otp"),
             @Result(property = "creationDate", column = "creationDate"),
             @Result(property = "expirationDate", column = "creationDate")
     })
-    @Select("Select * FROM user_otp WHERE user_id = #{id}")
-    Otp getOtp(User user);
+    @Select("Select * FROM user_otp WHERE user_id = #{user.id}")
+    Otp getOtp(@Param("user")User user);
 
-    @Delete("DELETE FROM user_otp WHERE user_id = #user.id")
+    @Delete("DELETE FROM user_otp WHERE user_id = #{user.id}")
     void DeleteOtp(@Param("user")User user);
 }

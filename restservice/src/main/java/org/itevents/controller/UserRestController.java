@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.itevents.model.Otp;
 import org.itevents.model.Event;
+import org.itevents.model.Otp;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
@@ -66,16 +66,24 @@ public class UserRestController {
             return new ResponseEntity(HttpStatus.OK);
         }
     }
-    @RequestMapping(method = RequestMethod.POST,value = "/activate/{otp}")
+    @RequestMapping(method = RequestMethod.POST, value = "/activate/{otp}")
+    @ApiOperation(value = "Activates logged in user by OTP")
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         Otp otp = userService.getOtp(user);
         password = otp.getOtp();
-        if (otp!=null && otp.getExpirationDate().after(new Date())) {
+        if ( password != null || otp.getExpirationDate().after(new Date())) {
             userService.activateUser(user);
             userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @RequestMapping(method = RequestMethod.POST, value ="/deactivate")
+    @ApiOperation(value = "deactivates logged in user")
+    public ResponseEntity<User> deactivateUser() {
+        User user = getUserFromSecurityContext();
+            userService.deactivateUser(user);
+            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
 
     private User getUserFromSecurityContext() {
