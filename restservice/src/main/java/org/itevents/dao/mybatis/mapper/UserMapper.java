@@ -58,8 +58,9 @@ public interface UserMapper extends UserDao {
     @Insert("UPDATE user_profile SET isActive = false WHERE id = #{id}")
     void deactivateUser(User user);
 
-    @Insert("INSERT INTO user_otp(user_id, otp, creationDate, expirationDate) VALUES(#user_id, #otp, #creationDate, #expirationDate) ")
-    void addOtp(User user, Otp otp);
+    @Insert("INSERT INTO user_otp(user_id, otp, creationDate, expirationDate) VALUES(#{user.id}, #{otp.otp}, #{otp.creationDate}, #{otp.expirationDate})")
+    void addOtp(@Param("user")User user,
+                @Param("otp")Otp otp);
 
     @Results({
             @Result(property = "otp", column = "otp"),
@@ -69,6 +70,6 @@ public interface UserMapper extends UserDao {
     @Select("Select * FROM user_otp WHERE user_id = #{id}")
     Otp getOtp(User user);
 
-    @Delete("DELETE FROM user_otp WHERE user_id = #user_id")
-    void DeleteOtp(User user);
+    @Delete("DELETE FROM user_otp WHERE user_id = #user.id")
+    void DeleteOtp(@Param("user")User user);
 }
