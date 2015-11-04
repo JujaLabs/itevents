@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EventNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
@@ -21,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -43,10 +44,9 @@ public class EventMapperDbTest extends AbstractDbTest {
         assertEquals(expectedEvent, returnedEvent);
     }
 
-    @Test
-    public void expectNullWhenEventIsAbsent() {
-        Event returnedEvent = eventMapper.getEvent(ID_0);
-        assertNull(returnedEvent);
+    @Test(expected = EventNotFoundDaoException.class)
+    public void expectEventNotFoundDaoExceptionWhenEventIsAbsent() {
+        eventMapper.getEvent(ABSENT_ID);
     }
 
     @Test
@@ -54,24 +54,6 @@ public class EventMapperDbTest extends AbstractDbTest {
         int expectedSize = 7;
         int returnedSize = eventMapper.getAllEvents().size();
         Assert.assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveEvent_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "EventMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveEvent() throws ParseException {
-        Event removingEvent = BuilderUtil.buildEventRuby();
-        eventMapper.removeEvent(removingEvent);
-    }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddEventTechnology_expected.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "addEventTechnology_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws ParseException {
-        Event removingEvent = BuilderUtil.buildEventRuby();
-        eventMapper.removeEventTechnology(removingEvent);
     }
 
     @Test

@@ -80,27 +80,14 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    @ApiOperation(value = "Removes user from database ")
-    public ResponseEntity removeUser() {
-        User user = userService.getAuthorizedUser();
-        User removed = userService.removeUser(user);
-        if (removed == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Set filter for authorized user")
-    public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) { // параметров метод не принемает
-        logger.info(wrapper);
+    public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
         filter.setCreateDate(TimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
-        userService.activateUserSubscription(user); // деактивировать
+        userService.activateUserSubscription(user);
         return new ResponseEntity(HttpStatus.OK);
         //todo try catch for possible exceptions
 

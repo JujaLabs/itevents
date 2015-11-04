@@ -18,8 +18,4 @@ public interface EventDao {
     void updateEvent(Event event);
 
     List<Event> getFilteredEvents(Filter params);
-    
-    void removeEvent(Event event);
-
-    void removeEventTechnology(Event event);
 }

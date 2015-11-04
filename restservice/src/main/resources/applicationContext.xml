@@ -28,4 +28,12 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+    <!--todo replace this with component-scan, inject sqlSessionFactory by aspect-->
+    <bean id="userMapper" class="org.itevents.dao.mybatis.exception_mapper.UserMapper">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="eventMapper" class="org.itevents.dao.mybatis.exception_mapper.EventMapper">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
 </beans>

@@ -1,8 +1,10 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.UserNotFoundDaoException;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
+import org.itevents.service.exception.UserNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -32,7 +33,7 @@ public class MyBatisUserServiceTest {
     @InjectMocks
     @Inject
     private UserService userService;
-    @Mock
+    @Mock(name = "userMapper")
     private UserDao userDao;
 
     @Before
@@ -51,6 +52,15 @@ public class MyBatisUserServiceTest {
         verify(userDao).getUser(expectedUser.getId());
         assertEquals(expectedUser, returnedUser);
 
+    }
+
+    @Test(expected = UserNotFoundServiceException.class)
+    public void shouldThrowUserNotFoundServiceException() throws Exception {
+        int absentId = 0;
+
+        when(userDao.getUser(absentId)).thenThrow(UserNotFoundDaoException.class);
+
+        userService.getUser(absentId);
     }
 
     @Test
@@ -82,33 +92,6 @@ public class MyBatisUserServiceTest {
         userService.getAllUsers();
 
         verify(userDao).getAllUsers();
-    }
-
-    @Test
-    public void shouldRemoveUser() {
-        User expectedUser = BuilderUtil.buildUserTest();
-
-        when(userDao.getUser(expectedUser.getId())).thenReturn(expectedUser);
-        doNothing().when(userDao).removeUser(expectedUser);
-
-        User returnedUser = userService.removeUser(expectedUser);
-
-        verify(userDao).getUser(expectedUser.getId());
-        verify(userDao).removeUser(expectedUser);
-        assertEquals(expectedUser, returnedUser);
-    }
-
-    @Test
-    public void shouldNotRemoveUserWhenItIsNotExisting() {
-        User testUser = BuilderUtil.buildUserTest();
-
-        when(userDao.getUser(testUser.getId())).thenReturn(null);
-
-        User returnedUser = userService.removeUser(testUser);
-
-        verify(userDao).getUser(testUser.getId());
-        verify(userDao, never()).removeUser(any(User.class));
-        assertNull(returnedUser);
     }
 
     @Test

@@ -1,8 +1,10 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.UserNotFoundDaoException;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
+import org.itevents.service.exception.UserNotFoundServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,11 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public User getUser(int id) {
-        return userDao.getUser(id);
+        try {
+            return userDao.getUser(id);
+        } catch (UserNotFoundDaoException e) {
+            throw new UserNotFoundServiceException();
+        }
     }
 
     @Override
@@ -51,12 +57,4 @@ public class MyBatisUserService implements UserService {
         return userDao.getAllUsers();
     }
 
-    @Override
-    public User removeUser(User user) {
-        User deletingUser = userDao.getUser(user.getId());
-        if (deletingUser != null) {
-            userDao.removeUser(user);
-        }
-        return deletingUser;
-    }
 }

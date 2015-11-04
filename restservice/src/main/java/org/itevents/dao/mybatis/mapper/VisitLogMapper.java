@@ -13,9 +13,9 @@ public interface VisitLogMapper extends VisitLogDao {
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "event", javaType = Event.class, column = "event_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.EventMapper.getEvent")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.EventMapperSql.getEvent")),
             @Result(property = "user", javaType = User.class, column = "user_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.UserMapper.getUser"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.UserMapperSql.getUser"))
     })
     @Override
     @Select("SELECT * FROM visit_log WHERE id = #{id}")

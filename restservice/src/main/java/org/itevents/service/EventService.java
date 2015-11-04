@@ -13,7 +13,5 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    Event removeEvent(Event event);
-
     List<Event> getFilteredEvents(FilterWrapper wrapper);
 }
