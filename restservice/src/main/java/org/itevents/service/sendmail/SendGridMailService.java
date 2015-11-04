@@ -34,6 +34,7 @@ public class SendGridMailService implements MailService {
         try {
             return sendgrid.send(email).getStatus();
         } catch (SendGridException e) {
+            LOGGER.error("Email sending error: ", email.getTos());
             return false;
         }
     }
