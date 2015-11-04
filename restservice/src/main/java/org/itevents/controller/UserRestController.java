@@ -45,45 +45,49 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
-        Otp otp = new Otp();
-        otp.generateOtp(1440);
-        userService.addOtp(user,otp);
+        generateOtp(1440,user);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private void generateOtp(long lifetime, User user){
+        Otp otp = new Otp();
+        otp.generateOtp(lifetime);
+        userService.addOtp(user, otp);
     }
 
     private boolean exists(String username) {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    @ApiOperation(value = "Removes user from database ")
-    public ResponseEntity removeUser() {
-        User user = getUserFromSecurityContext();
-        User removed = userService.removeUser(user);
-        if (removed == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-    }
     @RequestMapping(method = RequestMethod.POST, value = "/activate/{otp}")
     @ApiOperation(value = "Activates logged in user by OTP")
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         Otp otp = userService.getOtp(user);
-        password = otp.getOtp();
-        if ( password != null || otp.getExpirationDate().after(new Date())) {
+        if (password.equals(otp.getOtp()) && otp.getExpirationDate().after(new Date())) {
             userService.activateUser(user);
             userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @RequestMapping(method = RequestMethod.POST, value ="/deactivate")
-    @ApiOperation(value = "deactivates logged in user")
+    @ApiOperation(value = "Generates OTP for deactivation of logged in user")
     public ResponseEntity<User> deactivateUser() {
         User user = getUserFromSecurityContext();
+            generateOtp(1440,user);
+            return new ResponseEntity<>(user,HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value ="/deactivate/{otp}")
+    @ApiOperation(value = "deactivates logged in user by OTP")
+    public ResponseEntity<User> deactivateUser(@PathVariable("otp") String password) {
+        User user = getUserFromSecurityContext();
+        Otp otp = userService.getOtp(user);
+        if (password.equals(otp.getOtp()) && otp.getExpirationDate().after(new Date())) {
             userService.deactivateUser(user);
+            userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     private User getUserFromSecurityContext() {
