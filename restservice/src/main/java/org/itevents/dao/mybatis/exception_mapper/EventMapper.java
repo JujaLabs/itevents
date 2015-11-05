@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.exception_mapper;
 
 import org.itevents.dao.EventDao;
-import org.itevents.dao.exception.EventNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -17,21 +17,15 @@ public class EventMapper extends SqlSessionDaoSupport implements EventDao {
     @Override
     public Event getEvent(int id) {
         Event event = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.EventMapperSql.getEvent", id);
-        throwExceptionIfNull(event);
-        return event;
-    }
-
-    private void throwExceptionIfNull(Object object) {
-        if (object == null) {
-            throw new EventNotFoundDaoException();
+        if (event == null) {
+            throw new EntityNotFoundDaoException("Event with id = " + id + " not found");
         }
+        return event;
     }
 
     @Override
     public List<Event> getAllEvents() {
-        List<Event> events = getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapperSql.getAllEvents");
-        throwExceptionIfNull(events);
-        return events;
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapperSql.getAllEvents");
     }
 
     @Override
@@ -51,8 +45,6 @@ public class EventMapper extends SqlSessionDaoSupport implements EventDao {
 
     @Override
     public List<Event> getFilteredEvents(Filter filter) {
-        List<Event> events = getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapperSql.getFilteredEvents", filter);
-        throwExceptionIfNull(events);
-        return events;
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapperSql.getFilteredEvents", filter);
     }
 }

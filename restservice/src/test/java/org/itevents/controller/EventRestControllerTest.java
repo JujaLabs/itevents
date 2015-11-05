@@ -2,7 +2,7 @@ package org.itevents.controller;
 
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
-import org.itevents.service.exception.EventNotFoundServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.springframework.test.annotation.DirtiesContext;
@@ -40,7 +40,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     public void shouldReturn400WhenEventIsAbsent() throws Exception {
         Event event = BuilderUtil.buildEventRuby();
 
-        when(eventService.getEvent(event.getId())).thenThrow(EventNotFoundServiceException.class);
+        when(eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
 
         mvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isBadRequest());

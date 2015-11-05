@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">-->
+<dataset>
+    <city/>
+    <currency/>
+    <event/>
+    <role/>
+    <user_profile/>
+    <visit_log/>
+    <technology/>
+    <event_technology/>
+    <filter/>
+    <filter_technology/>
+    <user_filter/>
+</dataset>

@@ -1,11 +1,11 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
-import org.itevents.dao.exception.EventNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.service.EventService;
-import org.itevents.service.exception.EventNotFoundServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.junit.Before;
@@ -51,11 +51,11 @@ public class MyBatisEventServiceTest {
         verify(eventDao).getEvent(ID_1);
     }
 
-    @Test(expected = EventNotFoundServiceException.class)
+    @Test(expected = EntityNotFoundServiceException.class)
     public void shouldThrowEventNotFoundServiceException() throws Exception {
         int absentId = 0;
 
-        when(eventDao.getEvent(absentId)).thenThrow(EventNotFoundDaoException.class);
+        when(eventDao.getEvent(absentId)).thenThrow(EntityNotFoundDaoException.class);
 
         eventService.getEvent(absentId);
     }

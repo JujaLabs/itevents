@@ -2,10 +2,10 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.itevents.controller.exception.EventNotFoundControllerException;
+import org.itevents.controller.exception.EntityNotFoundControllerException;
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
-import org.itevents.service.exception.EventNotFoundServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +25,8 @@ public class EventRestController {
     public Event getEventById(@PathVariable("id") int id) {
         try {
             return eventService.getEvent(id);
-        } catch (EventNotFoundServiceException e) {
-            throw new EventNotFoundControllerException();
+        } catch (EntityNotFoundServiceException e) {
+            throw new EntityNotFoundControllerException(e.getMessage(), e);
         }
     }
 

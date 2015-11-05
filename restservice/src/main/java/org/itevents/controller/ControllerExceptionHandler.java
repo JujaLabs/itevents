@@ -1,6 +1,6 @@
 package org.itevents.controller;
 
-import org.itevents.controller.exception.EventNotFoundControllerException;
+import org.itevents.controller.exception.EntityNotFoundControllerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,8 +21,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     public void handleSqlException() {
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Event not found")
-    @ExceptionHandler(EventNotFoundControllerException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Entity not found")
+    @ExceptionHandler(EntityNotFoundControllerException.class)
     public void handleEventNotFoundControllerException() {
     }
 }

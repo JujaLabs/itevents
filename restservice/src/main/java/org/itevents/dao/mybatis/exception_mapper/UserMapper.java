@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.exception_mapper;
 
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.UserNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.User;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
@@ -16,28 +16,24 @@ public class UserMapper extends SqlSessionDaoSupport implements UserDao {
     @Override
     public User getUser(int id) {
         User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapperSql.getUser", id);
-        throwExceptionIfNull(user);
-        return user;
-    }
-
-    private void throwExceptionIfNull(Object user) {
         if (user == null) {
-            throw new UserNotFoundDaoException();
+            throw new EntityNotFoundDaoException("User with id = " + id + " not found");
         }
+        return user;
     }
 
     @Override
     public User getUserByName(String name) {
         User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapperSql.getUserByName", name);
-        throwExceptionIfNull(user);
+        if (user == null) {
+            throw new EntityNotFoundDaoException("User with login '" + name + "' not found");
+        }
         return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-        List<User> users = getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserMapperSql.getAllUsers");
-        throwExceptionIfNull(users);
-        return users;
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserMapperSql.getAllUsers");
     }
 
     @Override

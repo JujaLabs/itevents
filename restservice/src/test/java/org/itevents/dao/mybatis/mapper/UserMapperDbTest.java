@@ -6,7 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
-import org.itevents.dao.exception.UserNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.mybatis.exception_mapper.UserMapper;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
@@ -43,7 +43,7 @@ public class UserMapperDbTest extends AbstractDbTest {
         assertEquals(expectedUser, returnedUser);
     }
 
-    @Test(expected = UserNotFoundDaoException.class)
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectExceptionWhenUserIsAbsent() throws Exception {
         userMapper.getUser(ABSENT_ID);
     }
@@ -59,6 +59,14 @@ public class UserMapperDbTest extends AbstractDbTest {
     @Test
     public void shouldGetAllUsers() throws Exception {
         int expectedSize = 4;
+        int returnedSize = userMapper.getAllUsers().size();
+        assertEquals(expectedSize, returnedSize);
+    }
+
+    @Test
+    @DatabaseSetup(value = PATH + "empty.xml")
+    public void shouldGetEmptyUserList() throws Exception {
+        int expectedSize = 0;
         int returnedSize = userMapper.getAllUsers().size();
         assertEquals(expectedSize, returnedSize);
     }

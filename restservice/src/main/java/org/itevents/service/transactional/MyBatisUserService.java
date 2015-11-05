@@ -1,10 +1,12 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.UserNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.UserNotFoundServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.List;
 @Service("userService")
 @Transactional
 public class MyBatisUserService implements UserService {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private UserDao userDao;
@@ -29,8 +33,9 @@ public class MyBatisUserService implements UserService {
     public User getUser(int id) {
         try {
             return userDao.getUser(id);
-        } catch (UserNotFoundDaoException e) {
-            throw new UserNotFoundServiceException();
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
 

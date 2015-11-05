@@ -6,7 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
-import org.itevents.dao.exception.EventNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.mybatis.exception_mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
@@ -44,7 +44,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         assertEquals(expectedEvent, returnedEvent);
     }
 
-    @Test(expected = EventNotFoundDaoException.class)
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectEventNotFoundDaoExceptionWhenEventIsAbsent() {
         eventMapper.getEvent(ABSENT_ID);
     }

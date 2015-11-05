@@ -1,10 +1,10 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.UserNotFoundDaoException;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.UserNotFoundServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,11 +54,11 @@ public class MyBatisUserServiceTest {
 
     }
 
-    @Test(expected = UserNotFoundServiceException.class)
+    @Test(expected = EntityNotFoundServiceException.class)
     public void shouldThrowUserNotFoundServiceException() throws Exception {
         int absentId = 0;
 
-        when(userDao.getUser(absentId)).thenThrow(UserNotFoundDaoException.class);
+        when(userDao.getUser(absentId)).thenThrow(EntityNotFoundDaoException.class);
 
         userService.getUser(absentId);
     }
