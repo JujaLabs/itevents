@@ -31,7 +31,14 @@ public class UserMapperDbTest extends AbstractDbTest {
     @Test
     public void shouldFindUserById() throws Exception {
         User expectedUser = BuilderUtil.buildUserGuest();
-        User returnedUser = userMapper.getUser(ID_1);
+        User returnedUser = userMapper.getUser(expectedUser.getId());
+        assertEquals(expectedUser, returnedUser);
+    }
+
+    @Test
+    public void shouldFindUserByName() throws Exception {
+        User expectedUser = BuilderUtil.buildUserVlasov();
+        User returnedUser = userMapper.getUserByName(expectedUser.getLogin());
         assertEquals(expectedUser, returnedUser);
     }
 

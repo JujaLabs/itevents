@@ -40,7 +40,7 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     public void testFindEventById() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
-        Event returnedEvent = eventMapper.getEvent(ID_1);
+        Event returnedEvent = eventMapper.getEvent(expectedEvent.getId());
         assertEquals(expectedEvent, returnedEvent);
     }
 

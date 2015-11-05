@@ -9,6 +9,12 @@ database.password=DB_PASSWORD
 # Liquibase
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
+
+# SendGrid
+sendgrid_api_key=SEND_GRID_TOKEN
+
+
 httpPort=8080
 stopPort=9080
 stopKey=stop
+
