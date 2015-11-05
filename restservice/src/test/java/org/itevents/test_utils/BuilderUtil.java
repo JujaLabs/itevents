@@ -13,6 +13,7 @@ import java.util.List;
  * Created by vaa25 on 30.09.2015.
  */
 public class BuilderUtil {
+
     public static City buildCityKyiv() {
         return CityBuilder.aCity()
                 .name("Kyiv")
@@ -62,8 +63,8 @@ public class BuilderUtil {
                 .regLink("http://www.java.com.ua")
                 .address("Beresteyska")
                 .location(new Location(50.458585, 30.742017))
-                .сontact("java@gmail.com")
-                .сity(buildCityKyiv())
+                .contact("java@gmail.com")
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .id(-1)
                 .build();
@@ -78,8 +79,8 @@ public class BuilderUtil {
                 .regLink("http://www.php.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("php@gmail.com")
-                .сity(buildCityBoyarka())
+                .contact("php@gmail.com")
+                .city(buildCityBoyarka())
                 .technologies(technologies)
                 .id(-2)
                 .build();
@@ -94,11 +95,11 @@ public class BuilderUtil {
                 .regLink("http://www.js.com.ua")
                 .address("Nyvky")
                 .location(new Location(50.458651, 30.403965))
-                .сontact("js@gmail.com")
-                .сity(buildCityKyiv())
+                .contact("js@gmail.com")
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-3)
                 .build();
     }
@@ -113,11 +114,11 @@ public class BuilderUtil {
                 .regLink("http://www.cplusplus.com.ua")
                 .address("Impact Hub")
                 .location(new Location(46.481782, 30.747175))
-                .сontact("cplusplus@gmail.com")
-                .сity(buildCityOdessa())
+                .contact("cplusplus@gmail.com")
+                .city(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-4)
                 .build();
     }
@@ -131,11 +132,11 @@ public class BuilderUtil {
                 .regLink("http://www.objective-c.com.ua")
                 .address("Provectus")
                 .location(new Location(46.472508, 30.758417))
-                .сontact("objectivec@gmail.com")
-                .сity(buildCityOdessa())
+                .contact("objectivec@gmail.com")
+                .city(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-5)
                 .build();
     }
@@ -149,10 +150,10 @@ public class BuilderUtil {
                 .regLink("http://www.c#.com.ua")
                 .address("Khreschatyk")
                 .location(new Location(50.447694, 30.52239))
-                .сontact("csharp@gmail.com")
-                .сity(buildCityBoyarka())
+                .contact("csharp@gmail.com")
+                .city(buildCityBoyarka())
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .technologies(technologies)
                 .id(-6)
                 .build();
@@ -167,10 +168,10 @@ public class BuilderUtil {
                 .regLink("http://www.delphi.com.ua")
                 .address("Arsenalna")
                 .location(new Location(50.442843, 30.547603))
-                .сontact("delphi@gmail.com")
+                .contact("delphi@gmail.com")
                 .price(30)
-                .сurrency(buildCurrencyUsd())
-                .сity(buildCityKyiv())
+                .currency(buildCurrencyUsd())
+                .city(buildCityKyiv())
                 .technologies(technologies)
                 .id(-7)
                 .build();
@@ -183,8 +184,8 @@ public class BuilderUtil {
                 .regLink("http://www.ruby.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("ruby@gmail.com")
-                .сity(buildCityKyiv())
+                .contact("ruby@gmail.com")
+                .city(buildCityKyiv())
                 .id(-8)
                 .build();
     }
@@ -331,7 +332,7 @@ public class BuilderUtil {
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
                 .login("anakin@email.com")
-                .password("alex")
+                .password("$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq") //alex
                 .role(buildRoleAdmin())
                 .id(-2)
                 .build();
@@ -340,7 +341,7 @@ public class BuilderUtil {
     public static User buildUserKuchin() {
         return UserBuilder.anUser()
                 .login("kuchin@email.com")
-                .password("viktor")
+                .password("$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq") //viktor
                 .role(buildRoleAdmin())
                 .id(-3)
                 .build();
@@ -349,7 +350,7 @@ public class BuilderUtil {
     public static User buildUserVlasov() {
         return UserBuilder.anUser()
                 .login("vlasov@email.com")
-                .password("alex")
+                .password("$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm") //alex
                 .role(buildRoleSubscriber())
                 .id(-4)
                 .build();
@@ -417,5 +418,35 @@ public class BuilderUtil {
         return result;
     }
 
+    public static Filter buildFilterFirst() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyMaven())
+                .technology(buildTechnologyMyBatis())
+                .technology(buildTechnologySpring())
+                .id(-1)
+                .build();
+    }
+
+    public static Filter buildFilterFifth() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .free(false)
+                .technologies(new ArrayList<Technology>())
+                .id(-5)
+                .build();
+    }
+
+    public static Filter buildFilterTest() throws ParseException {
+        return FilterBuilder.aFilter()
+                .city(buildCityOdessa())
+                .free(true)
+                .createDate(parseDate("16.07.2015"))
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyJavaScript())
+                .id(-6)
+                .build();
+    }
 
 }

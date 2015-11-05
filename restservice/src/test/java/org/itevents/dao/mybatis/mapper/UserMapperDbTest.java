@@ -71,4 +71,13 @@ public class UserMapperDbTest extends AbstractDbTest {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.removeUser(testUser);
     }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldUpdateUser() {
+        User user = BuilderUtil.buildUserVlasov();
+        user.setSubscribed(true);
+        userMapper.updateUser(user);
+    }
 }

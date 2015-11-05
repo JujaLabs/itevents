@@ -17,21 +17,26 @@ public interface VisitLogMapper extends VisitLogDao {
             @Result(property = "user", javaType = User.class, column = "user_id",
                     one = @One(select = "org.itevents.dao.mybatis.mapper.UserMapper.getUser"))
     })
+    @Override
     @Select("SELECT * FROM visit_log WHERE id = #{id}")
     VisitLog getVisitLog(int id);
 
+    @Override
     @ResultMap("getVisitLog-int")
     @Select("SELECT * FROM visit_log ORDER BY date")
     List<VisitLog> getAllVisitLogs();
 
+    @Override
     @ResultMap("getVisitLog-int")
     @Select("SELECT * FROM visit_log WHERE event_id = #{id} ORDER BY date")
     List<VisitLog> getVisitLogsByEvent(Event event);
 
+    @Override
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")
     @Options(useGeneratedKeys = true)
     void addVisitLog(VisitLog visitLog);
 
+    @Override
     @Delete("DELETE FROM visit_log WHERE id=#{id}")
     void removeVisitLog(VisitLog visitLog);
 

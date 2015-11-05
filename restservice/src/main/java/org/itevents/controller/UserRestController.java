@@ -4,13 +4,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
+import org.itevents.service.converter.FilterConverter;
+import org.itevents.util.time.TimeUtil;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,15 +32,34 @@ import javax.inject.Inject;
 @Api("Users")
 @RequestMapping("/users")
 public class UserRestController {
+
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private UserService userService;
     @Inject
     private RoleService roleService;
+    @Inject
+    private FilterService filterService;
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
+    })
+    @RequestMapping(method = RequestMethod.POST, value = "login")
+    public void login() {
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "logout")
+    public void logout() {
+    }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
+
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
@@ -43,7 +69,7 @@ public class UserRestController {
         }
         User user = UserBuilder.anUser()
                 .login(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
@@ -57,7 +83,7 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
     @ApiOperation(value = "Removes user from database ")
     public ResponseEntity removeUser() {
-        User user = getUserFromSecurityContext();
+        User user = userService.getAuthorizedUser();
         User removed = userService.removeUser(user);
         if (removed == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -66,7 +92,21 @@ public class UserRestController {
         }
     }
 
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+    // alex-anakin: I recommend make another controller for subscription
+    // because this one became complicated
+    @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
+    @ApiOperation(value = "Set filter for authorized user")
+    public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
+        // alex-anakin: don't log wrapper using level 'info'
+        // it's not error, I guess you need it for debug purpose only
+        logger.info(wrapper);
+        Filter filter = new FilterConverter().toFilter(wrapper);
+        filter.setCreateDate(TimeUtil.getNowDate());
+        User user = userService.getAuthorizedUser();
+        filterService.addFilter(user, filter);
+        userService.activateUserSubscription(user);
+        return new ResponseEntity(HttpStatus.OK);
+        //todo try catch for possible exceptions
+
     }
 }
