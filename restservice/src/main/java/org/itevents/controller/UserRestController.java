@@ -92,9 +92,13 @@ public class UserRestController {
         }
     }
 
+    // alex-anakin: I recommend make another controller for subscription
+    // because this one became complicated
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Set filter for authorized user")
     public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
+        // alex-anakin: don't log wrapper using level 'info'
+        // it's not error, I guess you need it for debug purpose only
         logger.info(wrapper);
         Filter filter = new FilterConverter().toFilter(wrapper);
         filter.setCreateDate(TimeUtil.getNowDate());

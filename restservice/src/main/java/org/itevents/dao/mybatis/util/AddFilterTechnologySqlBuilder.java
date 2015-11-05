@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Iterator;
 import java.util.List;
 
+// alex-anakin: class names should be without verbs
 public class AddFilterTechnologySqlBuilder {
 
     public String addFilterTechnology(Filter filter) {
