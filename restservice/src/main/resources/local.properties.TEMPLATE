@@ -9,10 +9,19 @@ database.password=DB_PASSWORD
 # Liquibase
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
-
 # SendGrid
 sendgrid_api_key=SEND_GRID_TOKEN
 
+# Scheduler
+# * * * * *  command to execute
+# | | | | |
+# | | | | |
+# | | | | |_____ day of week (0 - 6) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)
+# | | | |_______ month (1 - 12)
+# | | |_________ day of month (1 - 31)
+# | |___________ hour (0 - 23)
+# |______________ min (0 - 59)
+cron.start_sending=30 2 * * * ?
 
 httpPort=8080
 stopPort=9080
