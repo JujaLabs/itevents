@@ -6,6 +6,7 @@ import org.itevents.service.transactional.MyBatisMailFilterService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -371,6 +372,14 @@ public class BuilderUtil {
                 .role(buildRoleSubscriber())
                 .id(-6)
                 .build();
+    }
+
+    public static List<User> buildAllUser() {
+        return Arrays.asList(
+                buildUserAnakin(),
+                buildUserKuchin(),
+                buildUserVlasov()
+        );
     }
 
     public static VisitLog buildVisitLogFirst() throws ParseException {

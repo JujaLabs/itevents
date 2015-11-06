@@ -17,7 +17,6 @@ public class SchedulerMailing {
 
     @Scheduled(cron = "${cron.start_sending}")
     public void startSending(){
-        //TODO Call the service method to send to user mail
         notificationEventService.execute();
     }
 
