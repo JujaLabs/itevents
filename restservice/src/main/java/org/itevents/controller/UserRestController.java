@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
@@ -32,8 +30,6 @@ import javax.inject.Inject;
 @Api("Users")
 @RequestMapping("/users")
 public class UserRestController {
-
-    private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private UserService userService;
@@ -80,26 +76,9 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    @ApiOperation(value = "Removes user from database ")
-    public ResponseEntity removeUser() {
-        User user = userService.getAuthorizedUser();
-        User removed = userService.removeUser(user);
-        if (removed == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-    }
-
-    // alex-anakin: I recommend make another controller for subscription
-    // because this one became complicated
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Set filter for authorized user")
     public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
-        // alex-anakin: don't log wrapper using level 'info'
-        // it's not error, I guess you need it for debug purpose only
-        logger.info(wrapper);
         Filter filter = new FilterConverter().toFilter(wrapper);
         filter.setCreateDate(TimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
