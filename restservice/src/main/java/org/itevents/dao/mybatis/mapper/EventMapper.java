@@ -2,8 +2,8 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.EventDao;
-import org.itevents.dao.mybatis.util.AddEventTechnologySqlBuilder;
-import org.itevents.dao.mybatis.util.GetFilteredEventsSqlBuilder;
+import org.itevents.dao.mybatis.util.EventTechnologySqlBuilder;
+import org.itevents.dao.mybatis.util.FilteredEventsSqlBuilder;
 import org.itevents.model.*;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public interface EventMapper extends EventDao {
     void addEvent(Event event);
 
     @Override
-    @InsertProvider(type = AddEventTechnologySqlBuilder.class, method = "addEventTechnology")
+    @InsertProvider(type = EventTechnologySqlBuilder.class, method = "addEventTechnology")
     void addEventTechnology(Event event);
 
     @Override
@@ -61,7 +61,7 @@ public interface EventMapper extends EventDao {
     void removeEventTechnology(Event event);
 
     @Override
-    @SelectProvider(type = GetFilteredEventsSqlBuilder.class, method = "getFilteredEvents")
+    @SelectProvider(type = FilteredEventsSqlBuilder.class, method = "getFilteredEvents")
     @ResultMap("getEvent-int")
     List<Event> getFilteredEvents(Filter params);
 }

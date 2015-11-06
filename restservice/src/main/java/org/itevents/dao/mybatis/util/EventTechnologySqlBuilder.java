@@ -7,7 +7,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Iterator;
 import java.util.List;
 
-public class AddEventTechnologySqlBuilder {
+public class EventTechnologySqlBuilder {
 
     public String addEventTechnology(final Event event) {
         List<Technology> technologies = event.getTechnologies();
