@@ -14,6 +14,10 @@ public interface UserService {
 
     User getUserByName(String name);
 
+    User getAuthorizedUser();
+
+    void activateUserSubscription(User user);
+
     List<User> getAllUsers();
 
     User removeUser(User user);

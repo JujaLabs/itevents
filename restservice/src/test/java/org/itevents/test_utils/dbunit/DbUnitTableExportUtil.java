@@ -28,7 +28,6 @@ import java.util.Properties;
  * Created by vaa25 on 28.09.2015.
  */
 
-//@alex-anakin: need comments about work of this class
 public class DbUnitTableExportUtil {
 
     private static final String PATH = "src/test/resources/dbunit/";
@@ -38,10 +37,17 @@ public class DbUnitTableExportUtil {
 
         databaseConnection();
 //        writeDtdFile();
-        dependentTableExport("VisitLogMapperTest", "VisitLogMapperTest", "visit_log", "event_technology");
+        dependentTableExport("FilterMapperTest", "FilterMapperTest", "user_filter", "filter_technology");
 
     }
 
+    /**
+     * Need rewrite test.dtd every time if database structure changed
+     *
+     * @throws IOException
+     * @throws DataSetException
+     * @throws SQLException
+     */
     private static void writeDtdFile() throws IOException, DataSetException, SQLException {
         FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream(PATH + "test.dtd"));
     }

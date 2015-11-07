@@ -50,7 +50,7 @@ public class SequrityTests extends AbstractDbTest {
 
 	@Test
 	public void shouldNotLoginWithWrongPassword() throws Exception {
-		mvc.perform(post("/login")
+		mvc.perform(post("/users/login")
 				.param("username", "vlasov@email.com")
 				.param("password", "wrongPassword"))
 				.andExpect(unauthenticated())
@@ -59,8 +59,8 @@ public class SequrityTests extends AbstractDbTest {
 
 	@Test
 	public void shouldLoginWithCorrectPassword() throws Exception {
-		mvc.perform(post("/login")
-						.param("username", "vlasov@email.com")
+		mvc.perform(post("/users/login")
+				.param("username", "vlasov@email.com")
 				.param("password", "alex"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isOk());
@@ -71,7 +71,7 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	@WithUserDetails("vlasov@email.com")
 	public void shouldLogout() throws Exception {
-		mvc.perform(post("/logout"))
+		mvc.perform(post("/users/logout"))
 				.andExpect(unauthenticated())
 				.andExpect(status().isOk());
 	}

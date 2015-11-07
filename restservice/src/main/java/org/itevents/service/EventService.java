@@ -1,7 +1,7 @@
 package org.itevents.service;
 
 import org.itevents.model.Event;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface EventService {
 
     Event removeEvent(Event event);
 
-    List<Event> getFilteredEvents(EventWrapper wrapper);
+    List<Event> getFilteredEvents(FilterWrapper wrapper);
 }

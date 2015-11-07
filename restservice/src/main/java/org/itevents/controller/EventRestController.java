@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.service.EventService;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     @ApiOperation(value = "Returns events with the given parameters ")
-    public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
+    public List<Event> getFilteredEvents(@ModelAttribute FilterWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }
 }

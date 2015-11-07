@@ -20,6 +20,13 @@
             <TimeBasedTriggeringPolicy/>
         </RollingFile>
 
+        <RollingFile name="WebLog"
+                     fileName="${logs}/web.log"
+                     filePattern="${archives}/web.log.%d{yyyy-MM-dd}.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
         <RollingFile name="FatalLog"
                      fileName="${logs}/fatal.log"
                      filePattern="${archives}/fatal.log.%d{yyyy-MM-dd}.gz">
@@ -30,7 +37,9 @@
         <Async name="Debug">
             <AppenderRef ref="DebugLog"/>
         </Async>
-
+        <Async name="Web">
+            <AppenderRef ref="WebLog"/>
+        </Async>
         <Async name="Fatal">
             <AppenderRef ref="FatalLog"/>
         </Async>
@@ -39,16 +48,14 @@
 
     <Loggers>
 
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="Debug"/>
+            <AppenderRef ref="Debug" level="debug"/>
             <AppenderRef ref="Fatal" level="fatal"/>
         </Root>
 
-        <Logger name="org.springframework.web" level="debug">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="Debug"/>
-            <AppenderRef ref="Fatal" level="fatal"/>
+        <Logger name="org.springframework.web" level="info">
+            <AppenderRef ref="Web"/>
         </Logger>
 
     </Loggers>
