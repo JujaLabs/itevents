@@ -21,6 +21,7 @@ test {
 }
 
 dependencies {
+
     compile 'org.springframework:spring-core:4.1.6.RELEASE'
     compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
@@ -30,6 +31,8 @@ dependencies {
     compile 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
     compile 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
+    compile 'org.springframework:spring-tx:4.1.7.RELEASE'
+    compile 'org.springframework:spring-context-support:4.1.7.RELEASE'
     compile 'javax.inject:javax.inject:1'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
@@ -43,6 +46,7 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
+    compile 'com.sendgrid:sendgrid-java:2.2.2'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.1'
     testCompile 'junit:junit:4.12'
@@ -51,7 +55,7 @@ dependencies {
     testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
     testCompile 'org.postgis:postgis-jdbc:1.1.6'
     testCompile 'org.mockito:mockito-core:1.9.5'
-  }
+}
 
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
@@ -69,10 +73,10 @@ task liquibaseUpdate(type: JavaExec) {
     group = 'Liquibase'
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    if ( 
-        project.hasProperty("username") &&
-        project.hasProperty("password") &&
-        project.hasProperty("url")
+    if (
+    project.hasProperty("username") &&
+            project.hasProperty("password") &&
+            project.hasProperty("url")
     ){
         Map<String,?> propertyMap = project.getProperties()
         args "--username=${propertyMap['username']}"

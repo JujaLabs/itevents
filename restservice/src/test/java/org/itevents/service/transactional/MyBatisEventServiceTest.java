@@ -3,7 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
@@ -106,11 +106,11 @@ public class MyBatisEventServiceTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
 
-        when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenReturn(expectedEvents);
+        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(expectedEvents);
 
         List<Event> returnedEvents = eventService.getFilteredEvents(new EventWrapper());
 
-        verify(eventDao).getFilteredEvents(any(FilteredEventsParameter.class));
+        verify(eventDao).getFilteredEvents(any(Filter.class));
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -118,11 +118,11 @@ public class MyBatisEventServiceTest {
     public void shouldNotFindEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
 
-        when(eventDao.getFilteredEvents(any(FilteredEventsParameter.class))).thenThrow(Exception.class);
+        when(eventDao.getFilteredEvents(any(Filter.class))).thenThrow(Exception.class);
 
         List<Event> returnedEvents = eventService.getFilteredEvents(new EventWrapper());
 
-        verify(eventDao).getFilteredEvents(any(FilteredEventsParameter.class));
+        verify(eventDao).getFilteredEvents(any(Filter.class));
         assertEquals(expectedEvents, returnedEvents);
     }
 

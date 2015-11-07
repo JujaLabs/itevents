@@ -10,6 +10,7 @@ public class User {
     private Role role;
     boolean isActive;
     private List<Event> events;
+    private Filter filter;
 
     public User() {
     }
@@ -44,6 +45,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
     public List<Event> getEvents() {
