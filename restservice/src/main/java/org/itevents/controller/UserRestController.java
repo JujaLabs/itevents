@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import com.sendgrid.SendGrid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -10,6 +11,8 @@ import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
+import org.itevents.service.sendmail.SendGridMailService;
+import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +30,10 @@ public class UserRestController {
     private UserService userService;
     @Inject
     private RoleService roleService;
+    @Inject
+    private SendGridMailService mailService;
+    @Inject
+    MailBuilderUtil mailBuilderUtil;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
@@ -35,7 +42,7 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
-                                                @ModelAttribute("password") String password) {
+                                                @ModelAttribute("password") String password) throws Exception{
         if (exists(username)) {
             return new ResponseEntity(HttpStatus.IM_USED);
         }
@@ -45,7 +52,11 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
-        generateOtp(1440,user);
+        Otp otp = new Otp();
+        otp.generateOtp(1440);
+        userService.addOtp(user, otp);
+        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otp),user.getLogin());
+        mailService.send(sendGridMail);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -64,7 +75,7 @@ public class UserRestController {
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         Otp otp = userService.getOtp(user);
-        if (!password.equals(otp.getOtp()) || !otp.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!password.equals(otp.getOtp()) || otp.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             userService.activateUser(user);
             userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);

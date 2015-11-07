@@ -1,14 +1,15 @@
 package org.itevents.service.sendmail;
 
 import com.sendgrid.SendGrid;
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by max on 30.07.15.
@@ -17,7 +18,7 @@ import javax.inject.Inject;
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
 public class SendGridMailServiceTest {
 
-    private final String USER_EMAIL_ADDRESS ="it-events@ex.ua";
+    private final String USER_EMAIL_ADDRESS ="ivmaksymov@gmail.com";
     private final String HTML_LATTER ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
             + USER_EMAIL_ADDRESS +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
 

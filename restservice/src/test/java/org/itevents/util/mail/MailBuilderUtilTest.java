@@ -1,6 +1,8 @@
 package org.itevents.util.mail;
 
 import org.itevents.model.Event;
+import org.itevents.model.Otp;
+import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,8 @@ import static org.junit.Assert.assertEquals;
 public class MailBuilderUtilTest {
     @Inject
     String expectedDigestEmail;
+    @Inject
+    String expectedUserOtpEmail;
 
     @Inject
     MailBuilderUtil mailBuilderUtil;
@@ -30,5 +34,14 @@ public class MailBuilderUtilTest {
         List<Event> filteredEvents = BuilderUtil.buildEventsForMailUtilTest();
         String returnedDigestEmail = mailBuilderUtil.buildHtmlFromEventsList(filteredEvents);
         assertEquals(expectedDigestEmail, returnedDigestEmail);
+    }
+
+    @Test
+    public void shouldReturnMailWithUsernameAndOtp()  throws JAXBException, ParseException, IOException, TransformerException {
+        User user = BuilderUtil.buildUserAnakin();
+        Otp otp = new Otp();
+        otp.generateOtp(1440);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user,otp);
+        assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }
