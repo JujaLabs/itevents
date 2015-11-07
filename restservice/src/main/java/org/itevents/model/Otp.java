@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Otp implements Serializable {
-    String otp;
-    Date creationDate;
-    Date expirationDate;
+   private String otp;
+   private Date creationDate;
+   private Date expirationDate;
 
     public String getOtp() {
         return otp;
@@ -38,10 +38,10 @@ public class Otp implements Serializable {
     public void generateOtp(long lifetimeInMinutes) {
         setCreationDate(new Date());
         if (lifetimeInMinutes>0){
-            setExpirationDate(new Date(creationDate.getTime()+lifetimeInMinutes*60*1000));
-            otp = UUID.randomUUID().toString();
+            setExpirationDate(new Date(creationDate.getTime() + lifetimeInMinutes * 60 * 1000));
+            setOtp(UUID.randomUUID().toString());
         }else
-            otp = UUID.randomUUID().toString();
+            setOtp(UUID.randomUUID().toString());
     }
 
     public Otp() {
