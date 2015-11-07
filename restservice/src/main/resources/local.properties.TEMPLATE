@@ -12,3 +12,6 @@ changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 httpPort=8080
 stopPort=9080
 stopKey=stop
+
+# MailReminderAboutEventService
+reminderAboutEventForThePeriod=1

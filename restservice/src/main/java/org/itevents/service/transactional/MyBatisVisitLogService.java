@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,6 +30,17 @@ public class MyBatisVisitLogService implements VisitLogService {
     @Override
     public List<VisitLog> getVisitLogsByEvent(Event event) {
         return visitLogDao.getVisitLogsByEvent(event);
+    }
+
+    @Override
+    public List<VisitLog> getVisitLogsByDate(Date date) {
+        List<VisitLog> allVisitLog = visitLogDao.getAllVisitLogs();
+        List<VisitLog> resultVisitLog = new LinkedList<>();
+        for (VisitLog v: allVisitLog) {
+            if (v.getDate().equals( date ))
+                resultVisitLog.add(v);
+        }
+        return resultVisitLog;
     }
 
     @Override
