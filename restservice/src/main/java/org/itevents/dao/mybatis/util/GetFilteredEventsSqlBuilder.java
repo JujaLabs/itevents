@@ -31,6 +31,10 @@ public class GetFilteredEventsSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
+            if(params.getDaysToEvent() > 0){
+               WHERE("e.event_date = current_date+#{daysToEvent}");
+            }else{
+                WHERE("e.event_date>NOW()");}
         }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
     }
 

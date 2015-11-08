@@ -1,6 +1,10 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.mybatis.mapper.EventMapper;
+import org.itevents.dao.mybatis.mapper.VisitLogMapper;
+import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
+import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.mail.MailReminderAboutEventService;
 import org.junit.Before;
@@ -30,9 +34,6 @@ public class MailReminderAboutEventServiceTest {
     @Inject
     private MailReminderAboutEventService mailReminderAboutEventService;
 
-    @Mock
-    private VisitLogService visitLogService;
-
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
@@ -40,10 +41,9 @@ public class MailReminderAboutEventServiceTest {
 
     @Test
     public void executeTest() {
-        List<VisitLog> visitLogs = Arrays.asList(new VisitLog(), new VisitLog());
-        when(visitLogService.getVisitLogsByDate(any(Date.class))).thenReturn(visitLogs);
+        mailReminderAboutEventService.execute();
+        // TODO Need to make tests
 
-        // TODO
     }
 
 }

@@ -18,6 +18,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vaa25 on 17.09.2015.
  */
+
+/*
+Need to refector test. GetFilteredEventsSqlBuilder class was changed for issue53
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class GetFilteredEventsSqlBuilderTest {

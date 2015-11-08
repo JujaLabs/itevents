@@ -3,6 +3,7 @@ package org.itevents.parameter;
 import org.itevents.model.City;
 import org.itevents.model.Technology;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,8 +17,17 @@ public class FilteredEventsParameter {
     private Boolean free;
     private Double longitude;
     private Double latitude;
-    private Integer radius;
     private List<Technology> technologies;
+    private Integer radius;
+    private int daysToEvent;
+
+    public int getDaysToEvent() {
+        return daysToEvent;
+    }
+
+    public void setDaysToEvent(int days) {
+        this.daysToEvent = days;
+    }
 
     public Integer getOffset() {
         return offset;
