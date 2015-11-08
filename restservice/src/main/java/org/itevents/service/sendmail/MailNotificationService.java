@@ -6,7 +6,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.MailFilterService;
-import org.itevents.service.NotificationEventService;
+import org.itevents.service.NotificationService;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by ramax on 11/5/15.
  */
 @Service("notificationEventService")
-public class MailNotificationEventService implements NotificationEventService {
+public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -34,12 +34,12 @@ public class MailNotificationEventService implements NotificationEventService {
     private MailBuilderUtil mailBuilderUtil;
 
     @Override
-    public void execute()  {
+    public void performNotify()  {
         List<User> users = userDao.getAllUsers();
-        for (User u: users) {
-            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(u.getFilter());
-            String htmlLater = buildMail(events);
-            mailService.sendMail(htmlLater, u.getLogin());
+        for (User user : users) {
+            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(user.getFilter());
+            String htmlLetter = buildMail(events);
+            mailService.sendMail(htmlLetter, user.getLogin());
         }
     }
 
@@ -48,7 +48,7 @@ public class MailNotificationEventService implements NotificationEventService {
             return mailBuilderUtil.buildHtmlFromEventsList(events);
         } catch (Exception e) {
             LOGGER.error("Error build mail for user");
-            throw new RuntimeException("Build mail for user error: ",e);
+            throw new BuildMailException("Build mail for user error:", e);
         }
     }
 
