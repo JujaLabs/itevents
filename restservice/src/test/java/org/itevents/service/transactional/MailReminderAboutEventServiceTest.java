@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public class MailReminderAboutEventServiceTest {
     @Test
     public void executeTest() {
         List<VisitLog> visitLogs = Arrays.asList(new VisitLog(), new VisitLog());
-        when(visitLogService.getVisitLogsByDate(any())).thenReturn(visitLogs);
+        when(visitLogService.getVisitLogsByDate(any(Date.class))).thenReturn(visitLogs);
 
         // TODO
     }

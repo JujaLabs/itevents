@@ -22,7 +22,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Value("reminderAboutEventForThePeriod")
+    @Value("#{new Integer('${reminderAboutEventForThePeriod}')}")
     private int amount;
 
     @Inject
@@ -43,15 +43,15 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     private void sendEmails(List<VisitLog> visitLogList) {
-        for (VisitLog v: visitLogList) {
-            String htmlForMail = createHTMLForMail( v.getEvent() );
-            mailMock.sendEmail(htmlForMail, v.getUser().getLogin());
+        for (VisitLog visitLog: visitLogList) {
+            String htmlForMail = createHTMLForMail( visitLog.getEvent() );
+            mailMock.sendEmail(htmlForMail, visitLog.getUser().getLogin());
         }
     }
 
     private Date getDateToReminder() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(calendar.DAY_OF_MONTH, amount);
+        calendar.add(calendar.DATE, amount);
         return calendar.getTime();
     }
 }
