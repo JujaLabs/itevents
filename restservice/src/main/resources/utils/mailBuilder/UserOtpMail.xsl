@@ -15,8 +15,8 @@
             <body>
                                         Dear subscriber!
                                         You need to activate you account.
-                                        To do so, you need to follow this link:
-                                        http://localhost:8080/restservice/users/activate/<xsl:attribute name="otp"/>
+                                        To do so, you need to follow this link:<xsl:attribute name="otp"/>
+                                        http://<xsl:value-of select="userOtp/url" />/restservice/users/activate/
                                         <xsl:value-of select="userOtp/otp/otp" />
                                         This link will work for 24 hours.
             </body>

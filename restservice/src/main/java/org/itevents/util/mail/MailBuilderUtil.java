@@ -1,12 +1,10 @@
 package org.itevents.util.mail;
-
 import org.itevents.model.Event;
 import org.itevents.model.Otp;
 import org.itevents.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -22,6 +20,8 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -76,6 +76,7 @@ public class MailBuilderUtil {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOtp(otp);
+        userOtpXmlWrapper.setURL();
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -121,7 +122,8 @@ public class MailBuilderUtil {
     @XmlRootElement(name ="userOtp")
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class UserOtpXmlWrapper {
-
+        @XmlElement(name = "url")
+        private String url;
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
@@ -144,6 +146,21 @@ public class MailBuilderUtil {
 
         public void setOtp(Otp otp) {
             this.otp = otp;
+        }
+
+        public String getURL() {
+            return url;
+        }
+
+        public void setURL() {
+            InetAddress ip;
+            String hostname;
+            try {
+                ip = InetAddress.getLocalHost();
+                hostname = ip.getHostName();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
