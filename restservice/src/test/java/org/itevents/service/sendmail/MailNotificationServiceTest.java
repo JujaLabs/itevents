@@ -26,11 +26,11 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml"})
-public class MailNotificationEventServiceTest {
+public class MailNotificationServiceTest {
 
     @InjectMocks
     @Inject
-    private MailNotificationEventService mailNotificationEventService;
+    private MailNotificationService mailNotificationEventService;
     @Mock
     private MailService mailService;
     @Mock
@@ -44,7 +44,7 @@ public class MailNotificationEventServiceTest {
     }
 
     @Test
-    public void executeTest() throws ParseException {
+    public void performNotifyTest() throws ParseException {
         List<User> users = BuilderUtil.buildAllUser();
         when(userDao.getAllUsers()).thenReturn(users);
 
@@ -53,7 +53,7 @@ public class MailNotificationEventServiceTest {
 
         doNothing().when(mailService).sendMail(anyString(), anyString());
 
-        mailNotificationEventService.execute();
+        mailNotificationEventService.performNotify();
 
         verify(userDao).getAllUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
