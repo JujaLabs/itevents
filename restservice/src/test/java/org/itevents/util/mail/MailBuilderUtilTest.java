@@ -37,7 +37,7 @@ public class MailBuilderUtilTest {
     }
 
     @Test
-    public void shouldReturnMailWithUsernameAndOtp()  throws JAXBException, ParseException, IOException, TransformerException {
+    public void shouldReturnMailWithUsernameAndOtp()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Otp otp = new Otp();
         otp.generateOtp(1440);
