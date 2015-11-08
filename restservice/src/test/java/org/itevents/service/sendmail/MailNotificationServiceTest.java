@@ -44,7 +44,7 @@ public class MailNotificationServiceTest {
     }
 
     @Test
-    public void executeTest() throws ParseException {
+    public void performNotifyTest() throws ParseException {
         List<User> users = BuilderUtil.buildAllUser();
         when(userDao.getAllUsers()).thenReturn(users);
 
