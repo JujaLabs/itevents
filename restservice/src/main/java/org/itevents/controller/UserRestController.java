@@ -91,9 +91,10 @@ public class UserRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")
     @ApiOperation(value = "Deactivates authorized user's subscription")
-    public void deactivateSubscription() {
+    public ResponseEntity deactivateSubscription() {
         User user = userService.getAuthorizedUser();
         userService.deactivateUserSubscription(user);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
