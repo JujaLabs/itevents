@@ -19,14 +19,14 @@ public class FilteredEventsParameter {
     private Double latitude;
     private List<Technology> technologies;
     private Integer radius;
-    private int daysToEvent;
+    private int daysTillEvent;
 
-    public int getDaysToEvent() {
-        return daysToEvent;
+    public int getDaysTillEvent() {
+        return daysTillEvent;
     }
 
-    public void setDaysToEvent(int days) {
-        this.daysToEvent = days;
+    public void setDaysTillEvent(int days) {
+        this.daysTillEvent = days;
     }
 
     public Integer getOffset() {

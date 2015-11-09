@@ -27,7 +27,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("#{new Integer('${reminderAboutEventForThePeriod}')}")
-    private int amount;
+    private int daysTillEvent;
 
     @Inject
     private VisitLogService visitLogService;
@@ -39,19 +39,23 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     @Override
     public void execute() {
-        List<VisitLog> visitLogList = getVisitLogListByDaysToEvent(amount);
+        List<VisitLog> visitLogList = getVisitLogListByDaysTillEvent(daysTillEvent);
         sendEmails(visitLogList);
     }
 
-    public List<VisitLog> getVisitLogListByDaysToEvent(int daysToEvent){
+    public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
         FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setDaysToEvent(daysToEvent);
+        params.setDaysTillEvent(daysTillEvent);
         List<Event> filteredEvents = eventMapper.getFilteredEvents(params);
+    return filteredEvents;
+    }
+
+    public List<VisitLog> getVisitLogListByDaysTillEvent(int daysTillEvent){
+        List<Event> filteredEvents = getEventsByDaysTillEvent(daysTillEvent);
         List<VisitLog> resultVisitLog = new ArrayList<VisitLog>();
         for(Event event : filteredEvents){
             resultVisitLog.addAll(visitLogService.getVisitLogsByEvent(event));
         }
-        System.out.println(resultVisitLog.toString());
         return resultVisitLog;
     }
 
@@ -63,8 +67,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     private void sendEmails(List<VisitLog> visitLogList) {
         for (VisitLog visitLog: visitLogList) {
             String htmlForMail = createHTMLForMail( visitLog.getEvent() );
-            System.out.println(visitLog.toString());
-            mailMock.sendEmail(htmlForMail, visitLog.getUser().getLogin()); //refactor mock. NPE
+            mailMock.sendEmail(htmlForMail, visitLog.getUser().getLogin());
         }
     }
 }

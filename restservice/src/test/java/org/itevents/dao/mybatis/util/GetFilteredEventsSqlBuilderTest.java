@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,9 +20,6 @@ import static org.junit.Assert.assertEquals;
  * Created by vaa25 on 17.09.2015.
  */
 
-/*
-Need to refector test. GetFilteredEventsSqlBuilder class was changed for issue53
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class GetFilteredEventsSqlBuilderTest {
@@ -49,7 +47,7 @@ public class GetFilteredEventsSqlBuilderTest {
         parameter.setTechnologies(testTechnologies);
 
         String expectedSql = "SELECT * FROM event e JOIN event_technology et ON et.technology_id=-1 " +
-                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
+                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id = et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
@@ -70,6 +68,18 @@ public class GetFilteredEventsSqlBuilderTest {
     }
 
     @Test
+    public void shouldBuildSqlQueryByDaysTillEvent() {
+        parameter.setDaysTillEvent(new Random().nextInt(100)+1);
+
+        String expectedSql = "SELECT * FROM event e " +
+                "WHERE (e.event_date > NOW() AND e.event_date = current_date + #{daysTillEvent}) " +
+                "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
+
+        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        assertEquals(expectedSql, returnedSql);
+    }
+
+    @Test
     public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() {
 
         List<Technology> testTechnologies = new ArrayList<>();
@@ -82,7 +92,7 @@ public class GetFilteredEventsSqlBuilderTest {
 
         String expectedSql = "SELECT * FROM event e JOIN event_technology et " +
                 "ON et.technology_id=" + iterator.next().getId() + " or et.technology_id=" + iterator.next().getId() +
-                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
+                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id = et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
