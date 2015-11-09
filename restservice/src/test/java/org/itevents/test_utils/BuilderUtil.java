@@ -370,6 +370,7 @@ public class BuilderUtil {
                 .login("testSubscriber")
                 .password("testSubscriberPassword")
                 .role(buildRoleSubscriber())
+                .subscribed(true)
                 .id(-6)
                 .build();
     }

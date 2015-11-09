@@ -121,7 +121,19 @@ public class MyBatisUserServiceTest {
 
         verify(userDao).updateUser(testUser);
         assertEquals(expectedSubscribed, returnedSubscribed);
+    }
 
+    @Test
+    public void shouldDeactivateUserSubscription() {
+        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        boolean expectedSubscribed = false;
 
+        doNothing().when(userDao).updateUser(testSubscriber);
+
+        userService.deactivateUserSubscription(testSubscriber);
+        boolean returnedSubscribed = testSubscriber.isSubscribed();
+
+        verify(userDao).updateUser(testSubscriber);
+        assertEquals(expectedSubscribed, returnedSubscribed);
     }
 }

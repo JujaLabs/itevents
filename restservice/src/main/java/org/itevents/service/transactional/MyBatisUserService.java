@@ -47,6 +47,13 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
+    public void deactivateUserSubscription(User user) {
+        user.setSubscribed(false);
+        userDao.updateUser(user);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }

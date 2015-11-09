@@ -81,4 +81,19 @@ public class UserRestControllerTest extends AbstractControllerTest {
         verify(userService).activateUserSubscription(user);
         verify(filterService).addFilter(eq(user), any(Filter.class));
     }
+
+    @Test
+    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
+    public void shouldDeactivateSubscription() throws Exception {
+        User user = BuilderUtil.buildSubscriberTest();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doNothing().when(userService).deactivateUserSubscription(user);
+
+        mvc.perform(get("/users/unsubscribe"))
+                .andExpect(status().isOk());
+
+        verify(userService).getAuthorizedUser();
+        verify(userService).deactivateUserSubscription(user);
+    }
 }

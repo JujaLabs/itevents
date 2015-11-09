@@ -18,6 +18,8 @@ public interface UserService {
 
     void activateUserSubscription(User user);
 
+    void deactivateUserSubscription(User user);
+
     List<User> getAllUsers();
 
     User removeUser(User user);

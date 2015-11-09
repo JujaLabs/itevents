@@ -88,4 +88,12 @@ public class UserRestController {
         //todo try catch for possible exceptions
 
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")
+    @ApiOperation(value = "Deactivates authorized user's subscription")
+    public void deactivateSubscription() {
+        User user = userService.getAuthorizedUser();
+        userService.deactivateUserSubscription(user);
+    }
+
 }
