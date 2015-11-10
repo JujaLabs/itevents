@@ -1,4 +1,4 @@
-package org.itevents.service;
+package org.itevents.service.features;
 
 import org.springframework.stereotype.Service;
 

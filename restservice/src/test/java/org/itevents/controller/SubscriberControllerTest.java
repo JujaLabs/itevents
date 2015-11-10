@@ -1,11 +1,6 @@
 package org.itevents.controller;
 
-import org.itevents.service.SubscriberService;
 import org.junit.Test;
-
-import javax.inject.Inject;
-
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,19 +10,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class SubscriberControllerTest extends AbstractControllerTest {
 
-    @Inject
-    private SubscriberService subscriberService;
-
     @Test
     public void shouldReceivePostWithInvitingFriends() throws Exception {
-
         int id = 1;
-        String emails = "a@a.com";
+        String email = "a@a.com";
 
-        mvc.perform(post("/user/" + id + "/invite")
-                .param("emails", emails))
+        mvc.perform(post("/users/" + id + "/invites")
+                .param("email", email))
                 .andExpect(status().isOk());
+    }
 
-        verify(subscriberService).inviteFriends(id, emails);
+    @Test
+    public void expectBadRequestIfEmailsNull() throws Exception {
+        int id = 1;
+        String email = null;
+
+        mvc.perform(post("/users/" + id + "/invites")
+                .param("email", email))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void expectInvalidEmailExceptionWhenEmailIsNotValid() throws Exception {
+        int id = 1;
+        String email = "email";
+
+        mvc.perform(post("/users/" + id + "/invites")
+                .param("email", email))
+                .andExpect(status().isBadRequest());
     }
 }
