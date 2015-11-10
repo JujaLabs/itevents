@@ -24,8 +24,6 @@ import java.util.List;
 @Service("reminderAboutEventService")
 public class MailReminderAboutEventService implements ReminderAboutEventService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Value("#{new Integer('${reminderAboutEventForThePeriod}')}")
     private int daysTillEvent;
 
@@ -47,7 +45,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         FilteredEventsParameter params = new FilteredEventsParameter();
         params.setDaysTillEvent(daysTillEvent);
         List<Event> filteredEvents = eventMapper.getFilteredEvents(params);
-    return filteredEvents;
+        return filteredEvents;
     }
 
     public List<VisitLog> getVisitLogListByDaysTillEvent(int daysTillEvent){
