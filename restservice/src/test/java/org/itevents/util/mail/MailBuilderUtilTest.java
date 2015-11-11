@@ -41,7 +41,8 @@ public class MailBuilderUtilTest {
         User user = BuilderUtil.buildUserAnakin();
         Otp otp = new Otp();
         otp.generateOtp(1440);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user,otp);
+        url = MailBuilderUtil.getUrl;
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otp, url);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }
