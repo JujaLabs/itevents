@@ -1,37 +1,50 @@
 package org.itevents.controller;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.itevents.model.User;
+import org.itevents.test_utils.BuilderUtil;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.inject.Inject;
-
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import java.util.Arrays;
 
 /**
- * Created by vaa25 on 16.10.2015.
+ * Created by ramax on 11/10/15.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml",
-        "classpath:mvc-dispatcher-servlet.xml", "classpath:spring-security.xml"})
-@TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
-        value = DirtiesContextTestExecutionListener.class)
-@WebAppConfiguration
 public abstract class AbstractControllerTest {
-    @Inject
-    protected WebApplicationContext context;
-    protected MockMvc mvc;
 
-    @Before
-    public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    protected MockMvc mockMvc;
+
+    protected AbstractControllerTest initMock(Object testObject) {
+        MockitoAnnotations.initMocks(testObject);
+        return this;
+    }
+
+    protected void initMvc(Object controller) {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
+
+    protected void authenticationGuest() {
+        User user = BuilderUtil.buildUserGuest();
+        authenticationUser(user);
+    }
+
+    protected void authenticationUser(User user) {
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                user.getLogin(),
+                user.getPassword(),
+                Arrays.asList(new GrantedAuthority() {
+                    @Override
+                    public String getAuthority() {
+                        return user.getRole().getName();
+                    }
+                })
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 }
