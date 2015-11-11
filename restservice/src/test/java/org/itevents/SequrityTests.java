@@ -110,7 +110,7 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	@WithUserDetails("vlasov@email.com")
 	public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
-		mvc.perform(post("users/register"))
+		mvc.perform(post("/users/register"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isForbidden());
 	}
