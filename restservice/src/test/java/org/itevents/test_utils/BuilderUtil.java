@@ -3,6 +3,8 @@ package org.itevents.test_utils;
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
 import org.itevents.service.transactional.MyBatisMailFilterService;
+import org.itevents.util.time.DateTimeUtil;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class BuilderUtil {
                 .regLink("http://www.java.com.ua")
                 .address("Beresteyska")
                 .location(new Location(50.458585, 30.742017))
-                .сontact("java@gmail.com")
+                .contact("java@gmail.com")
                 .сity(buildCityKyiv())
                 .technologies(technologies)
                 .id(-1)
@@ -79,7 +81,7 @@ public class BuilderUtil {
                 .regLink("http://www.php.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("php@gmail.com")
+                .contact("php@gmail.com")
                 .сity(buildCityBoyarka())
                 .technologies(technologies)
                 .id(-2)
@@ -95,11 +97,11 @@ public class BuilderUtil {
                 .regLink("http://www.js.com.ua")
                 .address("Nyvky")
                 .location(new Location(50.458651, 30.403965))
-                .сontact("js@gmail.com")
+                .contact("js@gmail.com")
                 .сity(buildCityKyiv())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-3)
                 .build();
     }
@@ -114,11 +116,11 @@ public class BuilderUtil {
                 .regLink("http://www.cplusplus.com.ua")
                 .address("Impact Hub")
                 .location(new Location(46.481782, 30.747175))
-                .сontact("cplusplus@gmail.com")
+                .contact("cplusplus@gmail.com")
                 .сity(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-4)
                 .build();
     }
@@ -132,11 +134,11 @@ public class BuilderUtil {
                 .regLink("http://www.objective-c.com.ua")
                 .address("Provectus")
                 .location(new Location(46.472508, 30.758417))
-                .сontact("objectivec@gmail.com")
+                .contact("objectivec@gmail.com")
                 .сity(buildCityOdessa())
                 .technologies(technologies)
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .id(-5)
                 .build();
     }
@@ -150,10 +152,10 @@ public class BuilderUtil {
                 .regLink("http://www.c#.com.ua")
                 .address("Khreschatyk")
                 .location(new Location(50.447694, 30.52239))
-                .сontact("csharp@gmail.com")
+                .contact("csharp@gmail.com")
                 .сity(buildCityBoyarka())
                 .price(20)
-                .сurrency(buildCurrencyEuro())
+                .currency(buildCurrencyEuro())
                 .technologies(technologies)
                 .id(-6)
                 .build();
@@ -168,9 +170,9 @@ public class BuilderUtil {
                 .regLink("http://www.delphi.com.ua")
                 .address("Arsenalna")
                 .location(new Location(50.442843, 30.547603))
-                .сontact("delphi@gmail.com")
+                .contact("delphi@gmail.com")
                 .price(30)
-                .сurrency(buildCurrencyUsd())
+                .currency(buildCurrencyUsd())
                 .сity(buildCityKyiv())
                 .technologies(technologies)
                 .id(-7)
@@ -184,7 +186,7 @@ public class BuilderUtil {
                 .regLink("http://www.ruby.com.ua")
                 .address("Shulyavska")
                 .location(new Location(50.454605, 30.445495))
-                .сontact("ruby@gmail.com")
+                .contact("ruby@gmail.com")
                 .сity(buildCityKyiv())
                 .id(-8)
                 .build();
@@ -438,6 +440,88 @@ public class BuilderUtil {
         filter.setRangeInDays(MyBatisMailFilterService.FILTER_RANGE_IN_DAYS);
         filter.setLimit(MyBatisMailFilterService.COUNT_OF_EVENTS_IN_EMAIL);
         return filter;
+    }
+
+    public static Filter buildKyivFilter() {
+        return FilterBuilder.aFilter()
+                .city(BuilderUtil.buildCityKyiv())
+                .build();
+    }
+
+    public static Filter buildFreeFilter() {
+        return FilterBuilder.aFilter()
+                .free(true)
+                .build();
+    }
+
+    public static Filter buildRadiusFilter() {
+        return FilterBuilder.aFilter()
+                .longitude(30.437997)
+                .latitude(50.427751)
+                .radius(10_000)
+                .build();
+    }
+
+    public static Filter builderJavaFilter() {
+        return FilterBuilder.aFilter()
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildFreeKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-1)
+                .title("FreeKyivJavaEvent")
+                .regLink("http://www.FreeKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .сity(BuilderUtil.buildCityKyiv())
+                .contact("FreeKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildPayedOdessaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-2)
+                .title("PayedOdessaGradleEvent")
+                .regLink("http://www.PayedOdessaGradleEvent.com.ua")
+                .address("Odessa")
+                .сity(BuilderUtil.buildCityOdessa())
+                .contact("PayedOdessaGradleEvent@gmail.com")
+                .location(new Location(46.472508, 30.758417))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildFreeBoyarkaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-3)
+                .title("FreeBoyarkaGradleEvent")
+                .regLink("http://www.FreeBoyarkaGradleEvent.com.ua")
+                .address("Boyarka")
+                .сity(BuilderUtil.buildCityBoyarka())
+                .contact("FreeBoyarkaGradleEvent@gmail.com")
+                .location(new Location(50.343988, 30.279585))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildPayedKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-4)
+                .title("PayedKyivJavaEvent")
+                .regLink("http://www.PayedKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .сity(BuilderUtil.buildCityKyiv())
+                .contact("PayedKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
     }
 
     public static List<Event> buildEventsForMailUtilTest() throws ParseException {
