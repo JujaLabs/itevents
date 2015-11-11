@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-public class VisitLogRestControllerTest extends AbstractControllerTest {
+public class VisitLogRestControllerTest extends AbstractControllerSecurityTest {
 
     @Mock
     private UserService userService;
