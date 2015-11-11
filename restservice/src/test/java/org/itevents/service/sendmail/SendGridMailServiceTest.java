@@ -11,14 +11,11 @@ import javax.inject.Inject;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by max on 30.07.15.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
 public class SendGridMailServiceTest {
 
-    private final String USER_EMAIL_ADDRESS ="ivmaksymov@gmail.com";
+    private final String USER_EMAIL_ADDRESS ="events@juja.com.ua";
     private final String HTML_LATTER ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
             + USER_EMAIL_ADDRESS +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
 
@@ -38,5 +35,4 @@ public class SendGridMailServiceTest {
         boolean isMailSent = mailService.send(sendGridMail);
         assertTrue(isMailSent);
     }
-
 }
