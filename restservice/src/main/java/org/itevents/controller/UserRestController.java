@@ -33,7 +33,7 @@ public class UserRestController {
     @Inject
     private SendGridMailService mailService;
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private MailBuilderUtil mailBuilderUtil;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
@@ -55,7 +55,7 @@ public class UserRestController {
         Otp otp = new Otp();
         otp.generateOtp(1440);
         userService.addOtp(user, otp);
-        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otp),user.getLogin());
+        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otp),user.getLogin());
         mailService.send(sendGridMail);
         return new ResponseEntity(HttpStatus.OK);
     }
