@@ -1,5 +1,6 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.EventDao;
 import org.itevents.dao.mybatis.mapper.EventMapper;
 import org.itevents.dao.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
@@ -35,7 +36,7 @@ public class MailReminderAboutEventServiceTest {
     private MailReminderAboutEventService mailReminderAboutEventService;
 
     @Inject
-    EventMapper eventMapper;
+    EventDao eventDao;
 
     public static final int MILLISECONDS_TO_DAYS = 24*60*60*1000;
 
@@ -43,7 +44,7 @@ public class MailReminderAboutEventServiceTest {
     public int getDaysTillEvent(){
         int result;
         // Get difference of days between today and date of event with id -1
-        result = (int)(new Date().getTime()/MILLISECONDS_TO_DAYS) - (int)(eventMapper.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS);
+        result = (int)(new Date().getTime()/MILLISECONDS_TO_DAYS) - (int)(eventDao.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS);
         return -(result-1);
     }
 

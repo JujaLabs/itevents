@@ -2,6 +2,7 @@ package org.itevents.service.mail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itevents.dao.EventDao;
 import org.itevents.dao.mybatis.mapper.EventMapper;
 import org.itevents.dao.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
@@ -33,7 +34,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     private MailMock mailMock;
 
     @Inject
-    EventMapper eventMapper;
+    EventDao eventDao;
 
     @Override
     public void execute() {
@@ -44,7 +45,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
         FilteredEventsParameter params = new FilteredEventsParameter();
         params.setDaysTillEvent(daysTillEvent);
-        List<Event> filteredEvents = eventMapper.getFilteredEvents(params);
+        List<Event> filteredEvents = eventDao.getFilteredEvents(params);
         return filteredEvents;
     }
 
