@@ -48,9 +48,9 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
 
-//        verify(roleService).getRoleByName(subscriberRole.getName());
-//        verify(userService).getUserByName(testSubscriber.getLogin());
-//        verify(userService).addUser(testSubscriber);
+        verify(roleService).getRoleByName(subscriberRole.getName());
+        verify(userService).getUserByName(testSubscriber.getLogin());
+        verify(userService).addUser(testSubscriber);
     }
 
     @Test
