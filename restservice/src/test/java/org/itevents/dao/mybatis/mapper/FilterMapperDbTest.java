@@ -24,13 +24,13 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by vaa25 on 22.07.2015.
  */
-@DatabaseSetup(value = "file:src/test/resources/dbunit/FilterMapperTest/FilterMapperTest_initial.xml",
+@DatabaseSetup(value = FilterMapperDbTest.TEST_PATH + "FilterMapperTest_initial.xml",
         type = DatabaseOperation.REFRESH)
-@DatabaseTearDown(value = "file:src/test/resources/dbunit/FilterMapperTest/FilterMapperTest_initial.xml",
+@DatabaseTearDown(value = FilterMapperDbTest.TEST_PATH + "FilterMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
 public class FilterMapperDbTest extends AbstractDbTest {
 
-    private final String TEST_PATH = PATH + "FilterMapperTest/";
+    public static final String TEST_PATH = PATH + "FilterMapperTest/";
     @Inject
     private FilterMapper filterMapper;
 
