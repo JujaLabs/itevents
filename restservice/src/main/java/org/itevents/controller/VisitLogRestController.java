@@ -39,7 +39,7 @@ public class VisitLogRestController {
     @ApiOperation(value = "Redirects to to given event page")
     public ResponseEntity<String> redirectToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (isValid(event)) {
+        if (isValidEvent(event)) {
             User user = userService.getAuthorizedUser();
             VisitLog visitLog = VisitLogBuilder.aVisitLog()
                     .event(event)
@@ -53,11 +53,15 @@ public class VisitLogRestController {
         }
     }
 
-    private boolean isValid(Event event) {
+    private boolean isValidEvent(Event event) {
+        return event != null && isValidUrl(event.getRegLink());
+    }
+
+    private boolean isValidUrl(String url) {
         try {
-            return event != null && new URL(event.getRegLink()).toURI() != null;
+            return new URL(url).toURI() != null;
         } catch (Exception e) {
-            LOGGER.error("Invalid event URL : " + event.getRegLink(), e);
+            LOGGER.error("Invalid event URL : " + url, e);
             return false;
         }
     }
