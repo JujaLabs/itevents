@@ -45,7 +45,7 @@ public class FilterMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenFilterIsAbsent() {
-        Filter returnedFilter = filterMapper.getFilter(ID_0);
+        Filter returnedFilter = filterMapper.getFilter(ABSENT_ID);
 
         assertNull(returnedFilter);
     }

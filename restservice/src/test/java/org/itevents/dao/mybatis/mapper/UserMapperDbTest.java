@@ -44,7 +44,7 @@ public class UserMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenUserIsAbsent() throws Exception {
-        User returnedUser = userMapper.getUser(ID_0);
+        User returnedUser = userMapper.getUser(ABSENT_ID);
         assertNull(returnedUser);
     }
 
