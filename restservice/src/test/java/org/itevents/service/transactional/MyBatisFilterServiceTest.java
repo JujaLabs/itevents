@@ -69,13 +69,4 @@ public class MyBatisFilterServiceTest {
 
         verify(filterDao).getAllFilters();
     }
-
-    @Test
-    public void shouldAddFilter() throws Exception {
-        Filter testFilter = BuilderUtil.buildFilterFirst();
-
-        filterService.addFilter(testFilter);
-
-        verify(filterDao).addFilter(testFilter);
-    }
 }

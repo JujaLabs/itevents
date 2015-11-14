@@ -18,11 +18,6 @@ public class MyBatisFilterService implements FilterService {
     private FilterDao filterDao;
 
     @Override
-    public void addFilter(Filter filter) {
-        filterDao.addFilter(filter);
-    }
-
-    @Override
     public Filter getFilter(int id) {
         return filterDao.getFilter(id);
     }

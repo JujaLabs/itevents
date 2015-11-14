@@ -12,8 +12,6 @@ public interface FilterService {
 
     Filter getFilter(int id);
 
-    void addFilter(Filter filter);
-
     List<Filter> getAllFilters();
 
     Filter getLastFilterByUser(User user);
