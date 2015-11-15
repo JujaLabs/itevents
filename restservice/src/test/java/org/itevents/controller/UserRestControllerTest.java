@@ -7,17 +7,14 @@ import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.annotation.DirtiesContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import javax.inject.Inject;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,7 +92,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
         User user = BuilderUtil.buildUserAnakin();
         List expectedList = userService.getUserEvents(user);
         when(userService.getUser(user.getId())).thenReturn(user);
-        mvc.perform(get("/users/" +user.getId() + "/events"))
+        mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedList.toString()));
         verify(userService, atLeastOnce()).getUserEvents(user);
