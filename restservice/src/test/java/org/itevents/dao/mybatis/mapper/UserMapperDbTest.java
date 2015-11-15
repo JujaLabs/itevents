@@ -44,7 +44,7 @@ public class UserMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenUserIsAbsent() throws Exception {
-        User returnedUser = userMapper.getUser(ID_0);
+        User returnedUser = userMapper.getUser(ABSENT_ID);
         assertNull(returnedUser);
     }
 
@@ -70,5 +70,14 @@ public class UserMapperDbTest extends AbstractDbTest {
     public void shouldRemoveUser() {
         User testUser = BuilderUtil.buildUserTest();
         userMapper.removeUser(testUser);
+    }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldUpdateUser() {
+        User user = BuilderUtil.buildUserVlasov();
+        user.setSubscribed(true);
+        userMapper.updateUser(user);
     }
 }

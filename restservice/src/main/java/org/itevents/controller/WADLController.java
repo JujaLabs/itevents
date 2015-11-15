@@ -48,8 +48,8 @@ public class WADLController {
             Object object = handlerMethod.getBean();
             Object bean = webApplicationContext.getBean(object.toString());
 
-            boolean isRestContoller = bean.getClass().isAnnotationPresent(RestController.class);
-            if (!isRestContoller) {
+            boolean isRestController = bean.getClass().isAnnotationPresent(RestController.class);
+            if (!isRestController) {
                 continue;
             }
             RequestMappingInfo mappingInfo = entry.getKey();
