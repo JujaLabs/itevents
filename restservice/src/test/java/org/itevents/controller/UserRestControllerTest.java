@@ -5,11 +5,11 @@ import org.itevents.model.User;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-
-import javax.inject.Inject;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -19,12 +19,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserRestControllerTest extends AbstractControllerTest {
-    @Inject
+public class UserRestControllerTest extends AbstractControllerSecurityTest {
+
+    @Mock
     private RoleService roleService;
-    @Inject
+    @Mock
     private UserService userService;
+    @InjectMocks
+    private UserRestController userRestController;
+
+    @Before
+    public void init() {
+        super.initMock(this);
+        super.initMvc(userRestController);
+    }
 
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
@@ -35,7 +43,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
         doNothing().when(userService).addUser(testSubscriber);
 
-        mvc.perform(post("/users/register")
+        mockMvc.perform(post("/users/register")
                 .param("username", testSubscriber.getLogin())
                 .param("password", testSubscriber.getPassword()))
                 .andExpect(status().isOk());
@@ -47,11 +55,12 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
+        super.authenticationUser(BuilderUtil.buildSubscriberTest());
 
+        User user = BuilderUtil.buildSubscriberTest();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        mvc.perform(post("/users/register")
+        mockMvc.perform(post("/users/register")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
@@ -69,7 +78,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(userService.removeUser(user)).thenReturn(user);
 
-        mvc.perform(delete("/users/delete"))
+        mockMvc.perform(delete("/users/delete"))
                 .andExpect(status().isOk());
 
         verify(userService).getUserByName(user.getLogin());
