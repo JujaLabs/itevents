@@ -11,9 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -83,6 +85,16 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         verify(userService).getUserByName(user.getLogin());
         verify(userService).removeUser(user);
-
+    }
+    
+    @Test
+    public void shouldReturnUserSubscribedEvents() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        List expectedList = userService.getUserEvents(user);
+        when(userService.getUser(user.getId())).thenReturn(user);
+        mockMvc.perform(get("/users/" + user.getId() + "/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedList.toString()));
+        verify(userService, atLeastOnce()).getUserEvents(user);
     }
 }
