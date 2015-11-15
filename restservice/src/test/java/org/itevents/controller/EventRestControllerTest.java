@@ -42,26 +42,26 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     public void shouldSubscribeUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mockMvc.perform(post("/events/" + event.getId() + "/willGo"))
-                .andExpect(status().isCreated());
-        verify(eventService, atLeastOnce()).getEvent(event.getId());
+        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
+                .andExpect(status().isOk());
+        verify(eventService).getEvent(event.getId());
     }
 
     @Test
     public void shouldUnSubscribeUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mockMvc.perform(delete("/events/" + event.getId() + "/willNotGo"))
+        mockMvc.perform(delete("/events/" + event.getId() + "/unassign"))
                 .andExpect(status().isOk());
-        verify(eventService, atLeastOnce()).getEvent(event.getId());
+        verify(eventService).getEvent(event.getId());
     }
 
     @Test
     public void shouldReturnListOfVisitors() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mockMvc.perform(get("/events/" + event.getId() + "/getVisitors"))
+        mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk());
-        verify(eventService, atLeastOnce()).getVisitors(event);
+        verify(eventService).getVisitors(event);
     }
 }

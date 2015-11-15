@@ -10,7 +10,6 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
@@ -212,7 +211,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     public void shouldSubscribeUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willGoToEvent(user, event);
+        eventMapper.assign(user, event);
     }
 
     @Test
@@ -221,7 +220,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     public void shouldUnSubscribeUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willNotGoToEvent(user, event);
+        eventMapper.unassign(user, event);
     }
     @Test
     @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)

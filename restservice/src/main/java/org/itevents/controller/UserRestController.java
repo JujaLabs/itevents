@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @Api("Users")
+@RequestMapping("/users")
 public class UserRestController {
     @Inject
     private UserService userService;
@@ -29,7 +30,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
-    @RequestMapping(method = RequestMethod.POST, value = "/users/register")
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
                                                 @ModelAttribute("password") String password) {
@@ -49,7 +50,7 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/users/delete")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
     @ApiOperation(value = "Removes user from database ")
     public ResponseEntity removeUser() {
         User user = getUserFromSecurityContext();
@@ -65,15 +66,15 @@ public class UserRestController {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}")
-    public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
-        return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable("userId") int userId) {
+        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/events")
     @ApiOperation(value = "Returns list of events, to which user is subscribed")
-    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
-        User user = userService.getUser(userID);
+    public ResponseEntity<List<Event>> myEvents(@PathVariable("userId") int userId){
+        User user = userService.getUser(userId);
         if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         List<Event> events = userService.getUserEvents(user);
         return new ResponseEntity<>(events,HttpStatus.OK);

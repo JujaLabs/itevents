@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @Api("Events")
+@RequestMapping("/events")
 public class EventRestController {
 
     @Inject
@@ -26,8 +27,8 @@ public class EventRestController {
     @Inject
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{eventID}")
-    public ResponseEntity<Event> getEventById(@PathVariable("eventID") int id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{eventId}")
+    public ResponseEntity<Event> getEventById(@PathVariable("eventId") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -41,31 +42,31 @@ public class EventRestController {
         return eventService.getFilteredEvents(wrapper);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/events/{eventID}/willGo")
-    @ApiOperation(value = "Subscribes logged in user on event")
-    public ResponseEntity<Event> iWillGo(@PathVariable("eventID") int eventID) {
-        Event event = eventService.getEvent(eventID);
+    @RequestMapping(method = RequestMethod.POST, value = "/{eventId}/assign")
+    @ApiOperation(value = "Signes logged in user to event")
+    public ResponseEntity assign(@PathVariable("eventId") int eventId) {
+        Event event = eventService.getEvent(eventId);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         if (new Date().after(event.getEventDate())) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        eventService.willGoToEvent(user, event);
-        return new ResponseEntity<>(event, HttpStatus.CREATED);
+        eventService.assign(user, event);
+        return new ResponseEntity(HttpStatus.OK);
 
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/events/{eventID}/willNotGo")
-    @ApiOperation(value = "Unsubscribes logged in user from event")
-    public ResponseEntity<Event> iWillNotGo(@PathVariable("eventID") int eventID) {
-        Event event = eventService.getEvent(eventID);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{eventId}/unassign")
+    @ApiOperation(value = "unassignes logged in user from event")
+    public ResponseEntity unAssign(@PathVariable("eventId") int eventId) {
+        Event event = eventService.getEvent(eventId);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        eventService.willNotGoToEvent(user, event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        eventService.unassign(user, event);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events/{eventID}/getVisitors")
+    @RequestMapping(method = RequestMethod.GET, value = "/{eventId}/visitors")
     @ApiOperation(value = "Returns list of visitors of event")
-    public ResponseEntity<List<User>> getVisitors(@PathVariable("eventID") int id) {
+    public ResponseEntity<List<User>> getVisitors(@PathVariable("eventId") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         List<User> visitors = eventService.getVisitors(event);
