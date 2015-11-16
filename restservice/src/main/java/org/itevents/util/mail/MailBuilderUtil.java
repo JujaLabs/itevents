@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -76,7 +77,7 @@ public class MailBuilderUtil {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOtp(otp);
-//        userOtpXmlWrapper.setURL();
+        //userOtpXmlWrapper.setUrl(url);
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -123,7 +124,7 @@ public class MailBuilderUtil {
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class UserOtpXmlWrapper {
         @XmlElement(name = "url")
-        private String url;
+        private static String url;
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
@@ -146,6 +147,15 @@ public class MailBuilderUtil {
 
         public void setOtp(Otp otp) {
             this.otp = otp;
+        }
+
+        public static String getUrl(HttpServletRequest request) {
+            url = request.getServerName();
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }
