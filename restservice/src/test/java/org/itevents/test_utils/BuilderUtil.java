@@ -440,6 +440,88 @@ public class BuilderUtil {
         return filter;
     }
 
+    public static Filter buildKyivFilter() {
+        return FilterBuilder.aFilter()
+                .city(BuilderUtil.buildCityKyiv())
+                .build();
+    }
+
+    public static Filter buildFreeFilter() {
+        return FilterBuilder.aFilter()
+                .free(true)
+                .build();
+    }
+
+    public static Filter buildRadiusFilter() {
+        return FilterBuilder.aFilter()
+                .longitude(30.437997)
+                .latitude(50.427751)
+                .radius(10_000)
+                .build();
+    }
+
+    public static Filter builderJavaFilter() {
+        return FilterBuilder.aFilter()
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildFreeKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-1)
+                .title("FreeKyivJavaEvent")
+                .regLink("http://www.FreeKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .ñity(BuilderUtil.buildCityKyiv())
+                .contact("FreeKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildPayedOdessaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-2)
+                .title("PayedOdessaGradleEvent")
+                .regLink("http://www.PayedOdessaGradleEvent.com.ua")
+                .address("Odessa")
+                .ñity(BuilderUtil.buildCityOdessa())
+                .contact("PayedOdessaGradleEvent@gmail.com")
+                .location(new Location(46.472508, 30.758417))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildFreeBoyarkaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-3)
+                .title("FreeBoyarkaGradleEvent")
+                .regLink("http://www.FreeBoyarkaGradleEvent.com.ua")
+                .address("Boyarka")
+                .ñity(BuilderUtil.buildCityBoyarka())
+                .contact("FreeBoyarkaGradleEvent@gmail.com")
+                .location(new Location(50.343988, 30.279585))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildPayedKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-4)
+                .title("PayedKyivJavaEvent")
+                .regLink("http://www.PayedKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .ñity(BuilderUtil.buildCityKyiv())
+                .contact("PayedKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
     public static List<Event> buildEventsForMailUtilTest() throws ParseException {
         List<Event> events = new ArrayList<>();
         events.add(BuilderUtil.buildEventJava());
