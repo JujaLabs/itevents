@@ -56,7 +56,7 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{eventId}/unassign")
     @ApiOperation(value = "unassignes logged in user from event")
-    public ResponseEntity unAssign(@PathVariable("eventId") int eventId) {
+    public ResponseEntity unassign(@PathVariable("eventId") int eventId) {
         Event event = eventService.getEvent(eventId);
         if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
