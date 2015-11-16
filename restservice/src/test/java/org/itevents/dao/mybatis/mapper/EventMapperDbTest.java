@@ -211,7 +211,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     public void shouldSubscribeUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willGoToEvent(user, event);
+        eventMapper.assign(user, event);
     }
 
     @Test
@@ -220,7 +220,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     public void shouldUnSubscribeUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willNotGoToEvent(user, event);
+        eventMapper.unassign(user, event);
     }
     @Test
     @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
@@ -229,7 +229,6 @@ public class EventMapperDbTest extends AbstractDbTest {
         List expectedUsers = new ArrayList<>();
         expectedUsers.add(user);
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.getVisitors(event);
         List returnedUsers = eventMapper.getVisitors(event);
         assertEquals(expectedUsers,returnedUsers);
     }

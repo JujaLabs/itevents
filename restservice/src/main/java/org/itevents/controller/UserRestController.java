@@ -70,6 +70,18 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
+    @ApiOperation(value = "Removes user from database ")
+    public ResponseEntity removeUser() {
+        User user = getUserFromSecurityContext();
+        User removed = userService.removeUser(user);
+        if (removed == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/activate/{otp}")
     @ApiOperation(value = "Activates logged in user by OTP")
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
@@ -103,15 +115,15 @@ public class UserRestController {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userID}")
-    public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
-        return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable("userId") int userId) {
+        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userID}/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/events")
     @ApiOperation(value = "Returns list of events, to which user is subscribed")
-    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
-        User user = userService.getUser(userID);
+    public ResponseEntity<List<Event>> myEvents(@PathVariable("userId") int userId){
+        User user = userService.getUser(userId);
         if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         List<Event> events = userService.getUserEvents(user);
         return new ResponseEntity<>(events,HttpStatus.OK);

@@ -1,68 +1,67 @@
 package org.itevents.controller;
 
 import org.itevents.model.Event;
-import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.security.test.context.support.WithMockUser;
-
-import javax.inject.Inject;
-import java.util.List;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventRestControllerTest extends AbstractControllerTest {
-    @Inject
+public class EventRestControllerTest extends AbstractControllerSecurityTest {
+
+    @Mock
     private EventService eventService;
-    @Inject
+    @Mock
     private UserService userService;
+    @InjectMocks
+    private EventRestController eventRestController;
+
+    @Before
+    public void init() {
+        super.initMock(this);
+        super.initMvc(eventRestController);
+        super.authenticationUser(BuilderUtil.buildSubscriberTest());
+    }
 
     @Test
     public void shouldFindEventById() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(get("/events/" + event.getId()))
+        mockMvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isOk());
         verify(eventService).getEvent(event.getId());
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldSubscribeUserToEvent() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
         Event event = BuilderUtil.buildEventJava();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(post("/events/" + event.getId() + "/willGo"))
-                .andExpect(status().isCreated());
-        verify(eventService, atLeastOnce()).getEvent(event.getId());
+        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
+                .andExpect(status().isOk());
+        verify(eventService).getEvent(event.getId());
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldUnSubscribeUserFromEvent() throws Exception{
-        User user = BuilderUtil.buildSubscriberTest();
         Event event = BuilderUtil.buildEventJava();
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(delete("/events/" + event.getId() + "/willNotGo"))
+        mockMvc.perform(delete("/events/" + event.getId() + "/unassign"))
                 .andExpect(status().isOk());
-        verify(eventService, atLeastOnce()).getEvent(event.getId());
+        verify(eventService).getEvent(event.getId());
     }
 
     @Test
     public void shouldReturnListOfVisitors() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        List expectedList = eventService.getVisitors(event);
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        mvc.perform(get("/events/" + event.getId() + "/getVisitors"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(expectedList.toString()));
-        verify(eventService, atLeastOnce()).getVisitors(event);
+        mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
+                .andExpect(status().isOk());
+        verify(eventService).getVisitors(event);
     }
 }
