@@ -229,7 +229,6 @@ public class EventMapperDbTest extends AbstractDbTest {
         List expectedUsers = new ArrayList<>();
         expectedUsers.add(user);
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.getVisitors(event);
         List returnedUsers = eventMapper.getVisitors(event);
         assertEquals(expectedUsers,returnedUsers);
     }
