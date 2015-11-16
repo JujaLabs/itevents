@@ -1,6 +1,5 @@
 package org.itevents.controller;
 
-import com.sendgrid.SendGrid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,8 +54,8 @@ public class UserRestController {
         Otp otp = new Otp();
         otp.generateOtp(1440);
         userService.addOtp(user, otp);
-        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otp),user.getLogin());
-        mailService.send(sendGridMail);
+//        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otp),user.getLogin());
+//        mailService.send(sendGridMail);
         return new ResponseEntity(HttpStatus.OK);
     }
 
