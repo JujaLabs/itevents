@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/users")
+@Validated
 public class SubscriberController {
 
     @ResponseBody
