@@ -12,8 +12,8 @@ public class SubscriberControllerTest extends AbstractControllerTest {
 
     @Test
     public void shouldReceivePostWithInvitingFriends() throws Exception {
-        int id = 1;
-        String email = "a@a.com";
+        int id = -1;
+        String email = "address@mail.com";
 
         mvc.perform(post("/users/" + id + "/invites")
                 .param("email", email))
@@ -21,22 +21,13 @@ public class SubscriberControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void expectBadRequestIfEmailsNull() throws Exception {
-        int id = 1;
-        String email = null;
+    public void expectBadRequestIfEmailNotValid() throws Exception {
+        int id = -1;
+        String email = "some_not_valid_email";
 
         mvc.perform(post("/users/" + id + "/invites")
                 .param("email", email))
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    public void expectInvalidEmailExceptionWhenEmailIsNotValid() throws Exception {
-        int id = 1;
-        String email = "email";
-
-        mvc.perform(post("/users/" + id + "/invites")
-                .param("email", email))
-                .andExpect(status().isBadRequest());
-    }
 }
