@@ -13,7 +13,7 @@ CREATE TABLE event (
   currency_id INT,
   city_id     INT,
   FOREIGN KEY (currency_id) REFERENCES currency,
-  FOREIGN KEY (city_id) REFERENCES city ON DELETE CASCADE,
+  FOREIGN KEY (city_id) REFERENCES city,
   CHECK ((price IS NOT NULL AND currency_id IS NOT NULL) OR
          (price IS NULL AND currency_id IS NULL))
 );
