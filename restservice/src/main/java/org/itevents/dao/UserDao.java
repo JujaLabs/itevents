@@ -1,6 +1,6 @@
 package org.itevents.dao;
 
-import org.itevents.model.Otp;
+import org.itevents.util.OneTimePassword.OtpGen;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 
@@ -27,9 +27,9 @@ public interface UserDao {
 
     void deactivateUser(User user);
 
-    void addOtp(User user, Otp otp);
+    void addOtp(User user, OtpGen otpGen);
 
-    Otp getOtp(User user);
+    OtpGen getOtp(User user);
 
     void DeleteOtp(User user);
 }

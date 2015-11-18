@@ -1,7 +1,7 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
-import org.itevents.model.Otp;
+import org.itevents.util.OneTimePassword.OtpGen;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
@@ -58,12 +58,12 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addOtp(User user, Otp otp) {
-        userDao.addOtp(user,otp);
+    public void addOtp(User user, OtpGen otpGen) {
+        userDao.addOtp(user, otpGen);
     }
 
     @Override
-    public Otp getOtp(User user) {
+    public OtpGen getOtp(User user) {
         return userDao.getOtp(user);
     }
 

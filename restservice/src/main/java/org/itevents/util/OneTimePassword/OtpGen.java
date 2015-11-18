@@ -1,4 +1,6 @@
-package org.itevents.model;
+package org.itevents.util.OneTimePassword;
+
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -6,17 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class Otp implements Serializable {
-   private String otp;
+@Component
+public class OtpGen implements Serializable {
+
+   private String password;
    private Date creationDate;
    private Date expirationDate;
 
-    public String getOtp() {
-        return otp;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOtp(String otp) {
-        this.otp = otp;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Date getCreationDate() {
@@ -39,12 +43,12 @@ public class Otp implements Serializable {
         setCreationDate(new Date());
         if (lifetimeInMinutes>0){
             setExpirationDate(new Date(creationDate.getTime() + lifetimeInMinutes * 60 * 1000));
-            setOtp(UUID.randomUUID().toString());
+            setPassword(UUID.randomUUID().toString());
         }else
-            setOtp(UUID.randomUUID().toString());
+            setPassword(UUID.randomUUID().toString());
     }
 
-    public Otp() {
+    public OtpGen() {
     }
 
     private static Date parseDate(String date) throws ParseException {

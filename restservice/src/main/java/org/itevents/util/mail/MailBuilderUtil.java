@@ -1,8 +1,9 @@
 package org.itevents.util.mail;
 
+
 import org.itevents.model.Event;
-import org.itevents.model.Otp;
 import org.itevents.model.User;
+import org.itevents.util.OneTimePassword.OtpGen;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -38,9 +39,9 @@ public class MailBuilderUtil {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
     // ÁÐÀÍ× 48
-    public String buildHtmlFromUserOtp(User user, Otp otp)  throws ParseException, JAXBException, IOException,
+    public String buildHtmlFromUserOtp(User user, OtpGen otpGen)  throws ParseException, JAXBException, IOException,
             TransformerException {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otp));
+        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGen));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -73,11 +74,12 @@ public class MailBuilderUtil {
     }
 
     //    ÁÐÀÍ× 48
-    private String BuildXmlFromUserOtp(User user, Otp otp) throws JAXBException {
+    private String BuildXmlFromUserOtp(User user, OtpGen otpGen) throws JAXBException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
-        userOtpXmlWrapper.setOtp(otp);
-        //userOtpXmlWrapper.setUrl(url);
+        userOtpXmlWrapper.setOtpGen(otpGen);
+//        userOtpXmlWrapper.getUrl(request);
+
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -128,7 +130,7 @@ public class MailBuilderUtil {
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
-        private Otp otp;
+        private OtpGen otpGen;
 
         public UserOtpXmlWrapper() {
         }
@@ -141,16 +143,16 @@ public class MailBuilderUtil {
             this.user = user;
         }
 
-        public Otp getOtp() {
-            return otp;
+        public OtpGen getOtpGen() {
+            return otpGen;
         }
 
-        public void setOtp(Otp otp) {
-            this.otp = otp;
+        public void setOtpGen(OtpGen otpGen) {
+            this.otpGen = otpGen;
         }
 
-        public static String getUrl(HttpServletRequest request) {
-            url = request.getServerName();
+        public  String getUrl(HttpServletRequest request) {
+            url = request.getRequestURI();
             return url;
         }
 

@@ -5,12 +5,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
-import org.itevents.model.Otp;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.sendmail.SendGridMailService;
+import org.itevents.util.OneTimePassword.OtpGen;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +33,8 @@ public class UserRestController {
     private SendGridMailService mailService;
     @Inject
     MailBuilderUtil mailBuilderUtil;
+    @Inject
+    OtpGen otpGen;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
@@ -51,18 +53,16 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
-        Otp otp = new Otp();
-        otp.generateOtp(1440);
-        userService.addOtp(user, otp);
-//        SendGrid.Email sendGridMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otp),user.getLogin());
-//        mailService.send(sendGridMail);
+        generateOtp(1440, user);
+        userService.addOtp(user, otpGen);
+//        SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otpGen),user.getLogin());
+//        mailService.send(activationMail);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     private void generateOtp(long lifetime, User user){
-        Otp otp = new Otp();
-        otp.generateOtp(lifetime);
-        userService.addOtp(user, otp);
+        otpGen.generateOtp(lifetime);
+        userService.addOtp(user, otpGen);
     }
 
     private boolean exists(String username) {
@@ -85,8 +85,8 @@ public class UserRestController {
     @ApiOperation(value = "Activates logged in user by OTP")
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
-        Otp otp = userService.getOtp(user);
-        if (!password.equals(otp.getOtp()) || otp.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        OtpGen otpGen = userService.getOtp(user);
+        if (!password.equals(otpGen.getPassword()) || otpGen.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             userService.activateUser(user);
             userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
@@ -103,8 +103,8 @@ public class UserRestController {
     @ApiOperation(value = "deactivates logged in user by OTP")
     public ResponseEntity<User> deactivateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
-        Otp otp = userService.getOtp(user);
-        if (!password.equals(otp.getOtp()) || !otp.getExpirationDate().after(new Date())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        OtpGen otpGen = userService.getOtp(user);
+        if (!password.equals(otpGen.getPassword()) || !otpGen.getExpirationDate().after(new Date())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             userService.deactivateUser(user);
             userService.DeleteOtp(user);
             return new ResponseEntity<>(user,HttpStatus.ACCEPTED);

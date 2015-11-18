@@ -5,6 +5,7 @@ import org.itevents.model.User;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OtpGen;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     private UserService userService;
     @InjectMocks
     private UserRestController userRestController;
+    @Mock
+    OtpGen otpGen;
 
     @Before
     public void init() {
