@@ -6,6 +6,6 @@ CREATE TABLE visit_log (
   event_id INT                       NOT NULL,
   date     DATE                      NOT NULL,
   user_id  INT                       NOT NULL,
-  FOREIGN KEY (event_id) REFERENCES event ON DELETE CASCADE ,
-  FOREIGN KEY (user_id) REFERENCES user_profile ON DELETE CASCADE
+  FOREIGN KEY (event_id) REFERENCES event,
+  FOREIGN KEY (user_id) REFERENCES user_profile
 );
