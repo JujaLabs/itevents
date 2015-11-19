@@ -6,6 +6,7 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.mybatis.mapper.EventMapper;
 import org.itevents.dao.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.ReminderAboutEventService;
@@ -14,10 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ramax on 11/2/15.
@@ -28,9 +26,6 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     @Value("#{new Integer('${reminderAboutEventForThePeriod}')}")
     private int daysTillEvent;
 
-    @Inject
-    private VisitLogService visitLogService;
-
     private MailMock mailMock;
 
     @Inject
@@ -38,8 +33,8 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     @Override
     public void execute() {
-        List<VisitLog> visitLogList = getVisitLogListByDaysTillEvent(daysTillEvent);
-        sendEmails(visitLogList);
+        Map<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent(daysTillEvent);
+        sendEmails(usersAndEventsToRemind);
     }
 
     public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
@@ -49,13 +44,15 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return filteredEvents;
     }
 
-    public List<VisitLog> getVisitLogListByDaysTillEvent(int daysTillEvent){
+    public Map<User,Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
         List<Event> filteredEvents = getEventsByDaysTillEvent(daysTillEvent);
-        List<VisitLog> resultVisitLog = new ArrayList<VisitLog>();
+        Map<User,Event> usersAndEvents = new HashMap<User,Event>();
         for(Event event : filteredEvents){
-            resultVisitLog.addAll(visitLogService.getVisitLogsByEvent(event));
+            for(User user : eventDao.getVisitors(event)) {
+                usersAndEvents.put(user, event);
+            }
         }
-        return resultVisitLog;
+        return usersAndEvents;
     }
 
     public String createHTMLForMail(Event event) {
@@ -63,10 +60,10 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return "ok";
     }
 
-    private void sendEmails(List<VisitLog> visitLogList) {
-        for (VisitLog visitLog: visitLogList) {
-            String htmlForMail = createHTMLForMail( visitLog.getEvent() );
-            mailMock.sendEmail(htmlForMail, visitLog.getUser().getLogin());
+    private void sendEmails(Map<User,Event> usersAndEvents) {
+        for (Map.Entry<User,Event> userAndEvent: usersAndEvents.entrySet()) {
+            String htmlForMail = createHTMLForMail(userAndEvent.getValue());
+            mailMock.sendEmail(htmlForMail, userAndEvent.getKey().getLogin());
         }
     }
 }

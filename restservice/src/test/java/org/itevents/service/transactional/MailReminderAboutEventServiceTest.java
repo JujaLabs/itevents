@@ -4,6 +4,7 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.mybatis.mapper.EventMapper;
 import org.itevents.dao.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.model.VisitLog;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.VisitLogService;
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ramax on 11/7/15.
@@ -41,23 +43,22 @@ public class MailReminderAboutEventServiceTest {
     public static final int MILLISECONDS_TO_DAYS = 24*60*60*1000;
 
 
-    public int getDaysTillEvent(){
+    public int getDaysTillEventTest(){
         int result;
         // Get difference of days between today and date of event with id -1
-        result = (int)(new Date().getTime()/MILLISECONDS_TO_DAYS) - (int)(eventDao.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS);
-        return -(result-1);
+        result = Math.abs((int)(new Date().getTime()/MILLISECONDS_TO_DAYS) - (int)(eventDao.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS));
+        return result+1;
     }
 
     @Test
     public void getEventByDaysTillEventTest(){
-        List<Event> eventsByDaysTillEvent = mailReminderAboutEventService.getEventsByDaysTillEvent(getDaysTillEvent());
+        List<Event> eventsByDaysTillEvent = mailReminderAboutEventService.getEventsByDaysTillEvent(getDaysTillEventTest());
         assertFalse(eventsByDaysTillEvent.isEmpty());
     }
 
     @Test
-    public void getVisitLogsByFilteredEvents(){
-        List<VisitLog> visitLogs = mailReminderAboutEventService.getVisitLogListByDaysTillEvent(getDaysTillEvent());
-        assertFalse(visitLogs.isEmpty());
+    public void getUsersAndEventsByDaysTillEventTest(){
+        Map<User,Event> usersAndEvents= mailReminderAboutEventService.getUsersAndEventsByDaysTillEvent(getDaysTillEventTest());
+        assertFalse(usersAndEvents.isEmpty());
     }
-
 }
