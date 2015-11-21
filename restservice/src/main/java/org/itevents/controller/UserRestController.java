@@ -129,10 +129,10 @@ public class UserRestController {
         return new ResponseEntity<>(events,HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/url")
-    @ApiOperation(value = "Return url for new Subscriber ")
-    public static String returnUrlForNewSubscriber(HttpRequest request) {
-        String url = request.getURI().toString();
-        return url;
+    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "Return url ")
+    public static HttpRequest returnUrlForNewSubscriber(HttpRequest request) {
+        request.getURI();
+        return request;
     }
 }
