@@ -40,8 +40,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
         FilteredEventsParameter params = new FilteredEventsParameter();
         params.setDaysTillEvent(daysTillEvent);
-        List<Event> filteredEvents = eventDao.getFilteredEvents(params);
-        return filteredEvents;
+        return eventDao.getFilteredEvents(params);
     }
 
     public Map<User,Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){

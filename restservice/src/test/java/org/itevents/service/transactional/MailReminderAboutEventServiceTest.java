@@ -40,14 +40,15 @@ public class MailReminderAboutEventServiceTest {
     @Inject
     EventDao eventDao;
 
-    public static final int MILLISECONDS_TO_DAYS = 24*60*60*1000;
+    private static final int MILLISECONDS_TO_DAYS = 24*60*60*1000;
 
 
-    public int getDaysTillEventTest(){
-        int result;
+    private int getDaysTillEventTest(){
+        long result;
         // Get difference of days between today and date of event with id -1
-        result = Math.abs((int)(new Date().getTime()/MILLISECONDS_TO_DAYS) - (int)(eventDao.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS));
-        return result+1;
+        result = (eventDao.getEvent(-1).getEventDate().getTime()/MILLISECONDS_TO_DAYS) //day of event with id -1
+                - (new Date().getTime()/MILLISECONDS_TO_DAYS); //today
+        return (int)result+1;
     }
 
     @Test
