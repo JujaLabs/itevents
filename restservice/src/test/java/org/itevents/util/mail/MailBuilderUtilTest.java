@@ -1,11 +1,13 @@
 package org.itevents.util.mail;
 
+import org.itevents.controller.UserRestController;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OtpGen;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.http.HttpRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -41,8 +43,9 @@ public class MailBuilderUtilTest {
     public void shouldReturnMailWithUsernameAndOtp()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         otpGen.generateOtp(1440);
-//        String url = MailBuilderUtil.
-//        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otp, url);
-//        assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
+        request = new HttpRequest();
+        String url = UserRestController.returnUrlForNewSubscriber(request);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen);
+        assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -78,7 +77,7 @@ public class MailBuilderUtil {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOtpGen(otpGen);
-//        userOtpXmlWrapper.getUrl(request);
+        userOtpXmlWrapper.getUrl();
 
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -151,8 +150,7 @@ public class MailBuilderUtil {
             this.otpGen = otpGen;
         }
 
-        public  String getUrl(HttpServletRequest request) {
-            url = request.getRequestURI();
+        public  String getUrl() {
             return url;
         }
 

@@ -12,6 +12,7 @@ import org.itevents.service.UserService;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OtpGen;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,5 +127,12 @@ public class UserRestController {
         if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         List<Event> events = userService.getUserEvents(user);
         return new ResponseEntity<>(events,HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/url")
+    @ApiOperation(value = "Return url for new Subscriber ")
+    public static String returnUrlForNewSubscriber(HttpRequest request) {
+        String url = request.getURI().toString();
+        return url;
     }
 }
