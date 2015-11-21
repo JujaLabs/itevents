@@ -44,7 +44,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder сreateDate(Date createDate) {
+    public EventBuilder createDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }
@@ -79,7 +79,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder сity(City city) {
+    public EventBuilder city(City city) {
         this.city = city;
         return this;
     }
@@ -90,9 +90,9 @@ public class EventBuilder {
     }
 
     public EventBuilder but() {
-        return anEvent().id(id).title(title).eventDate(eventDate).сreateDate(createDate).regLink(regLink)
+        return anEvent().id(id).title(title).eventDate(eventDate).createDate(createDate).regLink(regLink)
                 .address(address).location(location).contact(contact).price(price).currency(currency)
-                .сity(city).technologies(technologies);
+                .city(city).technologies(technologies);
     }
 
     public Event build() {

@@ -3,6 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
@@ -123,5 +124,28 @@ public class MyBatisEventServiceTest {
 
         verify(eventDao).getFilteredEvents(any(Filter.class));
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    public void shouldReturnVisitors() throws Exception {
+        Event event = BuilderUtil.buildEventJs();
+        eventService.getVisitors(event);
+        verify(eventDao).getVisitors(event);
+    }
+
+    @Test
+    public void shouldSubscribeToEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventRuby();
+        eventService.willGoToEvent(user,event);
+        verify(eventDao).willGoToEvent(user,event);
+    }
+
+    @Test
+    public void shouldUnsubscribeUserFromEvent()throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        eventService.willNotGoToEvent(user, event);
+        verify(eventDao).willNotGoToEvent(user, event);
     }
 }

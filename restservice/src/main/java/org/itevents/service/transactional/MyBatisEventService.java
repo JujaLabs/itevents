@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.wrapper.EventWrapper;
@@ -32,13 +33,28 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int id) {
-        return eventDao.getEvent(id);
+    public Event getEvent(int eventID) {
+        return eventDao.getEvent(eventID);
     }
 
     @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
+    }
+
+    @Override
+    public void willGoToEvent(User user, Event event) {
+        eventDao.willGoToEvent(user, event);
+    }
+
+    @Override
+    public void willNotGoToEvent(User user, Event event) {
+            eventDao.willNotGoToEvent(user, event);
+    }
+
+    @Override
+    public List<User> getVisitors(Event event) {
+        return eventDao.getVisitors(event);
     }
 
     @Override
