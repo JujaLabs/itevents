@@ -12,7 +12,6 @@ import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,6 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.FilterWrapper;

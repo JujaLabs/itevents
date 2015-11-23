@@ -139,7 +139,8 @@ public class MyBatisUserServiceTest {
         verify(userDao).updateUser(testSubscriber);
         assertEquals(expectedSubscribed, returnedSubscribed);
     }
-}
+
+    @Test
     public void shouldReturnUserEvents() throws Exception{
         User user = BuilderUtil.buildUserAnakin();
         userService.getUserEvents(user);

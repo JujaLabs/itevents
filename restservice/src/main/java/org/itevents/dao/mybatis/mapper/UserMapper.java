@@ -49,7 +49,7 @@ public interface UserMapper extends UserDao {
         @Result(property = "createDate", column = "create_date"),
         @Result(property = "regLink", column = "reg_link"),
         @Result(property = "location", column = "id", javaType = Location.class,
-                one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.selectLocation")),
+                one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.getEventLocation")),
         @Result(property = "currency", column = "currency_id", javaType = Currency.class,
                 one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
         @Result(property = "city", column = "city_id", javaType = City.class,

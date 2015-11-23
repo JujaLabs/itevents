@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.itevents.model.Filter;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.FilterService;
@@ -17,11 +17,6 @@ import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -98,12 +93,12 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{userID}")
     public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
         return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/{userID}/events")
     @ApiOperation(value = "Returns list of events, to which user is subscribed")
     public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
         User user = userService.getUser(userID);

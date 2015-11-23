@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class MyBatisEventService implements EventService {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private EventDao eventDao;
@@ -73,7 +73,7 @@ public class MyBatisEventService implements EventService {
         try {
             result = eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
         } catch (Exception e) {
-            logger.error("getFilteredEvents Exception :", e);
+            LOGGER.error("getFilteredEvents Exception :", e);
             result = new ArrayList<>();
         }
         return result;
