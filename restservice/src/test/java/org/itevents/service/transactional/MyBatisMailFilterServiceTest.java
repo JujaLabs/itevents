@@ -41,9 +41,9 @@ public class MyBatisMailFilterServiceTest extends AbstractDbTest {
     }
 
     @Test
-     @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
-     @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
-     public void shouldReturnFreeEvents() throws ParseException {
+    @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
+    public void shouldReturnFreeEvents() throws ParseException {
         Filter filter = BuilderUtil.buildFreeFilter();
         List<Event> expectedFilteredEvents = new ArrayList<>(Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent(),
                 BuilderUtil.buildFreeBoyarkaGradleEvent()));
