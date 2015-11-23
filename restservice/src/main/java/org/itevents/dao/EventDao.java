@@ -2,6 +2,7 @@ package org.itevents.dao;
 
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
+import org.itevents.model.User;
 
 import java.util.List;
 
@@ -22,4 +23,11 @@ public interface EventDao {
     void removeEvent(Event event);
 
     void removeEventTechnology(Event event);
+
+    void willGoToEvent(User user, Event event);
+
+    void willNotGoToEvent(User user, Event event);
+
+    List<User> getVisitors(Event event);
+
 }

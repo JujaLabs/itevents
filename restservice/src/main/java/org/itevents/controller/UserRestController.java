@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Filter;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.FilterService;
@@ -20,17 +21,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
-/**
- * Created by vaa25 on 16.10.2015.
- */
 @RestController
 @Api("Users")
 @RequestMapping("/users")
 public class UserRestController {
-
     @Inject
     private UserService userService;
     @Inject
@@ -51,6 +51,7 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.POST, value = "logout")
     public void logout() {
     }
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
@@ -97,4 +98,17 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}")
+    public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
+        return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/events")
+    @ApiOperation(value = "Returns list of events, to which user is subscribed")
+    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
+        User user = userService.getUser(userID);
+        if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        List<Event> events = userService.getUserEvents(user);
+        return new ResponseEntity<>(events,HttpStatus.OK);
+    }
 }

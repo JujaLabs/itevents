@@ -1,6 +1,7 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,4 +67,10 @@ public class MyBatisUserService implements UserService {
         }
         return deletingUser;
     }
+
+    @Override
+    public List<Event> getUserEvents(User user) {
+       return userDao.getUserEvents(user);
+    }
+
 }

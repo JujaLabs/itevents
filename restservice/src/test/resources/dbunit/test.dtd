@@ -10,6 +10,7 @@
         role*,
         spatial_ref_sys*,
         technology*,
+        user_event*,
         user_filter*,
         user_profile*,
         visit_log*)>
@@ -111,6 +112,11 @@
         <!ATTLIST technology
                 id CDATA #IMPLIED
                 name CDATA #REQUIRED
+                >
+        <!ELEMENT user_event EMPTY>
+        <!ATTLIST user_event
+                user_id CDATA #REQUIRED
+                event_id CDATA #REQUIRED
                 >
 
         <!ELEMENT user_filter EMPTY>

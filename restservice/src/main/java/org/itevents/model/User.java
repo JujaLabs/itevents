@@ -1,5 +1,7 @@
 package org.itevents.model;
 
+import java.util.List;
+
 public class User {
 
     private int id;
@@ -7,6 +9,7 @@ public class User {
     private String password;
     private Role role;
     private boolean subscribed;
+    private List<Event> events;
 
     public User() {
     }
@@ -49,6 +52,14 @@ public class User {
 
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     @Override

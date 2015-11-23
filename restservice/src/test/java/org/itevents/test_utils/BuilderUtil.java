@@ -1,8 +1,8 @@
 package org.itevents.test_utils;
 
+
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

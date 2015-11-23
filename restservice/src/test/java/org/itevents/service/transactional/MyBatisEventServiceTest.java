@@ -120,4 +120,27 @@ public class MyBatisEventServiceTest {
 
         assertEquals(expectedEvents, returnedEvents);
     }
+
+    @Test
+    public void shouldReturnVisitors() throws Exception {
+        Event event = BuilderUtil.buildEventJs();
+        eventService.getVisitors(event);
+        verify(eventDao).getVisitors(event);
+    }
+
+    @Test
+    public void shouldSubscribeToEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventRuby();
+        eventService.willGoToEvent(user,event);
+        verify(eventDao).willGoToEvent(user,event);
+    }
+
+    @Test
+    public void shouldUnsubscribeUserFromEvent()throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        eventService.willNotGoToEvent(user, event);
+        verify(eventDao).willNotGoToEvent(user, event);
+    }
 }

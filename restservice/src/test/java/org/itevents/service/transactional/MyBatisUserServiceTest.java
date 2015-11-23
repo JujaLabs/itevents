@@ -1,5 +1,6 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
@@ -32,6 +33,8 @@ public class MyBatisUserServiceTest {
     private UserService userService;
     @Mock
     private UserDao userDao;
+    @Mock
+    private EventDao eventDao;
 
     @Before
     public void setUp() {
@@ -135,5 +138,11 @@ public class MyBatisUserServiceTest {
 
         verify(userDao).updateUser(testSubscriber);
         assertEquals(expectedSubscribed, returnedSubscribed);
+    }
+}
+    public void shouldReturnUserEvents() throws Exception{
+        User user = BuilderUtil.buildUserAnakin();
+        userService.getUserEvents(user);
+        verify(userDao).getUserEvents(user);
     }
 }

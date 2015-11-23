@@ -6,11 +6,15 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -79,5 +83,16 @@ public class UserMapperDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserVlasov();
         user.setSubscribed(true);
         userMapper.updateUser(user);
+    }
+
+    @Test
+    @DatabaseSetup(value = PATH + "EventMapperTest/addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    public void shouldReturnUserEvents() throws Exception{
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        List expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+        List returnedEvents = userMapper.getUserEvents(user);
+        assertEquals(expectedEvents,returnedEvents);
     }
 }

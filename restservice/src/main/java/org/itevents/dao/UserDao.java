@@ -1,5 +1,6 @@
 package org.itevents.dao;
 
+import org.itevents.model.Event;
 import org.itevents.model.User;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserDao {
     void updateUser(User user);
 
     void removeUser(User user);
+
+    List<Event> getUserEvents(User user);
 }
