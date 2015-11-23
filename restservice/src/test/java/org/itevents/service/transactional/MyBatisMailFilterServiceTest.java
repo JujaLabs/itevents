@@ -57,7 +57,7 @@ public class MyBatisMailFilterServiceTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
     @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnJavaEvents() throws ParseException {
-        Filter filter = BuilderUtil.builderJavaFilter();
+        Filter filter = BuilderUtil.builderFilterJava();
         List<Event> expectedFilteredEvents = new ArrayList<>(Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent(),
                 BuilderUtil.buildPayedKyivJavaEvent()));
         List<Event> returnedFilteredEvents = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);

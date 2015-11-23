@@ -461,7 +461,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Filter builderJavaFilter() {
+    public static Filter builderFilterJava() {
         return FilterBuilder.aFilter()
                 .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
                 .build();
