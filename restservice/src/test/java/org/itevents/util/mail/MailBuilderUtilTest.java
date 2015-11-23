@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
     @Inject
-    String expectedDigestEmail;
+    private String expectedDigestEmail;
 
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private MailBuilderUtil mailBuilderUtil;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
