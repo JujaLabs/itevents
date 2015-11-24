@@ -223,7 +223,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = PATH + "EventMapperTest/addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
     public void shouldReturnEventsByUser() throws Exception{
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
