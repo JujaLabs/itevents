@@ -44,12 +44,12 @@ public class EventRestController {
     @ApiOperation(value = "Signes logged in user to event")
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (event != null && new Date().before(event.getEventDate()) ) {
+        if (event == null || new Date().after(event.getEventDate()) ) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } else {
             User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
             eventService.assign(user, event);
             return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -57,12 +57,12 @@ public class EventRestController {
     @ApiOperation(value = "unassignes logged in user from event")
     public ResponseEntity unassign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (event != null) {
+        if (event == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
             User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
             eventService.unassign(user, event);
             return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -70,11 +70,11 @@ public class EventRestController {
     @ApiOperation(value = "Returns list of visitors of event")
     public ResponseEntity<List<User>> getVisitors(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
-        if (event != null) {
+        if (event == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
             List<User> visitors = userService.getUsersByEvent(event);
             return new ResponseEntity<>(visitors,HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 }
