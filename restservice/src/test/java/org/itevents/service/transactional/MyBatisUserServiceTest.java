@@ -38,7 +38,7 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldReturnVisitors() throws Exception {
+    public void shouldReturnUsersByEvent() throws Exception {
         Event event = BuilderUtil.buildEventJs();
         userService.getUsersByEvent(event);
         verify(userDao).getUsersByEvent(event);

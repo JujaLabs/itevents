@@ -44,7 +44,7 @@ public class EventRestController {
     @ApiOperation(value = "Signes logged in user to event")
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (event != null || new Date().before(event.getEventDate()) ) {
+        if (event != null && new Date().before(event.getEventDate()) ) {
             User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
             eventService.assign(user, event);
             return new ResponseEntity(HttpStatus.OK);
