@@ -30,7 +30,7 @@ public class SendGridMailService implements MailService {
 
     }
 
-    public boolean send(SendGrid.Email email) {
+    private boolean send(SendGrid.Email email) {
         try {
             return sendgrid.send(email).getStatus();
         } catch (SendGridException e) {
@@ -39,7 +39,7 @@ public class SendGridMailService implements MailService {
         }
     }
 
-    public SendGrid.Email createMail(String htmlLetter, String emailAddress) {
+    private SendGrid.Email createMail(String htmlLetter, String emailAddress) {
         return new SendGrid
                 .Email()
                 .addTo(emailAddress)
