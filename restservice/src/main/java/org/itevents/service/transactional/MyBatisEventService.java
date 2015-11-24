@@ -53,8 +53,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<User> getVisitors(Event event) {
-        return eventDao.getVisitors(event);
+    public List<Event> getEventsByUser(User user) {
+        return eventDao.getEventsByUser(user);
     }
 
     @Override

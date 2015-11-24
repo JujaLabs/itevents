@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,8 @@ public class UserRestController {
     private UserService userService;
     @Inject
     private RoleService roleService;
+    @Inject
+    private EventService eventService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
@@ -66,17 +69,20 @@ public class UserRestController {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") int userId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
+    public ResponseEntity<User> getUserById(@PathVariable("user_id") int userId) {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userId}/events")
+    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
     @ApiOperation(value = "Returns list of events, to which user is subscribed")
-    public ResponseEntity<List<Event>> myEvents(@PathVariable("userId") int userId){
+    public ResponseEntity<List<Event>> getEventByUser(@PathVariable("user_id") int userId){
         User user = userService.getUser(userId);
-        if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        List<Event> events = userService.getUserEvents(user);
-        return new ResponseEntity<>(events,HttpStatus.OK);
+        if (user != null) {
+            List<Event> events = eventService.getEventsByUser(user);
+            return new ResponseEntity<>(events, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }

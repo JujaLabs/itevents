@@ -39,7 +39,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldSubscribeUserToEvent() throws Exception {
+    public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
@@ -48,7 +48,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldUnSubscribeUserFromEvent() throws Exception{
+    public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         when(eventService.getEvent(event.getId())).thenReturn(event);
         mockMvc.perform(delete("/events/" + event.getId() + "/unassign"))
@@ -62,6 +62,6 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         when(eventService.getEvent(event.getId())).thenReturn(event);
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk());
-        verify(eventService).getVisitors(event);
+        verify(userService).getUsersByEvent(event);
     }
 }

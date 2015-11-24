@@ -2,6 +2,7 @@ package org.itevents.controller;
 
 import org.itevents.model.Role;
 import org.itevents.model.User;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
@@ -27,6 +28,8 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     private RoleService roleService;
     @Mock
     private UserService userService;
+    @Mock
+    private EventService eventService;
     @InjectMocks
     private UserRestController userRestController;
 
@@ -90,11 +93,11 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldReturnUserSubscribedEvents() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List expectedList = userService.getUserEvents(user);
+        List expectedList = eventService.getEventsByUser(user);
         when(userService.getUser(user.getId())).thenReturn(user);
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedList.toString()));
-        verify(userService, atLeastOnce()).getUserEvents(user);
+        verify(eventService, atLeastOnce()).getEventsByUser(user);
     }
 }

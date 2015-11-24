@@ -20,15 +20,13 @@ import java.util.List;
 @Api("Events")
 @RequestMapping("/events")
 public class EventRestController {
-
     @Inject
     private EventService eventService;
-
     @Inject
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{eventId}")
-    public ResponseEntity<Event> getEventById(@PathVariable("eventId") int id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{event_id}")
+    public ResponseEntity<Event> getEventById(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -42,34 +40,41 @@ public class EventRestController {
         return eventService.getFilteredEvents(wrapper);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{eventId}/assign")
+    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/assign")
     @ApiOperation(value = "Signes logged in user to event")
-    public ResponseEntity assign(@PathVariable("eventId") int eventId) {
+    public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        if (new Date().after(event.getEventDate())) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        eventService.assign(user, event);
-        return new ResponseEntity(HttpStatus.OK);
-
+        if (event != null || new Date().before(event.getEventDate()) ) {
+            User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            eventService.assign(user, event);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{eventId}/unassign")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{event_id}/unassign")
     @ApiOperation(value = "unassignes logged in user from event")
-    public ResponseEntity unassign(@PathVariable("eventId") int eventId) {
+    public ResponseEntity unassign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        eventService.unassign(user, event);
-        return new ResponseEntity(HttpStatus.OK);
+        if (event != null) {
+            User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            eventService.unassign(user, event);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{eventId}/visitors")
+    @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
     @ApiOperation(value = "Returns list of visitors of event")
-    public ResponseEntity<List<User>> getVisitors(@PathVariable("eventId") int id) {
+    public ResponseEntity<List<User>> getVisitors(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
-        if (event == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        List<User> visitors = eventService.getVisitors(event);
-        return new ResponseEntity<>(visitors,HttpStatus.OK);
+        if (event != null) {
+            List<User> visitors = userService.getUsersByEvent(event);
+            return new ResponseEntity<>(visitors,HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }

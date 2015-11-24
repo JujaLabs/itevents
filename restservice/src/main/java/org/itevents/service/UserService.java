@@ -19,5 +19,5 @@ public interface UserService {
 
     User removeUser(User user);
 
-    List<Event> getUserEvents(User user);
+    List<User> getUsersByEvent(Event event);
 }

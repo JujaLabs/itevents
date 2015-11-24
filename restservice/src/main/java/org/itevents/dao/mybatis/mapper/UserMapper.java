@@ -33,7 +33,7 @@ public interface UserMapper extends UserDao {
     @Delete("DELETE FROM user_profile WHERE id =#{id}")
     void removeUser(User user);
 
-    @ResultMap("org.itevents.dao.mybatis.mapper.EventMapper.getEvent-int")
-    @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
-    List<Event> getUserEvents(@Param("user") User user);
+    @ResultMap("org.itevents.dao.mybatis.mapper.UserMapper.getUser-int")
+    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")
+    List<User> getUsersByEvent(@Param("event") Event event);
 }

@@ -1,7 +1,6 @@
 package org.itevents.dao;
 
 import org.itevents.model.Event;
-import org.itevents.model.Location;
 import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
 
@@ -29,6 +28,6 @@ public interface EventDao {
 
     void unassign(User user, Event event);
 
-    List<User> getVisitors(Event event);
+    List<Event> getEventsByUser(User user);
 
 }
