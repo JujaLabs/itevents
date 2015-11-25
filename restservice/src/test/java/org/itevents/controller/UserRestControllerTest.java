@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import com.google.gson.Gson;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -93,11 +95,14 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldReturnUserSubscribedEvents() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List expectedList = eventService.getEventsByUser(user);
+        List expectedList = new ArrayList<>();
+        expectedList.add(user);
+        String expectedListInJson = new Gson().toJson(expectedList);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedList);
         when(userService.getUser(user.getId())).thenReturn(user);
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedList.toString()));
-        verify(eventService, atLeastOnce()).getEventsByUser(user);
+                .andExpect(content().string(expectedListInJson));
+        verify(eventService).getEventsByUser(user);
     }
 }
