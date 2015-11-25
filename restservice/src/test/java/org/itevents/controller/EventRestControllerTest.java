@@ -1,6 +1,8 @@
 package org.itevents.controller;
 
+import com.google.gson.Gson;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
@@ -9,11 +11,14 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class EventRestControllerTest extends AbstractControllerSecurityTest {
@@ -62,10 +67,16 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldReturnListOfVisitors() throws Exception {
         Event event = BuilderUtil.buildEventJava();
+        List<User> expectedList=new ArrayList<>();
+        expectedList.add(BuilderUtil.buildUserAnakin());
+        String expectedListInJson = new Gson().toJson(expectedList);
+
         when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getUsersByEvent(event)).thenReturn(expectedList);
+
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
-                .andExpect(status().isOk());
-        verify(userService).getUsersByEvent(event);
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedListInJson));
     }
 
     @Test
@@ -77,6 +88,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         event.setEventDate(new Date());
+
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isNotFound());
     }
