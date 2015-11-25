@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
-import com.google.gson.Gson;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -39,6 +40,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
+        super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
     @Test
@@ -62,8 +64,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
-
         User user = BuilderUtil.buildSubscriberTest();
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
@@ -95,15 +95,15 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldReturnListOfEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List expectedList = new ArrayList<>();
-        expectedList.add(user);
-        String expectedListInJson = new Gson().toJson(expectedList);
+        List<Event> expectedList = new ArrayList<>();
+        expectedList.add(BuilderUtil.buildEventJs());
+        String expectedListInJson = new ObjectMapper().writeValueAsString(expectedList);
 
         when(eventService.getEventsByUser(user)).thenReturn(expectedList);
         when(userService.getUser(user.getId())).thenReturn(user);
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedListInJson));
+                .andExpect(content().string(expectedListInJson));
     }
 }

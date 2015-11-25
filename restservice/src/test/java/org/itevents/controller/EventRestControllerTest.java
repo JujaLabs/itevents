@@ -1,6 +1,6 @@
 package org.itevents.controller;
 
-import com.google.gson.Gson;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -65,11 +65,11 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldReturnListOfVisitors() throws Exception {
+    public void shouldReturnListOfUsersByEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         List<User> expectedList=new ArrayList<>();
         expectedList.add(BuilderUtil.buildUserAnakin());
-        String expectedListInJson = new Gson().toJson(expectedList);
+        String expectedListInJson = new ObjectMapper().writeValueAsString(expectedList);
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getUsersByEvent(event)).thenReturn(expectedList);
