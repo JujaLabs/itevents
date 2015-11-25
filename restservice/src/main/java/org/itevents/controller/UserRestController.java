@@ -76,13 +76,13 @@ public class UserRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
     @ApiOperation(value = "Returns list of events, to which user is subscribed")
-    public ResponseEntity<List<Event>> getEventByUser(@PathVariable("user_id") int userId){
+    public ResponseEntity<List<Event>> getEventsByUser(@PathVariable("user_id") int userId){
         User user = userService.getUser(userId);
-        if (user != null) {
+        if (user == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
             List<Event> events = eventService.getEventsByUser(user);
             return new ResponseEntity<>(events, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 }

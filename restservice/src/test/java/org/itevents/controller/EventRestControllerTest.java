@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Date;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -64,5 +66,18 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk());
         verify(userService).getUsersByEvent(event);
+    }
+
+    @Test
+    public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
+        mockMvc.perform(post("/events/0/assign"))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        event.setEventDate(new Date());
+        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
+                .andExpect(status().isNotFound());
     }
 }

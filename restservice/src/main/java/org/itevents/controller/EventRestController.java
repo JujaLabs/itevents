@@ -25,6 +25,10 @@ public class EventRestController {
     @Inject
     private UserService userService;
 
+    private User getUserFromSecurityContext() {
+        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}")
     public ResponseEntity<Event> getEventById(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
@@ -45,9 +49,9 @@ public class EventRestController {
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         if (event == null || new Date().after(event.getEventDate()) ) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            User user = getUserFromSecurityContext();
             eventService.assign(user, event);
             return new ResponseEntity(HttpStatus.OK);
         }
@@ -60,7 +64,7 @@ public class EventRestController {
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            User user = getUserFromSecurityContext();
             eventService.unassign(user, event);
             return new ResponseEntity(HttpStatus.OK);
         }
@@ -68,7 +72,7 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
     @ApiOperation(value = "Returns list of visitors of event")
-    public ResponseEntity<List<User>> getVisitors(@PathVariable("event_id") int id) {
+    public ResponseEntity<List<User>> getUsersByEvent(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
