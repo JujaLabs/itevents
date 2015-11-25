@@ -38,7 +38,7 @@ public class EventRestController {
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Returns events with the given parameters ")
     public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
