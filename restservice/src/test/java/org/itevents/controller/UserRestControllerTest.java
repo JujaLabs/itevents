@@ -93,17 +93,17 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     }
     
     @Test
-    public void shouldReturnListOfEventsByUser() throws Exception {
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List<Event> expectedList = new ArrayList<>();
-        expectedList.add(BuilderUtil.buildEventJs());
-        String expectedListInJson = new ObjectMapper().writeValueAsString(expectedList);
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(BuilderUtil.buildEventJs());
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(expectedEvents);
 
-        when(eventService.getEventsByUser(user)).thenReturn(expectedList);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
         when(userService.getUser(user.getId())).thenReturn(user);
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedListInJson));
+                .andExpect(content().json(expectedEventsInJson));
     }
 }
