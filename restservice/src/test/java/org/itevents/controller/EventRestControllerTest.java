@@ -84,6 +84,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         mockMvc.perform(post("/events/0/assign"))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
         Event event = BuilderUtil.buildEventJava();

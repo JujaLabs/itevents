@@ -104,6 +104,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedListInJson));
+                .andExpect(content().json(expectedListInJson));
     }
 }
