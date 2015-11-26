@@ -20,5 +20,5 @@ public interface UserDao {
 
     void removeUser(User user);
 
-    List<Event> getUserEvents(User user);
+    List<User> getUsersByEvent(Event event);
 }
