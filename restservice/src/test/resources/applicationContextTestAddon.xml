@@ -27,7 +27,7 @@
     <bean id="expectedUserOtpEmail" class="java.lang.String">
         <constructor-arg>
             <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">
-                <constructor-arg value="classpath:util/mail/weeklyDigestEmail.html" type="java.io.InputStream" />
+                <constructor-arg value="classpath:util/mail/userOtpEmail.html" type="java.io.InputStream" />
             </bean>
         </constructor-arg>
     </bean>
