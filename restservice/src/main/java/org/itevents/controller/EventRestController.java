@@ -25,12 +25,6 @@ public class EventRestController {
     @Inject
     private UserService userService;
 
-    // @anakin: place private methods under public
-    // (and don't move public methods wrote before you)
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}")
     public ResponseEntity<Event> getEventById(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
@@ -80,8 +74,11 @@ public class EventRestController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             List<User> visitors = userService.getUsersByEvent(event);
-            // @anakin: always place spaces between arguments
-            return new ResponseEntity<>(visitors,HttpStatus.OK);
+            return new ResponseEntity<>(visitors, HttpStatus.OK);
         }
+    }
+
+    private User getUserFromSecurityContext() {
+        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }
