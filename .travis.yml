@@ -5,3 +5,13 @@ jdk:
 
 script:
     - ./gradle build
+    
+addons:
+  postgresql: "9.3"
+  
+services:
+  - postgresql
+  
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'create database travis_ci_work;' -U postgres
