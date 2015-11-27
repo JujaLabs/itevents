@@ -12,13 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,21 +75,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
         verify(roleService, never()).getRole(anyInt());
         verify(userService).getUserByName(user.getLogin());
         verify(userService, never()).addUser(user);
-    }
-
-    @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldRemoveExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(userService.removeUser(user)).thenReturn(user);
-
-        mockMvc.perform(delete("/users/delete"))
-                .andExpect(status().isOk());
-
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService).removeUser(user);
     }
     
     @Test

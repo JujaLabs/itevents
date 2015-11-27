@@ -30,8 +30,6 @@ public interface UserMapper extends UserDao {
     @Options(useGeneratedKeys = true)
     void addUser(User user);
 
-    @Delete("DELETE FROM user_profile WHERE id =#{id}")
-    void removeUser(User user);
 
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")

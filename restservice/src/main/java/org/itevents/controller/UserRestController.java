@@ -53,18 +53,6 @@ public class UserRestController {
         return userService.getUserByName(username) != null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
-    @ApiOperation(value = "Removes user from database ")
-    public ResponseEntity removeUser() {
-        User user = getUserFromSecurityContext();
-        User removed = userService.removeUser(user);
-        if (removed == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-    }
-
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
