@@ -15,5 +15,5 @@ services:
 
  before_script:
   - psql -c 'create database itevent_test_db;' -U postgres
-  - psql -c 'create database itevent_db;' -U postgres
+
   
