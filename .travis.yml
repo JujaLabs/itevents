@@ -4,7 +4,7 @@ jdk:
     - oraclejdk8
 
 script:
-    - ./gradle build
+    - gradle build
     
   
 before_script:
