@@ -9,5 +9,5 @@ script:
   
 before_script:
 
-  - wget http://travis.tioo.ru/local.properties
-  - cp local.properties /home/travis/build/Antonerof/itevents/restservice/src/main/resources/local.properties -f
+  //- wget http://travis.tioo.ru/local.properties
+  //- cp local.properties /home/travis/build/Antonerof/itevents/restservice/src/main/resources/local.properties -f
