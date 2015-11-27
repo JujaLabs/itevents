@@ -3,6 +3,8 @@
 
 # Project properies
 *local.properties
+!config/local.properties
+!config/test-local.properties
 
 # Intellij project files
 *.iml
