@@ -39,11 +39,7 @@ public interface UserMapper extends UserDao {
             "WHERE id=#{id}")
     void updateUser(User user);
 
-    @Override
-    @Delete("DELETE FROM user_profile WHERE id = #{id}")
-    void removeUser(User user);
-
-@Results(value = {
+    @Results(value = {
         @Result(property = "id", column = "id", id = true),
         @Result(property = "eventDate", column = "event_date"),
         @Result(property = "createDate", column = "create_date"),
@@ -56,7 +52,7 @@ public interface UserMapper extends UserDao {
                 one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
         @Result(property = "technologies", column = "id", javaType = ArrayList.class,
                 many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
-})
+    })
     @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
     List<Event> getUserEvents(@Param("user") User user);
 }

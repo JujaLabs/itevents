@@ -23,7 +23,5 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User removeUser(User user);
-
     List<Event> getUserEvents(User user);
 }

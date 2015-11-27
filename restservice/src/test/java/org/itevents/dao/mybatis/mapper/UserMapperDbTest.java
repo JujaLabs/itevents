@@ -67,15 +67,6 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveUser() {
-        User testUser = BuilderUtil.buildUserTest();
-        userMapper.removeUser(testUser);
-    }
-
-    @Test
     @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUpdateUser() {

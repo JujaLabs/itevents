@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -83,33 +82,6 @@ public class MyBatisUserServiceTest {
         userService.getAllUsers();
 
         verify(userDao).getAllUsers();
-    }
-
-    @Test
-    public void shouldRemoveUser() {
-        User expectedUser = BuilderUtil.buildUserTest();
-
-        when(userDao.getUser(expectedUser.getId())).thenReturn(expectedUser);
-        doNothing().when(userDao).removeUser(expectedUser);
-
-        User returnedUser = userService.removeUser(expectedUser);
-
-        verify(userDao).getUser(expectedUser.getId());
-        verify(userDao).removeUser(expectedUser);
-        assertEquals(expectedUser, returnedUser);
-    }
-
-    @Test
-    public void shouldNotRemoveUserWhenItIsNotExisting() {
-        User testUser = BuilderUtil.buildUserTest();
-
-        when(userDao.getUser(testUser.getId())).thenReturn(null);
-
-        User returnedUser = userService.removeUser(testUser);
-
-        verify(userDao).getUser(testUser.getId());
-        verify(userDao, never()).removeUser(any(User.class));
-        assertNull(returnedUser);
     }
 
     @Test

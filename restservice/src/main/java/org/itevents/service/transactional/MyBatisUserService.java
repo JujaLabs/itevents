@@ -60,15 +60,6 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public User removeUser(User user) {
-        User deletingUser = userDao.getUser(user.getId());
-        if (deletingUser != null) {
-            userDao.removeUser(user);
-        }
-        return deletingUser;
-    }
-
-    @Override
     public List<Event> getUserEvents(User user) {
        return userDao.getUserEvents(user);
     }
