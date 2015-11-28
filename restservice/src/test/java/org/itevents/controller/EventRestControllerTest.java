@@ -46,6 +46,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         verify(eventService).getEvent(event.getId());
     }
 
+    // @anakin: next 2 method needs formatting by empty lines to blocks 'given', 'when', 'then'
     @Test
     public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();

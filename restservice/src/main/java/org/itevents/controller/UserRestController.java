@@ -49,10 +49,13 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    // @anakin: place private methods under public
+    // (but don't move public methods wrote before you)
     private boolean exists(String username) {
         return userService.getUserByName(username) != null;
     }
 
+    // @anakin: this method is unused - you don't need it
     private User getUserFromSecurityContext() {
         return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
@@ -63,7 +66,7 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
-    @ApiOperation(value = "Returns list of events, to which user is subscribed")
+    @ApiOperation(value = "Returns list of events, to which user is assigned")
     public ResponseEntity<List<Event>> getEventsByUser(@PathVariable("user_id") int userId){
         User user = userService.getUser(userId);
         if (user == null) {
