@@ -81,8 +81,6 @@ public class UserRestController {
         filterService.addFilter(user, filter);
         userService.activateUserSubscription(user);
         return new ResponseEntity(HttpStatus.OK);
-        //todo try catch for possible exceptions
-
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")
