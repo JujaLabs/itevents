@@ -3,6 +3,7 @@ package org.itevents.service.transactional;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;

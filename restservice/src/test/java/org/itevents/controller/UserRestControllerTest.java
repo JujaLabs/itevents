@@ -1,12 +1,12 @@
 package org.itevents.controller;
 
-import org.itevents.model.Filter;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.Role;
 import org.itevents.model.User;
-import org.itevents.service.FilterService;
 import org.itevents.service.EventService;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
@@ -23,9 +23,6 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
