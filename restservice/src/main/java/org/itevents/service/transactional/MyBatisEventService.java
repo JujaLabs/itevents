@@ -33,8 +33,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventID) {
-        return eventDao.getEvent(eventID);
+    public Event getEvent(int eventId) {
+        return eventDao.getEvent(eventId);
     }
 
     @Override
@@ -43,18 +43,18 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void willGoToEvent(User user, Event event) {
-        eventDao.willGoToEvent(user, event);
+    public void assign(User user, Event event) {
+        eventDao.assign(user, event);
     }
 
     @Override
-    public void willNotGoToEvent(User user, Event event) {
-            eventDao.willNotGoToEvent(user, event);
+    public void unassign(User user, Event event) {
+            eventDao.unassign(user, event);
     }
 
     @Override
-    public List<User> getVisitors(Event event) {
-        return eventDao.getVisitors(event);
+    public List<Event> getEventsByUser(User user) {
+        return eventDao.getEventsByUser(user);
     }
 
     @Override

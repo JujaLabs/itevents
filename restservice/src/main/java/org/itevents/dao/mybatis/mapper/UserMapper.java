@@ -4,17 +4,16 @@ import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
 import org.itevents.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface UserMapper extends UserDao {
 
+    @Override
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "role_id",
                     one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole"))
     })
-    @Override
     @Select("SELECT * FROM user_profile WHERE id = #{id}")
     User getUser(int id);
 
@@ -39,20 +38,7 @@ public interface UserMapper extends UserDao {
             "WHERE id=#{id}")
     void updateUser(User user);
 
-    @Results(value = {
-        @Result(property = "id", column = "id", id = true),
-        @Result(property = "eventDate", column = "event_date"),
-        @Result(property = "createDate", column = "create_date"),
-        @Result(property = "regLink", column = "reg_link"),
-        @Result(property = "location", column = "id", javaType = Location.class,
-                one = @One(select = "org.itevents.dao.mybatis.mapper.LocationMapper.getEventLocation")),
-        @Result(property = "currency", column = "currency_id", javaType = Currency.class,
-                one = @One(select = "org.itevents.dao.mybatis.mapper.CurrencyMapper.getCurrency")),
-        @Result(property = "city", column = "city_id", javaType = City.class,
-                one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
-        @Result(property = "technologies", column = "id", javaType = ArrayList.class,
-                many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByEventId"))
-    })
-    @Select("SELECT * FROM event e JOIN user_event ue ON e.id=ue.event_id WHERE ue.user_id = #{user.id}")
-    List<Event> getUserEvents(@Param("user") User user);
+    @ResultMap("getUser-int")
+    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")
+    List<User> getUsersByEvent(@Param("event") Event event);
 }

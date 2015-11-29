@@ -1,9 +1,12 @@
 package org.itevents.controller;
 
 import org.itevents.model.Filter;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.itevents.service.FilterService;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
@@ -14,9 +17,12 @@ import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,6 +42,8 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     private FilterService filterService;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private EventService eventService;
     @InjectMocks
     private UserRestController userRestController;
 
@@ -43,6 +51,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
+        super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
     @Test
@@ -117,13 +126,17 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldReturnUserSubscribedEvents() throws Exception {
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List expectedList = userService.getUserEvents(user);
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(BuilderUtil.buildEventJs());
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(expectedEvents);
+
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
         when(userService.getUser(user.getId())).thenReturn(user);
+
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedList.toString()));
-        verify(userService, atLeastOnce()).getUserEvents(user);
+                .andExpect(content().json(expectedEventsInJson));
     }
 }

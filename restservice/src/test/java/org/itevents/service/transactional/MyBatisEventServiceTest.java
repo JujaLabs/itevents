@@ -123,25 +123,25 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldReturnVisitors() throws Exception {
-        Event event = BuilderUtil.buildEventJs();
-        eventService.getVisitors(event);
-        verify(eventDao).getVisitors(event);
+    public void shouldReturnEventsByUser() throws Exception{
+        User user = BuilderUtil.buildUserAnakin();
+        eventService.getEventsByUser(user);
+        verify(eventDao).getEventsByUser(user);
     }
 
     @Test
-    public void shouldSubscribeToEvent() throws Exception {
+    public void shouldAssignToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
-        eventService.willGoToEvent(user,event);
-        verify(eventDao).willGoToEvent(user,event);
+        eventService.assign(user, event);
+        verify(eventDao).assign(user, event);
     }
 
     @Test
-    public void shouldUnsubscribeUserFromEvent()throws Exception {
+    public void shouldUnassignUserFromEvent()throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        eventService.willNotGoToEvent(user, event);
-        verify(eventDao).willNotGoToEvent(user, event);
+        eventService.unassign(user, event);
+        verify(eventDao).unassign(user, event);
     }
 }

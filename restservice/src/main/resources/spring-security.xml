@@ -16,10 +16,11 @@
         <csrf disabled="true"/>
         <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/users/register" access='isAnonymous()'/>
+        <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
+        <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
+        <intercept-url pattern="/users/*/events" access='isAuthenticated()'/>
         <intercept-url pattern="/users/subscribe" access='isAuthenticated()'/>
         <intercept-url pattern="/users/unsubscribe" access='isAuthenticated()'/>
-        <intercept-url pattern="/events/*/willGo" access='isAuthenticated()'/>
-        <intercept-url pattern="/events/*/willNotGo" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/users/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"

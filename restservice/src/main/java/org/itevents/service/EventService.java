@@ -10,7 +10,7 @@ public interface EventService {
 
     void addEvent(Event event);
 
-    Event getEvent(int id);
+    Event getEvent(int eventId);
 
     List<Event> getAllEvents();
 
@@ -18,9 +18,9 @@ public interface EventService {
 
     List<Event> getFilteredEvents(FilterWrapper wrapper);
 
-    void willGoToEvent(User user, Event event);
+    void assign(User user, Event event);
 
-    void willNotGoToEvent(User user, Event event);
+    void unassign(User user, Event event);
 
-    List<User> getVisitors(Event event);
+    List<Event> getEventsByUser(User user);
 }

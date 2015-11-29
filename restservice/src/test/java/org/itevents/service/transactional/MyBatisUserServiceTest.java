@@ -2,7 +2,7 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
-import org.itevents.model.User;
+import org.itevents.model.Event;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -20,9 +20,6 @@ import javax.inject.Inject;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by vaa25 on 17.10.2015.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class MyBatisUserServiceTest {
@@ -113,9 +110,9 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldReturnUserEvents() throws Exception{
-        User user = BuilderUtil.buildUserAnakin();
-        userService.getUserEvents(user);
-        verify(userDao).getUserEvents(user);
+    public void shouldReturnUsersByEvent() throws Exception {
+        Event event = BuilderUtil.buildEventJs();
+        userService.getUsersByEvent(event);
+        verify(userDao).getUsersByEvent(event);
     }
 }

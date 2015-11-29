@@ -9,6 +9,7 @@ import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.FilterService;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
@@ -31,6 +32,8 @@ public class UserRestController {
     @Inject
     private RoleService roleService;
     @Inject
+    private EventService eventService;
+    @Inject
     private FilterService filterService;
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -51,7 +54,6 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
-
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
@@ -70,6 +72,11 @@ public class UserRestController {
 
     private boolean exists(String username) {
         return userService.getUserByName(username) != null;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
+    public ResponseEntity<User> getUserById(@PathVariable("user_id") int userId) {
+        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
@@ -91,17 +98,15 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userID}")
-    public ResponseEntity<User> getUserByID(@PathVariable("userID") int userID) {
-        return new ResponseEntity<>(userService.getUser(userID), HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{userID}/events")
-    @ApiOperation(value = "Returns list of events, to which user is subscribed")
-    public ResponseEntity<List<Event>> myEvents(@PathVariable("userID") int userID){
-        User user = userService.getUser(userID);
-        if (user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        List<Event> events = userService.getUserEvents(user);
-        return new ResponseEntity<>(events,HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
+    @ApiOperation(value = "Returns list of events, to which user is assigned")
+    public ResponseEntity<List<Event>> getEventsByUser(@PathVariable("user_id") int userId) {
+        User user = userService.getUser(userId);
+        if (user == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            List<Event> events = eventService.getEventsByUser(user);
+            return new ResponseEntity<>(events, HttpStatus.OK);
+        }
     }
 }
