@@ -10,7 +10,6 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.EventService;
 import org.itevents.service.converter.EventConverter;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.EventWrapper;
@@ -39,7 +38,6 @@ public class EventMapperDbTest extends AbstractDbTest {
     private EventMapper eventMapper;
 
     @Test
-
     public void testFindEventById() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
         Event returnedEvent = eventMapper.getEvent(expectedEvent.getId());
@@ -209,28 +207,29 @@ public class EventMapperDbTest extends AbstractDbTest {
     @Test
     @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldSubscribeUserToEvent() throws Exception {
+    public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willGoToEvent(user, event);
+        eventMapper.assign(user, event);
     }
 
     @Test
     @DatabaseSetup(value =TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldUnSubscribeUserFromEvent() throws Exception {
+    public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.willNotGoToEvent(user, event);
+        eventMapper.unassign(user, event);
     }
+
     @Test
-    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
-    public void shouldReturnVisitors() throws Exception {
-        User user = BuilderUtil.buildUserKuchin();
-        List expectedUsers = new ArrayList<>();
-        expectedUsers.add(user);
-        Event event = BuilderUtil.buildEventPhp();
-        List returnedUsers = eventMapper.getVisitors(event);
-        assertEquals(expectedUsers,returnedUsers);
+    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    public void shouldReturnEventsByUser() throws Exception{
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        List expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+        List returnedEvents = eventMapper.getEventsByUser(user);
+        assertEquals(expectedEvents, returnedEvents);
     }
 }
