@@ -1,21 +1,17 @@
 package org.itevents.service.mail;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
-import org.itevents.dao.mybatis.mapper.EventMapper;
-import org.itevents.dao.mybatis.mapper.VisitLogMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.model.VisitLog;
 import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.ReminderAboutEventService;
-import org.itevents.service.VisitLogService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ramax on 11/2/15.
