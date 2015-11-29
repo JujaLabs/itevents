@@ -12,7 +12,6 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -49,21 +48,13 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private boolean exists(String username) {
-        return userService.getUserByName(username) != null;
-    }
-
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
     public ResponseEntity<User> getUserById(@PathVariable("user_id") int userId) {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
-    @ApiOperation(value = "Returns list of events, to which user is subscribed")
+    @ApiOperation(value = "Returns list of events, to which user is assigned")
     public ResponseEntity<List<Event>> getEventsByUser(@PathVariable("user_id") int userId){
         User user = userService.getUser(userId);
         if (user == null) {
@@ -72,5 +63,9 @@ public class UserRestController {
             List<Event> events = eventService.getEventsByUser(user);
             return new ResponseEntity<>(events, HttpStatus.OK);
         }
+    }
+
+    private boolean exists(String username) {
+        return userService.getUserByName(username) != null;
     }
 }
