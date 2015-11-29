@@ -11,13 +11,11 @@ public interface UserService {
 
     void addUser(User user);
 
-    User getUser(int userID);
+    User getUser(int userId);
 
     User getUserByName(String name);
 
     List<User> getAllUsers();
 
-    User removeUser(User user);
-
-    List<Event> getUserEvents(User user);
+    List<User> getUsersByEvent(Event event);
 }
