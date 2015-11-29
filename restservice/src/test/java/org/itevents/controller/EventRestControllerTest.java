@@ -42,9 +42,9 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         Event event = BuilderUtil.buildEventJava();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
+
         mockMvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isOk());
-
         verify(eventService).getEvent(event.getId());
     }
 
@@ -53,9 +53,9 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         Event event = BuilderUtil.buildEventJava();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
+
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
-
         verify(eventService).getEvent(event.getId());
     }
 
@@ -64,9 +64,9 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         Event event = BuilderUtil.buildEventJava();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
+
         mockMvc.perform(delete("/events/" + event.getId() + "/unassign"))
                 .andExpect(status().isOk());
-
         verify(eventService).getEvent(event.getId());
     }
 
