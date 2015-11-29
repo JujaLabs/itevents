@@ -68,22 +68,13 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveUser() {
-        User testUser = BuilderUtil.buildUserTest();
-        userMapper.removeUser(testUser);
-    }
-
-    @Test
-    @DatabaseSetup(value = PATH + "EventMapperTest/addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
-    public void shouldReturnUserEvents() throws Exception{
-        User user = BuilderUtil.buildUserAnakin();
-        Event event = BuilderUtil.buildEventJs();
-        List expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
-        List returnedEvents = userMapper.getUserEvents(user);
-        assertEquals(expectedEvents,returnedEvents);
+    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    public void shouldReturnUsersByEvent() throws Exception {
+        User user = BuilderUtil.buildUserKuchin();
+        List expectedUsers = new ArrayList<>();
+        expectedUsers.add(user);
+        Event event = BuilderUtil.buildEventPhp();
+        List returnedUsers = userMapper.getUsersByEvent(event);
+        assertEquals(expectedUsers,returnedUsers);
     }
 }

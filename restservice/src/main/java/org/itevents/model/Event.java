@@ -39,9 +39,6 @@ public class Event implements Serializable {
     @XmlElementWrapper(name = "technologies")
     @XmlElement(name = "technology")
     private List<Technology> technologies;
-    @XmlElementWrapper(name = "visitors")
-    @XmlElement(name = "visitor")
-    private List <User> visitors = new ArrayList<>();
 
     public Event() {
     }
@@ -134,24 +131,12 @@ public class Event implements Serializable {
         this.city = city;
     }
 
-    public List<User> getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(List<User> visitors) {
-        this.visitors = visitors;
-    }
-
     public List<Technology> getTechnologies() {
         return technologies;
     }
 
     public void setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
-    }
-
-    public void addVisitor(User visitor) {
-        visitors.add(visitor);
     }
 
     @Override
@@ -205,7 +190,6 @@ public class Event implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);
-        sb.append(", visitors=").append(visitors);
         sb.append(", technologies=").append(technologies);
         sb.append('}');
         return sb.toString();

@@ -26,10 +26,10 @@ public interface EventDao {
 
     void removeEventTechnology(Event event);
 
-    void willGoToEvent(User user, Event event);
+    void assign(User user, Event event);
 
-    void willNotGoToEvent(User user, Event event);
+    void unassign(User user, Event event);
 
-    List<User> getVisitors(Event event);
+    List<Event> getEventsByUser(User user);
 
 }
