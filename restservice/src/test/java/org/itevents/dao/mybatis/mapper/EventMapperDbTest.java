@@ -7,12 +7,12 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 import org.itevents.model.User;
-import org.itevents.parameter.FilteredEventsParameter;
-import org.itevents.service.converter.EventConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenEventIsAbsent() {
-        Event returnedEvent = eventMapper.getEvent(ID_0);
+        Event returnedEvent = eventMapper.getEvent(ABSENT_ID);
         assertNull(returnedEvent);
     }
 
@@ -98,14 +98,14 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsWithDefaultParameters() {
-        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
+        Filter parameter = getDefaultFilteredEventsParameter();
         int expectedSize = 7;
         int returnedSize = eventMapper.getFilteredEvents(parameter).size();
         assertEquals(expectedSize, returnedSize);
     }
 
-    private FilteredEventsParameter getDefaultFilteredEventsParameter() {
-        FilteredEventsParameter result = new FilteredEventsParameter();
+    private Filter getDefaultFilteredEventsParameter() {
+        Filter result = new Filter();
         result.setLimit(10);
         result.setOffset(0);
         return result;
@@ -113,10 +113,10 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsWithPage3ItemsPerPage2() throws ParseException {
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(3);
         wrapper.setItemsPerPage(2);
-        FilteredEventsParameter parameter = new EventConverter().convert(wrapper);
+        Filter parameter = new FilterConverter().toFilter(wrapper);
 
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventCplus());
@@ -128,10 +128,10 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsWithDefaultPagination() {
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(30);
         wrapper.setItemsPerPage(-2);
-        FilteredEventsParameter parameter = new EventConverter().convert(wrapper);
+        Filter parameter = new FilterConverter().toFilter(wrapper);
 
         List<Event> expectedEvents = new ArrayList<>();
 
@@ -141,7 +141,7 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsInKyivWithTechnologyJava() throws ParseException {
-        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
+        Filter parameter = getDefaultFilteredEventsParameter();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
         parameter.setTechnologies(technologies);
@@ -156,7 +156,7 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindPayedEventsInBoyarka() throws ParseException {
-        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
+        Filter parameter = getDefaultFilteredEventsParameter();
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
@@ -173,7 +173,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
         technologies.add(BuilderUtil.buildTechnologySql());
-        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
+        Filter parameter = getDefaultFilteredEventsParameter();
         parameter.setTechnologies(technologies);
 
         List<Event> expectedEvents = new ArrayList<>();
@@ -195,7 +195,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         expectedEvents.add(BuilderUtil.buildEventPhp());
         expectedEvents.add(BuilderUtil.buildEventJs());
 
-        FilteredEventsParameter parameter = getDefaultFilteredEventsParameter();
+        Filter parameter = getDefaultFilteredEventsParameter();
         parameter.setLatitude(testLatitude);
         parameter.setLongitude(testLongitude);
         parameter.setRadius(testRadius);

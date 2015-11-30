@@ -39,7 +39,7 @@ public class CurrencyMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenCurrencyIsAbsent() throws Exception {
-        Currency returnedCurrency = currencyMapper.getCurrency(ID_0);
+        Currency returnedCurrency = currencyMapper.getCurrency(ABSENT_ID);
         assertNull(returnedCurrency);
     }
 

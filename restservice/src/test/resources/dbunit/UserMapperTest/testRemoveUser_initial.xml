@@ -5,8 +5,11 @@
     <role id="-2" name="admin"/>
     <role id="-1" name="guest"/>
     <user_profile id="-5" login="testUser" password="testUserPassword" role_id="-1"/>
-    <user_profile id="-4" login="vlasov@email.com" password="alex" role_id="-3"/>
-    <user_profile id="-3" login="kuchin@email.com" password="viktor" role_id="-2"/>
-    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
+    <user_profile id="-4" login="vlasov@email.com"
+                  password="$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm" role_id="-3"/>
+    <user_profile id="-3" login="kuchin@email.com"
+                  password="$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq" role_id="-2"/>
+    <user_profile id="-2" login="anakin@email.com"
+                  password="$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq" role_id="-2"/>
     <user_profile id="-1" login="guest" password="guest" role_id="-1"/>
 </dataset>
