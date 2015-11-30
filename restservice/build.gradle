@@ -54,17 +54,22 @@ dependencies {
   }
 
 Properties props = new Properties()
-if (file(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties").exists()){
-    props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
-} else {
-    props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/travis.properties"))
+def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+if (fileProp.exists()){
+    props.load(new FileInputStream(fileProp))
 }
-
+def fileTravisProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/travis.properties")
+if (fileTravisProp.exists()){
+    props.load(new FileInputStream(fileTravisProp))
+}
 Properties testProps = new Properties()
-if (file(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties").exists()){
-    testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
-} else {
-    testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-travis.properties"))
+def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/test-local.properties")
+if (filePropTest.exists()){
+    testProps.load(new FileInputStream(filePropTest))
+}
+def fileTravisPropTest = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/test-travis.properties")
+if (fileTravisPropTest.exists()){
+    testProps.load(new FileInputStream(fileTravisPropTest))
 }
 
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
