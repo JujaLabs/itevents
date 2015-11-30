@@ -56,7 +56,7 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenTechnologyIsAbsent() throws Exception {
-        Technology returnedTechnology = technologyMapper.getTechnology(ID_0);
+        Technology returnedTechnology = technologyMapper.getTechnology(ABSENT_ID);
         assertNull(returnedTechnology);
     }
 
