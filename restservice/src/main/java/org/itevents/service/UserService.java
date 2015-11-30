@@ -31,4 +31,6 @@ public interface UserService {
     void DeleteOtp(User user);
 
     List<Event> getUserEvents(User user);
+
+    List<User> getUsersByEvent(Event event);
 }

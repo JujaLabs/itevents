@@ -32,6 +32,6 @@ public interface EventDao {
 
     void unassign(User user, Event event);
 
-    List<User> getVisitors(Event event);
+    List<Event> getEventsByUser(User user);
 
 }

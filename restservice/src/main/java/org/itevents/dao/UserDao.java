@@ -21,8 +21,6 @@ public interface UserDao {
 
     void removeUser(User user);
 
-    List<Event> getUserEvents(User user);
-
     void activateUser(User user);
 
     void deactivateUser(User user);
@@ -32,4 +30,6 @@ public interface UserDao {
     OtpGen getOtp(User user);
 
     void DeleteOtp(User user);
+
+    List<User> getUsersByEvent(Event event);
 }

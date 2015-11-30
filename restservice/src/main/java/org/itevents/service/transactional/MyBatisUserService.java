@@ -74,7 +74,10 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public List<Event> getUserEvents(User user) {
-       return userDao.getUserEvents(user);
+        return null;
     }
 
+    public List<User> getUsersByEvent (Event event){
+        return userDao.getUsersByEvent(event);
+    }
 }

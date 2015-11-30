@@ -18,6 +18,7 @@
         <intercept-url pattern="/users/activate/*" access='isAnonymous()'/>
         <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
         <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
+        <intercept-url pattern="/users/*/events" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
         <form-login login-processing-url="/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
