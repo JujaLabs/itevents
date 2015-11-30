@@ -53,25 +53,26 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
   }
 
-Properties props = new Properties()
-def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+Properties propsDb = new Properties()
+def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/db-local.properties")
+def fileTravisProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/db-travis.properties")
 if (fileProp.exists()){
-    props.load(new FileInputStream(fileProp))
+    propsDb.load(new FileInputStream(fileProp))
+} else {
+    propsDb.load(new FileInputStream(fileTravisProp))
 }
-def fileTravisProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/travis.properties")
-if (fileTravisProp.exists()){
-    props.load(new FileInputStream(fileTravisProp))
-}
+
 Properties testProps = new Properties()
-def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/test-local.properties")
+def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/db-test-local.properties")
+def fileTravisPropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/db-test-travis.properties")
 if (filePropTest.exists()){
     testProps.load(new FileInputStream(filePropTest))
-}
-def fileTravisPropTest = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/test-travis.properties")
-if (fileTravisPropTest.exists()){
+} else {
     testProps.load(new FileInputStream(fileTravisPropTest))
 }
 
+Properties props = new Properties()
+props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
 stopPort = Integer.valueOf(props.getProperty('stopPort'));
 stopKey = props.getProperty('stopKey');
@@ -93,9 +94,9 @@ task liquibaseUpdate(type: JavaExec) {
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
     } else {
-        args "--username=${props.getProperty('database.username')}"
-        args "--password=${props.getProperty('database.password')}"
-        args "--url=${props.getProperty('database.url')}"
+        args "--username=${propsDb.getProperty('database.username')}"
+        args "--password=${propsDb.getProperty('database.password')}"
+        args "--url=${propsDb.getProperty('database.url')}"
     }
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'update'
@@ -106,9 +107,9 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${props.getProperty('database.username')}"
-    args "--password=${props.getProperty('database.password')}"
-    args "--url=${props.getProperty('database.url')}"
+    args "--username=${propsDb.getProperty('database.username')}"
+    args "--password=${propsDb.getProperty('database.password')}"
+    args "--url=${propsDb.getProperty('database.url')}"
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'
