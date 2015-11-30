@@ -87,16 +87,16 @@ public class UserRestController {
         User user = getUserFromSecurityContext();
         OtpGen otpGen = userService.getOtp(user);
         if (!password.equals(otpGen.getPassword()) || otpGen.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            userService.activateUser(user);
-            userService.DeleteOtp(user);
-            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        userService.activateUser(user);
+        userService.DeleteOtp(user);
+        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
     @RequestMapping(method = RequestMethod.POST, value ="/deactivate")
     @ApiOperation(value = "Generates OTP for deactivation of logged in user")
     public ResponseEntity<User> deactivateUser() {
         User user = getUserFromSecurityContext();
-            generateOtp(1440,user);
-            return new ResponseEntity<>(user,HttpStatus.CREATED);
+        generateOtp(1440,user);
+        return new ResponseEntity<>(user,HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.POST, value ="/deactivate/{otp}")
@@ -105,9 +105,9 @@ public class UserRestController {
         User user = getUserFromSecurityContext();
         OtpGen otpGen = userService.getOtp(user);
         if (!password.equals(otpGen.getPassword()) || !otpGen.getExpirationDate().after(new Date())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            userService.deactivateUser(user);
-            userService.DeleteOtp(user);
-            return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
+        userService.deactivateUser(user);
+        userService.DeleteOtp(user);
+        return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
 
     private User getUserFromSecurityContext() {
