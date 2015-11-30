@@ -8,8 +8,8 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
-import org.itevents.service.FilterService;
 import org.itevents.service.EventService;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
@@ -80,8 +80,8 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
-    @ApiOperation(value = "Set filter for authorized user")
-    public ResponseEntity addFilter(@ModelAttribute FilterWrapper wrapper) {
+    @ApiOperation(value = "Activates authorized user's e-mail subscription with filter")
+    public ResponseEntity activateSubscription(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
         filter.setCreateDate(TimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
@@ -91,7 +91,7 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")
-    @ApiOperation(value = "Deactivates authorized user's subscription")
+    @ApiOperation(value = "Deactivates authorized user's e-mail subscription")
     public ResponseEntity deactivateSubscription() {
         User user = userService.getAuthorizedUser();
         userService.deactivateUserSubscription(user);
