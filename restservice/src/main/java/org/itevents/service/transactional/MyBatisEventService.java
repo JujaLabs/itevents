@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -48,8 +49,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void unassign(User user, Event event) {
-            eventDao.unassign(user, event);
+    public void unassign(User user, Event event, Date unassignDate, String unassignReason) {
+            eventDao.unassign(user, event, unassignDate, unassignReason);
     }
 
     @Override

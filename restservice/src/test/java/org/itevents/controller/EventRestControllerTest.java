@@ -6,6 +6,7 @@ import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -27,6 +28,8 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     private EventService eventService;
     @Mock
     private UserService userService;
+    @Mock
+    private DateTimeUtil dateTimeUtil;
     @InjectMocks
     private EventRestController eventRestController;
 
@@ -62,10 +65,11 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
+        String unassignReason = "test";
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
 
-        mockMvc.perform(delete("/events/" + event.getId() + "/unassign"))
+        mockMvc.perform(post("/events/" + event.getId() + "/unassign/" + unassignReason))
                 .andExpect(status().isOk());
         verify(eventService).getEvent(event.getId());
     }
