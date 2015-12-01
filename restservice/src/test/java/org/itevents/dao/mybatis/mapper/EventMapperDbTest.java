@@ -217,7 +217,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "testUnassignUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testUnassignUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
