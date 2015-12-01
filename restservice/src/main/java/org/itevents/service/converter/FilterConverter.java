@@ -1,9 +1,9 @@
 package org.itevents.service.converter;
 
-import org.itevents.parameter.FilteredEventsParameter;
+import org.itevents.model.Filter;
 import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
  * Created by vaa25 on 14.09.2015.
  */
 @Component
-public class EventConverter {
+public class FilterConverter {
 
     private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
@@ -20,8 +20,8 @@ public class EventConverter {
     @Inject
     private CityService cityService;
 
-    public FilteredEventsParameter convert(EventWrapper wrapper) {
-        FilteredEventsParameter result = new FilteredEventsParameter();
+    public Filter toFilter(FilterWrapper wrapper) {
+        Filter result = new Filter();
         int itemsPerPage;
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
             itemsPerPage = wrapper.getItemsPerPage();

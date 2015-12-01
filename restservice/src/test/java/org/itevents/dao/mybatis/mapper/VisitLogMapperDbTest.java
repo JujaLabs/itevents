@@ -39,7 +39,7 @@ public class VisitLogMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenVisitLogIsAbsent() throws Exception {
-        assertNull(visitLogMapper.getVisitLog(ID_0));
+        assertNull(visitLogMapper.getVisitLog(ABSENT_ID));
     }
 
     @Test

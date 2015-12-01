@@ -37,7 +37,7 @@ public class RoleMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldNotFindRoleWhenRoleIsAbsent() throws Exception {
-        Role returnedRole = roleMapper.getRole(ID_0);
+        Role returnedRole = roleMapper.getRole(ABSENT_ID);
         assertNull(returnedRole);
     }
 

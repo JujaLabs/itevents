@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">
+<dataset>
+    <city id="-4" name="Odessa" details="Odessa, Florida, USA" point="POINT(-82.568333 28.183333)"/>
+    <city id="-3" name="Boyarka" point="POINT(30.28861 50.32917)"/>
+    <city id="-2" name="Odessa" point="POINT(30.73333 46.46667)"/>
+    <city id="-1" name="Kyiv" point="POINT(30.523 50.4505)"/>
+    <filter id="-5" create_date="2015-07-14" city_id="-1" free="false"/>
+    <filter id="-4" create_date="2015-07-13"/>
+    <filter id="-3" create_date="2015-07-12" city_id="-1" free="false"/>
+    <filter id="-2" create_date="2015-07-11" free="true"/>
+    <filter id="-1" create_date="2015-07-10" city_id="-1"/>
+    <role id="-3" name="subscriber"/>
+    <role id="-2" name="admin"/>
+    <role id="-1" name="guest"/>
+    <user_profile id="-4" login="vlasov@email.com" password="alex" role_id="-3"/>
+    <user_profile id="-3" login="kuchin@email.com" password="viktor" role_id="-2"/>
+    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
+    <user_profile id="-1" login="guest" password="guest" role_id="-1"/>
+    <user_filter user_id="-4" filter_id="-3"/>
+    <user_filter user_id="-3" filter_id="-5"/>
+    <user_filter user_id="-3" filter_id="-4"/>
+    <user_filter user_id="-2" filter_id="-2"/>
+    <user_filter user_id="-2" filter_id="-1"/>
+    <technology id="-10" name="SQL"/>
+    <technology id="-9" name="MyBatis"/>
+    <technology id="-8" name="Spring"/>
+    <technology id="-7" name="Ant"/>
+    <technology id="-6" name="Maven"/>
+    <technology id="-5" name="Gradle"/>
+    <technology id="-4" name="Liquibase"/>
+    <technology id="-3" name="PHP"/>
+    <technology id="-2" name="JavaScript"/>
+    <technology id="-1" name="Java"/>
+    <filter_technology filter_id="-4" technology_id="-3"/>
+    <filter_technology filter_id="-4" technology_id="-1"/>
+    <filter_technology filter_id="-3" technology_id="-5"/>
+    <filter_technology filter_id="-3" technology_id="-3"/>
+    <filter_technology filter_id="-2" technology_id="-7"/>
+    <filter_technology filter_id="-2" technology_id="-4"/>
+    <filter_technology filter_id="-2" technology_id="-2"/>
+    <filter_technology filter_id="-1" technology_id="-9"/>
+    <filter_technology filter_id="-1" technology_id="-8"/>
+    <filter_technology filter_id="-1" technology_id="-6"/>
+    <filter_technology filter_id="-1" technology_id="-1"/>
+</dataset>

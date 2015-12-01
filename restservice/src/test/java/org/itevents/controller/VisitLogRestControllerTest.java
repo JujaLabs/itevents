@@ -42,11 +42,11 @@ public class VisitLogRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildUserGuest();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(user).build();
+        User userGuest = BuilderUtil.buildUserGuest();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(userService.getAuthorizedUser()).thenReturn(userGuest);
         doNothing().when(visitLogService).addVisitLog(visitLog);
 
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
@@ -54,7 +54,7 @@ public class VisitLogRestControllerTest extends AbstractControllerSecurityTest {
                 .andExpect(status().isOk());
 
         verify(eventService).getEvent(event.getId());
-        verify(userService).getUserByName(user.getLogin());
+        verify(userService).getAuthorizedUser();
         verify(visitLogService).addVisitLog(any(VisitLog.class));
     }
 
