@@ -66,7 +66,7 @@ if (fileProp.exists()){
     props.setProperty('httpPort', System.getenv('httpPort'))
     props.setProperty('stopPort', System.getenv('stopPort'))
     props.setProperty('sendgrid_api_key', System.getenv('sendgrid_api_key'))
-    props.setProperty('cron.start_sending', System.getenv('cron.start_sending'))
+    props.setProperty('cron_start_sending', System.getenv('cron.start_sending'))
     props.setProperty('reminderAboutEventForThePeriod', System.getenv('reminderAboutEventForThePeriod'))
     def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
     printWriter.println('database.username=' + System.getenv('username'))
