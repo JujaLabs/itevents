@@ -117,6 +117,9 @@
         <!ATTLIST user_event
                 user_id CDATA #REQUIRED
                 event_id CDATA #REQUIRED
+                unassigndate CDATA #IMPLIED
+                unassignReason CDATA #IMPLIED
+                id CDATA #IMPLIED
                 >
 
         <!ELEMENT user_filter EMPTY>
