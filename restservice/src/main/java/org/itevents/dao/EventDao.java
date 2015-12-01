@@ -25,9 +25,9 @@ public interface EventDao {
 
     void removeEventTechnology(Event event);
 
-    void assign(User user, Event event);
+    void assignUserToEvent(User user, Event event);
 
-    void unassign(User user, Event event, Date unassignDate, String unassignReason);
+    void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
     List<Event> getEventsByUser(User user);
 }

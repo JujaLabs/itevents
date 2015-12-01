@@ -44,13 +44,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void assign(User user, Event event) {
-        eventDao.assign(user, event);
+    public void assignUserToEvent(User user, Event event) {
+        eventDao.assignUserToEvent(user, event);
     }
 
     @Override
-    public void unassign(User user, Event event, Date unassignDate, String unassignReason) {
-            eventDao.unassign(user, event, unassignDate, unassignReason);
+    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+            eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 
     @Override

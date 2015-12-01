@@ -209,11 +209,11 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @ExpectedDatabase(value = TEST_PATH + "testAssignUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.assign(user, event);
+        eventMapper.assignUserToEvent(user, event);
     }
 
     @Test
@@ -226,7 +226,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         Date unassignDate = dateTimeUtil.setDate("2115.07.20");
         String unassignReason = "test";
 
-        eventMapper.unassign(user, event, unassignDate, unassignReason);
+        eventMapper.unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 
     @Test

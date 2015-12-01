@@ -137,8 +137,8 @@ public class MyBatisEventServiceTest {
     public void shouldAssignToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
-        eventService.assign(user, event);
-        verify(eventDao).assign(user, event);
+        eventService.assignUserToEvent(user, event);
+        verify(eventDao).assignUserToEvent(user, event);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class MyBatisEventServiceTest {
         Date unassignDate = dateTimeUtil.setDate("20.07.2115");
         String unassignReason = "test";
 
-        eventService.unassign(user, event, unassignDate, unassignReason);
-        verify(eventDao).unassign(user, event, unassignDate, unassignReason);
+        eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 }
