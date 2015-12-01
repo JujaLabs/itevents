@@ -1,6 +1,9 @@
 package org.itevents.service.mail;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.parameter.FilteredEventsParameter;
@@ -9,9 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ramax on 11/2/15.
@@ -25,11 +27,13 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     private MailMock mailMock;
 
     @Inject
+    UserDao userDao;
+    @Inject
     EventDao eventDao;
 
     @Override
     public void execute() {
-        Map<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent(daysTillEvent);
+        Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent(daysTillEvent);
         sendEmails(usersAndEventsToRemind);
     }
 
@@ -39,11 +43,11 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return eventDao.getFilteredEvents(params);
     }
 
-    public Map<User,Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
+    public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
         List<Event> filteredEvents = getEventsByDaysTillEvent(daysTillEvent);
-        Map<User,Event> usersAndEvents = new HashMap<User,Event>();
+        Multimap <User, Event> usersAndEvents = HashMultimap.create();
         for(Event event : filteredEvents){
-            for(User user : eventDao.getVisitors(event)) {
+            for(User user : userDao.getUsersByEvent(event)) {
                 usersAndEvents.put(user, event);
             }
         }
@@ -55,10 +59,14 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return "ok";
     }
 
-    private void sendEmails(Map<User,Event> usersAndEvents) {
-        for (Map.Entry<User,Event> userAndEvent: usersAndEvents.entrySet()) {
-            String htmlForMail = createHTMLForMail(userAndEvent.getValue());
-            mailMock.sendEmail(htmlForMail, userAndEvent.getKey().getLogin());
+    private void sendEmails(Multimap<User, Event> usersAndEvents) {
+        for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
+            Iterator nearestEventOfUserIterator = usersAndEvents.get(userWhoGoToNearestEvent).iterator();
+            while(nearestEventOfUserIterator.hasNext()) {
+                Event nearestEvent = (Event)nearestEventOfUserIterator.next();
+                String htmlForMail = createHTMLForMail(nearestEvent);
+                mailMock.sendEmail(htmlForMail, userWhoGoToNearestEvent.getLogin());
+            }
         }
     }
 }
