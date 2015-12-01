@@ -59,9 +59,55 @@ dependencies {
   }
 
 Properties props = new Properties()
-props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
+def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+if (fileProp.exists()){
+    props.load(new FileInputStream(fileProp))
+} else {
+    props.setProperty('database.username', System.getenv('username'))
+    props.setProperty('database.password', '')
+    props.setProperty('database.driver', System.getenv('driver'))
+    props.setProperty('database.url', System.getenv('url'))
+    props.setProperty('changeLogFile', System.getenv('changeLogFile'))
+    props.setProperty('httpPort', System.getenv('httpPort'))
+    props.setProperty('stopPort', System.getenv('stopPort'))
+    props.setProperty('sendgrid_api_key', System.getenv('sendgrid_api_key'))
+    props.setProperty('cron.start_sending', System.getenv('cron_start_sending'))
+    props.setProperty('reminderAboutEventForThePeriod', System.getenv('reminderAboutEventForThePeriod'))
+    def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
+    printWriter.println('database.username=' + System.getenv('username'))
+    printWriter.println('database.password=')
+    printWriter.println('database.url=' + System.getenv('url'))
+    printWriter.println('database.driver=' + System.getenv('driver'))
+    printWriter.println('changeLogFile=' + System.getenv('changeLogFile'))
+    printWriter.println('httpPort=' + System.getenv('httpPort'))
+    printWriter.println('stopPort=' + System.getenv('stopPort'))
+    printWriter.println('sendgrid_api_key=' + System.getenv('sendgrid_api_key'))
+    printWriter.println('cron.start_sending=' + System.getenv('cron.start_sending'))
+    printWriter.println('reminderAboutEventForThePeriod=' + System.getenv('reminderAboutEventForThePeriod'))
+    printWriter.flush()
+    printWriter.close()
+}
+
 Properties testProps = new Properties()
-testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
+def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
+if (filePropTest.exists()){
+    testProps.load(new FileInputStream(filePropTest))
+} else {
+    testProps.setProperty('database.username', System.getenv('username'))
+    testProps.setProperty('database.password', '')
+    testProps.setProperty('database.driver', System.getenv('driver'))
+    testProps.setProperty('database.url', System.getenv('urlTest'))
+    testProps.setProperty('changeLogFile', System.getenv('changeLogFileTest'))
+    def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
+    printWriter.println('database.username=' + System.getenv('username'))
+    printWriter.println('database.password=')
+    printWriter.println('database.url=' + System.getenv('urlTest'))
+    printWriter.println('database.driver=' + System.getenv('driver'))
+    printWriter.println('changeLogFile=' + System.getenv('changeLogFileTest'))
+    printWriter.flush()
+    printWriter.close()
+}
+println(props.getProperty('changeLogFile'))
 
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
 stopPort = Integer.valueOf(props.getProperty('stopPort'));

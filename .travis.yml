@@ -1,0 +1,43 @@
+language: java
+
+jdk:
+    - oraclejdk8
+
+script:
+    - gradle
+    
+before_script:
+  - psql -c 'create database itevent_test_db;' -U postgres
+  - psql -c 'create database itevent_db;' -U postgres
+    
+addons:
+  postgresql: "9.3"
+
+services:
+  - postgresql  
+
+env:
+  global:
+    - driver=org.postgresql.Driver
+    - url=jdbc:postgresql://127.0.0.1:5432/itevent_db
+    - urlTest=jdbc:postgresql://127.0.0.1:5432/itevent_test_db
+    - username=postgres
+    - password=
+    - changeLogFile=src/main/resources/liquibase/db.changelog-master.xml
+    - changeLogFileTest=src/test/resources/liquibase/db.changelog-create.xml
+    - httpPort=8080
+    - stopPort=8081
+    - secure: "SajdzZyD/OlzPx45jeCQL007mtAbYnxgvQGGn9XZKDMBt5oZVFRKoN8wUAj4O9k8dE54x
+    ERy/P3ifczNcyLYidy7yu9kNZNzbkYrw7vF4410Piaf6IECKry31/WR7LALScXXATeBd1szYOHnqB3+C
+    zYM7CRhrA2FBJTLCirdvLPpJZdos+OLvbJeq0HLtAyy52Jpy45sH9jLJpyhw61X43GQLs/8N42Xhw2Yj
+    SbvEoe81kHxpSM909bpwHXOk9ijdnY+AE/E1t5rsBXxrhNB6M0sWMZr6lodCv04UPDgprO5efvsg5ao1
+    UY1eXq1yXF8ORkFVvK1GY69iaBT5CVTvsiYnedKcoHxSxvkmU/GYP2cGRIsi0plfm1enWr2Wt8jmlorE
+    qaPMYz3hyyEqpJT/inc2z0pQtYB8Yas2jIIoz5gnYWK9IHfrG2IfKu0iOswCMMcPNie0KzgP8ufFnAej
+    hOD5m6LFDEND0D/a7FZdzRvlqyelDxWg4RWm+uBpr3mh4UMobzLzEl5QiHZXQXK8CsR2rSqfwAJcFfLi
+    dyjosc4XmG/AMzYm44YyldorhzaJnCrGH5BuqP5zIIXSk7TwcSm34yUlTAoZ7xhkaEqX5jmO4yO9PhIM
+    ciEA5aM34WjWvMjYKPBAHU3dEKNMvCovqv0Wt7Ihi0kVVq2/50Rg/E="
+    - cron_start_sending=10 10 10 10 * *
+    - reminderAboutEventForThePeriod=1
+
+
+  

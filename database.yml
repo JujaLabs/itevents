@@ -1,0 +1,20 @@
+defaults: &defaults
+  pool: 5
+  timeout: 5000
+  encoding: unicode
+  adapter: postgresql
+  host: localhost
+
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: itevent_db
+  pool: 5
+  username: postgres
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: itevent_test_db
+  pool: 5
+  username: postgres
