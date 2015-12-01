@@ -24,7 +24,7 @@ env:
     - username=postgres
     - password=
     - changeLogFile=src/main/resources/liquibase/db.changelog-master.xml
-    - changeLogFileTest=src/test\resources/liquibase/db.changelog-create.xml
+    - changeLogFileTest=src/test/resources/liquibase/db.changelog-create.xml
     - httpPort=8080
     - stopPort=8081
 
