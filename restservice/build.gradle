@@ -59,7 +59,7 @@ if (fileProp.exists()){
     props.load(new FileInputStream(fileProp))
     println('LOAD FROM LOCAL')
     def reader = new BufferedReader(new FileReader(fileProp))
-    while ((def line = reader.readLine() != null){
+    while ((def line = reader.readLine()) != null){
         println(line)
     }
 } else {
