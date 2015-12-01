@@ -65,6 +65,11 @@ if (fileProp.exists()){
     props.setProperty('changeLogFile', System.getenv('changeLogFile'))
     props.setProperty('httpPort', System.getenv('httpPort'))
     props.setProperty('stopPort', System.getenv('stopPort'))
+    def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
+    printWriter.println('database.username=' + System.getenv('username'))
+    printWriter.println('database.password=')
+    printWriter.println('database.url' + System.getenv('url'))
+    printWriter.println('database.driver' + System.getenv('driver'))
 }
 
 Properties testProps = new Properties()
