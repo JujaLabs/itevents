@@ -20,7 +20,7 @@ env:
   global:
     - driver=org.postgresql.Driver
     - url=jdbc:postgresql://127.0.0.1:5432/itevent_db
-    - url=jdbc:postgresql://127.0.0.1:5432/itevent_test_db
+    - urlTest=jdbc:postgresql://127.0.0.1:5432/itevent_test_db
     - username=postgres
     - password=
     - changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
