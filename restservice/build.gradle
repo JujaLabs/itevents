@@ -58,7 +58,7 @@ def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/r
 if (fileProp.exists()){
     props.load(new FileInputStream(fileProp))
 } else {
-    props.setProperty('database.username', System.getenv('database.username'))
+    props.setProperty('database.username', System.getenv(database.username))
     props.setProperty('database.password', System.getenv('database.password'))
     props.setProperty('database.driver', System.getenv('database.driver'))
     props.setProperty('database.url', System.getenv('database.url'))
