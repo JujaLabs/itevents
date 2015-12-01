@@ -4,14 +4,14 @@ import org.itevents.model.Role;
 import org.itevents.model.User;
 
 /**
- * Created by vaa25 on 03.10.2015.
+ * Created by vaa25 on 29.10.2015.
  */
 public class UserBuilder {
     private int id;
     private String login;
     private String password;
     private Role role;
-    private boolean isActive;
+    private boolean subscribed = false;
 
     private UserBuilder() {
     }
@@ -40,13 +40,13 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder isActive(boolean isActive) {
-        this.isActive = isActive;
+    public UserBuilder subscribed(boolean subscribed) {
+        this.subscribed = subscribed;
         return this;
     }
 
     public UserBuilder but() {
-        return anUser().id(id).login(login).password(password).role(role).isActive(isActive);
+        return anUser().id(id).login(login).password(password).role(role).subscribed(subscribed);
     }
 
     public User build() {
@@ -55,7 +55,7 @@ public class UserBuilder {
         user.setLogin(login);
         user.setPassword(password);
         user.setRole(role);
-        user.setIsActive(isActive);
+        user.setSubscribed(subscribed);
         return user;
     }
 }

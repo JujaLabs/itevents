@@ -6,7 +6,7 @@ import org.itevents.model.Filter;
 import java.util.Iterator;
 import java.util.List;
 
-public class GetFilteredEventsSqlBuilder {
+public class FilteredEventsSqlBuilder {
 
     public String getFilteredEvents(final Filter params) {
         return getFilteredEventsSQL(params).toString() + " LIMIT #{limit} OFFSET #{offset}";

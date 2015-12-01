@@ -4,5 +4,5 @@ import org.itevents.model.Location;
 
 public interface LocationDao {
 
-    Location selectLocation(int id);
+    Location getEventLocation(int id);
 }

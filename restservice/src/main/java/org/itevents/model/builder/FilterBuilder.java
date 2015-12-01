@@ -4,10 +4,15 @@ import org.itevents.model.City;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by vaa25 on 27.10.2015.
+ */
 public class FilterBuilder {
-    private int id;
+    private Integer id;
     private Integer offset;
     private Integer limit;
     private City city;
@@ -15,8 +20,8 @@ public class FilterBuilder {
     private Double longitude;
     private Double latitude;
     private Integer radius;
+    private Date createDate;
     private List<Technology> technologies;
-    private Integer rangeInDays;
 
     private FilterBuilder() {
     }
@@ -25,7 +30,7 @@ public class FilterBuilder {
         return new FilterBuilder();
     }
 
-    public FilterBuilder id(int id) {
+    public FilterBuilder id(Integer id) {
         this.id = id;
         return this;
     }
@@ -65,18 +70,26 @@ public class FilterBuilder {
         return this;
     }
 
+    public FilterBuilder createDate(Date createDate) {
+        this.createDate = createDate;
+        return this;
+    }
+
     public FilterBuilder technologies(List<Technology> technologies) {
         this.technologies = technologies;
         return this;
     }
 
-    public FilterBuilder rangeInDays(Integer rangeInDays) {
-        this.rangeInDays = rangeInDays;
+    public FilterBuilder technology(Technology technology) {
+        if (technologies == null) {
+            technologies = new ArrayList<>();
+        }
+        this.technologies.add(technology);
         return this;
     }
 
     public FilterBuilder but() {
-        return aFilter().id(id).offset(offset).limit(limit).city(city).free(free).longitude(longitude).latitude(latitude).radius(radius).technologies(technologies).rangeInDays(rangeInDays);
+        return aFilter().id(id).offset(offset).limit(limit).city(city).free(free).longitude(longitude).latitude(latitude).radius(radius).createDate(createDate).technologies(technologies);
     }
 
     public Filter build() {
@@ -89,8 +102,8 @@ public class FilterBuilder {
         filter.setLongitude(longitude);
         filter.setLatitude(latitude);
         filter.setRadius(radius);
+        filter.setCreateDate(createDate);
         filter.setTechnologies(technologies);
-        filter.setRangeInDays(rangeInDays);
         return filter;
     }
 }

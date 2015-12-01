@@ -1,5 +1,6 @@
 package org.itevents.model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -7,22 +8,23 @@ import java.util.List;
  */
 public class Filter {
 
-    private int id;
+    private Integer id;
     private Integer offset;
     private Integer limit;
     private City city;
     private Boolean free;
     private Double longitude;
     private Double latitude;
-    private Integer radius;
+    private Integer radius;    
+    private Date createDate;
     private List<Technology> technologies;
     private Integer rangeInDays;
-
-    public int getId() {
+    
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -82,6 +84,10 @@ public class Filter {
         this.radius = radius;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+    
     public List<Technology> getTechnologies() {
         return technologies;
     }
@@ -98,6 +104,10 @@ public class Filter {
         this.rangeInDays = rangeInDays;
     }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,23 +115,45 @@ public class Filter {
 
         Filter filter = (Filter) o;
 
+        if (offset != null ? !offset.equals(filter.offset) : filter.offset != null) return false;
+        if (limit != null ? !limit.equals(filter.limit) : filter.limit != null) return false;
         if (city != null ? !city.equals(filter.city) : filter.city != null) return false;
         if (free != null ? !free.equals(filter.free) : filter.free != null) return false;
         if (longitude != null ? !longitude.equals(filter.longitude) : filter.longitude != null) return false;
         if (latitude != null ? !latitude.equals(filter.latitude) : filter.latitude != null) return false;
         if (radius != null ? !radius.equals(filter.radius) : filter.radius != null) return false;
+        if (createDate != null ? !createDate.equals(filter.createDate) : filter.createDate != null) return false;
         return !(technologies != null ? !technologies.equals(filter.technologies) : filter.technologies != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = city != null ? city.hashCode() : 0;
+        int result = offset != null ? offset.hashCode() : 0;
+        result = 31 * result + (limit != null ? limit.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (free != null ? free.hashCode() : 0);
         result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
         result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
         result = 31 * result + (radius != null ? radius.hashCode() : 0);
         result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Filter{");
+        sb.append("id=").append(id);
+        sb.append(", offset=").append(offset);
+        sb.append(", limit=").append(limit);
+        sb.append(", city=").append(city);
+        sb.append(", free=").append(free);
+        sb.append(", longitude=").append(longitude);
+        sb.append(", latitude=").append(latitude);
+        sb.append(", radius=").append(radius);
+        sb.append(", createDate=").append(createDate);
+        sb.append(", technologies=").append(technologies);
+        sb.append('}');
+        return sb.toString();
     }
 }

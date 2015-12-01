@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="org.itevents.security"/>
+    <global-method-security pre-post-annotations="enabled"/>
     <http realm="itevents" use-expressions="true"
           entry-point-ref="restAuthenticationEntryPoint">
         <csrf disabled="true"/>
@@ -19,24 +20,27 @@
         <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
         <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
         <intercept-url pattern="/users/*/events" access='isAuthenticated()'/>
+        <intercept-url pattern="/users/subscribe" access='isAuthenticated()'/>
+        <intercept-url pattern="/users/unsubscribe" access='isAuthenticated()'/>
         <intercept-url pattern="/**" access="permitAll()"/>
-        <form-login login-processing-url="/login"
+        <form-login login-processing-url="/users/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
                     authentication-failure-handler-ref="authenticationFailureHandler"
                     username-parameter="username"
                     password-parameter="password"/>
-        <logout logout-url="/logout"
+        <logout logout-url="/users/logout"
                 success-handler-ref="logoutSuccessHandler"/>
         <anonymous username="guest"/>
     </http>
-
     <beans:bean id="authenticationFailureHandler"
                 class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
     <beans:bean id="logoutSuccessHandler"
                 class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
-
+    <beans:bean name="passwordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
+            <password-encoder ref="passwordEncoder"/>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query="SELECT login, password, TRUE FROM user_profile WHERE login=?"
                                authorities-by-username-query=

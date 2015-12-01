@@ -31,5 +31,7 @@ public interface UserDao {
 
     void DeleteOtp(User user);
 
+    void updateUser(User user);
+
     List<User> getUsersByEvent(Event event);
 }

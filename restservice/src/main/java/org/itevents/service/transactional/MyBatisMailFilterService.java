@@ -22,6 +22,6 @@ public class MyBatisMailFilterService implements MailFilterService {
     public List<Event> getFilteredEventsInDateRangeWithRating(Filter filter){
         filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
         filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
-        return eventDao.getFilteredEventsWithRating(filter);
+        return eventDao.getFilteredEvents(filter);
     }
 }

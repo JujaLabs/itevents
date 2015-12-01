@@ -2,11 +2,12 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.Filter;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -28,7 +28,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
 public class MyBatisEventServiceTest {
 
     @InjectMocks
@@ -108,9 +107,8 @@ public class MyBatisEventServiceTest {
 
         when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(expectedEvents);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new EventWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -120,9 +118,8 @@ public class MyBatisEventServiceTest {
 
         when(eventDao.getFilteredEvents(any(Filter.class))).thenThrow(Exception.class);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new EventWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
         assertEquals(expectedEvents, returnedEvents);
     }
 
