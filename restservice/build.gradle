@@ -57,14 +57,7 @@ Properties props = new Properties()
 def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
 if (fileProp.exists()){
     props.load(new FileInputStream(fileProp))
-    println('LOAD FROM LOCAL')
-    def reader = new BufferedReader(new FileReader(fileProp))
-    def line
-    while ((line = reader.readLine()) != null){
-        println(line)
-    }
 } else {
-    println('LOAD FROM TRAVIS')
     props.setProperty('database.username', System.getenv('username'))
     props.setProperty('database.password', '')
     props.setProperty('database.driver', System.getenv('driver'))
@@ -73,6 +66,8 @@ if (fileProp.exists()){
     props.setProperty('httpPort', System.getenv('httpPort'))
     props.setProperty('stopPort', System.getenv('stopPort'))
     props.setProperty('sendgrid_api_key', System.getenv('sendgrid_api_key'))
+    props.setProperty('cron.start_sending', System.getenv('cron.start_sending'))
+    props.setProperty('reminderAboutEventForThePeriod', System.getenv('reminderAboutEventForThePeriod'))
     def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
     printWriter.println('database.username=' + System.getenv('username'))
     printWriter.println('database.password=')
@@ -82,6 +77,8 @@ if (fileProp.exists()){
     printWriter.println('httpPort=' + System.getenv('httpPort'))
     printWriter.println('stopPort=' + System.getenv('stopPort'))
     printWriter.println('sendgrid_api_key=' + System.getenv('sendgrid_api_key'))
+    printWriter.println('cron.start_sending=' + System.getenv('cron.start_sending'))
+    printWriter.println('reminderAboutEventForThePeriod=' + System.getenv('reminderAboutEventForThePeriod'))
     printWriter.flush()
     printWriter.close()
 }
