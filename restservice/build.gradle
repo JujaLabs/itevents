@@ -72,6 +72,7 @@ if (fileProp.exists()){
     props.setProperty('changeLogFile', System.getenv('changeLogFile'))
     props.setProperty('httpPort', System.getenv('httpPort'))
     props.setProperty('stopPort', System.getenv('stopPort'))
+    props.setProperty('sendgrid_api_key', System.getenv('sendgrid_api_key'))
     def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
     printWriter.println('database.username=' + System.getenv('username'))
     printWriter.println('database.password=')
@@ -80,6 +81,7 @@ if (fileProp.exists()){
     printWriter.println('changeLogFile=' + System.getenv('changeLogFile'))
     printWriter.println('httpPort=' + System.getenv('httpPort'))
     printWriter.println('stopPort=' + System.getenv('stopPort'))
+    printWriter.println('sendgrid_api_key=' + System.getenv('sendgrid_api_key'))
     printWriter.flush()
     printWriter.close()
 }
