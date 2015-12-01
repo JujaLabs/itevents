@@ -94,6 +94,14 @@ if (filePropTest.exists()){
     testProps.setProperty('database.driver', System.getenv('driver'))
     testProps.setProperty('database.url', System.getenv('urlTest'))
     testProps.setProperty('changeLogFile', System.getenv('changeLogFileTest'))
+    def printWriter = new PrintWriter(new File(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
+    printWriter.println('database.username=' + System.getenv('username'))
+    printWriter.println('database.password=')
+    printWriter.println('database.url=' + System.getenv('urlTest'))
+    printWriter.println('database.driver=' + System.getenv('driver'))
+    printWriter.println('changeLogFile=' + System.getenv('changeLogFileTest'))
+    printWriter.flush()
+    printWriter.close()
 }
 println(props.getProperty('changeLogFile'))
 
