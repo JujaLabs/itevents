@@ -58,6 +58,10 @@ def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/r
 if (fileProp.exists()){
     props.load(new FileInputStream(fileProp))
     println('LOAD FROM LOCAL')
+    def reader = new BufferedReader(new FileReader(fileProp))
+    while ((def line = reader.readLine() != null){
+        println(line)
+    }
 } else {
     println('LOAD FROM TRAVIS')
     props.setProperty('database.username', System.getenv('username'))
