@@ -70,6 +70,9 @@ if (fileProp.exists()){
     printWriter.println('database.password=')
     printWriter.println('database.url' + System.getenv('url'))
     printWriter.println('database.driver' + System.getenv('driver'))
+    printWriter.println('database.changeLogFile' + System.getenv('changeLogFile'))
+    printWriter.println('httpPort' + System.getenv('httpPort'))
+    printWriter.println('stopPort' + System.getenv('stopPort'))
 }
 
 Properties testProps = new Properties()
