@@ -72,11 +72,11 @@ def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/te
 if (filePropTest.exists()){
     testProps.load(new FileInputStream(filePropTest))
 } else {
-    testProps.setProperty('database.username', System.getenv('database.username'))
-    testProps.setProperty('database.password', System.getenv('database.password'))
-    testProps.setProperty('database.driver', System.getenv('database.driver'))
-    testProps.setProperty('database.url', System.getenv('database.url'))
-    testProps.setProperty('changeLogFile', System.getenv('changeLogFile'))
+    testProps.setProperty('database.username', System.getenv('username'))
+    testProps.setProperty('database.password', '')
+    testProps.setProperty('database.driver', System.getenv('driver'))
+    testProps.setProperty('database.url', System.getenv('urlTest'))
+    testProps.setProperty('changeLogFile', System.getenv('changeLogFileTest'))
 }
 
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
