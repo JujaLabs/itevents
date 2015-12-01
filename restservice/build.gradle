@@ -57,7 +57,9 @@ Properties props = new Properties()
 def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
 if (fileProp.exists()){
     props.load(new FileInputStream(fileProp))
+    println('LOAD FROM LOCAL')
 } else {
+    println('LOAD FROM TRAVIS')
     props.setProperty('database.username', System.getenv('username'))
     props.setProperty('database.password', '')
     props.setProperty('database.driver', System.getenv('driver'))
