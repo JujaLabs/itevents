@@ -23,8 +23,8 @@ env:
     - urlTest=jdbc:postgresql://127.0.0.1:5432/itevent_test_db
     - username=postgres
     - password=
-    - changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
-    - changeLogFileTest=src\\test\\resources\\liquibase\\db.changelog-create.xml
+    - changeLogFile=src\main\resources\liquibase\db.changelog-master.xml
+    - changeLogFileTest=src\test\resources\liquibase\db.changelog-create.xml
     - httpPort=8080
     - stopPort=8081
 
