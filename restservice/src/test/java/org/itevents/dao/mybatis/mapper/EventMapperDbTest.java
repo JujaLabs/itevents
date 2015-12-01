@@ -7,13 +7,13 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
-
-import org.itevents.service.converter.EventConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenEventIsAbsent() {
-        Event returnedEvent = eventMapper.getEvent(ID_0);
+        Event returnedEvent = eventMapper.getEvent(ABSENT_ID);
         assertNull(returnedEvent);
     }
 
@@ -114,10 +114,10 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsWithPage3ItemsPerPage2() throws ParseException {
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(3);
         wrapper.setItemsPerPage(2);
-        Filter parameter = new EventConverter().convert(wrapper);
+        Filter parameter = new FilterConverter().toFilter(wrapper);
 
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventCplus());
@@ -129,10 +129,10 @@ public class EventMapperDbTest extends AbstractDbTest {
 
     @Test
     public void shouldFindEventsWithDefaultPagination() {
-        EventWrapper wrapper = new EventWrapper();
+        FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(30);
         wrapper.setItemsPerPage(-2);
-        Filter parameter = new EventConverter().convert(wrapper);
+        Filter parameter = new FilterConverter().toFilter(wrapper);
 
         List<Event> expectedEvents = new ArrayList<>();
 

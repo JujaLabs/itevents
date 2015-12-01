@@ -6,8 +6,8 @@ import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.converter.EventConverter;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.service.converter.FilterConverter;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +19,12 @@ import java.util.List;
 @Transactional
 public class MyBatisEventService implements EventService {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private EventDao eventDao;
     @Inject
-    private EventConverter eventConverter;
+    private FilterConverter filterConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -68,12 +68,12 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(EventWrapper wrapper) {
+    public List<Event> getFilteredEvents(FilterWrapper wrapper) {
         List<Event> result;
         try {
-            result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
+            result = eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
         } catch (Exception e) {
-            logger.error("getFilteredEvents Exception :", e.getStackTrace());
+            LOGGER.error("getFilteredEvents Exception :", e);
             result = new ArrayList<>();
         }
         return result;

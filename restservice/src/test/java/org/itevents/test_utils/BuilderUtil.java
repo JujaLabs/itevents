@@ -1,6 +1,5 @@
 package org.itevents.test_utils;
 
-
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
 import org.itevents.service.transactional.MyBatisMailFilterService;
@@ -15,6 +14,7 @@ import java.util.List;
  * Created by vaa25 on 30.09.2015.
  */
 public class BuilderUtil {
+
     public static City buildCityKyiv() {
         return CityBuilder.aCity()
                 .name("Kyiv")
@@ -333,7 +333,7 @@ public class BuilderUtil {
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
                 .login("anakin@email.com")
-                .password("alex")
+                .password("$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq") //alex
                 .role(buildRoleAdmin())
                 .id(-2)
                 .build();
@@ -342,7 +342,7 @@ public class BuilderUtil {
     public static User buildUserKuchin() {
         return UserBuilder.anUser()
                 .login("kuchin@email.com")
-                .password("viktor")
+                .password("$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq") //viktor
                 .role(buildRoleAdmin())
                 .id(-3)
                 .build();
@@ -351,7 +351,7 @@ public class BuilderUtil {
     public static User buildUserVlasov() {
         return UserBuilder.anUser()
                 .login("vlasov@email.com")
-                .password("alex")
+                .password("$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm") //alex
                 .role(buildRoleSubscriber())
                 .id(-4)
                 .build();
@@ -371,6 +371,7 @@ public class BuilderUtil {
                 .login("testSubscriber")
                 .password("testSubscriberPassword")
                 .role(buildRoleSubscriber())
+                .subscribed(true)
                 .id(-6)
                 .build();
     }
@@ -530,4 +531,34 @@ public class BuilderUtil {
         return  events;
     }
 
+    public static Filter buildFilterFirst() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyMaven())
+                .technology(buildTechnologyMyBatis())
+                .technology(buildTechnologySpring())
+                .id(-1)
+                .build();
+    }
+
+    public static Filter buildFilterFifth() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .free(false)
+                .technologies(new ArrayList<Technology>())
+                .id(-5)
+                .build();
+    }
+
+    public static Filter buildFilterTest() throws ParseException {
+        return FilterBuilder.aFilter()
+                .city(buildCityOdessa())
+                .free(true)
+                .createDate(parseDate("16.07.2015"))
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyJavaScript())
+                .id(-6)
+                .build();
+    }
 }

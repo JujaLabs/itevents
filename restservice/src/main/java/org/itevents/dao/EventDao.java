@@ -31,5 +31,4 @@ public interface EventDao {
     void unassign(User user, Event event);
 
     List<Event> getEventsByUser(User user);
-
 }

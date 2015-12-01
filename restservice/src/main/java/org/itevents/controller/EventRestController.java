@@ -6,7 +6,7 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +36,7 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Returns events with the given parameters ")
-    public List<Event> getFilteredEvents(@ModelAttribute EventWrapper wrapper) {
+    public List<Event> getFilteredEvents(@ModelAttribute FilterWrapper wrapper) {
         return eventService.getFilteredEvents(wrapper);
     }
 

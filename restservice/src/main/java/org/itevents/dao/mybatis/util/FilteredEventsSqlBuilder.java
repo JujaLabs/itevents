@@ -1,12 +1,14 @@
 package org.itevents.dao.mybatis.util;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.itevents.model.Technology;
 import org.itevents.model.Filter;
+import org.itevents.model.Technology;
+import org.springframework.util.CollectionUtils;
+
 import java.util.Iterator;
 import java.util.List;
 
-public class GetFilteredEventsSqlBuilder {
+public class FilteredEventsSqlBuilder {
 
     public String getFilteredEvents(final Filter params) {
         return getFilteredEventsSQL(params).toString() + " LIMIT #{limit} OFFSET #{offset}";
@@ -30,7 +32,7 @@ public class GetFilteredEventsSqlBuilder {
                     WHERE("price > 0");
                 }
             }
-            if (params.getTechnologies() != null) {
+            if (!CollectionUtils.isEmpty(params.getTechnologies())) {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }

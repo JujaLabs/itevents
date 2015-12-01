@@ -35,12 +35,13 @@ public class MailNotificationService implements NotificationService {
 
     @Override
     public void performNotify()  {
-        List<User> users = userDao.getAllUsers();
-        for (User user : users) {
-            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(user.getFilter());
-            String htmlLetter = buildMail(events);
-            mailService.sendMail(htmlLetter, user.getLogin());
-        }
+//        List<User> users = userDao.getAllUsers();
+//        for (User user : users) {
+//            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(user.getFilter());
+//            String htmlLetter = buildMail(events);
+//            mailService.sendMail(htmlLetter, user.getLogin());
+//        }
+        //TODO
     }
 
     private String buildMail(List<Event> events) {
