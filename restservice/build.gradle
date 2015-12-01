@@ -83,10 +83,10 @@ if (filePropTest.exists()){
     testProps.setProperty('database.url', System.getenv('urlTest'))
     testProps.setProperty('changeLogFile', System.getenv('changeLogFileTest'))
 }
-println(props.getProperty('httpPort'))
+println(props.getProperty('changeLogFile'))
 
-httpPort = Integer.valueOf(props.getProperty('httpPort'));
-stopPort = Integer.valueOf(props.getProperty('stopPort'));
+httpPort = 8080;
+stopPort = 8081;
 stopKey = props.getProperty('stopKey');
 
 test.dependsOn "liquibaseTestUpdate"
