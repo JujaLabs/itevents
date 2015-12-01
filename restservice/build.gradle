@@ -83,6 +83,7 @@ if (filePropTest.exists()){
     testProps.setProperty('database.url', System.getenv('urlTest'))
     testProps.setProperty('changeLogFile', System.getenv('changeLogFileTest'))
 }
+println(System.getenv('httpPort'))
 
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
 stopPort = Integer.valueOf(props.getProperty('stopPort'));
