@@ -53,26 +53,32 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
   }
 
-Properties propsDb = new Properties()
-def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/db-local.properties")
-def fileTravisProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/db-travis.properties")
+Properties props = new Properties()
+def fileProp = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
 if (fileProp.exists()){
-    propsDb.load(new FileInputStream(fileProp))
+    props.load(new FileInputStream(fileProp))
 } else {
-    propsDb.load(new FileInputStream(fileTravisProp))
+    props.setProperty('database.username', System.getenv('database.username'))
+    props.setProperty('database.password', System.getenv('database.password'))
+    props.setProperty('database.driver', System.getenv('database.driver'))
+    props.setProperty('database.url', System.getenv('database.url'))
+    props.setProperty('changeLogFile', System.getenv('changeLogFile'))
+    props.setProperty('httpPort', System.getenv('httpPort'))
+    props.setProperty('stopPort', System.getenv('stopPort'))
 }
 
 Properties testProps = new Properties()
-def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/db-test-local.properties")
-def fileTravisPropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/db-test-travis.properties")
+def filePropTest = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
 if (filePropTest.exists()){
     testProps.load(new FileInputStream(filePropTest))
 } else {
-    testProps.load(new FileInputStream(fileTravisPropTest))
+    testProps.setProperty('database.username', System.getenv('database.username'))
+    testProps.setProperty('database.password', System.getenv('database.password'))
+    testProps.setProperty('database.driver', System.getenv('database.driver'))
+    testProps.setProperty('database.url', System.getenv('database.url'))
+    testProps.setProperty('changeLogFile', System.getenv('changeLogFile'))
 }
 
-Properties props = new Properties()
-props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 httpPort = Integer.valueOf(props.getProperty('httpPort'));
 stopPort = Integer.valueOf(props.getProperty('stopPort'));
 stopKey = props.getProperty('stopKey');
@@ -94,9 +100,9 @@ task liquibaseUpdate(type: JavaExec) {
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
     } else {
-        args "--username=${propsDb.getProperty('database.username')}"
-        args "--password=${propsDb.getProperty('database.password')}"
-        args "--url=${propsDb.getProperty('database.url')}"
+        args "--username=${props.getProperty('database.username')}"
+        args "--password=${props.getProperty('database.password')}"
+        args "--url=${props.getProperty('database.url')}"
     }
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'update'
@@ -107,9 +113,9 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${propsDb.getProperty('database.username')}"
-    args "--password=${propsDb.getProperty('database.password')}"
-    args "--url=${propsDb.getProperty('database.url')}"
+    args "--username=${props.getProperty('database.username')}"
+    args "--password=${props.getProperty('database.password')}"
+    args "--url=${props.getProperty('database.url')}"
     args "--changeLogFile=${props.getProperty('changeLogFile')}"
     args 'rollbackCount'
     args '0'

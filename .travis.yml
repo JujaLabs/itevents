@@ -15,7 +15,16 @@ addons:
 
 services:
   - postgresql  
-  
+
+env:
+  global:
+    - database.driver=org.postgresql.Driver
+    - database.url=jdbc:postgresql://127.0.0.1:5432/work_events
+    - database.username=postgres
+    - database.password=
+    - changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+    - httpPort=8080
+    - stopPort=8081
 
 
 
