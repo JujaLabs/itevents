@@ -16,7 +16,6 @@ import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
-
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -209,7 +208,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
@@ -218,18 +217,20 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "testAddUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testUnassignUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
+
         Date unassignDate = dateTimeUtil.setDate("2115.07.20");
         String unassignReason = "test";
+
         eventMapper.unassign(user, event, unassignDate, unassignReason);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
     public void shouldReturnEventsByUser() throws Exception{
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();

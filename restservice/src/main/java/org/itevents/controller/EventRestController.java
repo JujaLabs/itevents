@@ -56,16 +56,16 @@ public class EventRestController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign/{deleteReason}")
+    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign/{delete_reason}")
     @ApiOperation(value = "Unassigns logged in user from event")
     public ResponseEntity unassign(@PathVariable("event_id") int eventId,
-                                   @PathVariable("deleteReason") String deleteReason) {
+                                   @PathVariable("delete_reason") String unassignReason) {
         Event event = eventService.getEvent(eventId);
         if (event == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             User user = getUserFromSecurityContext();
-            eventService.unassign(user, event, dateTimeUtil.getNowDate(), deleteReason);
+            eventService.unassign(user, event, dateTimeUtil.getNowDate(), unassignReason);
             return new ResponseEntity(HttpStatus.OK);
         }
     }

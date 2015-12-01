@@ -117,8 +117,8 @@
         <!ATTLIST user_event
                 user_id CDATA #REQUIRED
                 event_id CDATA #REQUIRED
-                deletedate CDATA #IMPLIED
-                deletereason CDATA #IMPLIED
+                unassigndate CDATA #IMPLIED
+                unassignReason CDATA #IMPLIED
                 id CDATA #IMPLIED
                 >
 

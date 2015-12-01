@@ -145,8 +145,10 @@ public class MyBatisEventServiceTest {
     public void shouldUnassignUserFromEvent()throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
+
         Date unassignDate = dateTimeUtil.setDate("20.07.2115");
         String unassignReason = "test";
+
         eventService.unassign(user, event, unassignDate, unassignReason);
         verify(eventDao).unassign(user, event, unassignDate, unassignReason);
     }
