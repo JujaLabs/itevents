@@ -50,7 +50,7 @@ public class EventRestController {
         User user = getUserFromSecurityContext();
         if (event == null || new Date().after(event.getEventDate()) ) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else if (checkAssign(user, event)) {
+        } else if (isAssigned(user, event)) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }else {
             eventService.assignUserToEvent(user, event);
@@ -58,7 +58,7 @@ public class EventRestController {
         }
     }
 
-    private boolean checkAssign(User user, Event event) {
+    private boolean isAssigned(User user, Event event) {
         return eventService.getEventsByUser(user).contains(event);
     }
 
