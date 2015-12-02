@@ -47,13 +47,19 @@ public class EventRestController {
     @ApiOperation(value = "Assigns logged in user to event")
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
+        User user = getUserFromSecurityContext();
         if (event == null || new Date().after(event.getEventDate()) ) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            User user = getUserFromSecurityContext();
+        } else if (checkAssign(user, event)) {
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }else {
             eventService.assignUserToEvent(user, event);
             return new ResponseEntity(HttpStatus.OK);
         }
+    }
+
+    private boolean checkAssign(User user, Event event) {
+        return eventService.getEventsByUser(user).contains(event);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign/{unassign_reason}")

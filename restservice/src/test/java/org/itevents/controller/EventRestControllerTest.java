@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -102,5 +104,20 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotAssignUserToEventIfRecordExists() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJava();
+        ArrayList <Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+
+        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
+                .andExpect(status().isConflict());
     }
 }
