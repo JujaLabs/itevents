@@ -30,7 +30,7 @@ import javax.inject.Inject;
 public class SendGridMailServiceTest {
 
     private final String USER_EMAIL_ADDRESS ="it-events@ex.ua";
-    private final String HTML_LATTER ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
+    private final String HTML_LETTER ="<html><head><title>TEST MAIL</title></head><body><h1>It's test mail to you "
             + USER_EMAIL_ADDRESS +"</h1><br><img src=\"http://phd.chnebu.ch/images/Java.png\"></body></html>";
 
     @InjectMocks
@@ -50,7 +50,7 @@ public class SendGridMailServiceTest {
         when(sendGrid.send( any(SendGrid.Email.class) )).thenReturn(
                 new SendGrid.Response(HttpStatus.OK.value(),"ok")
         );
-        mailService.sendMail(HTML_LATTER, USER_EMAIL_ADDRESS);
+        mailService.sendMail(HTML_LETTER, USER_EMAIL_ADDRESS);
         verify(sendGrid).send( any(SendGrid.Email.class) );
     }
 
