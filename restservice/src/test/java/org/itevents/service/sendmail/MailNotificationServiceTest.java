@@ -54,7 +54,7 @@ public class MailNotificationServiceTest {
     public void performNotifyTest() throws ParseException {
         List<User> users = BuilderUtil.buildAllUser();
         users.forEach(a->a.setSubscribed(true));
-        when(userDao.getAllUsers()).thenReturn(users);
+        when(userDao.getSubscribedUsers()).thenReturn(users);
 
         List<Event> events = BuilderUtil.buildEventsForMailUtilTest();
         when(mailFilterService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
@@ -66,7 +66,7 @@ public class MailNotificationServiceTest {
 
         mailNotificationEventService.performNotify();
 
-        verify(userDao).getAllUsers();
+        verify(userDao).getSubscribedUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
         verify(mailFilterService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
         verify(filterService, times(users.size())).getLastFilterByUser(any(User.class));

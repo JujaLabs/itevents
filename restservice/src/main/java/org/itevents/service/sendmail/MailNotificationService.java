@@ -41,15 +41,13 @@ public class MailNotificationService implements NotificationService {
 
     @Override
     public void performNotify()  {
-        List<User> users = userDao.getAllUsers();
+        List<User> users = userDao.getSubscribedUsers();
         for (User user : users) {
-            if (user.isSubscribed()) {
-                Filter filter = filterService.getLastFilterByUser(user);
-                List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);
-                if (!events.isEmpty()) {
-                    String htmlLetter = buildMail(events);
-                    mailService.sendMail(htmlLetter, user.getLogin());
-                }
+            Filter filter = filterService.getLastFilterByUser(user);
+            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);
+            if (!events.isEmpty()) {
+                String htmlLetter = buildMail(events);
+                mailService.sendMail(htmlLetter, user.getLogin());
             }
         }
     }
