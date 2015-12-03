@@ -24,7 +24,7 @@ import java.util.List;
 
 @Component
 public class MailBuilderUtil {
-    @Value("classpath:utils/mailBuilder/mail.xsl")
+    @Value("classpath:utils/mailBuilder/recommendation-events-mail.xsl")
     private Resource emailTemplateXslResource;
 
     public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
