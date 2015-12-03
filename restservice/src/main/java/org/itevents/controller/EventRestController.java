@@ -6,10 +6,10 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -24,6 +24,8 @@ public class EventRestController {
     private EventService eventService;
     @Inject
     private UserService userService;
+    @Inject
+    public DateTimeUtil dateTimeUtil;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}")
     public ResponseEntity<Event> getEventById(@PathVariable("event_id") int id) {
@@ -44,24 +46,31 @@ public class EventRestController {
     @ApiOperation(value = "Assigns logged in user to event")
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
+        User user = userService.getAuthorizedUser();
         if (event == null || new Date().after(event.getEventDate()) ) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            User user = getUserFromSecurityContext();
-            eventService.assign(user, event);
+        } else if (isAssigned(user, event)) {
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }else {
+            eventService.assignUserToEvent(user, event);
             return new ResponseEntity(HttpStatus.OK);
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{event_id}/unassign")
+    private boolean isAssigned(User user, Event event) {
+        return eventService.getEventsByUser(user).contains(event);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign/{unassign_reason}")
     @ApiOperation(value = "Unassigns logged in user from event")
-    public ResponseEntity unassign(@PathVariable("event_id") int eventId) {
+    public ResponseEntity unassign(@PathVariable("event_id") int eventId,
+                                   @PathVariable("unassign_reason") String unassignReason) {
         Event event = eventService.getEvent(eventId);
-        if (event == null) {
+        User user = userService.getAuthorizedUser();
+        if (event == null || !isAssigned(user, event)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            User user = getUserFromSecurityContext();
-            eventService.unassign(user, event);
+            eventService.unassignUserFromEvent(user, event, dateTimeUtil.getNowDate(), unassignReason);
             return new ResponseEntity(HttpStatus.OK);
         }
     }
@@ -76,9 +85,5 @@ public class EventRestController {
             List<User> visitors = userService.getUsersByEvent(event);
             return new ResponseEntity<>(visitors, HttpStatus.OK);
         }
-    }
-
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

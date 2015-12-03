@@ -77,7 +77,7 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value =TEST_PATH + "assignUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     public void shouldReturnUsersByEvent() throws Exception {
         User user = BuilderUtil.buildUserKuchin();
         List expectedUsers = new ArrayList<>();
