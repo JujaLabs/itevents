@@ -46,8 +46,10 @@ public class MailNotificationService implements NotificationService {
             if (user.isSubscribed()) {
                 Filter filter = filterService.getLastFilterByUser(user);
                 List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);
-                String htmlLetter = buildMail(events);
-                mailService.sendMail(htmlLetter, user.getLogin());
+                if (!events.isEmpty()) {
+                    String htmlLetter = buildMail(events);
+                    mailService.sendMail(htmlLetter, user.getLogin());
+                }
             }
         }
     }
