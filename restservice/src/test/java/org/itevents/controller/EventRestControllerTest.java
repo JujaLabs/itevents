@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,13 +66,17 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildUserAnakin();
+        ArrayList <Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
         String unassignReason = "test";
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign/" + unassignReason))
                 .andExpect(status().isOk());
-        verify(eventService).getEvent(event.getId());
     }
 
     @Test
@@ -107,14 +110,14 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldNotAssignUserToEventIfRecordExists() throws Exception {
+    public void shouldNotAssignUserToEventIfAssigned() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJava();
         ArrayList <Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(user);
+        when(userService.getAuthorizedUser()).thenReturn(user);
         when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))

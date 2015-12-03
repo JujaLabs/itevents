@@ -10,7 +10,6 @@ import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -47,7 +46,7 @@ public class EventRestController {
     @ApiOperation(value = "Assigns logged in user to event")
     public ResponseEntity assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
-        User user = getUserFromSecurityContext();
+        User user = userService.getAuthorizedUser();
         if (event == null || new Date().after(event.getEventDate()) ) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else if (isAssigned(user, event)) {
@@ -67,10 +66,10 @@ public class EventRestController {
     public ResponseEntity unassign(@PathVariable("event_id") int eventId,
                                    @PathVariable("unassign_reason") String unassignReason) {
         Event event = eventService.getEvent(eventId);
-        if (event == null) {
+        User user = userService.getAuthorizedUser();
+        if (event == null || !isAssigned(user, event)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            User user = getUserFromSecurityContext();
             eventService.unassignUserFromEvent(user, event, dateTimeUtil.getNowDate(), unassignReason);
             return new ResponseEntity(HttpStatus.OK);
         }
@@ -86,9 +85,5 @@ public class EventRestController {
             List<User> visitors = userService.getUsersByEvent(event);
             return new ResponseEntity<>(visitors, HttpStatus.OK);
         }
-    }
-
-    private User getUserFromSecurityContext() {
-        return userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }
