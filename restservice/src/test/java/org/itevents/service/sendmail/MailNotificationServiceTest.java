@@ -6,6 +6,7 @@ import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.FilterService;
 import org.itevents.service.MailFilterService;
+import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class MailNotificationServiceTest {
     private MailService mailService;
 
     @Mock
-    private UserDao userDao;
+    private UserService userService;
 
     @Mock
     private MailFilterService mailFilterService;
@@ -54,7 +55,7 @@ public class MailNotificationServiceTest {
     public void performNotifyTest() throws ParseException {
         List<User> users = BuilderUtil.buildAllUser();
         users.forEach(a->a.setSubscribed(true));
-        when(userDao.getSubscribedUsers()).thenReturn(users);
+        when(userService.getSubscribedUsers()).thenReturn(users);
 
         List<Event> events = BuilderUtil.buildEventsForMailUtilTest();
         when(mailFilterService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
@@ -66,7 +67,7 @@ public class MailNotificationServiceTest {
 
         mailNotificationEventService.performNotify();
 
-        verify(userDao).getSubscribedUsers();
+        verify(userService).getSubscribedUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
         verify(mailFilterService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
         verify(filterService, times(users.size())).getLastFilterByUser(any(User.class));

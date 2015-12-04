@@ -9,6 +9,7 @@ import org.itevents.model.User;
 import org.itevents.service.FilterService;
 import org.itevents.service.MailFilterService;
 import org.itevents.service.NotificationService;
+import org.itevents.service.UserService;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +35,14 @@ public class MailNotificationService implements NotificationService {
     private MailService mailService;
 
     @Inject
-    private UserDao userDao;
+    private UserService userService;
 
     @Inject
     private MailBuilderUtil mailBuilderUtil;
 
     @Override
     public void performNotify()  {
-        List<User> users = userDao.getSubscribedUsers();
+        List<User> users = userService.getSubscribedUsers();
         for (User user : users) {
             Filter filter = filterService.getLastFilterByUser(user);
             List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(filter);
