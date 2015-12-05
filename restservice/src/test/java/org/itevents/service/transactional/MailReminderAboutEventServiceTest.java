@@ -44,12 +44,23 @@ public class MailReminderAboutEventServiceTest {
     @Test
     public void getEventByDaysTillEventTest() {
         List<Event> eventsByDaysTillEvent = mailReminderAboutEventService.getEventsByDaysTillEvent(getDaysTillEventTest());
+        for(Event event : eventsByDaysTillEvent){
+            System.out.println("Event: "+event.getTitle());
+        }
+        System.out.println(eventsByDaysTillEvent.size());
         assertFalse(eventsByDaysTillEvent.isEmpty());
     }
 
     @Test
     public void getUsersAndEventsByDaysTillEventTest() {
         Multimap<User, Event> usersAndEvents = mailReminderAboutEventService.getUsersAndEventsByDaysTillEvent(getDaysTillEventTest());
+        for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
+            Iterator nearestEventOfUserIterator = usersAndEvents.get(userWhoGoToNearestEvent).iterator();
+            while(nearestEventOfUserIterator.hasNext()) {
+                Event nowEvent = (Event)nearestEventOfUserIterator.next();
+                System.out.println(userWhoGoToNearestEvent.getLogin()+"--"+nowEvent.getTitle());
+            }
+        }
         assertFalse(usersAndEvents.isEmpty());
     }
 }

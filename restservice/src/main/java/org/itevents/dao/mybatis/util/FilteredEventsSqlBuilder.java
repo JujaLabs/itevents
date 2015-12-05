@@ -32,9 +32,6 @@ public class FilteredEventsSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id = et.event_id");
             }
-            if(params.getDaysTillEvent() > 0){
-               WHERE("e.event_date = current_date + #{daysTillEvent}");
-            }
         }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
     }
 

@@ -6,12 +6,12 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.parameter.FilteredEventsParameter;
 import org.itevents.service.ReminderAboutEventService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +26,8 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     private MailMock mailMock;
 
+    private static final long MILLISECONDS_TO_DAYS = 24 * 60 * 60 * 1000;
+
     @Inject
     UserDao userDao;
     @Inject
@@ -38,9 +40,9 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
-        FilteredEventsParameter params = new FilteredEventsParameter();
-        params.setDaysTillEvent(daysTillEvent);
-        return eventDao.getFilteredEvents(params);
+        Date today= new Date();
+        Date dateOfEventsToRemind = new Date(today.getTime()+(MILLISECONDS_TO_DAYS*daysTillEvent));
+        return eventDao.getEventsByDate(dateOfEventsToRemind);
     }
 
     public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){

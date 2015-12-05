@@ -67,17 +67,6 @@ public class FilteredEventsSqlBuilderTest {
         assertEquals(expectedSql, returnedSql);
     }
 
-    @Test
-    public void shouldBuildSqlQueryByDaysTillEvent() {
-        parameter.setDaysTillEvent(new Random().nextInt(100)+1);
-
-        String expectedSql = "SELECT * FROM event e " +
-                "WHERE (e.event_date > NOW() AND e.event_date = current_date + #{daysTillEvent}) " +
-                "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
-
-        String returnedSql = new GetFilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
-        assertEquals(expectedSql, returnedSql);
-    }
 
     @Test
     public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() {
