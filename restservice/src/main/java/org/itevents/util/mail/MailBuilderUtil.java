@@ -21,11 +21,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 public class MailBuilderUtil {
@@ -42,6 +41,17 @@ public class MailBuilderUtil {
     public String buildHtmlFromUserOtp(User user, OtpGen otpGen)  throws ParseException, JAXBException, IOException,
             TransformerException {
         return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGen));
+    }
+
+    String buildUrl() throws IOException {
+        Properties prop = new Properties();
+
+        prop.load(getClass().getClassLoader().getResourceAsStream("local.properties"));
+
+        String serverName = prop.getProperty("serverName");
+        String httpPort = prop.getProperty("httpPort");
+
+        return String.valueOf(new StringBuilder(serverName + ":" +httpPort));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -116,12 +126,11 @@ public class MailBuilderUtil {
         public List<Event> getEvents() {
             return events;
         }
-
         public void setEvents(List<Event> events) {
             this.events = events;
         }
-    }
 
+    }
     @XmlRootElement(name ="userOtp")
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class UserOtpXmlWrapper {
@@ -129,6 +138,7 @@ public class MailBuilderUtil {
         private static String url;
         @XmlElement(name = "user")
         private User user;
+
         @XmlElement(name = "otp")
         private OtpGen otpGen;
 
@@ -155,7 +165,6 @@ public class MailBuilderUtil {
             url = request.getRequestURI();
             return url;
         }
-
         public void setUrl(String url) {
             this.url = url;
         }
