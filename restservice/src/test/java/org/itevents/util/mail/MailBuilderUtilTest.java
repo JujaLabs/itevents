@@ -38,10 +38,12 @@ public class MailBuilderUtilTest {
     }
 
     @Test
-    public void shouldReturnMailWithUsernameAndOtp()  throws Exception {
+    public void shouldReturnMailWithUsernameOtpAndUrl()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         otpGen.generateOtp(1440);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen);
+        String url = mailBuilderUtil.buildUrl();
+        String userOtp = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen);
+        String returnedUserOtpEmail = userOtp+url;
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }
