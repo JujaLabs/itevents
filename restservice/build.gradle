@@ -63,9 +63,10 @@ props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/
 Properties testProps = new Properties()
 testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
 
-httpPort = Integer.valueOf(props.getProperty('httpPort'));
-stopPort = Integer.valueOf(props.getProperty('stopPort'));
-stopKey = props.getProperty('stopKey');
+Integer httpPort = Integer.valueOf(props.getProperty('httpPort'));
+Integer stopPort = Integer.valueOf(props.getProperty('stopPort'));
+String stopKey = props.getProperty('stopKey');
+String serverName = props.getProperty('serverName');
 
 test.dependsOn "liquibaseTestUpdate"
 
