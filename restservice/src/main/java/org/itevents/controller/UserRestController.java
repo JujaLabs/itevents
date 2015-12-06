@@ -13,15 +13,16 @@ import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
-import org.itevents.util.time.TimeUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.mail.BuilderUrl;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.TimeUtil;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -47,7 +48,9 @@ public class UserRestController {
     @Inject
     MailBuilderUtil mailBuilderUtil;
     @Inject
-    OtpGen otpGen;
+    private OtpGen otpGen;
+    @Inject
+    private BuilderUrl url;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -78,10 +81,10 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
-//        generateOtp(1440, user);
-//        userService.addOtp(user, otpGen);
-//        SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user,otpGen),user.getLogin());
-//        mailService.send(activationMail);
+        //generateOtp(1440, user);
+        //userService.addOtp(user, otpGen);
+        //SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen, url),user.getLogin());
+        //mailService.send(activationMail);
         return new ResponseEntity(HttpStatus.OK);
     }
 
