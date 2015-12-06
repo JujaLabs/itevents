@@ -29,6 +29,8 @@ public class MailBuilderUtilTest {
     MailBuilderUtil mailBuilderUtil;
     @Inject
     OtpGen otpGen;
+    @Inject
+    BuilderUrl url;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
@@ -41,9 +43,8 @@ public class MailBuilderUtilTest {
     public void shouldReturnMailWithUsernameOtpAndUrl()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         otpGen.generateOtp(1440);
-        String url = mailBuilderUtil.buildUrl();
-        String userOtp = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen);
-        String returnedUserOtpEmail = userOtp+url;
+        url.buildUrl();
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen, url);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }
