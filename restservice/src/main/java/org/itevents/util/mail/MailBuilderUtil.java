@@ -51,7 +51,7 @@ public class MailBuilderUtil {
         String serverName = prop.getProperty("serverName");
         String httpPort = prop.getProperty("httpPort");
 
-        return String.valueOf(new StringBuilder(serverName + ":" +httpPort));
+        return String.valueOf(new StringBuilder("http://" + serverName + ":" + httpPort));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
