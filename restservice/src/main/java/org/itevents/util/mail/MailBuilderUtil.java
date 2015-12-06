@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -21,10 +20,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Properties;
 
 @Component
 public class MailBuilderUtil {
@@ -38,20 +38,9 @@ public class MailBuilderUtil {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
     // ÁÐÀÍ× 48
-    public String buildHtmlFromUserOtp(User user, OtpGen otpGen)  throws ParseException, JAXBException, IOException,
-            TransformerException {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGen));
-    }
-
-    String buildUrl() throws IOException {
-        Properties prop = new Properties();
-
-        prop.load(getClass().getClassLoader().getResourceAsStream("local.properties"));
-
-        String serverName = prop.getProperty("serverName");
-        String httpPort = prop.getProperty("httpPort");
-
-        return String.valueOf(new StringBuilder("http://" + serverName + ":" + httpPort));
+    public String buildHtmlFromUserOtp(User user, OtpGen otpGen, BuilderUrl url)  throws ParseException, JAXBException,
+            IOException, TransformerException {
+        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGen, url));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -84,11 +73,11 @@ public class MailBuilderUtil {
     }
 
     //    ÁÐÀÍ× 48
-    private String BuildXmlFromUserOtp(User user, OtpGen otpGen) throws JAXBException {
+    private String BuildXmlFromUserOtp(User user, OtpGen otpGen, BuilderUrl url) throws JAXBException, IOException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOtpGen(otpGen);
-//        userOtpXmlWrapper.getUrl(request);
+        userOtpXmlWrapper.setUrl(url);
 
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -135,10 +124,9 @@ public class MailBuilderUtil {
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class UserOtpXmlWrapper {
         @XmlElement(name = "url")
-        private static String url;
+        private BuilderUrl url;
         @XmlElement(name = "user")
         private User user;
-
         @XmlElement(name = "otp")
         private OtpGen otpGen;
 
@@ -161,11 +149,11 @@ public class MailBuilderUtil {
             this.otpGen = otpGen;
         }
 
-        public  String getUrl(HttpServletRequest request) {
-            url = request.getRequestURI();
+        public BuilderUrl getUrl() {
             return url;
         }
-        public void setUrl(String url) {
+
+        public void setUrl(BuilderUrl url) {
             this.url = url;
         }
     }
