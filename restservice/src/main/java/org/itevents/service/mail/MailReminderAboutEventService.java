@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -26,8 +27,6 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     private MailMock mailMock;
 
-    private static final long MILLISECONDS_TO_DAYS = 24 * 60 * 60 * 1000;
-
     @Inject
     UserDao userDao;
     @Inject
@@ -40,9 +39,15 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
-        Date today= new Date();
-        Date dateOfEventsToRemind = new Date(today.getTime()+(MILLISECONDS_TO_DAYS*daysTillEvent));
-        return eventDao.getEventsByDate(dateOfEventsToRemind);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.clear(Calendar.AM_PM);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.add(Calendar.DATE,daysTillEvent);
+        Date daysOfEventsToremind = new Date(cal.getTime().getTime());
+        return eventDao.getEventsByDate(daysOfEventsToremind);
     }
 
     public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
