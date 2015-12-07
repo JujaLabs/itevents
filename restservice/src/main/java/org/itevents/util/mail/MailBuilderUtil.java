@@ -40,7 +40,7 @@ public class MailBuilderUtil {
     // ÁÐÀÍ× 48
     public String buildHtmlFromUserOtp(User user, OtpGen otpGen, BuilderUrl url)  throws ParseException, JAXBException,
             IOException, TransformerException {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGen, url));
+        return buildMailFromXmlUserOtpUrl(BuildXmlFromUserOtp(user, otpGen, url));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -89,14 +89,15 @@ public class MailBuilderUtil {
     }
 
     //    ÁÐÀÍ× 48
-    private String buildMailFromXmlUserOtp(String userOtp)  throws IOException, TransformerException {
+    private String buildMailFromXmlUserOtpUrl(String userOtpUrl)  throws IOException, TransformerException {
+        StringReader stringReader = new StringReader(userOtpUrl);
+        StringWriter mailStringWriter = new StringWriter();
         Transformer transformer =
                 TransformerFactory.newInstance().newTransformer(
                         new StreamSource(EmailUserOtpTemplateXslResource.getFile())
                 );
-        StringWriter mailStringWriter = new StringWriter();
         transformer.transform(
-                new StreamSource(new StringReader(userOtp)),
+                new StreamSource(stringReader),
                 new StreamResult(mailStringWriter)
         );
         return mailStringWriter.toString();
@@ -120,15 +121,15 @@ public class MailBuilderUtil {
         }
 
     }
-    @XmlRootElement(name ="userOtp")
+    @XmlRootElement(name ="userOtpUrl")
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class UserOtpXmlWrapper {
-        @XmlElement(name = "url")
-        private BuilderUrl url;
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
         private OtpGen otpGen;
+        @XmlElement(name = "url")
+        private BuilderUrl url;
 
         public UserOtpXmlWrapper() {
         }
