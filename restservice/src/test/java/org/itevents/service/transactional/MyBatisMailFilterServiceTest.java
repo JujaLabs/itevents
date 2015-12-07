@@ -20,16 +20,16 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoader = EventDateReplacementDataSetLoader.class)
+@DatabaseSetup(value = MyBatisMailFilterServiceTest.TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.CLEAN_INSERT)
+@DatabaseTearDown(value = MyBatisMailFilterServiceTest.TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
 public class MyBatisMailFilterServiceTest extends AbstractDbTest {
 
-    private final String TEST_PATH = PATH + "MailFilterUtilTest/";
+    public static final String TEST_PATH = PATH + "MailFilterUtilTest/";
 
     @Inject
     private MailFilterService mailFilterService;
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnKyivEvents() throws ParseException {
         Filter filter = BuilderUtil.buildKyivFilter();
         List<Event> expectedFilteredEvents = new ArrayList<>(Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent(),
@@ -41,8 +41,6 @@ public class MyBatisMailFilterServiceTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnFreeEvents() throws ParseException {
         Filter filter = BuilderUtil.buildFreeFilter();
         List<Event> expectedFilteredEvents = new ArrayList<>(Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent(),
@@ -54,8 +52,6 @@ public class MyBatisMailFilterServiceTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnJavaEvents() throws ParseException {
         Filter filter = BuilderUtil.builderFilterJava();
         List<Event> expectedFilteredEvents = new ArrayList<>(Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent(),
