@@ -13,29 +13,29 @@ import java.util.Date;
 @Component
 public class DateTimeUtil {
 
-    public String getFormattedNowDatePlusDays(int days, String dateFormat) {
+    public static String getFormattedNowDatePlusDays(int days, String dateFormat) {
         Date nowDate = getNowDate();
         Date futureDate = addDaysToDate(nowDate, days);
         return dateToString(futureDate, dateFormat);
     }
 
-    public Date addDaysToDate(Date date, int daysCount) {
+    public static Date addDaysToDate(Date date, int daysCount) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysCount);
         return calendar.getTime();
     }
 
-    public String dateToString(Date date, String format) {
+    public static String dateToString(Date date, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.format(date);
     }
 
-    public Date setDate(String date) throws Exception{
+    public static Date setDate(String date) throws Exception{
         return new SimpleDateFormat("yyyy.MM.dd").parse(date);
     }
 
-    public Date getNowDate(){
+    public static Date getNowDate(){
         return Calendar.getInstance().getTime();
     }
 }

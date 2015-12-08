@@ -24,8 +24,6 @@ public class EventRestController {
     private EventService eventService;
     @Inject
     private UserService userService;
-    @Inject
-    public DateTimeUtil dateTimeUtil;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}")
     public ResponseEntity<Event> getEventById(@PathVariable("event_id") int id) {
@@ -70,7 +68,7 @@ public class EventRestController {
         if (event == null || !isAssigned(user, event)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            eventService.unassignUserFromEvent(user, event, dateTimeUtil.getNowDate(), unassignReason);
+            eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(), unassignReason);
             return new ResponseEntity(HttpStatus.OK);
         }
     }
