@@ -40,7 +40,7 @@ public class MailBuilderUtilTest {
     }
 
     @Test
-    public void shouldReturnMailWithUsernameOtpAndUrl()  throws Exception {
+    public void shouldReturnMailWithLinkToActivate()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         otpGen.generateOtp(1440);
         url.buildUrl();
