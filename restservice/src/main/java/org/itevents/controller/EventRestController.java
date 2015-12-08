@@ -2,6 +2,7 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Email;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -10,6 +11,7 @@ import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @Api("Events")
 @RequestMapping("/events")
+@Validated
 public class EventRestController {
     @Inject
     private EventService eventService;
@@ -59,10 +62,10 @@ public class EventRestController {
         return eventService.getEventsByUser(user).contains(event);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign/{unassign_reason}")
+    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign")
     @ApiOperation(value = "Unassigns logged in user from event")
     public ResponseEntity unassign(@PathVariable("event_id") int eventId,
-                                   @PathVariable("unassign_reason") String unassignReason) {
+                                   @RequestParam("unassign_reason")  @Email String unassignReason ) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
         if (event == null || !isAssigned(user, event)) {
