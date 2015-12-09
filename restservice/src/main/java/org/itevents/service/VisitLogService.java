@@ -14,6 +14,4 @@ public interface VisitLogService {
     VisitLog getVisitLog(int id);
 
     List<VisitLog> getAllVisitLogs();
-
-    VisitLog removeVisitLog(VisitLog visitLog);
 }

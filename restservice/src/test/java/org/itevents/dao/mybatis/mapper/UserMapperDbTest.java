@@ -6,18 +6,18 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.UserMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -46,10 +46,9 @@ public class UserMapperDbTest extends AbstractDbTest {
         assertEquals(expectedUser, returnedUser);
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenUserIsAbsent() throws Exception {
-        User returnedUser = userMapper.getUser(ABSENT_ID);
-        assertNull(returnedUser);
+        userMapper.getUser(ABSENT_ID);
     }
 
     @Test

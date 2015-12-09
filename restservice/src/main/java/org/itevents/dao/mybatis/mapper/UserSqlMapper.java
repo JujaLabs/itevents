@@ -2,17 +2,19 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.*;
+import org.itevents.model.Event;
+import org.itevents.model.Role;
+import org.itevents.model.User;
 
 import java.util.List;
 
-public interface UserMapper extends UserDao {
+public interface UserSqlMapper extends UserDao {
 
     @Override
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "role_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleSqlMapper.getRole"))
     })
     @Select("SELECT * FROM user_profile WHERE id = #{id}")
     User getUser(int id);
@@ -39,6 +41,6 @@ public interface UserMapper extends UserDao {
     void updateUser(User user);
 
     @ResultMap("getUser-int")
-    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")
-    List<User> getUsersByEvent(@Param("event") Event event);
+    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{id}")
+    List<User> getUsersByEvent(Event event);
 }

@@ -5,9 +5,6 @@ import org.itevents.model.Technology;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +13,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by vaa25 on 17.09.2015.
+ * Created by vaa25 on 06.11.2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
-public class FilteredEventsSqlBuilderTest {
+public class FilterSqlBuilderTest {
 
     private Filter parameter;
 
@@ -33,7 +28,7 @@ public class FilteredEventsSqlBuilderTest {
     public void shouldBuildSqlQueryWithEmptyParametersAndPagination() throws Exception {
         String expectedSql = "SELECT * FROM event e WHERE (e.event_date > NOW()) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new EventSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -48,7 +43,7 @@ public class FilteredEventsSqlBuilderTest {
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new EventSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -61,7 +56,7 @@ public class FilteredEventsSqlBuilderTest {
                 "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND price > 0) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new EventSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -81,7 +76,7 @@ public class FilteredEventsSqlBuilderTest {
                 " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new EventSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }
 
@@ -100,7 +95,19 @@ public class FilteredEventsSqlBuilderTest {
                 "AND ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        String returnedSql = new EventSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
+        assertEquals(expectedSql, returnedSql);
+    }
+
+    @Test
+    public void shouldBuildSqlQueryToAddFilterTechnologiesOfGivenFilter() throws Exception {
+        Filter filter = BuilderUtil.buildFilterTest();
+        FilterSqlBuilder builder = new FilterSqlBuilder();
+
+        String expectedSql = "INSERT INTO filter_technology (filter_id, technology_id) VALUES (-6, -1), (-6, -2)";
+
+        String returnedSql = builder.addFilterTechnology(filter);
+
         assertEquals(expectedSql, returnedSql);
     }
 

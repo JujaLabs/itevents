@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.FilterDao;
-import org.itevents.dao.mybatis.util.FilterTechnologySqlBuilder;
+import org.itevents.dao.mybatis.util.FilterSqlBuilder;
 import org.itevents.model.City;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
@@ -13,15 +13,15 @@ import java.util.List;
 /**
  * Created by vaa25 on 17.07.2015.
  */
-public interface FilterMapper extends FilterDao {
+public interface FilterSqlMapper extends FilterDao {
 
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "limit", column = "row_limit"),
             @Result(property = "city", javaType = City.class, column = "city_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.CityMapper.getCity")),
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.CitySqlMapper.getCity")),
             @Result(property = "technologies", column = "id", javaType = ArrayList.class,
-                    many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnologiesByFilterId"))
+                    many = @Many(select = "org.itevents.dao.mybatis.mapper.TechnologySqlMapper.getTechnologiesByFilterId"))
 
     })
     @Override
@@ -46,7 +46,7 @@ public interface FilterMapper extends FilterDao {
     void addFilter(Filter filter);
 
     @Override
-    @InsertProvider(type = FilterTechnologySqlBuilder.class, method = "addFilterTechnology")
+    @InsertProvider(type = FilterSqlBuilder.class, method = "addFilterTechnology")
     void addFilterTechnology(Filter filter);
 
     @Override

@@ -3,10 +3,12 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +35,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventId) {
-        return eventDao.getEvent(eventId);
+    public Event getEvent(int id) {
+        try {
+            return eventDao.getEvent(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -55,16 +62,6 @@ public class MyBatisEventService implements EventService {
     @Override
     public List<Event> getEventsByUser(User user) {
         return eventDao.getEventsByUser(user);
-    }
-
-    @Override
-    public Event removeEvent(Event event) {
-        Event deletingEvent = eventDao.getEvent(event.getId());
-        if (deletingEvent != null) {
-            eventDao.removeEventTechnology(event);
-            eventDao.removeEvent(event);
-        }
-        return deletingEvent;
     }
 
     @Override

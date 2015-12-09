@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.CurrencyMapper;
 import org.itevents.model.Currency;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
@@ -14,7 +16,6 @@ import org.springframework.dao.DuplicateKeyException;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -37,10 +38,9 @@ public class CurrencyMapperDbTest extends AbstractDbTest {
         assertEquals(expectedCurrency, returnedCurrency);
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenCurrencyIsAbsent() throws Exception {
-        Currency returnedCurrency = currencyMapper.getCurrency(ABSENT_ID);
-        assertNull(returnedCurrency);
+        currencyMapper.getCurrency(ABSENT_ID);
     }
 
     @Test
@@ -65,22 +65,5 @@ public class CurrencyMapperDbTest extends AbstractDbTest {
         int expectedSize = 3;
         int returnedSize = currencyMapper.getAllCurrencies().size();
         assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddExistingCurrency_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveCurrency() {
-        Currency testCurrency = BuilderUtil.buildCurrencyTest();
-        currencyMapper.removeCurrency(testCurrency);
-    }
-
-    @Test
-    @ExpectedDatabase(value = TEST_PATH + "CurrencyMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldNotRemoveAbsentCurrency() {
-        Currency testCurrency = BuilderUtil.buildCurrencyTest();
-        currencyMapper.removeCurrency(testCurrency);
     }
 }

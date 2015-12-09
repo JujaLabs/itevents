@@ -29,11 +29,22 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <!--todo replace this with component-scan, inject sqlSessionFactory by aspect-->
-    <bean id="userMapper" class="org.itevents.dao.mybatis.exception_mapper.UserMapper">
+    <bean id="sqlSessionDaoSupport" class="org.mybatis.spring.support.SqlSessionDaoSupport" abstract="true">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <bean id="eventMapper" class="org.itevents.dao.mybatis.exception_mapper.EventMapper">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
+
+    <bean id="userDao" class="org.itevents.dao.mybatis.exception_mapper.UserMapper" parent="sqlSessionDaoSupport"/>
+    <bean id="eventDao" class="org.itevents.dao.mybatis.exception_mapper.EventMapper" parent="sqlSessionDaoSupport"/>
+    <bean id="cityDao" class="org.itevents.dao.mybatis.exception_mapper.CityMapper" parent="sqlSessionDaoSupport"/>
+    <bean id="currencyDao" class="org.itevents.dao.mybatis.exception_mapper.CurrencyMapper"
+          parent="sqlSessionDaoSupport"/>
+    <bean id="technologyDao" class="org.itevents.dao.mybatis.exception_mapper.TechnologyMapper"
+          parent="sqlSessionDaoSupport"/>
+    <bean id="filterDao" class="org.itevents.dao.mybatis.exception_mapper.FilterMapper" parent="sqlSessionDaoSupport"/>
+    <bean id="locationDao" class="org.itevents.dao.mybatis.exception_mapper.LocationMapper"
+          parent="sqlSessionDaoSupport"/>
+    <bean id="roleDao" class="org.itevents.dao.mybatis.exception_mapper.RoleMapper" parent="sqlSessionDaoSupport"/>
+    <bean id="visitLogDao" class="org.itevents.dao.mybatis.exception_mapper.VisitLogMapper"
+          parent="sqlSessionDaoSupport"/>
+
 </beans>

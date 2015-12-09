@@ -16,9 +16,4 @@ public interface TechnologyService {
     List<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
-
-    void updateTechnology(Technology technology);
-
-    Technology removeTechnology(Technology technology);
-
 }
