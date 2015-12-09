@@ -22,6 +22,11 @@
         <property name="password" value="${database.password}"/>
     </bean>
 
+    <bean id="urlSource" class="org.itevents.util.mail.BuilderUrl">
+        <property name="serverName" value="${serverName}"/>
+        <property name="httpPort" value="${httpPort}"/>
+    </bean>
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
     </bean>
