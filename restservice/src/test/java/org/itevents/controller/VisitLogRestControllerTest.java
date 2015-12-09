@@ -8,10 +8,10 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.annotation.DirtiesContext;
-
-import javax.inject.Inject;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,15 +21,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class VisitLogRestControllerTest extends AbstractControllerTest {
+public class VisitLogRestControllerTest extends AbstractControllerSecurityTest {
 
-    @Inject
+    @Mock
     private UserService userService;
-    @Inject
+    @Mock
     private VisitLogService visitLogService;
-    @Inject
+    @Mock
     private EventService eventService;
+    @InjectMocks
+    private VisitLogRestController visitLogRestController;
+
+    @Before
+    public void setup() {
+        initMock(this);
+        initMvc(visitLogRestController);
+        authenticationGuest();
+    }
 
     @Test
     public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
@@ -41,7 +49,7 @@ public class VisitLogRestControllerTest extends AbstractControllerTest {
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
         doNothing().when(visitLogService).addVisitLog(visitLog);
 
-        mvc.perform(get("/events/" + event.getId() + "/register"))
+        mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
 
@@ -60,7 +68,7 @@ public class VisitLogRestControllerTest extends AbstractControllerTest {
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         doNothing().when(visitLogService).addVisitLog(visitLog);
 
-        mvc.perform(get("/events/" + event.getId() + "/register"))
+        mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
 
         verify(eventService).getEvent(event.getId());

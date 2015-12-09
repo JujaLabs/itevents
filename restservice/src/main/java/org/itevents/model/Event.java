@@ -2,8 +2,7 @@ package org.itevents.model;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)

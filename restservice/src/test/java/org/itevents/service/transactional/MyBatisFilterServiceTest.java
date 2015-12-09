@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -26,7 +25,6 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
 public class MyBatisFilterServiceTest {
 
     @InjectMocks
@@ -70,14 +68,5 @@ public class MyBatisFilterServiceTest {
         filterService.getAllFilters();
 
         verify(filterDao).getAllFilters();
-    }
-
-    @Test
-    public void shouldAddFilter() throws Exception {
-        Filter testFilter = BuilderUtil.buildFilterFirst();
-
-        filterService.addFilter(testFilter);
-
-        verify(filterDao).addFilter(testFilter);
     }
 }

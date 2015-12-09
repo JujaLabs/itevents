@@ -1,10 +1,10 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,26 +15,23 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by vaa25 on 17.10.2015.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-@Transactional
 public class MyBatisUserServiceTest {
 
     @InjectMocks
     @Inject
     private UserService userService;
-    @Mock(name = "userMapper")
+    @Mock
     private UserDao userDao;
+    @Mock
+    private EventDao eventDao;
 
     @Before
     public void setUp() {
@@ -52,15 +49,6 @@ public class MyBatisUserServiceTest {
         verify(userDao).getUser(expectedUser.getId());
         assertEquals(expectedUser, returnedUser);
 
-    }
-
-    @Test(expected = EntityNotFoundServiceException.class)
-    public void shouldThrowUserNotFoundServiceException() throws Exception {
-        int absentId = 0;
-
-        when(userDao.getUser(absentId)).thenThrow(EntityNotFoundDaoException.class);
-
-        userService.getUser(absentId);
     }
 
     @Test
@@ -106,7 +94,26 @@ public class MyBatisUserServiceTest {
 
         verify(userDao).updateUser(testUser);
         assertEquals(expectedSubscribed, returnedSubscribed);
+    }
 
+    @Test
+    public void shouldDeactivateUserSubscription() {
+        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        boolean expectedSubscribed = false;
 
+        doNothing().when(userDao).updateUser(testSubscriber);
+
+        userService.deactivateUserSubscription(testSubscriber);
+        boolean returnedSubscribed = testSubscriber.isSubscribed();
+
+        verify(userDao).updateUser(testSubscriber);
+        assertEquals(expectedSubscribed, returnedSubscribed);
+    }
+
+    @Test
+    public void shouldReturnUsersByEvent() throws Exception {
+        Event event = BuilderUtil.buildEventJs();
+        userService.getUsersByEvent(event);
+        verify(userDao).getUsersByEvent(event);
     }
 }

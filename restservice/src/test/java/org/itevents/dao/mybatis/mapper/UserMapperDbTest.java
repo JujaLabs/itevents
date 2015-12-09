@@ -6,15 +6,18 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
-import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.dao.mybatis.exception_mapper.UserMapper;
+import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -43,9 +46,10 @@ public class UserMapperDbTest extends AbstractDbTest {
         assertEquals(expectedUser, returnedUser);
     }
 
-    @Test(expected = EntityNotFoundDaoException.class)
-    public void expectExceptionWhenUserIsAbsent() throws Exception {
-        userMapper.getUser(ABSENT_ID);
+    @Test
+    public void expectNullWhenUserIsAbsent() throws Exception {
+        User returnedUser = userMapper.getUser(ABSENT_ID);
+        assertNull(returnedUser);
     }
 
     @Test
@@ -64,19 +68,22 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = PATH + "empty.xml")
-    public void shouldGetEmptyUserList() throws Exception {
-        int expectedSize = 0;
-        int returnedSize = userMapper.getAllUsers().size();
-        assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
     @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUpdateUser() {
         User user = BuilderUtil.buildUserVlasov();
         user.setSubscribed(true);
         userMapper.updateUser(user);
+    }
+
+    @Test
+    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    public void shouldReturnUsersByEvent() throws Exception {
+        User user = BuilderUtil.buildUserKuchin();
+        List expectedUsers = new ArrayList<>();
+        expectedUsers.add(user);
+        Event event = BuilderUtil.buildEventPhp();
+        List returnedUsers = userMapper.getUsersByEvent(event);
+        assertEquals(expectedUsers,returnedUsers);
     }
 }

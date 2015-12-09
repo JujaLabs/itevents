@@ -8,7 +8,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Iterator;
 import java.util.List;
 
-public class GetFilteredEventsSqlBuilder {
+public class FilteredEventsSqlBuilder {
 
     public String getFilteredEvents(final Filter params) {
         return new SQL() {{

@@ -4,6 +4,7 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
@@ -16,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -28,7 +28,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-@Transactional
 public class MyBatisEventServiceTest {
 
     @InjectMocks
@@ -99,5 +98,28 @@ public class MyBatisEventServiceTest {
         List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
 
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    public void shouldReturnEventsByUser() throws Exception{
+        User user = BuilderUtil.buildUserAnakin();
+        eventService.getEventsByUser(user);
+        verify(eventDao).getEventsByUser(user);
+    }
+
+    @Test
+    public void shouldAssignToEvent() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventRuby();
+        eventService.assign(user, event);
+        verify(eventDao).assign(user, event);
+    }
+
+    @Test
+    public void shouldUnassignUserFromEvent()throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJs();
+        eventService.unassign(user, event);
+        verify(eventDao).unassign(user, event);
     }
 }
