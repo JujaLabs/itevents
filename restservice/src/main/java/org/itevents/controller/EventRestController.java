@@ -67,7 +67,7 @@ public class EventRestController {
     @ApiOperation(value = "Unassigns logged in user from event")
     public ResponseEntity unassign(
             @PathVariable("event_id") int eventId,
-            @RequestParam("unassign_reason") @Length(max = 250) String unassignReason ) {
+            @RequestParam("unassign_reason") @Length(max = 1) String unassignReason ) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
         if (event == null || !isAssigned(user, event)) {
