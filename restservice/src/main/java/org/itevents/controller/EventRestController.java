@@ -2,7 +2,7 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
@@ -62,16 +62,18 @@ public class EventRestController {
         return eventService.getEventsByUser(user).contains(event);
     }
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign")
     @ApiOperation(value = "Unassigns logged in user from event")
-    public ResponseEntity unassign(@PathVariable("event_id") int eventId,
-                                   @RequestParam("unassign_reason")  @Email String unassignReason ) {
+    public ResponseEntity unassign(
+            @PathVariable("event_id") int eventId,
+            @RequestParam("unassign_reason") @Length(max = 250) String unassignReason ) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
         if (event == null || !isAssigned(user, event)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(), unassignReason);
+            eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(),unassignReason);
             return new ResponseEntity(HttpStatus.OK);
         }
     }

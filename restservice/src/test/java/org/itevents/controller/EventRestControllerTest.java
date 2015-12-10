@@ -130,10 +130,10 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         Event event = BuilderUtil.buildEventJava();
         ArrayList <Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
-        String notValidReason = "0";
-        for(int i = 0;i < 260; i++ ) {
-            notValidReason = notValidReason + i;
-        }
+        String notValidReason = "0vhv";
+//        for(int i = 0;i < 260; i++ ) {
+//            notValidReason = notValidReason + i;
+//        }
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
