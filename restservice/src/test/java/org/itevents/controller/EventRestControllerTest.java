@@ -75,7 +75,8 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         when(userService.getAuthorizedUser()).thenReturn(user);
         when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
-        mockMvc.perform(post("/events/" + event.getId() + "/unassign/" + unassignReason))
+        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", unassignReason))
                 .andExpect(status().isOk());
     }
 
@@ -141,6 +142,6 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", notValidReason))
-                .andExpect(status().isImUsed());
+                .andExpect(status().isBadRequest());
     }
 }
