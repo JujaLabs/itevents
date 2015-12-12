@@ -232,4 +232,13 @@ public class EventMapperDbTest extends AbstractDbTest {
         List returnedEvents = eventMapper.getEventsByUser(user);
         assertEquals(expectedEvents, returnedEvents);
     }
+
+    @Test
+    public void shouldReturnEventsByDate() throws ParseException {
+        Event event = BuilderUtil.buildEventPhp();
+        List <Event> expectedEvents = new ArrayList<Event>();
+        expectedEvents.add(event);
+        List returnedEvents = eventMapper.getEventsByDate(event.getEventDate());
+        assertEquals(expectedEvents, returnedEvents);
+    }
 }

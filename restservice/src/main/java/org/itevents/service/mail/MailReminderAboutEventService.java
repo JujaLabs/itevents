@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,8 +45,8 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         cal.clear(Calendar.SECOND);
         cal.clear(Calendar.MILLISECOND);
         cal.add(Calendar.DATE,daysTillEvent);
-        Date daysOfEventsToremind = new Date(cal.getTime().getTime());
-        return eventDao.getEventsByDate(daysOfEventsToremind);
+        Date daysOfEventsToRemind = new Date(cal.getTime().getTime());
+        return eventDao.getEventsByDate(daysOfEventsToRemind);
     }
 
     public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
@@ -61,16 +60,14 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return usersAndEvents;
     }
 
-    public String createHTMLForMail(Event event) {
+    private String createHTMLForMail(Event event) {
         //TODO
         return "ok";
     }
 
     private void sendEmails(Multimap<User, Event> usersAndEvents) {
         for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
-            Iterator nearestEventOfUserIterator = usersAndEvents.get(userWhoGoToNearestEvent).iterator();
-            while(nearestEventOfUserIterator.hasNext()) {
-                Event nearestEvent = (Event)nearestEventOfUserIterator.next();
+            for (Event nearestEvent : usersAndEvents.get(userWhoGoToNearestEvent)) {
                 String htmlForMail = createHTMLForMail(nearestEvent);
                 mailMock.sendEmail(htmlForMail, userWhoGoToNearestEvent.getLogin());
             }
