@@ -17,7 +17,7 @@ import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OtpGen;
 import org.itevents.util.mail.BuilderUrl;
 import org.itevents.util.mail.MailBuilderUtil;
-import org.itevents.util.time.TimeUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +106,7 @@ public class UserRestController {
     @ApiOperation(value = "Activates authorized user's e-mail subscription with filter")
     public ResponseEntity activateSubscription(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
-        filter.setCreateDate(TimeUtil.getNowDate());
+        filter.setCreateDate(DateTimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
         userService.activateUserSubscription(user);
