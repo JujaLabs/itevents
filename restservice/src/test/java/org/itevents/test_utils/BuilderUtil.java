@@ -334,6 +334,7 @@ public class BuilderUtil {
                 .login("anakin@email.com")
                 .password("$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq") //alex
                 .role(buildRoleAdmin())
+                .subscribed(true)
                 .id(-2)
                 .build();
     }

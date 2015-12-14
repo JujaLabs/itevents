@@ -1,5 +1,6 @@
 package org.itevents.service.transactional;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
@@ -13,9 +14,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by ramax on 11/7/15.
@@ -43,13 +46,18 @@ public class MailReminderAboutEventServiceTest {
 
     @Test
     public void shouldReturnEventByDaysTillEventTest() throws ParseException {
-        List<Event> eventsByDaysTillEvent = mailReminderAboutEventService.getEventsByDaysTillEvent(shouldReturnDaysTillEvent());
-        assertFalse(eventsByDaysTillEvent.isEmpty());
+        List<Event> expectedEvents = new ArrayList<Event>();
+        expectedEvents.add(BuilderUtil.buildEventJava());
+        List <Event> returnedEvents = mailReminderAboutEventService.getEventsByDaysTillEvent(shouldReturnDaysTillEvent());
+        assertEquals(expectedEvents,returnedEvents);
     }
 
     @Test
     public void shouldReturnUsersAndEventsByDaysTillEventTest() throws ParseException {
-        Multimap<User, Event> usersAndEvents = mailReminderAboutEventService.getUsersAndEventsByDaysTillEvent(shouldReturnDaysTillEvent());
-        assertFalse(usersAndEvents.isEmpty());
+        Multimap<User, Event> expectedUsersAndEvents = HashMultimap.create();
+        Multimap<User, Event> returnedUsersAndEvents = mailReminderAboutEventService.getUsersAndEventsByDaysTillEvent(shouldReturnDaysTillEvent());
+        expectedUsersAndEvents.put(BuilderUtil.buildUserGuest(), BuilderUtil.buildEventJava());
+        expectedUsersAndEvents.put(BuilderUtil.buildUserAnakin(), BuilderUtil.buildEventJava());
+        assertEquals(expectedUsersAndEvents,returnedUsersAndEvents);
     }
 }
