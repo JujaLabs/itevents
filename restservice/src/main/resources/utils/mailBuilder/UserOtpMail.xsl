@@ -3,10 +3,7 @@
                 xmlns:redirect="http://xml.apache.org/xalan/redirect"
                 extension-element-prefixes="redirect"
                 xmlns:xalan="http://xml.apache.org/xslt">
-    <xsl:variable name="path">http://localhost:8080</xsl:variable>
-    <xsl:variable name="otp">68eeea0d-f89d-4634-aa52-67da452eadb0</xsl:variable>
     <xsl:output method="xml" indent="yes" xalan:indent-amount="4" omit-xml-declaration="yes"/>
-
     <xsl:template match="/">
         <html>
             <head>
@@ -18,7 +15,7 @@
                 Dear subscriber!
                 You need to activate you account.
                 To do so, you need to follow this link:
-                <xsl:value-of select="$path"/>/users/activate/<xsl:value-of select="$otp" />
+                http://localhost:8080/users/activate/68eeea0d-f89d-4634-aa52-67da452eadb0
                 This link will work for 24 hours.
             </body>
         </html>
