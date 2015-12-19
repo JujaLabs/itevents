@@ -2,7 +2,6 @@ package org.itevents.service.transactional;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.mail.MailReminderAboutEventService;
@@ -29,9 +28,6 @@ public class MailReminderAboutEventServiceTest {
 
     @Inject
     private MailReminderAboutEventService mailReminderAboutEventService;
-
-    @Inject
-    EventDao eventDao;
 
     private static final int MILLISECONDS_TO_DAYS = 24 * 60 * 60 * 1000;
 
