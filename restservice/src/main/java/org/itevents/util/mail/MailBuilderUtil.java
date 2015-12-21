@@ -28,7 +28,7 @@ import java.util.List;
 
 @Component
 public class MailBuilderUtil {
-    @Value("classpath:utils/mailBuilder/mail.xsl")
+    @Value("classpath:utils/mailBuilder/WeeklyDigestEmail.xsl")
     private Resource emailTemplateXslResource;
     @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
     private Resource EmailUserOtpTemplateXslResource;
