@@ -33,11 +33,11 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     @Override
     public void execute() {
-        Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent(daysTillEvent);
+        Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent();
         sendEmails(usersAndEventsToRemind);
     }
 
-    public List<Event> getEventsByDaysTillEvent(int daysTillEvent){
+    public List<Event> getEventsByDaysTillEvent(){
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY,0);
         cal.clear(Calendar.AM_PM);
@@ -49,8 +49,8 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return eventDao.getEventsByDate(daysOfEventsToRemind);
     }
 
-    public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(int daysTillEvent){
-        List<Event> filteredEvents = getEventsByDaysTillEvent(daysTillEvent);
+    public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(){
+        List<Event> filteredEvents = getEventsByDaysTillEvent();
         Multimap <User, Event> usersAndEvents = HashMultimap.create();
         for(Event event : filteredEvents){
             for(User user : userDao.getUsersByEvent(event)) {
@@ -60,15 +60,16 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return usersAndEvents;
     }
 
-    private String createHTMLForMail(Event event) {
+    public String createHtmlForMail(Event event) {
         //TODO
         return "ok";
     }
 
-    private void sendEmails(Multimap<User, Event> usersAndEvents) {
+    @Override
+    public void sendEmails(Multimap<User, Event> usersAndEvents) {
         for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
             for (Event nearestEvent : usersAndEvents.get(userWhoGoToNearestEvent)) {
-                String htmlForMail = createHTMLForMail(nearestEvent);
+                String htmlForMail = createHtmlForMail(nearestEvent);
                 mailMock.sendEmail(htmlForMail, userWhoGoToNearestEvent.getLogin());
             }
         }
