@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -77,5 +78,10 @@ public class MyBatisEventService implements EventService {
             result = new ArrayList<>();
         }
         return result;
+    }
+
+    @Override
+    public List<Event> getEventsByDate(Date eventDate){
+        return eventDao.getEventsByDate(eventDate);
     }
 }
