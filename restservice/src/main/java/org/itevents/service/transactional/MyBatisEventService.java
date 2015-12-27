@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
@@ -18,6 +19,9 @@ import java.util.List;
 @Service("eventService")
 @Transactional
 public class MyBatisEventService implements EventService {
+
+    public static final Integer FILTER_RANGE_IN_DAYS = 7;
+    public static final Integer COUNT_OF_EVENTS_IN_EMAIL = 10;
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -78,4 +82,19 @@ public class MyBatisEventService implements EventService {
         }
         return result;
     }
+
+    public List<Event> getFilteredEventsInDateRangeWithRating(Filter filter){
+        filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
+        filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
+
+        List<Event> result;
+        try {
+            result = eventDao.getFilteredEventsWithRating(filter);
+        } catch (Exception e) {
+            LOGGER.error("getFilteredEventsInDateRangeWithRating Exception :", e);
+            result = new ArrayList<>();
+        }
+        return eventDao.getFilteredEventsWithRating(filter);
+    }
+
 }

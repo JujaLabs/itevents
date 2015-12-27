@@ -4,8 +4,8 @@ import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
+import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
-import org.itevents.service.MailFilterService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class MailNotificationServiceTest {
     private UserService userService;
 
     @Mock
-    private MailFilterService mailFilterService;
+    private EventService eventService;
 
     @Mock
     private FilterService filterService;
@@ -58,7 +58,7 @@ public class MailNotificationServiceTest {
         when(userService.getSubscribedUsers()).thenReturn(users);
 
         List<Event> events = BuilderUtil.buildEventsForMailUtilTest();
-        when(mailFilterService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
+        when(eventService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
 
         doNothing().when(mailService).sendMail(anyString(), anyString());
 
@@ -69,7 +69,7 @@ public class MailNotificationServiceTest {
 
         verify(userService).getSubscribedUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
-        verify(mailFilterService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
+        verify(eventService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
         verify(filterService, times(users.size())).getLastFilterByUser(any(User.class));
     }
 }

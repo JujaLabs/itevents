@@ -2,7 +2,8 @@ package org.itevents.test_utils;
 
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
-import org.itevents.service.transactional.MyBatisMailFilterService;
+import org.itevents.service.transactional.MyBatisEventService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -437,8 +438,8 @@ public class BuilderUtil {
         filter.setCity(BuilderUtil.buildCityKyiv());
         filter.setFree(true);
         filter.setTechnologies(technologies);
-        filter.setRangeInDays(MyBatisMailFilterService.FILTER_RANGE_IN_DAYS);
-        filter.setLimit(MyBatisMailFilterService.COUNT_OF_EVENTS_IN_EMAIL);
+        filter.setRangeInDays(MyBatisEventService.FILTER_RANGE_IN_DAYS);
+        filter.setLimit(MyBatisEventService.COUNT_OF_EVENTS_IN_EMAIL);
         return filter;
     }
 
