@@ -7,6 +7,7 @@ import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.*;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -19,6 +20,12 @@ import java.util.List;
 public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
+
+    @Value("${event.filterRangeInDays}")
+    private Integer FILTER_RANGE_IN_DAYS;
+
+    @Value("${event.countOfEventsInEmail}")
+    private Integer COUNT_OF_EVENTS_IN_EMAIL;
 
     @Inject
     private EventService eventService;
@@ -39,8 +46,7 @@ public class MailNotificationService implements NotificationService {
     public void performNotify()  {
         List<User> users = userService.getSubscribedUsers();
         for (User user : users) {
-            Filter filter = filterService.getLastFilterByUser(user);
-            List<Event> events = eventService.getFilteredEventsWithRating(filter);
+            List<Event> events = getFilteredEventsByUser(user);
             if (!events.isEmpty()) {
                 String htmlLetter = buildMail(events);
                 mailService.sendMail(htmlLetter, user.getLogin());
@@ -55,6 +61,15 @@ public class MailNotificationService implements NotificationService {
             LOGGER.error("Error build mail for user");
             throw new BuildMailException("Build mail for user error:", e);
         }
+    }
+
+    private List<Event> getFilteredEventsByUser(User user) {
+        Filter filter = filterService.getLastFilterByUser(user);
+
+        filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
+        filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
+
+        return eventService.getFilteredEventsWithRating(filter);
     }
 
 }

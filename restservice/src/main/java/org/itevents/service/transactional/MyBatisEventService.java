@@ -21,12 +21,6 @@ import java.util.List;
 @Transactional
 public class MyBatisEventService implements EventService {
 
-    @Value("${event.filterRangeInDays}")
-    private Integer FILTER_RANGE_IN_DAYS;
-
-    @Value("${event.countOfEventsInEmail}")
-    private Integer COUNT_OF_EVENTS_IN_EMAIL;
-
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
@@ -88,17 +82,12 @@ public class MyBatisEventService implements EventService {
     }
 
     public List<Event> getFilteredEventsWithRating(Filter filter){
-        filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
-        filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
-
-        List<Event> result;
         try {
-            result = eventDao.getFilteredEventsWithRating(filter);
+            return eventDao.getFilteredEventsWithRating(filter);
         } catch (Exception e) {
             LOGGER.error("getFilteredEventsWithRating Exception :", e);
-            result = new ArrayList<>();
+            return new ArrayList<>();
         }
-        return eventDao.getFilteredEventsWithRating(filter);
     }
 
 }
