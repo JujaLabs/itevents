@@ -34,4 +34,6 @@ public interface UserDao {
     void updateUser(User user);
 
     List<User> getUsersByEvent(Event event);
+
+    List<User> getSubscribedUsers();
 }

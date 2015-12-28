@@ -10,7 +10,7 @@ import javax.inject.Inject;
  * Created by ramax on 7/30/15.
  */
 @Component
-public class SendMailSheduler {
+public class MailSenderScheduler {
 
     @Inject
     private NotificationService notificationService;
@@ -19,5 +19,4 @@ public class SendMailSheduler {
     public void startSending(){
         notificationService.performNotify();
     }
-
 }

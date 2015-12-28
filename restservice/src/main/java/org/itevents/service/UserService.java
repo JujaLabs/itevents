@@ -38,5 +38,7 @@ public interface UserService {
 
     List<Event> getUserEvents(User user);
 
+    List<User> getSubscribedUsers();
+
     List<User> getUsersByEvent(Event event);
 }

@@ -22,11 +22,12 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
     @Inject
-    String expectedDigestEmail;
+    private String expectedDigestEmail;
+
+    @Inject
+    private MailBuilderUtil mailBuilderUtil;
     @Inject
     String expectedUserOtpEmail;
-    @Inject
-    MailBuilderUtil mailBuilderUtil;
     @Inject
     OtpGen otpGen;
     @Inject

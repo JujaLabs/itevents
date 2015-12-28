@@ -66,4 +66,8 @@ public interface UserMapper extends UserDao {
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")
     List<User> getUsersByEvent(@Param("event") Event event);
+
+    @ResultMap("getUser-int")
+    @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
+    List<User> getSubscribedUsers();
 }
