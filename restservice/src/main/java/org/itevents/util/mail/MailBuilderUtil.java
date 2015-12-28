@@ -3,7 +3,7 @@ package org.itevents.util.mail;
 
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -38,9 +38,9 @@ public class MailBuilderUtil {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
     // ÁÐÀÍ× 48
-    public String buildHtmlFromUserOtp(User user, OtpGen otpGen, BuilderUrl url)  throws ParseException, JAXBException,
+    public String buildHtmlFromUserOtp(User user, OtpGenerator otpGenerator, BuilderUrl url)  throws ParseException, JAXBException,
             IOException, TransformerException {
-        return buildMailFromXmlUserOtpUrl(BuildXmlFromUserOtp(user, otpGen, url));
+        return buildMailFromXmlUserOtpUrl(BuildXmlFromUserOtp(user, otpGenerator, url));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -73,10 +73,10 @@ public class MailBuilderUtil {
     }
 
     //    ÁÐÀÍ× 48
-    private String BuildXmlFromUserOtp(User user, OtpGen otpGen, BuilderUrl url) throws JAXBException, IOException {
+    private String BuildXmlFromUserOtp(User user, OtpGenerator otp, BuilderUrl url) throws JAXBException, IOException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
-        userOtpXmlWrapper.setOtpGen(otpGen);
+        userOtpXmlWrapper.setOtpGenerator(otp);
         userOtpXmlWrapper.setUrl(url);
 
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
@@ -127,7 +127,7 @@ public class MailBuilderUtil {
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
-        private OtpGen otpGen;
+        private OtpGenerator otpGenerator;
         @XmlElement(name = "url")
         private BuilderUrl url;
 
@@ -142,12 +142,12 @@ public class MailBuilderUtil {
             this.user = user;
         }
 
-        public OtpGen getOtpGen() {
-            return otpGen;
+        public OtpGenerator getOtpGenerator() {
+            return otpGenerator;
         }
 
-        public void setOtpGen(OtpGen otpGen) {
-            this.otpGen = otpGen;
+        public void setOtpGenerator(OtpGenerator otpGenerator) {
+            this.otpGenerator = otpGenerator;
         }
 
         public BuilderUrl getUrl() {

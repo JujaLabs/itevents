@@ -5,7 +5,7 @@ import org.apache.xalan.templates.ElemExtensionCall;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,7 @@ public class MailBuilderUtilTest {
     @Inject
     MailBuilderUtil mailBuilderUtil;
     @Inject
-    OtpGen otpGen;
+    OtpGenerator otpGenerator;
     @Inject
     BuilderUrl url;
     @Value("${serverName}")
@@ -51,9 +51,9 @@ public class MailBuilderUtilTest {
         XSLProcessorContext context = null;
         ElemExtensionCall elem = null;
         User user = BuilderUtil.buildUserAnakin();
-        otpGen.generateOtp(1440);
+        otpGenerator.generateOtp(1440);
         url.buildUrl(context, elem);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen, url);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

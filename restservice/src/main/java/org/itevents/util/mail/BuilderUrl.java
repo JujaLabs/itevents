@@ -13,7 +13,7 @@ public class BuilderUrl {
     @Value("${httpPort}")
     private String httpPort;
 
-    private String url;
+    String url;
 
     public BuilderUrl() {
     }
@@ -36,7 +36,10 @@ public class BuilderUrl {
 
     public String buildUrl(XSLProcessorContext context,
                            ElemExtensionCall elem) {
+        //String server = elem.getAttribute("serverName");
+        //String port = elem.getAttribute("httpPort");
+
         return url = String.valueOf(new StringBuilder("http://localhost:8080/users/activate/"));
-        //return url = String.valueOf(new StringBuilder("http://" + serverName + ":" + httpPort + "/users/activate/"));
+        //return url = String.valueOf(new StringBuilder("http://" + server + ":" + port + "/users/activate/"));
     }
 }
