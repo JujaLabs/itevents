@@ -1,6 +1,5 @@
 package org.itevents.service.sendmail;
 
-import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
@@ -58,7 +57,7 @@ public class MailNotificationServiceTest {
         when(userService.getSubscribedUsers()).thenReturn(users);
 
         List<Event> events = BuilderUtil.buildEventsForMailUtilTest();
-        when(eventService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
+        when(eventService.getFilteredEvents(any(Filter.class))).thenReturn(events);
 
         doNothing().when(mailService).sendMail(anyString(), anyString());
 
@@ -69,7 +68,7 @@ public class MailNotificationServiceTest {
 
         verify(userService).getSubscribedUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
-        verify(eventService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
+        verify(eventService, times(users.size())).getFilteredEvents(any(Filter.class));
         verify(filterService, times(users.size())).getLastFilterByUser(any(User.class));
     }
 }

@@ -2,7 +2,6 @@ package org.itevents.service.sendmail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by ramax on 11/5/15.
@@ -21,8 +19,6 @@ import java.util.stream.Collectors;
 public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    public static final Integer FILTER_RANGE_IN_DAYS = 7;
-    public static final Integer COUNT_OF_EVENTS_IN_EMAIL = 10;
 
     @Inject
     private EventService eventService;
@@ -44,7 +40,7 @@ public class MailNotificationService implements NotificationService {
         List<User> users = userService.getSubscribedUsers();
         for (User user : users) {
             Filter filter = filterService.getLastFilterByUser(user);
-            List<Event> events = eventService.getFilteredEventsInDateRangeWithRating(filter);
+            List<Event> events = eventService.getFilteredEvents(filter);
             if (!events.isEmpty()) {
                 String htmlLetter = buildMail(events);
                 mailService.sendMail(htmlLetter, user.getLogin());
