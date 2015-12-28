@@ -81,13 +81,13 @@ public class MyBatisEventService implements EventService {
         try {
             result = eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
         } catch (Exception e) {
-            LOGGER.error("getFilteredEvents Exception :", e);
+            LOGGER.error("getFilteredEventsWithRating Exception :", e);
             result = new ArrayList<>();
         }
         return result;
     }
 
-    public List<Event> getFilteredEvents(Filter filter){
+    public List<Event> getFilteredEventsWithRating(Filter filter){
         filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
         filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
 
@@ -95,7 +95,7 @@ public class MyBatisEventService implements EventService {
         try {
             result = eventDao.getFilteredEventsWithRating(filter);
         } catch (Exception e) {
-            LOGGER.error("getFilteredEvents Exception :", e);
+            LOGGER.error("getFilteredEventsWithRating Exception :", e);
             result = new ArrayList<>();
         }
         return eventDao.getFilteredEventsWithRating(filter);

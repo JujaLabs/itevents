@@ -40,7 +40,7 @@ public class MailNotificationService implements NotificationService {
         List<User> users = userService.getSubscribedUsers();
         for (User user : users) {
             Filter filter = filterService.getLastFilterByUser(user);
-            List<Event> events = eventService.getFilteredEvents(filter);
+            List<Event> events = eventService.getFilteredEventsWithRating(filter);
             if (!events.isEmpty()) {
                 String htmlLetter = buildMail(events);
                 mailService.sendMail(htmlLetter, user.getLogin());

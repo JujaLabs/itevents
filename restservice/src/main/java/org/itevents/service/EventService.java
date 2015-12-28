@@ -19,7 +19,7 @@ public interface EventService {
 
     List<Event> getFilteredEvents(FilterWrapper wrapper);
 
-    List<Event> getFilteredEvents(Filter filter);
+    List<Event> getFilteredEventsWithRating(Filter filter);
 
     void assign(User user, Event event);
 
