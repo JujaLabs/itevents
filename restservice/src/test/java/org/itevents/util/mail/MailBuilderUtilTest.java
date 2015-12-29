@@ -3,7 +3,7 @@ package org.itevents.util.mail;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,7 +29,7 @@ public class MailBuilderUtilTest {
     @Inject
     String expectedUserOtpEmail;
     @Inject
-    OtpGen otpGen;
+    OtpGenerator otpGenerator;
     @Inject
     BuilderUrl url;
 
@@ -43,9 +43,9 @@ public class MailBuilderUtilTest {
     @Test
     public void shouldReturnMailWithLinkToActivate()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        otpGen.generateOtp(1440);
+        otpGenerator.generateOtp(1440);
         url.buildUrl();
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen, url);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

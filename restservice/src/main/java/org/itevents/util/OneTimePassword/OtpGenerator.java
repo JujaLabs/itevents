@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Component
-public class OtpGen implements Serializable {
+public class OtpGenerator implements Serializable {
 
    private String password;
    private Date creationDate;
@@ -48,7 +48,7 @@ public class OtpGen implements Serializable {
             setPassword(UUID.randomUUID().toString());
     }
 
-    public OtpGen() {
+    public OtpGenerator() {
     }
 
     private static Date parseDate(String date) throws ParseException {

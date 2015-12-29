@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.springframework.stereotype.Service;
@@ -30,9 +30,9 @@ public interface UserService {
 
     void deactivateUser(User user);
 
-    void addOtp(User user, OtpGen otpGen);
+    void addOtp(User user, OtpGenerator otpGenerator);
 
-    OtpGen getOtp(User user);
+    OtpGenerator getOtp(User user);
 
     void DeleteOtp(User user);
 

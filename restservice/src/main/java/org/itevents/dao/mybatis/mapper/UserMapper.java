@@ -3,7 +3,7 @@ package org.itevents.dao.mybatis.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
 import org.itevents.model.*;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public interface UserMapper extends UserDao {
 
     @Insert("INSERT INTO user_otp(user_id, otp, creationDate, expirationDate) VALUES(#{user.id}, #{otp.otp}, #{otp.creationDate}, #{otp.expirationDate})")
     void addOtp(@Param("user")User user,
-                @Param("otp") OtpGen otpGen);
+                @Param("otp") OtpGenerator otpGenerator);
 
     @Results(value = {
             @Result(property = "otp", column = "otp"),
@@ -59,7 +59,7 @@ public interface UserMapper extends UserDao {
             @Result(property = "expirationDate", column = "creationDate")
     })
     @Select("Select * FROM user_otp WHERE user_id = #{user.id}")
-    OtpGen getOtp(@Param("user")User user);
+    OtpGenerator getOtp(@Param("user")User user);
 
     @Delete("DELETE FROM user_otp WHERE user_id = #{user.id}")
     void DeleteOtp(@Param("user")User user);
