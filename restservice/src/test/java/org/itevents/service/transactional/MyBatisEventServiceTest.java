@@ -116,7 +116,7 @@ public class MyBatisEventServiceTest {
     public void shouldNotFindEventsByParameter() throws ParseException {
         List<Event> expectedEvents = new ArrayList<>();
 
-        when(eventDao.getFilteredEvents(any(Filter.class))).thenThrow(Exception.class);
+        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(new ArrayList<>());
 
         List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
 

@@ -71,23 +71,11 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public List<Event> getFilteredEvents(FilterWrapper wrapper) {
-        List<Event> result;
-        try {
-            result = eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
-        } catch (Exception e) {
-            LOGGER.error("getFilteredEventsWithRating Exception :", e);
-            result = new ArrayList<>();
-        }
-        return result;
+        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
     }
 
     public List<Event> getFilteredEventsWithRating(Filter filter){
-        try {
-            return eventDao.getFilteredEventsWithRating(filter);
-        } catch (Exception e) {
-            LOGGER.error("getFilteredEventsWithRating Exception :", e);
-            return new ArrayList<>();
-        }
+        return eventDao.getFilteredEventsWithRating(filter);
     }
 
 }
