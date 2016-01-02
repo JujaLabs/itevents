@@ -4,6 +4,7 @@
                 extension-element-prefixes="redirect"
                 xmlns:xalan="http://xml.apache.org/xslt">
     <xsl:output method="xml" indent="yes" xalan:indent-amount="4" omit-xml-declaration="yes"/>
+
     <xsl:template match="/">
         <html>
             <head>
