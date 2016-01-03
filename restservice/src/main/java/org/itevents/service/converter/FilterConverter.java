@@ -21,6 +21,7 @@ public class FilterConverter {
     private CityService cityService;
 
     public Filter toFilter(FilterWrapper wrapper) {
+
         Filter result = new Filter();
         int itemsPerPage;
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {

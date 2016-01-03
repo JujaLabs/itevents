@@ -23,5 +23,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    List<User> getSubscribedUsers();
+
     List<User> getUsersByEvent(Event event);
 }
