@@ -2,7 +2,8 @@ package org.itevents.test_utils;
 
 import org.itevents.model.*;
 import org.itevents.model.builder.*;
-import org.itevents.service.transactional.MyBatisMailFilterService;
+import org.itevents.service.transactional.MyBatisEventService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -428,36 +429,6 @@ public class BuilderUtil {
         return result;
     }
 
-    public static Filter buildFilterFirst() {
-        return FilterBuilder.aFilter()
-                .city(buildCityKyiv())
-                .technology(buildTechnologyJava())
-                .technology(buildTechnologyMaven())
-                .technology(buildTechnologyMyBatis())
-                .technology(buildTechnologySpring())
-                .id(-1)
-                .build();
-    }
-
-    public static Filter buildFilterFifth() {
-        return FilterBuilder.aFilter()
-                .city(buildCityKyiv())
-                .free(false)
-                .technologies(new ArrayList<Technology>())
-                .id(-5)
-                .build();
-    }
-
-    public static Filter buildFilterTest() throws ParseException {
-        return FilterBuilder.aFilter()
-                .city(buildCityOdessa())
-                .free(true)
-                .createDate(parseDate("16.07.2015"))
-                .technology(buildTechnologyJava())
-                .technology(buildTechnologyJavaScript())
-                .id(-6)
-                .build();
-    }
     public static Filter buildTestFilter() {
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
@@ -467,8 +438,8 @@ public class BuilderUtil {
         filter.setCity(BuilderUtil.buildCityKyiv());
         filter.setFree(true);
         filter.setTechnologies(technologies);
-        filter.setRangeInDays(MyBatisMailFilterService.FILTER_RANGE_IN_DAYS);
-        filter.setLimit(MyBatisMailFilterService.COUNT_OF_EVENTS_IN_EMAIL);
+        filter.setRangeInDays(MyBatisEventService.FILTER_RANGE_IN_DAYS);
+        filter.setLimit(MyBatisEventService.COUNT_OF_EVENTS_IN_EMAIL);
         return filter;
     }
 
@@ -492,7 +463,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Filter builderJavaFilter() {
+    public static Filter builderFilterJava() {
         return FilterBuilder.aFilter()
                 .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
                 .build();
@@ -561,4 +532,34 @@ public class BuilderUtil {
         return  events;
     }
 
+    public static Filter buildFilterFirst() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyMaven())
+                .technology(buildTechnologyMyBatis())
+                .technology(buildTechnologySpring())
+                .id(-1)
+                .build();
+    }
+
+    public static Filter buildFilterFifth() {
+        return FilterBuilder.aFilter()
+                .city(buildCityKyiv())
+                .free(false)
+                .technologies(new ArrayList<Technology>())
+                .id(-5)
+                .build();
+    }
+
+    public static Filter buildFilterTest() throws ParseException {
+        return FilterBuilder.aFilter()
+                .city(buildCityOdessa())
+                .free(true)
+                .createDate(parseDate("16.07.2015"))
+                .technology(buildTechnologyJava())
+                .technology(buildTechnologyJavaScript())
+                .id(-6)
+                .build();
+    }
 }

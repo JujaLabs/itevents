@@ -15,11 +15,11 @@ public class Filter {
     private Boolean free;
     private Double longitude;
     private Double latitude;
-    private Integer radius;    
+    private Integer radius;
+    private Integer rangeInDays;
     private Date createDate;
     private List<Technology> technologies;
-    private Integer rangeInDays;
-    
+
     public Integer getId() {
         return id;
     }
@@ -84,18 +84,6 @@ public class Filter {
         this.radius = radius;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-    
-    public List<Technology> getTechnologies() {
-        return technologies;
-    }
-
-    public void setTechnologies(List<Technology> technologies) {
-        this.technologies = technologies;
-    }
-
     public Integer getRangeInDays() {
         return rangeInDays;
     }
@@ -104,8 +92,20 @@ public class Filter {
         this.rangeInDays = rangeInDays;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public List<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(List<Technology> technologies) {
+        this.technologies = technologies;
     }
 
     @Override
@@ -123,20 +123,24 @@ public class Filter {
         if (latitude != null ? !latitude.equals(filter.latitude) : filter.latitude != null) return false;
         if (radius != null ? !radius.equals(filter.radius) : filter.radius != null) return false;
         if (createDate != null ? !createDate.equals(filter.createDate) : filter.createDate != null) return false;
-        return !(technologies != null ? !technologies.equals(filter.technologies) : filter.technologies != null);
+        if (rangeInDays != null ? !rangeInDays.equals(filter.rangeInDays) : filter.rangeInDays != null) return false;
 
+        return !(technologies != null ? !technologies.equals(filter.technologies) : filter.technologies != null);
     }
 
     @Override
     public int hashCode() {
-        int result = offset != null ? offset.hashCode() : 0;
-        result = 31 * result + (limit != null ? limit.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (free != null ? free.hashCode() : 0);
-        result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
-        result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
-        result = 31 * result + (radius != null ? radius.hashCode() : 0);
-        result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + offset.hashCode();
+        result = 31 * result + limit.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + free.hashCode();
+        result = 31 * result + longitude.hashCode();
+        result = 31 * result + latitude.hashCode();
+        result = 31 * result + radius.hashCode();
+        result = 31 * result + rangeInDays.hashCode();
+        result = 31 * result + createDate.hashCode();
+        result = 31 * result + technologies.hashCode();
         return result;
     }
 
@@ -151,6 +155,7 @@ public class Filter {
         sb.append(", longitude=").append(longitude);
         sb.append(", latitude=").append(latitude);
         sb.append(", radius=").append(radius);
+        sb.append(", rangeInDays=").append(rangeInDays);
         sb.append(", createDate=").append(createDate);
         sb.append(", technologies=").append(technologies);
         sb.append('}');

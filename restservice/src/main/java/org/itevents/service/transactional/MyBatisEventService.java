@@ -19,6 +19,9 @@ import java.util.List;
 @Transactional
 public class MyBatisEventService implements EventService {
 
+    public static final Integer FILTER_RANGE_IN_DAYS = 7;
+    public static final Integer COUNT_OF_EVENTS_IN_EMAIL = 10;
+
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject

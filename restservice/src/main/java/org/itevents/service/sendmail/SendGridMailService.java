@@ -20,22 +20,15 @@ public class SendGridMailService implements MailService {
     private SendGrid sendgrid;
 
     public void sendMail(String htmlLetter, String emailAddress){
-
         SendGrid.Email email = createMail(htmlLetter, emailAddress);
-        boolean isEmailSent = send(email);
-
-        if (!isEmailSent) {
-            LOGGER.error("Email sending error: ", emailAddress);
-        }
-
+        send(email);
     }
 
-    public boolean send(SendGrid.Email email) {
+    public void send(SendGrid.Email email) {
         try {
-            return sendgrid.send(email).getStatus();
+            sendgrid.send(email);
         } catch (SendGridException e) {
             LOGGER.error("Email sending error: ", email.getTos());
-            return false;
         }
     }
 

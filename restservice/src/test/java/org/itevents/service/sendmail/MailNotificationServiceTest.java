@@ -4,7 +4,9 @@ import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
+import org.itevents.service.FilterService;
 import org.itevents.service.MailFilterService;
+import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +33,18 @@ public class MailNotificationServiceTest {
     @InjectMocks
     @Inject
     private MailNotificationService mailNotificationEventService;
+
     @Mock
     private MailService mailService;
+
     @Mock
-    private UserDao userDao;
+    private UserService userService;
+
     @Mock
     private MailFilterService mailFilterService;
+
+    @Mock
+    private FilterService filterService;
 
     @Before
     public void init() {
@@ -46,17 +54,22 @@ public class MailNotificationServiceTest {
     @Test
     public void performNotifyTest() throws ParseException {
         List<User> users = BuilderUtil.buildAllUser();
-        when(userDao.getAllUsers()).thenReturn(users);
+        users.forEach(a->a.setSubscribed(true));
+        when(userService.getSubscribedUsers()).thenReturn(users);
 
         List<Event> events = BuilderUtil.buildEventsForMailUtilTest();
         when(mailFilterService.getFilteredEventsInDateRangeWithRating(any(Filter.class))).thenReturn(events);
 
         doNothing().when(mailService).sendMail(anyString(), anyString());
 
+        Filter kievFilter = BuilderUtil.buildKyivFilter();
+        when(filterService.getLastFilterByUser(any(User.class))).thenReturn(kievFilter);
+
         mailNotificationEventService.performNotify();
 
-        verify(userDao).getAllUsers();
+        verify(userService).getSubscribedUsers();
         verify(mailService, times(users.size())).sendMail(anyString(), anyString());
         verify(mailFilterService, times(users.size())).getFilteredEventsInDateRangeWithRating(any(Filter.class));
+        verify(filterService, times(users.size())).getLastFilterByUser(any(User.class));
     }
 }
