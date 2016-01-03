@@ -18,15 +18,16 @@
         <constructor-arg value="org.itevents.service.VisitLogService"/>
     </bean>
 
-    <bean id="filterService" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="org.itevents.service.FilterService"/>
-    </bean>
     <bean id="expectedDigestEmail" class="java.lang.String">
         <constructor-arg>
             <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">
                 <constructor-arg value="classpath:util/mail/weeklyDigestEmail.html" type="java.io.InputStream" />
             </bean>
         </constructor-arg>
+    </bean>
+
+    <bean id="filterService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.FilterService"/>
     </bean>
     <bean id="expectedUserOtpEmail" class="java.lang.String">
         <constructor-arg>

@@ -57,7 +57,7 @@ dependencies {
     testCompile 'org.postgis:postgis-jdbc:1.1.6'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
-}
+  }
 
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))

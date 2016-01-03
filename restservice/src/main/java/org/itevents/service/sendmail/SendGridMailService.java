@@ -24,7 +24,7 @@ public class SendGridMailService implements MailService {
         send(email);
     }
 
-    public void send(SendGrid.Email email) {
+    private void send(SendGrid.Email email) {
         try {
             sendgrid.send(email);
         } catch (SendGridException e) {
@@ -32,7 +32,7 @@ public class SendGridMailService implements MailService {
         }
     }
 
-    public SendGrid.Email createMail(String htmlLetter, String emailAddress) {
+    private SendGrid.Email createMail(String htmlLetter, String emailAddress) {
         return new SendGrid
                 .Email()
                 .addTo(emailAddress)

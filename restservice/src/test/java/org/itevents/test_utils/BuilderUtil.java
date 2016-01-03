@@ -1,15 +1,16 @@
 package org.itevents.test_utils;
 
 import org.itevents.model.*;
+import org.itevents.model.Currency;
 import org.itevents.model.builder.*;
 import org.itevents.service.transactional.MyBatisEventService;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -438,8 +439,8 @@ public class BuilderUtil {
         filter.setCity(BuilderUtil.buildCityKyiv());
         filter.setFree(true);
         filter.setTechnologies(technologies);
-        filter.setRangeInDays(MyBatisEventService.FILTER_RANGE_IN_DAYS);
-        filter.setLimit(MyBatisEventService.COUNT_OF_EVENTS_IN_EMAIL);
+        filter.setRangeInDays(7);
+        filter.setLimit(10);
         return filter;
     }
 

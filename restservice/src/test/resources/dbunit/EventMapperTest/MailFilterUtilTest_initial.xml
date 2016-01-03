@@ -75,7 +75,7 @@
     <role id="-2" name="admin"/>
     <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
 
-    <visit_log id="-1" event_id="-1" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-1" event_id="-1" date="2115-07-20" user_id="-2"/>
     <visit_log id="-2" event_id="-2" date="2015-09-20" user_id="-2"/>
     <visit_log id="-3" event_id="-2" date="2015-09-20" user_id="-2"/>
     <visit_log id="-4" event_id="-3" date="2015-09-20" user_id="-2"/>

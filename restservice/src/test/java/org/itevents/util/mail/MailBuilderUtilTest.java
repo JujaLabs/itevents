@@ -24,16 +24,17 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
+
     @Inject
-    String expectedDigestEmail;
+    private String expectedDigestEmail;
     @Inject
-    String expectedUserOtpEmail;
+    private String expectedUserOtpEmail;
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private MailBuilderUtil mailBuilderUtil;
     @Inject
-    OtpGenerator otpGenerator;
+    private OtpGenerator otpGenerator;
     @Inject
-    BuilderUrl url;
+    private BuilderUrl url;
     @Value("${serverName}")
     private String serverName;
     @Value("${httpPort}")

@@ -36,7 +36,7 @@
     </bean>
 
     <bean id="sendgrid" class="com.sendgrid.SendGrid">
-        <constructor-arg value="${sendgrid_api_key}"/>
+        <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
 
 </beans>
