@@ -46,7 +46,7 @@ public class UserRestController {
     @Inject
     private SendGridMailService mailService;
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private MailBuilderUtil mailBuilderUtil;
     @Inject
     private OtpGenerator otpGenerator;
     @Inject
@@ -56,6 +56,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
+
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public void login() {
     }
@@ -68,6 +69,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "New subscriber's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "New subscriber's password", required = true, dataType = "string", paramType = "query")
     })
+
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
@@ -82,8 +84,8 @@ public class UserRestController {
                 .build();
         userService.addUser(user);
         //generateOtp(1440, user);
-        //userService.addOtp(user, otpGenerate);
-        //SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerate, url),user.getLogin());
+        //userService.addOtp(user, otpGenerator);
+        //SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url),user.getLogin());
         //mailService.send(activationMail);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -97,7 +99,7 @@ public class UserRestController {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    private void generateOtp(long lifetime, User user){
+    private void generateOtp(long lifetime, User user) {
         otpGenerator.generateOtp(lifetime);
         userService.addOtp(user, otpGenerator);
     }
@@ -138,11 +140,14 @@ public class UserRestController {
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         OtpGenerator otpGenerator = userService.getOtp(user);
-        if (!password.equals(otpGenerator.getPassword()) || otpGenerator.getExpirationDate().after(new Date()))return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!password.equals(otpGenerator.getPassword()) || otpGenerator.getExpirationDate().after(new Date())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         userService.activateUser(user);
         userService.DeleteOtp(user);
         return new ResponseEntity<>(user,HttpStatus.ACCEPTED);
     }
+
     @RequestMapping(method = RequestMethod.POST, value ="/deactivate")
     @ApiOperation(value = "Generates OTP for deactivation of logged in user")
     public ResponseEntity<User> deactivateUser() {
@@ -156,7 +161,9 @@ public class UserRestController {
     public ResponseEntity<User> deactivateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         OtpGenerator otpGenerator = userService.getOtp(user);
-        if (!password.equals(otpGenerator.getPassword()) || !otpGenerator.getExpirationDate().after(new Date())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!password.equals(otpGenerator.getPassword()) || !otpGenerator.getExpirationDate().after(new Date())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         userService.deactivateUser(user);
         userService.DeleteOtp(user);
         return new ResponseEntity<>(user,HttpStatus.ACCEPTED);

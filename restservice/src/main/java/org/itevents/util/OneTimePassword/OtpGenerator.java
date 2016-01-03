@@ -41,11 +41,12 @@ public class OtpGenerator implements Serializable {
 
     public void generateOtp(long lifetimeInMinutes) {
         setCreationDate(new Date());
-        if (lifetimeInMinutes>0){
+        if (lifetimeInMinutes>0) {
             setExpirationDate(new Date(creationDate.getTime() + lifetimeInMinutes * 60 * 1000));
             setPassword(UUID.randomUUID().toString());
-        }else
+        } else {
             setPassword(UUID.randomUUID().toString());
+        }
     }
 
     public OtpGenerator() {
