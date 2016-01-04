@@ -4,11 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.model.VisitLog;
+import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
+import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -24,6 +27,8 @@ public class EventRestController {
     private EventService eventService;
     @Inject
     private UserService userService;
+    @Inject
+    private VisitLogService visitLogService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ApiOperation(value = "Returns one event with the given id")
@@ -57,9 +62,24 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
     @ApiOperation(value = "Returns list of visitors of event")
-    public ResponseEntity<List<User>> getUsersByEvent(@PathVariable("event_id") int id) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getUsersByEvent(@PathVariable("event_id") int id) {
         Event event = eventService.getEvent(id);
-        List<User> visitors = userService.getUsersByEvent(event);
-        return new ResponseEntity<>(visitors, HttpStatus.OK);
+        return userService.getUsersByEvent(event);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/register")
+    @ApiOperation(value = "Redirects to to given event page")
+    @ResponseStatus(HttpStatus.OK)
+    public String redirectToEventSite(@PathVariable("event_id") int eventId) {
+        Event event = eventService.getEvent(eventId);
+        User user = userService.getAuthorizedUser();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(user)
+                .date(TimeUtil.getNowDate())
+                .build();
+        visitLogService.addVisitLog(visitLog);
+        return event.getRegLink();
     }
 }

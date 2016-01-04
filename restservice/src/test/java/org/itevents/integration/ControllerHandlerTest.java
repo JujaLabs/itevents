@@ -2,8 +2,10 @@ package org.itevents.integration;
 
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -21,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.inject.Inject;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +42,8 @@ public class ControllerHandlerTest {
     private EventService eventService;
     @Inject
     private UserService userService;
+    @Inject
+    private VisitLogService visitLogService;
 
     @Before
     public void setup() {
@@ -81,6 +86,22 @@ public class ControllerHandlerTest {
                 .andExpect(status().isBadRequest());
 
         verify(userService, never()).addUser(any(User.class));
+    }
+
+    @Test
+    public void shouldNotFoundIfEventIsAbsent() throws Exception {
+        Event event = BuilderUtil.buildEventRuby();
+        User user = BuilderUtil.buildUserGuest();
+
+        when(eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+
+        mvc.perform(get("/events/" + event.getId() + "/register"))
+                .andExpect(status().isNotFound());
+
+        verify(eventService).getEvent(event.getId());
+        verify(userService, never()).getUserByName(user.getLogin());
+        verify(visitLogService, never()).addVisitLog(any(VisitLog.class));
     }
 
 }

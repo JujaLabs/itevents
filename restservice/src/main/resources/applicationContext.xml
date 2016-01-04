@@ -32,7 +32,6 @@
     <bean id="sqlSessionDaoSupport" class="org.mybatis.spring.support.SqlSessionDaoSupport" abstract="true">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-
     <bean id="userDao" class="org.itevents.dao.mybatis.exception_mapper.UserMapper" parent="sqlSessionDaoSupport"/>
     <bean id="eventDao" class="org.itevents.dao.mybatis.exception_mapper.EventMapper" parent="sqlSessionDaoSupport"/>
     <bean id="cityDao" class="org.itevents.dao.mybatis.exception_mapper.CityMapper" parent="sqlSessionDaoSupport"/>
