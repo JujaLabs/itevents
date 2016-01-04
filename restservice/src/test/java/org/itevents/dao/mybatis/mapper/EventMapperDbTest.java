@@ -9,6 +9,7 @@ import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
