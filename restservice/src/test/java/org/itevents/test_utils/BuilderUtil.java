@@ -1,13 +1,16 @@
 package org.itevents.test_utils;
 
-
 import org.itevents.model.*;
+import org.itevents.model.Currency;
 import org.itevents.model.builder.*;
+import org.itevents.service.transactional.MyBatisEventService;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -375,6 +378,14 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static List<User> buildAllUser() {
+        return Arrays.asList(
+                buildUserAnakin(),
+                buildUserKuchin(),
+                buildUserVlasov()
+        );
+    }
+
     public static VisitLog buildVisitLogFirst() throws ParseException {
         return VisitLogBuilder.aVisitLog()
                 .user(buildUserGuest())
@@ -419,6 +430,109 @@ public class BuilderUtil {
         return result;
     }
 
+    public static Filter buildTestFilter() {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(BuilderUtil.buildTechnologyJava());
+        technologies.add(BuilderUtil.buildTechnologyGradle());
+        technologies.add(BuilderUtil.buildTechnologySpring());
+        Filter filter = new Filter();
+        filter.setCity(BuilderUtil.buildCityKyiv());
+        filter.setFree(true);
+        filter.setTechnologies(technologies);
+        filter.setRangeInDays(7);
+        filter.setLimit(10);
+        return filter;
+    }
+
+    public static Filter buildKyivFilter() {
+        return FilterBuilder.aFilter()
+                .city(BuilderUtil.buildCityKyiv())
+                .build();
+    }
+
+    public static Filter buildFreeFilter() {
+        return FilterBuilder.aFilter()
+                .free(true)
+                .build();
+    }
+
+    public static Filter buildRadiusFilter() {
+        return FilterBuilder.aFilter()
+                .longitude(30.437997)
+                .latitude(50.427751)
+                .radius(10_000)
+                .build();
+    }
+
+    public static Filter builderFilterJava() {
+        return FilterBuilder.aFilter()
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildFreeKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-1)
+                .title("FreeKyivJavaEvent")
+                .regLink("http://www.FreeKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .city(BuilderUtil.buildCityKyiv())
+                .contact("FreeKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static Event buildPayedOdessaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-2)
+                .title("PayedOdessaGradleEvent")
+                .regLink("http://www.PayedOdessaGradleEvent.com.ua")
+                .address("Odessa")
+                .city(BuilderUtil.buildCityOdessa())
+                .contact("PayedOdessaGradleEvent@gmail.com")
+                .location(new Location(46.472508, 30.758417))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildFreeBoyarkaGradleEvent() {
+        return EventBuilder.anEvent()
+                .id(-3)
+                .title("FreeBoyarkaGradleEvent")
+                .regLink("http://www.FreeBoyarkaGradleEvent.com.ua")
+                .address("Boyarka")
+                .city(BuilderUtil.buildCityBoyarka())
+                .contact("FreeBoyarkaGradleEvent@gmail.com")
+                .location(new Location(50.343988, 30.279585))
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyGradle()))
+                .build();
+    }
+
+    public static Event buildPayedKyivJavaEvent() {
+        return EventBuilder.anEvent()
+                .id(-4)
+                .title("PayedKyivJavaEvent")
+                .regLink("http://www.PayedKyivJavaEvent.com.ua")
+                .address("Kyiv")
+                .city(BuilderUtil.buildCityKyiv())
+                .contact("PayedKyivJavaEvent@gmail.com")
+                .location(new Location(50.454605, 30.445495))
+                .price(100)
+                .currency(BuilderUtil.buildCurrencyEuro())
+                .technologies(Arrays.asList(BuilderUtil.buildTechnologyJava()))
+                .build();
+    }
+
+    public static List<Event> buildEventsForMailUtilTest() throws ParseException {
+        List<Event> events = new ArrayList<>();
+        events.add(BuilderUtil.buildEventJava());
+        events.add(BuilderUtil.buildEventRuby());
+        return  events;
+    }
+
     public static Filter buildFilterFirst() {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
@@ -449,5 +563,4 @@ public class BuilderUtil {
                 .id(-6)
                 .build();
     }
-
 }

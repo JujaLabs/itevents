@@ -60,6 +60,11 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    public List<User> getSubscribedUsers() {
+        return userDao.getSubscribedUsers();
+    }
+
+    @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
     }

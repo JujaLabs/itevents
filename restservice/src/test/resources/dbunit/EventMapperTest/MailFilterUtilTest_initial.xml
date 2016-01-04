@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <city id="-1" name="Kyiv" point="POINT(30.523 50.4505)"/>
+    <city id="-2" name="Odessa" point="POINT(30.73333 46.46667)"/>
+    <city id="-3" name="Boyarka" point="POINT(30.28861 50.32917)"/>
+    <currency id="-3" name="Euro"/>
+
+    <technology id="-1" name="Java"/>
+    <technology id="-5" name="Gradle"/>
+
+    <event id="-1"
+           title="FreeKyivJavaEvent"
+           event_date="{now+2}"
+           reg_link="http://www.FreeKyivJavaEvent.com.ua"
+           address="Kyiv"
+           city_id="-1"
+           contact="FreeKyivJavaEvent@gmail.com"
+           point="POINT(30.445495 50.454605)" />
+    <event_technology event_id="-1" technology_id="-1"/>
+
+    <event id="-2"
+           title="PayedOdessaGradleEvent"
+           event_date="{now+3}"
+           reg_link="http://www.PayedOdessaGradleEvent.com.ua"
+           address="Odessa"
+           city_id="-2"
+           contact="PayedOdessaGradleEvent@gmail.com"
+           point="POINT(30.742017 46.472508)"
+           price="100"
+           currency_id="-3"/>
+    <event_technology event_id="-2" technology_id="-5"/>
+
+    <event id="-3"
+           title="FreeBoyarkaGradleEvent"
+           event_date="{now+4}"
+           reg_link="http://www.FreeBoyarkaGradleEvent.com.ua"
+           address="Boyarka"
+           city_id="-3"
+           contact="FreeBoyarkaGradleEvent@gmail.com"
+           point="POINT(30.279585 50.343988)" />
+    <event_technology event_id="-3" technology_id="-5"/>
+
+    <event id="-4"
+           title="PayedKyivJavaEvent"
+           event_date="{now+5}"
+           reg_link="http://www.PayedKyivJavaEvent.com.ua"
+           address="Kyiv"
+           city_id="-1"
+           contact="PayedKyivJavaEvent@gmail.com"
+           point="POINT(30.445495 50.454605)"
+           price="100"
+           currency_id="-3"/>
+    <event_technology event_id="-4" technology_id="-1"/>
+
+    <event id="-5"
+           title="PastFreeKyivJavaEvent"
+           event_date="{now-1}"
+           reg_link="http://www.FreeKyivJavaEvent.com.ua"
+           address="Kyiv"
+           city_id="-1"
+           contact="FreeKyivJavaEvent@gmail.com"
+           point="POINT(30.445495 50.454605)" />
+    <event_technology event_id="-5" technology_id="-1"/>
+
+    <event id="-6"
+           title="FarFutureFreeKyivJavaEvent"
+           event_date="{now+8}"
+           reg_link="http://www.FreeKyivJavaEvent.com.ua"
+           address="Kyiv"
+           city_id="-1"
+           contact="FreeKyivJavaEvent@gmail.com"
+           point="POINT(30.445495 50.454605)" />
+    <event_technology event_id="-6" technology_id="-1"/>
+
+    <role id="-2" name="admin"/>
+    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
+
+    <visit_log id="-1" event_id="-1" date="2115-07-20" user_id="-2"/>
+    <visit_log id="-2" event_id="-2" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-3" event_id="-2" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-4" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-5" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-6" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-7" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-8" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-9" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-10" event_id="-4" date="2015-09-20" user_id="-2"/>
+
+</dataset>
