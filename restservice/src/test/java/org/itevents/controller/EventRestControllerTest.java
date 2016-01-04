@@ -7,13 +7,11 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -22,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventRestControllerTest extends AbstractControllerSecurityTest {
+public class EventRestControllerTest extends AbstractControllerTest {
 
     @Mock
     private EventService eventService;
@@ -35,7 +33,6 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(eventRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
     @Test
@@ -88,22 +85,5 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedUsersInJson));
-    }
-
-    @Test
-    @Ignore
-    public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
-        mockMvc.perform(post("/events/0/assign"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Ignore
-    public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
-        Event event = BuilderUtil.buildEventJava();
-        event.setEventDate(new Date());
-
-        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
-                .andExpect(status().isNotFound());
     }
 }
