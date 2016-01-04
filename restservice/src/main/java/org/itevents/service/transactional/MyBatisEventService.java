@@ -9,12 +9,14 @@ import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -62,6 +64,17 @@ public class MyBatisEventService implements EventService {
     @Override
     public List<Event> getEventsByUser(User user) {
         return eventDao.getEventsByUser(user);
+    }
+
+    @Override
+    public Event getFutureEvent(int eventId) {
+        Event event = getEvent(eventId);
+        if (!new Date().after(event.getEventDate())) {
+            String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
+            LOGGER.error(message);
+            throw new TimeCollisionServiceException(message);
+        }
+        return event;
     }
 
     @Override
