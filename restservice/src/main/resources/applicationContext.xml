@@ -30,5 +30,4 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 </beans>

@@ -124,24 +124,4 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
     }
-
-    @Test
-    public void shouldNotUnassignIfReasonIsLongerThanExpected() throws Exception {
-        User user = BuilderUtil.buildUserAnakin();
-        Event event = BuilderUtil.buildEventJava();
-        ArrayList <Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
-        String notValidReason = "0vhv";
-//        for(int i = 0;i < 260; i++ ) {
-//            notValidReason = notValidReason + i;
-//        }
-
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
-
-        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", notValidReason))
-                .andExpect(status().isBadRequest());
-    }
 }

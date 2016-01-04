@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -67,8 +65,6 @@ public class EventRestController {
     public ResponseEntity unassign(
             @PathVariable("event_id") int eventId,
             @RequestParam("unassign_reason")
-            @Valid
-            @Size(max = 1)
             String unassignReason ) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
