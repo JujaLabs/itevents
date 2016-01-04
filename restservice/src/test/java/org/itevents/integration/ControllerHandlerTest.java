@@ -1,8 +1,11 @@
 package org.itevents.integration;
 
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -17,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +37,8 @@ public class ControllerHandlerTest {
     private MockMvc mvc;
     @Inject
     private EventService eventService;
+    @Inject
+    private UserService userService;
 
     @Before
     public void setup() {
@@ -48,6 +53,8 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
+
+        verify(eventService, never()).assign(any(), any());
     }
 
     @Test
@@ -58,5 +65,22 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
+
+        verify(eventService, never()).assign(any(), any());
     }
+
+    @Test
+    public void shouldNotRegisterExistingSubscriber() throws Exception {
+        String name = "SubscriberInDatabase";
+
+        doThrow(NameNotAvailableServiceException.class).when(userService).checkNameAvailability(name);
+
+        mvc.perform(post("/users/register")
+                .param("username", name)
+                .param("password", "anyPassword"))
+                .andExpect(status().isBadRequest());
+
+        verify(userService, never()).addUser(any(User.class));
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.itevents.controller;
 
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TimeCollisionServiceException.class)
     public ResponseEntity<String> handleTimeCollisionServiceException(TimeCollisionServiceException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NameNotAvailableServiceException.class)
+    public ResponseEntity<String> handleNameNotAvailableServiceException(NameNotAvailableServiceException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

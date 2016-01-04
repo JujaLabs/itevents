@@ -24,4 +24,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     List<User> getUsersByEvent(Event event);
+
+    void checkNameAvailability(String username);
 }

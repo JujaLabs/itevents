@@ -8,6 +8,7 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,17 @@ public class MyBatisUserService implements UserService {
     @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
+    }
+
+    @Override
+    public void checkNameAvailability(String username) {
+        try {
+            userDao.getUserByName(username);
+            String message = "Username " + username + " already in use";
+            LOGGER.error(message);
+            throw new NameNotAvailableServiceException(message);
+        } catch (EntityNotFoundDaoException ex) {
+
+        }
     }
 }

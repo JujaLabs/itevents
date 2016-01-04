@@ -39,20 +39,20 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/assign")
     @ApiOperation(value = "Assigns logged in user to event")
-    public ResponseEntity assign(@PathVariable("event_id") int eventId) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public void assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getFutureEvent(eventId);
         User user = userService.getAuthorizedUser();
         eventService.assign(user, event);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{event_id}/unassign")
     @ApiOperation(value = "Unassigns logged in user from event")
-    public ResponseEntity unassign(@PathVariable("event_id") int eventId) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public void unassign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getFutureEvent(eventId);
         User user = userService.getAuthorizedUser();
         eventService.unassign(user, event);
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
