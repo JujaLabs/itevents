@@ -4,7 +4,6 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.service.mail.MailMock;
 import org.itevents.service.mail.MailReminderAboutEventService;
 import org.itevents.service.sendmail.MailService;
 import org.itevents.test_utils.BuilderUtil;
