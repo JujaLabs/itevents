@@ -5,12 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.wrapper.FilterWrapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,13 +81,11 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public List<Event> getFilteredEvents(FilterWrapper wrapper) {
-        List<Event> result;
-        try {
-            result = eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
-        } catch (Exception e) {
-            LOGGER.error("getFilteredEvents Exception :", e);
-            result = new ArrayList<>();
-        }
-        return result;
+        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
     }
+
+    public List<Event> getFilteredEventsWithRating(Filter filter){
+        return eventDao.getFilteredEventsWithRating(filter);
+    }
+
 }

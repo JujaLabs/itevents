@@ -20,6 +20,7 @@ public class FilterBuilder {
     private Double longitude;
     private Double latitude;
     private Integer radius;
+    private Integer rangeInDays;
     private Date createDate;
     private List<Technology> technologies;
 
@@ -80,6 +81,11 @@ public class FilterBuilder {
         return this;
     }
 
+    public FilterBuilder rangeInDays(Integer rangeInDays) {
+        this.rangeInDays = rangeInDays;
+        return this;
+    }
+
     public FilterBuilder technology(Technology technology) {
         if (technologies == null) {
             technologies = new ArrayList<>();
@@ -89,7 +95,18 @@ public class FilterBuilder {
     }
 
     public FilterBuilder but() {
-        return aFilter().id(id).offset(offset).limit(limit).city(city).free(free).longitude(longitude).latitude(latitude).radius(radius).createDate(createDate).technologies(technologies);
+        return aFilter()
+                .id(id)
+                .offset(offset)
+                .limit(limit)
+                .city(city)
+                .free(free)
+                .longitude(longitude)
+                .latitude(latitude)
+                .radius(radius)
+                .createDate(createDate)
+                .technologies(technologies)
+                .rangeInDays(rangeInDays);
     }
 
     public Filter build() {
@@ -102,6 +119,7 @@ public class FilterBuilder {
         filter.setLongitude(longitude);
         filter.setLatitude(latitude);
         filter.setRadius(radius);
+        filter.setRangeInDays(rangeInDays);
         filter.setCreateDate(createDate);
         filter.setTechnologies(technologies);
         return filter;

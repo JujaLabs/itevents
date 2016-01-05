@@ -28,6 +28,10 @@ public class EventSqlBuilder {
     }
 
     public String getFilteredEvents(final Filter params) {
+        return getFilteredEventsSQL(params).toString() + " LIMIT #{limit} OFFSET #{offset}";
+    }
+
+    private SQL getFilteredEventsSQL(final Filter params) {
         return new SQL() {{
             SELECT("*");
             FROM("event e");
@@ -49,7 +53,22 @@ public class EventSqlBuilder {
                 JOIN(makeJoin(params));
                 WHERE("e.id=et.event_id");
             }
-        }}.toString() + " ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
+            ORDER_BY("event_date");
+        }};
+    }
+
+    public String getFilteredEventsInDateRangeWithRating(final Filter params) {
+        return getFilteredEventsInDateRangeWithRatingSQL(params).toString() + " LIMIT #{limit}";
+    }
+
+    private SQL getFilteredEventsInDateRangeWithRatingSQL(final Filter params) {
+        SQL sql = getFilteredEventsSQL(params);
+        if (params.getRangeInDays() != null) {
+            sql.WHERE("e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL");
+        }
+        sql.LEFT_OUTER_JOIN(" (SELECT event_id, COUNT(*) as visits FROM visit_log " +
+                "GROUP BY event_id) AS visits ON e.id = visits.event_id");
+        return sql;
     }
 
     private String makeJoin(Filter params) {

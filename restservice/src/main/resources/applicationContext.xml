@@ -12,6 +12,7 @@
 
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
+    <context:component-scan base-package="org.itevents.util"/>
     <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -26,8 +27,13 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <bean id="sendgrid" class="com.sendgrid.SendGrid">
+        <constructor-arg value="${sendgrid.api.key}"/>
+    </bean>
+
 
     <bean id="sqlSessionDaoSupport" class="org.mybatis.spring.support.SqlSessionDaoSupport" abstract="true">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>

@@ -2,9 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Event;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.model.*;
 
 import java.util.List;
 
@@ -40,7 +38,13 @@ public interface UserSqlMapper extends UserDao {
             "WHERE id=#{id}")
     void updateUser(User user);
 
+    @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{id}")
     List<User> getUsersByEvent(Event event);
+
+    @Override
+    @ResultMap("getUser-int")
+    @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
+    List<User> getSubscribedUsers();
 }

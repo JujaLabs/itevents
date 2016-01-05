@@ -11,6 +11,7 @@ import org.itevents.dao.mybatis.exception_mapper.EventMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
@@ -196,7 +197,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
@@ -205,7 +206,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value =TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
