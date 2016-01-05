@@ -10,13 +10,9 @@ import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,27 +25,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-public class UserRestControllerTest extends AbstractControllerSecurityTest {
+public class UserRestControllerTest extends AbstractWebTest {
 
-    @Mock
+    @Inject
     private RoleService roleService;
-    @Mock
+    @Inject
     private UserService userService;
-    @Mock
+    @Inject
     private FilterService filterService;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-    @Mock
+    @Inject
     private EventService eventService;
-    @InjectMocks
-    private UserRestController userRestController;
-
-    @Before
-    public void init() {
-        super.initMock(this);
-        super.initMvc(userRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
-    }
 
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
@@ -59,7 +44,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
         when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(encodedPassword);
         doNothing().when(userService).addUser(testUser);
 
         mockMvc.perform(post("/users/register")
@@ -69,9 +53,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         testUser.setRole(subscriberRole);
         testUser.setPassword(encodedPassword);
-        verify(roleService).getRoleByName(subscriberRole.getName());
-        verify(userService).getUserByName(testUser.getLogin());
-        verify(userService).addUser(testUser);
     }
 
     @Test
@@ -84,14 +65,9 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
                 .andExpect(status().isImUsed());
-
-        verify(roleService, never()).getRole(anyInt());
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService, never()).addUser(user);
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldAddFilterForSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
@@ -101,14 +77,9 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(get("/users/subscribe"))
                 .andExpect(status().isOk());
-
-        verify(userService).getAuthorizedUser();
-        verify(userService).activateUserSubscription(user);
-        verify(filterService).addFilter(eq(user), any(Filter.class));
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldDeactivateSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
@@ -117,9 +88,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(get("/users/unsubscribe"))
                 .andExpect(status().isOk());
-
-        verify(userService).getAuthorizedUser();
-        verify(userService).deactivateUserSubscription(user);
     }
 
     @Test

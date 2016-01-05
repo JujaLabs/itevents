@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <bean id="userService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.UserService"/>
+    </bean>
+    <bean id="roleService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.RoleService"/>
+    </bean>
+    <bean id="eventService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.EventService"/>
+    </bean>
+    <bean id="visitLogService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.VisitLogService"/>
+    </bean>
+
+    <bean id="expectedDigestEmail" class="java.lang.String">
+        <constructor-arg>
+            <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">
+                <constructor-arg value="classpath:util/mail/weeklyDigestEmail.html" type="java.io.InputStream" />
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="filterService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.FilterService"/>
+    </bean>
+
+</beans>

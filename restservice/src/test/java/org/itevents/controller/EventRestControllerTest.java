@@ -6,40 +6,25 @@ import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.time.DateTimeUtil;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventRestControllerTest extends AbstractControllerSecurityTest {
+public class EventRestControllerTest extends AbstractWebTest {
 
-    @Mock
+    @Inject
     private EventService eventService;
-    @Mock
+    @Inject
     private UserService userService;
-    @Mock
-    private DateTimeUtil dateTimeUtil;
-    @InjectMocks
-    private EventRestController eventRestController;
-
-    @Before
-    public void init() {
-        super.initMock(this);
-        super.initMvc(eventRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
-    }
 
     @Test
     public void shouldFindEventById() throws Exception {
@@ -49,18 +34,20 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isOk());
-        verify(eventService).getEvent(event.getId());
     }
 
     @Test
     public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildUserAnakin();
+        List returnedList = new ArrayList<>();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(returnedList);
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
-        verify(eventService).getEvent(event.getId());
     }
 
     @Test
@@ -69,14 +56,14 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         User user = BuilderUtil.buildUserAnakin();
         ArrayList <Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
-        String unassignReason = "test";
+        String validParameter= "1";
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
         when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", unassignReason))
+                .param("unassign_reason", validParameter))
                 .andExpect(status().isOk());
     }
 
@@ -106,6 +93,8 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
         Event event = BuilderUtil.buildEventJava();
         event.setEventDate(new Date());
 
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isNotFound());
     }
@@ -123,5 +112,30 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldNotUnassignAssignUserFromEventIfParamLengthIsNotValid() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildUserAnakin();
+        ArrayList <Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+        String invalidParameter = "invalid";
+        String invalidNullParameter= "";
+        for (int i = 0; i <250 ; i++) {
+           invalidParameter = invalidParameter.concat("s");
+        }
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+
+        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", invalidParameter))
+                .andExpect(status().isBadRequest());
+
+        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", invalidNullParameter))
+                .andExpect(status().isBadRequest());
     }
 }

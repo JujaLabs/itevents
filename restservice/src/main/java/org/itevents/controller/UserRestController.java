@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.itevents.controller.exception.EntityNotFoundControllerException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
@@ -103,7 +104,7 @@ public class UserRestController {
     public ResponseEntity<List<Event>> getEventsByUser(@PathVariable("user_id") int userId) {
         User user = userService.getUser(userId);
         if (user == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundControllerException("User not found", new Exception());
         } else {
             List<Event> events = eventService.getEventsByUser(user);
             return new ResponseEntity<>(events, HttpStatus.OK);
