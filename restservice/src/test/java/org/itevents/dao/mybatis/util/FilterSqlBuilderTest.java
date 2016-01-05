@@ -127,7 +127,7 @@ public class FilterSqlBuilderTest {
                 ") " +
                 "ORDER BY event_date " +
                 "LIMIT #{limit}";
-        String returnedSql = new FilteredEventsSqlBuilder().getFilteredEventsInDateRangeWithRating(filter)
+        String returnedSql = new EventSqlBuilder().getFilteredEventsInDateRangeWithRating(filter)
                 .replace('\n', ' ');
         assertEquals(expectedSql, returnedSql);
     }

@@ -50,6 +50,11 @@ public class EventMapper extends SqlSessionDaoSupport implements EventDao {
     }
 
     @Override
+    public List<Event> getFilteredEventsWithRating(Filter filter) {
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventSqlMapper.getFilteredEventsWithRating", filter);
+    }
+
+    @Override
     public void removeEventTechnology(Event event) {
         getSqlSession().delete("org.itevents.dao.mybatis.mapper.EventSqlMapper.removeEventTechnology", event);
     }

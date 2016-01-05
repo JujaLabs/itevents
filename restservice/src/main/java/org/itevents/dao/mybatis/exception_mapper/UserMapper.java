@@ -52,4 +52,9 @@ public class UserMapper extends SqlSessionDaoSupport implements UserDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserSqlMapper.getUsersByEvent", event);
     }
 
+    @Override
+    public List<User> getSubscribedUsers() {
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserSqlMapper.getSubscribedUsers");
+    }
+
 }
