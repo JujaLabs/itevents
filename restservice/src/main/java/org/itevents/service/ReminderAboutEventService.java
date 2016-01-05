@@ -4,6 +4,10 @@ import com.google.common.collect.Multimap;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -11,14 +15,12 @@ import java.util.List;
  */
 public interface ReminderAboutEventService {
 
-    void execute();
+    void execute() throws JAXBException, TransformerException, ParseException, IOException;
 
     List<Event> getEventsByDaysTillEvent();
 
     Multimap<User, Event> getUsersAndEventsByDaysTillEvent();
 
-    String createHtmlForMail(Event event);
-
-    void sendEmails(Multimap<User, Event> usersAndEvents);
+    void sendEmails(Multimap<User, Event> usersAndEvents) throws IOException, TransformerException, ParseException, JAXBException;
 
 }

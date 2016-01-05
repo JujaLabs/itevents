@@ -6,6 +6,7 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.mail.MailMock;
 import org.itevents.service.mail.MailReminderAboutEventService;
+import org.itevents.service.sendmail.MailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +47,7 @@ public class MailReminderAboutEventServiceTest {
     UserDao userDao;
 
     @Mock
-    MailMock mailMock;
+    MailService mailService;
 
     @Before
     public void init(){
@@ -51,7 +55,7 @@ public class MailReminderAboutEventServiceTest {
     }
 
     @Test
-    public void executeTest() throws ParseException {
+    public void executeTest() throws ParseException, TransformerException, JAXBException, IOException {
 
         List<Event> events = new ArrayList<Event>();
         events.add(BuilderUtil.buildEventJava());
@@ -61,12 +65,12 @@ public class MailReminderAboutEventServiceTest {
         user.add(BuilderUtil.buildSubscriberTest());
         when(userDao.getUsersByEvent(any(Event.class))).thenReturn(user);
 
-        doNothing().when(mailMock).sendEmail(anyString(), anyString());
+        doNothing().when(mailService).sendMail(anyString(), anyString());
 
         mailReminderAboutEventService.execute();
 
         verify(eventDao).getEventsByDate(any(Date.class));
         verify(userDao, times(events.size())).getUsersByEvent(any((Event.class)));
-        verify(mailMock, times(user.size())).sendEmail(anyString(), anyString());
+        verify(mailService, times(user.size())).sendMail(anyString(), anyString());
     }
 }
