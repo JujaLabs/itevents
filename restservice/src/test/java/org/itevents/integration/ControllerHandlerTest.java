@@ -59,7 +59,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assign(any(), any());
+        verify(eventService, never()).assign(any(User.class), any(Event.class));
     }
 
     @Test
