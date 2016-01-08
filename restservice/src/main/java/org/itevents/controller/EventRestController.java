@@ -62,17 +62,17 @@ public class EventRestController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign")
     @ApiOperation(value = "Unassigns logged in user from event")
-    public ResponseEntity unassign(
+    public ResponseEntity<String> unassign(
             @PathVariable("event_id") int eventId,
             @RequestParam("unassign_reason")
             String unassignReason ) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
-        if (event == null || !isAssigned(user, event)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
+        try {
             eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(),unassignReason);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity("successfully assigned to event" + eventId, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

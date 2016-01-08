@@ -9,12 +9,10 @@ import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.wrapper.FilterWrapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +49,12 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) throws IllegalArgumentException {
+        if (event == null || !isAssigned(user, event)) {
+            throw new IllegalArgumentException("not assigned or event not found");
+        } else {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        }
     }
 
     @Override
@@ -77,6 +79,10 @@ public class MyBatisEventService implements EventService {
 
     public List<Event> getFilteredEventsWithRating(Filter filter){
         return eventDao.getFilteredEventsWithRating(filter);
+    }
+
+    private boolean isAssigned(User user, Event event) {
+        return getEventsByUser(user).contains(event);
     }
 
 }

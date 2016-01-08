@@ -150,6 +150,10 @@ public class MyBatisEventServiceTest {
 
         Date unassignDate = dateTimeUtil.setDate("20.07.2115");
         String unassignReason = "test";
+        List events = new ArrayList<>();
+        events.add(event);
+
+        when(eventService.getEventsByUser(user)).thenReturn(events);
 
         eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
         verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
