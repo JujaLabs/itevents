@@ -49,7 +49,7 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) throws IllegalArgumentException {
+    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
         if (event == null || !isAssigned(user, event)) {
             throw new IllegalArgumentException("not assigned or event not found");
         } else {
