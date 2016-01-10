@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0"
-                xmlns:url="xalan://org.itevents.util.mail.BuilderUrl"
+                xmlns:url="org.itevents.util.mail.BuilderUrl"
                 extension-element-prefixes="url"
                 xmlns:xalan="http://xml.apache.org/xslt">
     <xsl:output method="xml" indent="yes" xalan:indent-amount="4" omit-xml-declaration="yes"/>
@@ -15,7 +15,7 @@
                 Dear subscriber!
                 You need to activate you account.
                 To do so, you need to follow this link:
-                <url:buildUrl/>68eeea0d-f89d-4634-aa52-67da452eadb0
+                <url:buildUrl/>
                 This link will work for 24 hours.
             </body>
         </html>

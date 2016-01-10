@@ -29,7 +29,7 @@ import java.util.List;
 public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/recommendation-events-mail.xsl")
     private Resource emailTemplateXslResource;
-    @Value("classpath:utils/mailBuilder/userOtpMail.xsl")
+    @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
     private Resource emailUserOtpTemplateXslResource;
 
     public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
