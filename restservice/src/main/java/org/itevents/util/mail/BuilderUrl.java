@@ -9,11 +9,11 @@ import org.springframework.context.annotation.PropertySource;
 public class BuilderUrl {
 
     @Value("${serverName}")
-    private String serverName;
+    private static String serverName;
     @Value("${httpPort}")
-    private String httpPort;
+    private static String httpPort;
 
-    String url;
+    private static String url;
 
     public BuilderUrl() {
     }
@@ -34,12 +34,10 @@ public class BuilderUrl {
         this.httpPort = httpPort;
     }
 
-    public String buildUrl(XSLProcessorContext context,
+    public static String buildUrl(XSLProcessorContext context,
                            ElemExtensionCall elem) {
-        //String server = elem.getAttribute("serverName");
-        //String port = elem.getAttribute("httpPort");
 
-        return url = String.valueOf(new StringBuilder("http://localhost:8080/users/activate/"));
-        //return url = String.valueOf(new StringBuilder("http://" + server + ":" + port + "/users/activate/"));
+        return url = String.valueOf(new StringBuilder
+                ("http://" + serverName + ":" + httpPort + "/users/activate/68eeea0d-f89d-4634-aa52-67da452eadb0"));
     }
 }
