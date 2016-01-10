@@ -1,4 +1,4 @@
-package org.itevents.service.mail;
+package org.itevents.service.sendmail;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -6,8 +6,6 @@ import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.service.ReminderAboutEventService;
-import org.itevents.service.sendmail.MailService;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,6 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -25,25 +22,25 @@ import java.util.*;
 @Service("reminderAboutEventService")
 public class MailReminderAboutEventService implements ReminderAboutEventService {
 
-    @Value("#{new Integer('${reminderAboutEventForThePeriod}')}")
+    @Value("${reminderAboutEventForThePeriod}")
     private int daysTillEvent;
 
     @Inject
-    UserDao userDao;
+    private UserDao userDao;
     @Inject
-    EventDao eventDao;
+    private EventDao eventDao;
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private  MailBuilderUtil mailBuilderUtil;
     @Inject
-    MailService sendGridMailService;
+    private MailService sendGridMailService;
 
     @Override
-    public void execute() throws JAXBException, TransformerException, ParseException, IOException {
+    public void execute() throws JAXBException, TransformerException, IOException {
         Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent();
         sendEmails(usersAndEventsToRemind);
     }
 
-    public List<Event> getEventsByDaysTillEvent(){
+    private List<Event> getEventsByDaysTillEvent(){
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY,0);
         cal.clear(Calendar.AM_PM);
@@ -51,11 +48,11 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         cal.clear(Calendar.SECOND);
         cal.clear(Calendar.MILLISECOND);
         cal.add(Calendar.DATE,daysTillEvent);
-        Date daysOfEventsToRemind = new Date(cal.getTime().getTime());
-        return eventDao.getEventsByDate(daysOfEventsToRemind);
+        Date dateOfEventsToRemind = new Date(cal.getTime().getTime());
+        return eventDao.getEventsByDate(dateOfEventsToRemind);
     }
 
-    public Multimap<User, Event> getUsersAndEventsByDaysTillEvent(){
+    private Multimap<User, Event> getUsersAndEventsByDaysTillEvent(){
         List<Event> filteredEvents = getEventsByDaysTillEvent();
         Multimap <User, Event> usersAndEvents = HashMultimap.create();
         for(Event event : filteredEvents){
@@ -66,8 +63,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return usersAndEvents;
     }
 
-    @Override
-    public void sendEmails(Multimap<User, Event> usersAndEvents) throws IOException, TransformerException, ParseException, JAXBException {
+    private void sendEmails(Multimap<User, Event> usersAndEvents) throws IOException, TransformerException, JAXBException {
         for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
             List<Event> nearestEvent = new ArrayList<>(usersAndEvents.get(userWhoGoToNearestEvent));
             String htmlLetter = mailBuilderUtil.buildHtmlFromEventsList(nearestEvent);

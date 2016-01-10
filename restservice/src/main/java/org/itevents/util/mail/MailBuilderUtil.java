@@ -2,8 +2,9 @@ package org.itevents.util.mail;
 
 import org.itevents.model.Event;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -19,7 +20,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.text.ParseException;
 import java.util.List;
 
 @Component
@@ -27,7 +27,7 @@ public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/recommendation-events-mail.xsl")
     private Resource emailTemplateXslResource;
 
-    public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
+    public String buildHtmlFromEventsList(List<Event> events) throws JAXBException, IOException,
             TransformerException {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }

@@ -1,11 +1,9 @@
-package org.itevents.service.transactional;
+package org.itevents.service.sendmail;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.service.mail.MailReminderAboutEventService;
-import org.itevents.service.sendmail.MailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,13 +38,13 @@ public class MailReminderAboutEventServiceTest {
     private MailReminderAboutEventService mailReminderAboutEventService;
 
     @Mock
-    EventDao eventDao;
+    private EventDao eventDao;
 
     @Mock
-    UserDao userDao;
+    private UserDao userDao;
 
     @Mock
-    MailService mailService;
+    private MailService mailService;
 
     @Before
     public void init(){
