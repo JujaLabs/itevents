@@ -7,6 +7,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -41,15 +42,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     private List<Event> getEventsByDaysTillEvent(){
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY,0);
-        cal.clear(Calendar.AM_PM);
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
-        cal.add(Calendar.DATE,daysTillEvent);
-        Date dateOfEventsToRemind = new Date(cal.getTime().getTime());
-        return eventDao.getEventsByDate(dateOfEventsToRemind);
+        return eventDao.getEventsByDate(DateTimeUtil.getDateWithoutTime(DateTimeUtil.addDaysToDate(new Date(),daysTillEvent));
     }
 
     private Multimap<User, Event> getUsersAndEventsByDaysTillEvent(){
