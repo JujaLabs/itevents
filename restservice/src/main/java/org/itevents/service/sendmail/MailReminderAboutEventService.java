@@ -42,7 +42,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     private List<Event> getEventsByDaysTillEvent(){
-        return eventDao.getEventsByDate(DateTimeUtil.getDateWithoutTime(DateTimeUtil.addDaysToDate(new Date(),daysTillEvent));
+        return eventDao.getEventsByDate(DateTimeUtil.getDateWithoutTime(DateTimeUtil.addDaysToDate(new Date(),daysTillEvent)));
     }
 
     private Multimap<User, Event> getUsersAndEventsByDaysTillEvent(){
