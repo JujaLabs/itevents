@@ -2,6 +2,8 @@ package org.itevents.service.sendmail;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
@@ -35,8 +37,10 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     @Inject
     private MailService sendGridMailService;
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Override
-    public void execute() throws JAXBException, TransformerException, IOException {
+    public void execute() {
         Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent();
         sendEmails(usersAndEventsToRemind);
     }
@@ -56,10 +60,19 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         return usersAndEvents;
     }
 
-    private void sendEmails(Multimap<User, Event> usersAndEvents) throws IOException, TransformerException, JAXBException {
+    private String buildMail(List<Event> events) {
+        try {
+            return mailBuilderUtil.buildHtmlFromEventsList(events);
+        } catch (Exception e) {
+            LOGGER.error("Error build mail for user");
+            throw new BuildMailException("Build mail for user error:", e);
+        }
+    }
+
+    private void sendEmails(Multimap<User, Event> usersAndEvents){
         for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
             List<Event> nearestEvent = new ArrayList<>(usersAndEvents.get(userWhoGoToNearestEvent));
-            String htmlLetter = mailBuilderUtil.buildHtmlFromEventsList(nearestEvent);
+            String htmlLetter = buildMail(nearestEvent);
             sendGridMailService.sendMail(htmlLetter, userWhoGoToNearestEvent.getLogin());
         }
     }
