@@ -77,8 +77,8 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value =TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/addUserEvent_initial.xml",
+    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "addUserEvent_initial.xml",
             type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnUsersByEvent() throws Exception {
         User user = BuilderUtil.buildUserKuchin();
