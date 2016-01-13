@@ -118,7 +118,7 @@ public class FilteredEventsSqlBuilderTest {
                     "e.event_date > NOW() " +
                     "AND city_id = #{city.id} " +
                     "AND (price IS NULL OR price = 0) " +
-                    "AND e.id = et.event_id " +
+                    "AND e.id=et.event_id " +
                     "AND e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL" +
                 ") " +
                 "ORDER BY event_date " +
