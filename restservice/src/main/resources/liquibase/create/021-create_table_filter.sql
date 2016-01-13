@@ -9,5 +9,5 @@ CREATE TABLE filter (
   longitude FLOAT,
   latitude  FLOAT,
   radius    FLOAT,
-  FOREIGN KEY (city_id) REFERENCES city
+  FOREIGN KEY (city_id) REFERENCES city ON DELETE CASCADE
 );
