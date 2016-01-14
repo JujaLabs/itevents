@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.TechnologyMapper;
 import org.itevents.model.Technology;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -32,7 +33,6 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
     private TechnologyMapper technologyMapper;
 
     @Test
-
     public void shouldFindTechnologyById() throws Exception {
         Technology expectedTechnology = BuilderUtil.buildTechnologyJava();
         Technology returnedTechnology = technologyMapper.getTechnology(ID_1);
@@ -54,10 +54,9 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
 
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenTechnologyIsAbsent() throws Exception {
-        Technology returnedTechnology = technologyMapper.getTechnology(ABSENT_ID);
-        assertNull(returnedTechnology);
+        technologyMapper.getTechnology(ABSENT_ID);
     }
 
     @Test
@@ -68,7 +67,7 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindTechnologiesByName() throws Exception {
+    public void shouldFindTechnologiesByNames() throws Exception {
         String[] names = {"Java", "JavaScript"};
         List<Technology> expectedTechnologies = new ArrayList<>();
         expectedTechnologies.add(BuilderUtil.buildTechnologyJava());
@@ -89,22 +88,5 @@ public class TechnologyMapperDbTest extends AbstractDbTest {
     public void shouldThrowDuplicateKeyExceptionWhenAddExistingTechnology() throws Exception {
         Technology existingTechnology = BuilderUtil.buildTechnologyJava();
         technologyMapper.addTechnology(existingTechnology);
-    }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveTechnology_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveTechnology() throws Exception {
-        Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
-        technologyMapper.removeTechnology(expectedTechnology);
-    }
-
-    @Test
-    @ExpectedDatabase(value = TEST_PATH + "TechnologyMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldNotRemoveTechnologyThatIsNotExisting() {
-        Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
-        technologyMapper.removeTechnology(expectedTechnology);
     }
 }

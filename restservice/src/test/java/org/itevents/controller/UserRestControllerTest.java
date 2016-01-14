@@ -55,10 +55,11 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void shouldRegisterNewSubscriber() throws Exception {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
         User testUser = BuilderUtil.buildUserTest();
+        String password = testUser.getPassword();
         String encodedPassword = "encodedPassword";
 
         when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
-        when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
+        doNothing().when(userService).checkNameAvailability(testUser.getLogin());
         when(passwordEncoder.encode(testUser.getPassword())).thenReturn(encodedPassword);
         doNothing().when(userService).addUser(testUser);
 
@@ -70,25 +71,12 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
         testUser.setRole(subscriberRole);
         testUser.setPassword(encodedPassword);
         verify(roleService).getRoleByName(subscriberRole.getName());
-        verify(userService).getUserByName(testUser.getLogin());
+        verify(userService).checkNameAvailability(testUser.getLogin());
+        verify(passwordEncoder).encode(password);
         verify(userService).addUser(testUser);
     }
 
-    @Test
-    public void shouldNotRegisterExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
 
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-
-        mockMvc.perform(post("/users/register")
-                .param("username", user.getLogin())
-                .param("password", user.getPassword()))
-                .andExpect(status().isImUsed());
-
-        verify(roleService, never()).getRole(anyInt());
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService, never()).addUser(user);
-    }
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")

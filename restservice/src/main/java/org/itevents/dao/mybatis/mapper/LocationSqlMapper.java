@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.itevents.dao.LocationDao;
 import org.itevents.model.Location;
 
-public interface LocationMapper extends LocationDao {
+public interface LocationSqlMapper extends LocationDao {
 
     @Results({
             @Result(property = "longitude", column = "longitude"),

@@ -15,12 +15,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -63,30 +62,6 @@ public class MyBatisVisitLogServiceTest {
         visitLogService.addVisitLog(testVisitLog);
 
         verify(visitLogDao).addVisitLog(testVisitLog);
-    }
-
-    @Test
-    public void shouldRemoveVisitlog() throws ParseException {
-        VisitLog expectedVisitlog = BuilderUtil.buildVisitLogTest();
-
-        when(visitLogDao.getVisitLog(expectedVisitlog.getId())).thenReturn(expectedVisitlog);
-        doNothing().when(visitLogDao).removeVisitLog(expectedVisitlog);
-
-        VisitLog returnedVisitlog = visitLogService.removeVisitLog(expectedVisitlog);
-
-        assertEquals(expectedVisitlog, returnedVisitlog);
-    }
-
-    @Test
-    public void shouldNotRemoveVisitlogWhenItIsNotExisting() throws ParseException {
-        VisitLog testVisitlog = BuilderUtil.buildVisitLogTest();
-
-        when(visitLogDao.getVisitLog(testVisitlog.getId())).thenReturn(null);
-        doNothing().when(visitLogDao).removeVisitLog(testVisitlog);
-
-        VisitLog returnedVisitlog = visitLogService.removeVisitLog(testVisitlog);
-
-        assertNull(returnedVisitlog);
     }
 
     @Test

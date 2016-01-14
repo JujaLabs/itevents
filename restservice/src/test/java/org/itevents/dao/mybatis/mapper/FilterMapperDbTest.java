@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.FilterMapper;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 import org.itevents.model.User;
@@ -19,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -43,11 +44,9 @@ public class FilterMapperDbTest extends AbstractDbTest {
         assertEquals(expectedFilter, returnedFilter);
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenFilterIsAbsent() {
-        Filter returnedFilter = filterMapper.getFilter(ABSENT_ID);
-
-        assertNull(returnedFilter);
+        filterMapper.getFilter(ABSENT_ID);
     }
 
     @Test

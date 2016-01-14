@@ -6,13 +6,13 @@ import org.itevents.model.*;
 
 import java.util.List;
 
-public interface UserMapper extends UserDao {
+public interface UserSqlMapper extends UserDao {
 
     @Override
     @Results({
             @Result(property = "id", column = "id", id = true),
             @Result(property = "role", javaType = Role.class, column = "role_id",
-                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleMapper.getRole"))
+                    one = @One(select = "org.itevents.dao.mybatis.mapper.RoleSqlMapper.getRole"))
     })
     @Select("SELECT * FROM user_profile WHERE id = #{id}")
     User getUser(int id);
@@ -38,10 +38,12 @@ public interface UserMapper extends UserDao {
             "WHERE id=#{id}")
     void updateUser(User user);
 
+    @Override
     @ResultMap("getUser-int")
-    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{event.id}")
-    List<User> getUsersByEvent(@Param("event") Event event);
+    @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id WHERE ue.event_id = #{id}")
+    List<User> getUsersByEvent(Event event);
 
+    @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
     List<User> getSubscribedUsers();

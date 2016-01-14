@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.CityMapper;
 import org.itevents.model.City;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
@@ -14,7 +16,6 @@ import org.springframework.dao.DuplicateKeyException;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -37,10 +38,9 @@ public class CityMapperDbTest extends AbstractDbTest {
         assertEquals(expectedCity, returnedCity);
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenCityIsAbsent() throws Exception {
-        City returnedCity = cityMapper.getCity(ABSENT_ID);
-        assertNull(returnedCity);
+        cityMapper.getCity(ABSENT_ID);
     }
 
     @Test
@@ -67,20 +67,4 @@ public class CityMapperDbTest extends AbstractDbTest {
         assertEquals(expectedSize, returnedSize);
     }
 
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddExistingCity_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveCity() {
-        City testCity = BuilderUtil.buildCityTest();
-        cityMapper.removeCity(testCity);
-    }
-
-    @Test
-    @ExpectedDatabase(value = TEST_PATH + "CityMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldNotRemoveAbsentCity() {
-        City testCity = BuilderUtil.buildCityTest();
-        cityMapper.removeCity(testCity);
-    }
 }

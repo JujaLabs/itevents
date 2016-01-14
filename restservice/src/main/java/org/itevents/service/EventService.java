@@ -15,8 +15,6 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    Event removeEvent(Event event);
-
     List<Event> getFilteredEvents(FilterWrapper wrapper);
 
     List<Event> getFilteredEventsWithRating(Filter filter);
@@ -27,4 +25,5 @@ public interface EventService {
 
     List<Event> getEventsByUser(User user);
 
+    Event getFutureEvent(int eventId);
 }

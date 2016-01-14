@@ -14,7 +14,4 @@ public interface VisitLogDao {
     List<VisitLog> getVisitLogsByEvent(Event event);
 
     void addVisitLog(VisitLog visitLog);
-
-    void removeVisitLog(VisitLog visitLog);
-
 }

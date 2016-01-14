@@ -1,10 +1,12 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.junit.Before;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,6 +50,16 @@ public class MyBatisEventServiceTest {
         verify(eventDao).getEvent(ID_1);
     }
 
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowEventNotFoundServiceException() throws Exception {
+        int absentId = 0;
+
+        when(eventDao.getEvent(absentId)).thenThrow(EntityNotFoundDaoException.class);
+
+        eventService.getEvent(absentId);
+    }
+
+
     @Test
     public void shouldAddEvent() throws ParseException {
         Event testEvent = BuilderUtil.buildEventRuby();
@@ -64,39 +75,6 @@ public class MyBatisEventServiceTest {
         eventService.getAllEvents();
 
         verify(eventDao).getAllEvents();
-    }
-
-    @Test
-    public void shouldRemoveEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao).removeEventTechnology(expectedEvent);
-        verify(eventDao).removeEvent(expectedEvent);
-        assertEquals(expectedEvent, returnedEvent);
-
-    }
-
-    @Test
-    public void shouldNotRemoveNonExistingEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(null);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao, never()).removeEventTechnology(expectedEvent);
-        verify(eventDao, never()).removeEvent(expectedEvent);
-        assertNull(returnedEvent);
     }
 
     @Test

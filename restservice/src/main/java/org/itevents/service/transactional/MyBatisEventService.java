@@ -3,11 +3,14 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.converter.FilterConverter;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -35,8 +39,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventId) {
-        return eventDao.getEvent(eventId);
+    public Event getEvent(int id) {
+        try {
+            return eventDao.getEvent(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -60,13 +69,14 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event removeEvent(Event event) {
-        Event deletingEvent = eventDao.getEvent(event.getId());
-        if (deletingEvent != null) {
-            eventDao.removeEventTechnology(event);
-            eventDao.removeEvent(event);
+    public Event getFutureEvent(int eventId) {
+        Event event = getEvent(eventId);
+        if (!new Date().after(event.getEventDate())) {
+            String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
+            LOGGER.error(message);
+            throw new TimeCollisionServiceException(message);
         }
-        return deletingEvent;
+        return event;
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.exception_mapper.VisitLogMapper;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
 import org.itevents.test_utils.BuilderUtil;
@@ -16,7 +18,6 @@ import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertNull;
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/VisitLogMapperTest/VisitLogMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
 public class VisitLogMapperDbTest extends AbstractDbTest {
+
     private final String TEST_PATH = PATH + "VisitLogMapperTest/";
     @Inject
     private VisitLogMapper visitLogMapper;
@@ -37,9 +39,9 @@ public class VisitLogMapperDbTest extends AbstractDbTest {
         assertEquals(expectedVisitLog, returnedVisitLog);
     }
 
-    @Test
+    @Test(expected = EntityNotFoundDaoException.class)
     public void expectNullWhenVisitLogIsAbsent() throws Exception {
-        assertNull(visitLogMapper.getVisitLog(ABSENT_ID));
+        visitLogMapper.getVisitLog(ABSENT_ID);
     }
 
     @Test
@@ -64,14 +66,4 @@ public class VisitLogMapperDbTest extends AbstractDbTest {
         int returnedSize = visitLogMapper.getAllVisitLogs().size();
         assertEquals(expectedSize, returnedSize);
     }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveVisitLog_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "VisitLogMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveVisitLog() throws ParseException {
-        VisitLog testVisitLog = BuilderUtil.buildVisitLogTest();
-        visitLogMapper.removeVisitLog(testVisitLog);
-    }
-
 }

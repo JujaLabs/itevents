@@ -1,6 +1,7 @@
 package org.itevents.dao.mybatis.util;
 
 import org.apache.ibatis.jdbc.SQL;
+import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 import org.springframework.util.CollectionUtils;
@@ -8,7 +9,23 @@ import org.springframework.util.CollectionUtils;
 import java.util.Iterator;
 import java.util.List;
 
-public class FilteredEventsSqlBuilder {
+public class EventSqlBuilder {
+
+    public String addEventTechnology(final Event event) {
+        List<Technology> technologies = event.getTechnologies();
+        StringBuilder sql = new StringBuilder();
+        if (!CollectionUtils.isEmpty(technologies)) {
+            sql.append("INSERT INTO event_technology (event_id, technology_id) VALUES ");
+            Iterator<Technology> iterator = technologies.iterator();
+            while (iterator.hasNext()) {
+                sql.append("(").append(event.getId()).append(", ").append(iterator.next().getId()).append(")");
+                if (iterator.hasNext()) {
+                    sql.append(", ");
+                }
+            }
+        }
+        return sql.toString();
+    }
 
     public String getFilteredEvents(final Filter params) {
         return getFilteredEventsSQL(params).toString() + " LIMIT #{limit} OFFSET #{offset}";

@@ -22,8 +22,6 @@ public interface EventDao {
 
     List<Event> getFilteredEventsWithRating(Filter params);
 
-    void removeEvent(Event event);
-
     void removeEventTechnology(Event event);
 
     void assign(User user, Event event);

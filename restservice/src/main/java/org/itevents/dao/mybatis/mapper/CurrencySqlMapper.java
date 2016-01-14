@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by vaa25 on 17.07.2015.
  */
-public interface CurrencyMapper extends CurrencyDao {
+public interface CurrencySqlMapper extends CurrencyDao {
 
     @Override
     @ResultType(Currency.class)
@@ -29,9 +29,4 @@ public interface CurrencyMapper extends CurrencyDao {
     @Override
     @Update("UPDATE currency SET name=#{name} WHERE id =#{id}")
     void updateCurrency(Currency currency);
-
-    @Override
-    @Delete("DELETE FROM currency WHERE id =#{id}")
-    void removeCurrency(Currency currency);
-
 }
