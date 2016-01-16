@@ -48,19 +48,11 @@ public class UserRestController {
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
     @RequestMapping(method = RequestMethod.POST, value = "login")
+    @ApiOperation(value = "Generate authorization token")
     public ResponseEntity<String> login(@ModelAttribute("username") String username,
                       @ModelAttribute("password") String password) {
         String token = tokenService.encrypt(new Token(username, password));
         return new ResponseEntity<>(token, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "logout")
-    public void logout() {
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "me")
-    public ResponseEntity<User> getMe() {
-        return new ResponseEntity<>(userService.getAuthorizedUser(),HttpStatus.OK);
     }
 
     @ApiImplicitParams({
@@ -83,13 +75,14 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private boolean exists(String username) {
-        return userService.getUserByName(username) != null;
+    @RequestMapping(method = RequestMethod.GET, value = "me")
+    @ApiOperation(value = "Returns authorization user")
+    public ResponseEntity<User> getMe() {
+        return new ResponseEntity<>(userService.getAuthorizedUser(),HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
-    public ResponseEntity<User> getUserById(@PathVariable("user_id") int userId) {
-        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
+    private boolean exists(String username) {
+        return userService.getUserByName(username) != null;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
