@@ -8,6 +8,9 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
+import org.itevents.security.AESCryptTokenService;
+import org.itevents.security.CryptTokenService;
+import org.itevents.security.Token;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
@@ -37,17 +40,27 @@ public class UserRestController {
     private FilterService filterService;
     @Inject
     private PasswordEncoder passwordEncoder;
+    @Inject
+    private CryptTokenService tokenService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
     @RequestMapping(method = RequestMethod.POST, value = "login")
-    public void login() {
+    public ResponseEntity<String> login(@ModelAttribute("username") String username,
+                      @ModelAttribute("password") String password) {
+        String token = tokenService.encrypt(new Token(username, password));
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "logout")
     public void logout() {
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "me")
+    public ResponseEntity<User> getMe() {
+        return new ResponseEntity<>(userService.getAuthorizedUser(),HttpStatus.OK);
     }
 
     @ApiImplicitParams({

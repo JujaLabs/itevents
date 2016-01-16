@@ -48,33 +48,34 @@ public class SequrityTests extends AbstractDbTest {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
 
-	@Test
-	public void shouldNotLoginWithWrongPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "wrongPassword"))
-				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized());
-	}
-
-	@Test
-	public void shouldLoginWithCorrectPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "alex"))
-				.andExpect(authenticated().withUsername("vlasov@email.com"))
-				.andExpect(status().isOk());
-
-		mvc.perform(logout());
-	}
-
-	@Test
-	@WithUserDetails("vlasov@email.com")
-	public void shouldLogout() throws Exception {
-		mvc.perform(post("/users/logout"))
-				.andExpect(unauthenticated())
-				.andExpect(status().isOk());
-	}
+//
+//	@Test
+//	public void shouldNotLoginWithWrongPassword() throws Exception {
+//		mvc.perform(post("/users/login")
+//				.param("username", "vlasov@email.com")
+//				.param("password", "wrongPassword"))
+//				.andExpect(unauthenticated())
+//				.andExpect(status().isUnauthorized());
+//	}
+//
+//	@Test
+//	public void shouldLoginWithCorrectPassword() throws Exception {
+//		mvc.perform(post("/users/login")
+//				.param("username", "vlasov@email.com")
+//				.param("password", "alex"))
+//				.andExpect(authenticated().withUsername("vlasov@email.com"))
+//				.andExpect(status().isOk());
+//
+//		mvc.perform(logout());
+//	}
+//
+//	@Test
+//	@WithUserDetails("vlasov@email.com")
+//	public void shouldLogout() throws Exception {
+//		mvc.perform(post("/users/logout"))
+//				.andExpect(unauthenticated())
+//				.andExpect(status().isOk());
+//	}
 
 	@Test
 	public void shouldGrantAccessToIndexForAnonymous() throws Exception {
