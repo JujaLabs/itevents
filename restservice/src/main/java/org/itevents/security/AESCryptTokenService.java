@@ -3,6 +3,7 @@ package org.itevents.security;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
@@ -15,9 +16,11 @@ import javax.crypto.spec.SecretKeySpec;
 @Component
 public class AESCryptTokenService implements CryptTokenService{
 
-    private final String initVectorHex = "000102030405060708090A0B0C0D0E0F";
+    @Value("${aes.initVectorHex}")
+    private String initVectorHex;
 
-    private final String keyHex = "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F";
+    @Value("${aes.keyHex}")
+    private String keyHex;
 
     private ObjectMapper mapper = new ObjectMapper();
 
