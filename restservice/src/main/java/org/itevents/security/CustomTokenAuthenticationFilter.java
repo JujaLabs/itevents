@@ -18,6 +18,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -31,14 +32,10 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
     @Inject
     private CryptTokenService cryptTokenService;
 
-    public CustomTokenAuthenticationFilter(
-            AuthenticationManager authenticationManager,
-            AuthenticationEntryPoint authenticationEntryPoint
-    ) {
+    public CustomTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
-        Assert.notNull(authenticationEntryPoint, "authenticationEntryPoint cannot be null");
         this.authenticationManager = authenticationManager;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.ignoreFailure = true;
     }
 
     @Override

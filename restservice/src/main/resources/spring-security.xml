@@ -20,6 +20,7 @@
 
         <csrf disabled="true"/>
 
+        <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/users/register" access='isAnonymous()'/>
         <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
         <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
@@ -36,14 +37,7 @@
     <beans:bean id="basicAuthenticationFilter"
           class="org.itevents.security.CustomTokenAuthenticationFilter">
         <beans:constructor-arg index="0" ref="authenticationManager"/>
-        <beans:constructor-arg index="1" ref="authenticationEntryPoint"/>
     </beans:bean>
-
-    <beans:bean id="authenticationEntryPoint"
-          class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
-        <beans:property name="realmName" value="Name Of Your Realm" />
-    </beans:bean>
-
 
     <beans:bean name="passwordEncoder"
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
