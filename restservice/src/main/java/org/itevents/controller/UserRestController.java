@@ -17,6 +17,7 @@ import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
+import org.itevents.wrapper.TokenWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,10 +49,10 @@ public class UserRestController {
     })
     @RequestMapping(method = RequestMethod.POST, value = "login")
     @ApiOperation(value = "Generate authorization token")
-    public ResponseEntity<String> login(@ModelAttribute("username") String username,
-                      @ModelAttribute("password") String password) {
+    public ResponseEntity<TokenWrapper> login(@ModelAttribute("username") String username,
+                                              @ModelAttribute("password") String password) {
         String token = tokenService.encrypt(new Token(username, password));
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenWrapper(token), HttpStatus.OK);
     }
 
     @ApiImplicitParams({
