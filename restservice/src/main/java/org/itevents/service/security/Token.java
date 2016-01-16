@@ -1,4 +1,4 @@
-package org.itevents.security;
+package org.itevents.service.security;
 
 import java.util.Date;
 

@@ -1,8 +1,9 @@
-package org.itevents.security;
+package org.itevents.service.security;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.itevents.service.CryptTokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by ramax on 1/15/16.
  */
 @Component
-public class AESCryptTokenService implements CryptTokenService{
+public class AESCryptTokenService implements CryptTokenService {
 
     @Value("${aes.initVectorHex}")
     private String initVectorHex;
@@ -54,8 +55,7 @@ public class AESCryptTokenService implements CryptTokenService{
             String strToken = mapper.writeValueAsString(token);
             return encryptAES(strToken);
         } catch (Exception e) {
-            //TODO
-            throw new RuntimeException(e);
+            throw new AESCryptTokenException("Error encrypt token", e);
         }
     }
 
@@ -65,8 +65,7 @@ public class AESCryptTokenService implements CryptTokenService{
             String strToken = decryptAES(token);
             return mapper.readValue(strToken, Token.class);
         } catch (Exception e) {
-            //TODO
-            throw new RuntimeException(e);
+            throw new AESCryptTokenException("Error decrypt token", e);
         }
     }
 }
