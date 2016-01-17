@@ -5,7 +5,7 @@ ALTER TABLE user_event
   DROP CONSTRAINT user_event_pkey,
   ADD COLUMN created_date TIMESTAMP DEFAULT now(),
   ADD COLUMN deleted_date TIMESTAMP DEFAULT NULL ,
-  ADD COLUMN deleted_reason VARCHAR DEFAULT NULL,
+  ADD COLUMN deleted_reason VARCHAR(250) DEFAULT NULL,
   ADD id SERIAL PRIMARY KEY NOT NULL;
 
 -- rollback ALTER TABLE user_event
