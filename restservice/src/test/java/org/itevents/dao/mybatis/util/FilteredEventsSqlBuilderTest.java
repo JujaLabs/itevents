@@ -12,12 +12,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by vaa25 on 17.09.2015.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class FilteredEventsSqlBuilderTest {
@@ -45,7 +47,7 @@ public class FilteredEventsSqlBuilderTest {
         parameter.setTechnologies(testTechnologies);
 
         String expectedSql = "SELECT * FROM event e JOIN event_technology et ON et.technology_id=-1 " +
-                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id=et.event_id) " +
+                "WHERE (e.event_date > NOW() AND city_id = #{city.id} AND e.id = et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
@@ -65,6 +67,7 @@ public class FilteredEventsSqlBuilderTest {
         assertEquals(expectedSql, returnedSql);
     }
 
+
     @Test
     public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() {
 
@@ -78,7 +81,7 @@ public class FilteredEventsSqlBuilderTest {
 
         String expectedSql = "SELECT * FROM event e JOIN event_technology et " +
                 "ON et.technology_id=" + iterator.next().getId() + " or et.technology_id=" + iterator.next().getId() +
-                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id=et.event_id) " +
+                " or et.technology_id=" + iterator.next().getId() + " WHERE (e.event_date > NOW() AND e.id = et.event_id) " +
                 "ORDER BY event_date LIMIT #{limit} OFFSET #{offset}";
 
         String returnedSql = new FilteredEventsSqlBuilder().getFilteredEvents(parameter).replace('\n', ' ');
@@ -115,7 +118,7 @@ public class FilteredEventsSqlBuilderTest {
                     "e.event_date > NOW() " +
                     "AND city_id = #{city.id} " +
                     "AND (price IS NULL OR price = 0) " +
-                    "AND e.id=et.event_id " +
+                    "AND e.id = et.event_id " +
                     "AND e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL" +
                 ") " +
                 "ORDER BY event_date " +

@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -145,5 +146,12 @@ public class MyBatisEventServiceTest {
         Event event = BuilderUtil.buildEventJs();
         eventService.unassign(user, event);
         verify(eventDao).unassign(user, event);
+    }
+
+    @Test
+    public void shouldReturnEventsByDate() throws Exception{
+        Date date = BuilderUtil.buildEventJava().getEventDate();
+        eventService.getEventsByDate(date);
+        verify(eventDao).getEventsByDate(date);
     }
 }

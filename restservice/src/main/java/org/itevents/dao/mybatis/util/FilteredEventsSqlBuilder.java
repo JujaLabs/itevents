@@ -34,7 +34,7 @@ public class FilteredEventsSqlBuilder {
             }
             if (!CollectionUtils.isEmpty(params.getTechnologies())) {
                 JOIN(makeJoin(params));
-                WHERE("e.id=et.event_id");
+                WHERE("e.id = et.event_id");
             }
             ORDER_BY("event_date");
         }};

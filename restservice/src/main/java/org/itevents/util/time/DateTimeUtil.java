@@ -30,4 +30,15 @@ public class DateTimeUtil {
     public static Date getNowDate(){
         return Calendar.getInstance().getTime();
     }
+
+    public static Date getDateWithoutTime(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.clear(Calendar.AM_PM);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        return new Date(cal.getTime().getTime());
+    }
 }

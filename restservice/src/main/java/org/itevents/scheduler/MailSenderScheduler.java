@@ -1,6 +1,7 @@
 package org.itevents.scheduler;
 
 import org.itevents.service.NotificationService;
+import org.itevents.service.sendmail.ReminderAboutEventService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,17 @@ public class MailSenderScheduler {
     @Inject
     private NotificationService notificationService;
 
+    @Inject
+    private ReminderAboutEventService reminderAboutEventService;
+
     @Scheduled(cron = "${cron.start_sending}")
     public void startSending(){
         notificationService.performNotify();
     }
+
+    @Scheduled(cron = "${cron.remindAboutEvent}")
+    public void startRemind(){
+        reminderAboutEventService.execute();
+    }
+
 }

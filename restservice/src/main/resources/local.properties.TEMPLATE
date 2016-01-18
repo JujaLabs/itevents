@@ -23,11 +23,15 @@ sendgrid.api.key=SEND_GRID_TOKEN
 # |______________ min (0 - 59)
 cron.start_sending=30 2 * * * ?
 
+cron.remindAboutEvent=0 0 11 * * ?
+
 httpPort=8080
 stopPort=9080
 stopKey=stop
 
+# MailReminderAboutEventService
+reminderAboutEventForThePeriod=1
+
 # EventService
 event.filterRangeInDays=7
 event.countOfEventsInEmail=10
-

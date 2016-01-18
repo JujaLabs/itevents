@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
@@ -78,4 +79,8 @@ public class MyBatisEventService implements EventService {
         return eventDao.getFilteredEventsWithRating(filter);
     }
 
+    @Override
+    public List<Event> getEventsByDate(Date eventDate){
+        return eventDao.getEventsByDate(eventDate);
+    }
 }

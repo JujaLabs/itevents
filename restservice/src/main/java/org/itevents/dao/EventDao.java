@@ -4,6 +4,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventDao {
@@ -31,4 +32,6 @@ public interface EventDao {
     void unassign(User user, Event event);
 
     List<Event> getEventsByUser(User user);
+
+    List<Event> getEventsByDate(Date eventDate);
 }

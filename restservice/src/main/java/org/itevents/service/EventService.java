@@ -4,7 +4,9 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.wrapper.FilterWrapper;
 import org.itevents.model.User;
+import org.itevents.wrapper.FilterWrapper;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -27,4 +29,5 @@ public interface EventService {
 
     List<Event> getEventsByUser(User user);
 
+    List<Event> getEventsByDate(Date eventDate);
 }
