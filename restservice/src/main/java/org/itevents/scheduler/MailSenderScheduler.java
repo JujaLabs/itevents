@@ -17,7 +17,7 @@ public class MailSenderScheduler {
     private NotificationService notificationService;
 
     @Inject
-    ReminderAboutEventService reminderAboutEventService;
+    private ReminderAboutEventService reminderAboutEventService;
 
     @Scheduled(cron = "${cron.start_sending}")
     public void startSending(){
