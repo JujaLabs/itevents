@@ -17,10 +17,10 @@ import javax.crypto.spec.SecretKeySpec;
 @Component
 public class AESCryptTokenService implements CryptTokenService {
 
-    @Value("${aes.initVectorHex}")
+    @Value("${aes.init.vector.hex}")
     private String initVectorHex;
 
-    @Value("${aes.keyHex}")
+    @Value("${aes.key.hex}")
     private String keyHex;
 
     private ObjectMapper mapper = new ObjectMapper();

@@ -32,8 +32,8 @@ event.filterRangeInDays=7
 event.countOfEventsInEmail=10
 
 # AESCryptTokenService
-aes.initVectorHex=000102030405060708090A0B0C0D0E0F
+aes.init.vector.hex=000102030405060708090A0B0C0D0E0F
 #The secret key must equal the size of the key.  For
 #256-bit encryption, the binary secret key is 32 bytes.
 #For 128-bit encryption, the binary secret key is 16 bytes.
-aes.keyHex=000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F
+aes.key.hex=000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F
