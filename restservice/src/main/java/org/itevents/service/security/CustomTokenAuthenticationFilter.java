@@ -53,10 +53,10 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain chain
     ) throws IOException, ServletException {
-        String header = request.getHeader("Token");
-        if(header != null) {
+        String header = request.getHeader("Authorization");
+        if(header != null && header.startsWith("Bearer ")) {
             try {
-                Token token = cryptTokenService.decrypt(header);
+                Token token = cryptTokenService.decrypt(header.substring(7));
 
                 if(this.authenticationIsRequired(token.getUsername())) {
                     UsernamePasswordAuthenticationToken authRequest =
