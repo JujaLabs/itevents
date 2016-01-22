@@ -8,6 +8,8 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
+import org.itevents.service.CryptTokenService;
+import org.itevents.service.security.Token;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
@@ -15,6 +17,7 @@ import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
+import org.itevents.wrapper.TokenWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,17 +40,19 @@ public class UserRestController {
     private FilterService filterService;
     @Inject
     private PasswordEncoder passwordEncoder;
+    @Inject
+    private CryptTokenService tokenService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
     @RequestMapping(method = RequestMethod.POST, value = "login")
-    public void login() {
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "logout")
-    public void logout() {
+    @ApiOperation(value = "Generate authorization token")
+    public ResponseEntity<TokenWrapper> login(@ModelAttribute("username") String username,
+                                              @ModelAttribute("password") String password) {
+        String token = tokenService.encrypt(new Token(username, password));
+        return new ResponseEntity<>(new TokenWrapper(token), HttpStatus.OK);
     }
 
     @ApiImplicitParams({
@@ -70,13 +75,14 @@ public class UserRestController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private boolean exists(String username) {
-        return userService.getUserByName(username) != null;
+    @RequestMapping(method = RequestMethod.GET, value = "me")
+    @ApiOperation(value = "Returns authorization user")
+    public ResponseEntity<User> getMe() {
+        return new ResponseEntity<>(userService.getAuthorizedUser(),HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
-    public ResponseEntity<User> getUserById(@PathVariable("user_id") int userId) {
-        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
+    private boolean exists(String username) {
+        return userService.getUserByName(username) != null;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")

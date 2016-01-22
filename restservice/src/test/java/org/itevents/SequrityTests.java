@@ -13,7 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
@@ -49,31 +51,16 @@ public class SequrityTests extends AbstractDbTest {
 	}
 
 	@Test
-	public void shouldNotLoginWithWrongPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "wrongPassword"))
-				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized());
-	}
+	public void shouldGenerateToken() throws Exception {
+		MvcResult result = mvc.perform(post("/users/login")
+				.param("username", "ramax@email.com")
+				.param("password", "passwd"))
+				.andExpect(status().isOk())
+				.andReturn();
 
-	@Test
-	public void shouldLoginWithCorrectPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "alex"))
-				.andExpect(authenticated().withUsername("vlasov@email.com"))
-				.andExpect(status().isOk());
-
-		mvc.perform(logout());
-	}
-
-	@Test
-	@WithUserDetails("vlasov@email.com")
-	public void shouldLogout() throws Exception {
-		mvc.perform(post("/users/logout"))
-				.andExpect(unauthenticated())
-				.andExpect(status().isOk());
+		String content = result.getResponse().getContentAsString();
+		Assert.notNull(content);
+		Assert.isTrue(!content.isEmpty());
 	}
 
 	@Test
