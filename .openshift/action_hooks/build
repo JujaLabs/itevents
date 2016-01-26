@@ -1,0 +1,8 @@
+#!/bin/bash
+cd $OPENSHIFT_REPO_DIR
+export GRADLE_USER_HOME=$OPENSHIFT_DATA_DIR/gradle
+export GRADLE_HOME=$OPENSHIFT_DATA_DIR/gradle-2.10
+export PATH=$GRADLE_HOME/bin:$PATH
+export PATH=$OPENSHIFT_DATA_DIR/jdk1.8.0_71/bin:$PATH
+export JAVA_HOME="$OPENSHIFT_DATA_DIR/jdk1.8.0_71"
+gradle -x test -x liquibaseUpdate
