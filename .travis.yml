@@ -1,0 +1,27 @@
+branches:
+  only:
+  - master
+language: java
+jdk:
+- oraclejdk8
+addons:
+  postgresql: '9.2'
+services:
+- postgresql
+before_script:
+- psql -c 'create database itevent_db;' -U postgres
+- psql -c 'create database itevent_test_db;' -U postgres
+script:
+- gradle
+after_success:
+- git remote rename origin initial
+- git remote rename openshift origin
+deploy:
+  provider: openshift
+  user: $OPENSHIFT_USER
+  password: $OPENSHIFT_PASSWORD
+  domain: $OPENSHIFT_DOMAIN
+  app: $OPENSHIFT_APP
+notifications:
+  slack:
+    secure: A1zOv+GblpGLr/mqrLKnEnCZwjsv+Uq0tJNoIL6AqYzSYp7C7bRfRUN+cTmQrfZE3zWORZiWBbT2CDeO5qhjtD2a25YpaDoTfIMW7DuEsIXQYBWTFaknYwU7cRwdB8orIkTH7l7mm46N6FQsFE/pxSMP69DvZP9we02xj0TgL8YZ+QUeS4GvaYlK52DZ8MzmswiaLEqx7ieOlWLc1RT9tlE7R/6YtxGrr+qDCETdsMmmNdIVTn2R3oJ0u4Mfob3l68ykXQIVMzlbyTltrLa9A815LxHKVChaa79cyB7BEU3uoWerQSGyUpT2NnM9stWtib8NsNnH6jquVrczWeKQlAig8s5lzLydeRIpSFu2bKgYGoVDTJvxk5w8TS/7epKPmhPbKeo+8tR68sj57/vqwQlNF4OW01EVaX9wUyOX+kk2M7eI/8iyzkr8u9ZUsCCFS0JC5AhCRGjAMfi2b9JQ+CU1DkXP9p8Otyf2s0hftP9M+hhHI8Gybd/zpyqhA18CYUPGcIBOczBw3ojyoNIeG6G20LVUQ7tF5HPngOS39O/D0JILnI40V9r6sNeu8FuFZ/ODtrGkRH6jSPwqo3maXCrdoc3Kv7HTThYZMUk8pnaTilIxYcwF+QnjiB1EQTTdb7Wtnr2DfhhjgVwAMMGHpPyPmwtQZKGiJQ60JwTFvTk=
