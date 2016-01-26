@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "classpath:webApplicationContextTestAddon.xml",
+        "classpath:applicationContextTestAddon.xml",
         "classpath:mvc-dispatcher-servlet.xml",
 })
 @WebAppConfiguration
