@@ -4,6 +4,11 @@ version '1.0-SNAPSHOT'
 apply plugin: 'war'
 apply plugin: 'jetty'
 
+war {
+    archiveName = 'ROOT.war'
+    destinationDir = file('../webapps')
+}
+
 repositories {
     maven {
         url "http://download.osgeo.org/webdav/geotools/"
@@ -21,7 +26,6 @@ test {
 }
 
 dependencies {
-
     compile 'org.springframework:spring-core:4.1.6.RELEASE'
     compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
@@ -56,16 +60,47 @@ dependencies {
     testCompile 'org.postgis:postgis-jdbc:1.1.6'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
-  }
+}
 
-Properties props = new Properties()
-props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
-Properties testProps = new Properties()
-testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
+String projectEnvironmentVariablePrefix = "itev_"
+String testPrefix = "test_"
 
-httpPort = Integer.valueOf(props.getProperty('http_port'));
-stopPort = Integer.valueOf(props.getProperty('stop_port'));
-stopKey = props.getProperty('stop_key');
+Properties properties = new Properties()
+Properties testProperties = new Properties()
+
+def propertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+def testPropertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
+
+if (propertiesFile.exists() && testPropertiesFile.exists()) {
+    properties.load(new FileInputStream(propertiesFile))
+    testProperties.load(new FileInputStream(testPropertiesFile))
+} else {
+    def propertiesWriter = new PrintWriter(propertiesFile)
+    def testPropertiesWriter = new PrintWriter(testPropertiesFile)
+    Map<String,String> environmentVariables = System.getenv();
+    for (String environmentVariable : environmentVariables.keySet()) {
+        if (environmentVariable.startsWith(projectEnvironmentVariablePrefix)) {
+            String variableWithoutPrefix = environmentVariable.substring(projectEnvironmentVariablePrefix.length())
+            String projectProperty = variableWithoutPrefix;
+            if (projectProperty.startsWith(testPrefix)) {
+                projectProperty = projectProperty.substring(testPrefix.length());
+                testProperties.setProperty(projectProperty, environmentVariables.get(environmentVariable))
+                testPropertiesWriter.println(projectProperty + '=' + environmentVariables.get(environmentVariable))
+            } else {
+                properties.setProperty(projectProperty, environmentVariables.get(environmentVariable))
+                propertiesWriter.println(projectProperty + '=' + environmentVariables.get(environmentVariable))
+            }
+        }
+    }
+    propertiesWriter.flush()
+    propertiesWriter.close()
+    testPropertiesWriter.flush()
+    testPropertiesWriter.close()
+}
+
+httpPort = Integer.valueOf(properties.getProperty('http_port'));
+stopPort = Integer.valueOf(properties.getProperty('stop_port'));
+stopKey = properties.getProperty('stop_key');
 
 test.dependsOn "liquibaseTestUpdate"
 
@@ -84,11 +119,11 @@ task liquibaseUpdate(type: JavaExec) {
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
     } else {
-        args "--username=${props.getProperty('database_username')}"
-        args "--password=${props.getProperty('database_password')}"
-        args "--url=${props.getProperty('database_url')}"
+        args "--username=${properties.getProperty('database_username')}"
+        args "--password=${properties.getProperty('database_password')}"
+        args "--url=${properties.getProperty('database_url')}"
     }
-    args "--changeLogFile=${props.getProperty('changelog_file')}"
+    args "--changeLogFile=${properties.getProperty('changelog_file')}"
     args 'update'
 }
 
@@ -97,10 +132,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${props.getProperty('database_username')}"
-    args "--password=${props.getProperty('database_password')}"
-    args "--url=${props.getProperty('database_url')}"
-    args "--changeLogFile=${props.getProperty('changelog_file')}"
+    args "--username=${properties.getProperty('database_username')}"
+    args "--password=${properties.getProperty('database_password')}"
+    args "--url=${properties.getProperty('database_url')}"
+    args "--changeLogFile=${properties.getProperty('changelog_file')}"
     args 'rollbackCount'
     args '0'
 }
@@ -110,9 +145,9 @@ task liquibaseTestUpdate(type: JavaExec) {
     group = 'Liquibase'
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${testProps.getProperty('database_username')}"
-    args "--password=${testProps.getProperty('database_password')}"
-    args "--url=${testProps.getProperty('database_url')}"
-    args "--changeLogFile=${testProps.getProperty('changelog_file')}"
+    args "--username=${testProperties.getProperty('database_username')}"
+    args "--password=${testProperties.getProperty('database_password')}"
+    args "--url=${testProperties.getProperty('database_url')}"
+    args "--changeLogFile=${testProperties.getProperty('changelog_file')}"
     args 'update'
 }
