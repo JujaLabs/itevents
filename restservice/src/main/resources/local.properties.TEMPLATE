@@ -1,16 +1,16 @@
 # Create copy of this file in same directory with name "local.properties" and update value of properties
 
 # Database
-database.driver=org.postgresql.Driver
-database.url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
-database.username=DB_USERNAME
-database.password=DB_PASSWORD
+database_driver=org.postgresql.Driver
+database_url=jdbc:postgresql://HOST:PORT/DATABASE_NAME
+database_username=DB_USERNAME
+database_password=DB_PASSWORD
 
 # Liquibase
-changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+changelog_file=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
 # SendGrid
-sendgrid.api.key=SEND_GRID_TOKEN
+sendgrid_api_key=SEND_GRID_TOKEN
 
 # Scheduler
 # * * * * *  command to execute
@@ -21,13 +21,13 @@ sendgrid.api.key=SEND_GRID_TOKEN
 # | | |_________ day of month (1 - 31)
 # | |___________ hour (0 - 23)
 # |______________ min (0 - 59)
-cron.start_sending=30 2 * * * ?
+cron_start_sending=30 2 * * * ?
 
-httpPort=8080
-stopPort=9080
-stopKey=stop
+http_port=8080
+stop_port=9080
+stop_key=stop
 
 # EventService
-event.filterRangeInDays=7
-event.countOfEventsInEmail=10
+event_filter_range_in_days=7
+event_count_of_events_in_email=10
 

@@ -63,9 +63,9 @@ props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/
 Properties testProps = new Properties()
 testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
 
-httpPort = Integer.valueOf(props.getProperty('httpPort'));
-stopPort = Integer.valueOf(props.getProperty('stopPort'));
-stopKey = props.getProperty('stopKey');
+httpPort = Integer.valueOf(props.getProperty('http_port'));
+stopPort = Integer.valueOf(props.getProperty('stop_port'));
+stopKey = props.getProperty('stop_key');
 
 test.dependsOn "liquibaseTestUpdate"
 
@@ -84,11 +84,11 @@ task liquibaseUpdate(type: JavaExec) {
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
     } else {
-        args "--username=${props.getProperty('database.username')}"
-        args "--password=${props.getProperty('database.password')}"
-        args "--url=${props.getProperty('database.url')}"
+        args "--username=${props.getProperty('database_username')}"
+        args "--password=${props.getProperty('database_password')}"
+        args "--url=${props.getProperty('database_url')}"
     }
-    args "--changeLogFile=${props.getProperty('changeLogFile')}"
+    args "--changeLogFile=${props.getProperty('changelog_file')}"
     args 'update'
 }
 
@@ -97,10 +97,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${props.getProperty('database.username')}"
-    args "--password=${props.getProperty('database.password')}"
-    args "--url=${props.getProperty('database.url')}"
-    args "--changeLogFile=${props.getProperty('changeLogFile')}"
+    args "--username=${props.getProperty('database_username')}"
+    args "--password=${props.getProperty('database_password')}"
+    args "--url=${props.getProperty('database_url')}"
+    args "--changeLogFile=${props.getProperty('changelog_file')}"
     args 'rollbackCount'
     args '0'
 }
@@ -110,9 +110,9 @@ task liquibaseTestUpdate(type: JavaExec) {
     group = 'Liquibase'
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${testProps.getProperty('database.username')}"
-    args "--password=${testProps.getProperty('database.password')}"
-    args "--url=${testProps.getProperty('database.url')}"
-    args "--changeLogFile=${testProps.getProperty('changeLogFile')}"
+    args "--username=${testProps.getProperty('database_username')}"
+    args "--password=${testProps.getProperty('database_password')}"
+    args "--url=${testProps.getProperty('database_url')}"
+    args "--changeLogFile=${testProps.getProperty('changelog_file')}"
     args 'update'
 }

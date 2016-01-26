@@ -89,11 +89,11 @@ public class DbUnitTableExportUtil {
     private static void databaseConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         Properties testProps = new Properties();
         testProps.load(new FileInputStream("src/main/resources/local.properties"));
-        Class.forName(testProps.getProperty("database.driver"));
+        Class.forName(testProps.getProperty("database_driver"));
         Connection jdbcConnection = DriverManager.getConnection(
-                testProps.getProperty("database.url"),
-                testProps.getProperty("database.username"),
-                testProps.getProperty("database.password"));
+                testProps.getProperty("database_url"),
+                testProps.getProperty("database_username"),
+                testProps.getProperty("database_password"));
         connection = new DatabaseConnection(jdbcConnection);
         connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgisDataTypeFactory());
     }
