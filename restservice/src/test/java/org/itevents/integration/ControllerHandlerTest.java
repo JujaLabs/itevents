@@ -6,8 +6,8 @@ import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -77,15 +77,14 @@ public class ControllerHandlerTest {
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
         String name = "SubscriberInDatabase";
+        String password = "anyPassword";
 
-        doThrow(NameNotAvailableServiceException.class).when(userService).checkNameAvailability(name);
+        doThrow(EntityAlreadyExistsServiceException.class).when(userService).addSubscriber(name, password);
 
         mvc.perform(post("/users/register")
                 .param("username", name)
-                .param("password", "anyPassword"))
-                .andExpect(status().isBadRequest());
-
-        verify(userService, never()).addUser(any(User.class));
+                .param("password", password))
+                .andExpect(status().is(422));
     }
 
     @Test

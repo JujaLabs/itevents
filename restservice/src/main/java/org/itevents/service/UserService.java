@@ -11,6 +11,8 @@ public interface UserService {
 
     void addUser(User user);
 
+    void addSubscriber(String name, String password);
+
     User getUser(int userId);
 
     User getUserByName(String name);

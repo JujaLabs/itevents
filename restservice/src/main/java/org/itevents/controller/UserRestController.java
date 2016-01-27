@@ -7,16 +7,13 @@ import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
-import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
-import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -29,13 +26,9 @@ public class UserRestController {
     @Inject
     private UserService userService;
     @Inject
-    private RoleService roleService;
-    @Inject
     private EventService eventService;
     @Inject
     private FilterService filterService;
-    @Inject
-    private PasswordEncoder passwordEncoder;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -55,16 +48,10 @@ public class UserRestController {
     })
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void registerNewSubscriber(@ModelAttribute("username") String username,
                                                 @ModelAttribute("password") String password) {
-        userService.checkNameAvailability(username);
-        User user = UserBuilder.anUser()
-                .login(username)
-                .password(passwordEncoder.encode(password))
-                .role(roleService.getRoleByName("subscriber"))
-                .build();
-        userService.addUser(user);
+        userService.addSubscriber(username, password);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")

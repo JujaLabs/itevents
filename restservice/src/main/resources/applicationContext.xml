@@ -34,6 +34,8 @@
         <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
 
+    <bean name="passwordEncoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
     <bean id="sqlSessionDaoSupport" class="org.mybatis.spring.support.SqlSessionDaoSupport" abstract="true">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>

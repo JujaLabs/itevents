@@ -123,7 +123,7 @@ public class SequrityTests extends AbstractDbTest {
 				.param("username", testSubscriber.getLogin())
 				.param("password", testSubscriber.getPassword()))
 				.andExpect(authenticated().withUsername("guest"))
-				.andExpect(status().isOk());
+				.andExpect(status().isCreated());
 	}
 
 }

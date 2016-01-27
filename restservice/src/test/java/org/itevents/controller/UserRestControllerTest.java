@@ -3,7 +3,6 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
-import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
@@ -53,30 +52,18 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
-        Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        User testUser = BuilderUtil.buildUserTest();
-        String password = testUser.getPassword();
-        String encodedPassword = "encodedPassword";
+        String newSubscriberName = "newSubscriberName";
+        String newSubscriberPassword = "newSubscriberPassword";
 
-        when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
-        doNothing().when(userService).checkNameAvailability(testUser.getLogin());
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(encodedPassword);
-        doNothing().when(userService).addUser(testUser);
+        doNothing().when(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
 
         mockMvc.perform(post("/users/register")
-                .param("username", testUser.getLogin())
-                .param("password", testUser.getPassword()))
-                .andExpect(status().isOk());
+                .param("username", newSubscriberName)
+                .param("password", newSubscriberPassword))
+                .andExpect(status().isCreated());
 
-        testUser.setRole(subscriberRole);
-        testUser.setPassword(encodedPassword);
-        verify(roleService).getRoleByName(subscriberRole.getName());
-        verify(userService).checkNameAvailability(testUser.getLogin());
-        verify(passwordEncoder).encode(password);
-        verify(userService).addUser(testUser);
+        verify(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
     }
-
-
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
