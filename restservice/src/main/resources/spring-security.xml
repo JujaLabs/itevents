@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
-
+    <beans:import resource="password-encoder.xml"/>
     <context:component-scan base-package="org.itevents.security"/>
     <global-method-security pre-post-annotations="enabled"/>
     <http realm="itevents" use-expressions="true"
@@ -35,8 +35,6 @@
                 class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
     <beans:bean id="logoutSuccessHandler"
                 class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
-    <beans:bean name="passwordEncoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
             <password-encoder ref="passwordEncoder"/>
