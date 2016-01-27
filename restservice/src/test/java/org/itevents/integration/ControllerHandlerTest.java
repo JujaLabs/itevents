@@ -103,4 +103,14 @@ public class ControllerHandlerTest {
         verify(visitLogService, never()).addVisitLog(any(VisitLog.class));
     }
 
+    @Test
+    public void shouldNotFoundUserById() throws Exception {
+        int absentId = 0;
+
+        when(userService.getUser(absentId)).thenThrow(EntityNotFoundServiceException.class);
+
+        mvc.perform(get("/users/" + absentId))
+                .andExpect(status().isNotFound());
+    }
+
 }

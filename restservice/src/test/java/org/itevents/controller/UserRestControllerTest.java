@@ -111,4 +111,16 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
     }
+
+    @Test
+    public void shouldReturnUserById() throws Exception {
+        User user = BuilderUtil.buildUserVlasov();
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(user);
+
+        when(userService.getUser(user.getId())).thenReturn(user);
+
+        mockMvc.perform(get("/users/" + user.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedEventsInJson));
+    }
 }
