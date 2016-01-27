@@ -2,9 +2,12 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +15,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -32,6 +37,8 @@ public class MyBatisUserServiceTest {
     private UserDao userDao;
     @Mock
     private EventDao eventDao;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Before
     public void setUp() {
@@ -51,6 +58,24 @@ public class MyBatisUserServiceTest {
 
     }
 
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionWhenUserIdIsAbsent() {
+        int absentId = 0;
+
+        when(userDao.getUser(absentId)).thenThrow(EntityNotFoundDaoException.class);
+
+        userService.getUser(absentId);
+    }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionWhenUserNameIsAbsent() {
+        String absentName = "absentName";
+
+        when(userDao.getUserByName(absentName)).thenThrow(EntityNotFoundDaoException.class);
+
+        userService.getUserByName(absentName);
+    }
+
     @Test
     @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
@@ -65,14 +90,22 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldAddUser() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
+    public void shouldAddSubscriber() throws Exception {
+        User testUser = BuilderUtil.buildUserVlasov();
 
-        doNothing().when(userDao).addUser(testUser);
+        userService.addSubscriber(testUser.getLogin(), testUser.getPassword());
 
-        userService.addUser(testUser);
+        verify(userDao).addUser(any(User.class));
+    }
 
-        verify(userDao).addUser(testUser);
+    @Test(expected = EntityAlreadyExistsServiceException.class)
+    public void shouldThrowServiceExceptionWhenAddExistingSubscriber() throws Exception {
+        User testUser = BuilderUtil.buildUserVlasov();
+
+        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(testUser.getPassword());
+        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(testUser);
+
+        userService.addSubscriber(testUser.getLogin(), testUser.getPassword());
     }
 
     @Test

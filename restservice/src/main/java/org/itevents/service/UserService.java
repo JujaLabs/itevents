@@ -9,8 +9,6 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    void addUser(User user);
-
     void addSubscriber(String name, String password);
 
     User getUser(int userId);
@@ -28,6 +26,4 @@ public interface UserService {
     List<User> getSubscribedUsers();
 
     List<User> getUsersByEvent(Event event);
-
-    void checkNameAvailability(String username);
 }

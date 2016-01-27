@@ -11,7 +11,6 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.NameNotAvailableServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,8 +34,7 @@ public class MyBatisUserService implements UserService {
     @Inject
     private RoleService roleService;
 
-    @Override
-    public void addUser(User user) {
+    private void addUser(User user) {
         try {
             userDao.addUser(user);
         } catch (Throwable e) {
@@ -117,17 +115,5 @@ public class MyBatisUserService implements UserService {
     @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
-    }
-
-    @Override
-    public void checkNameAvailability(String username) {
-        try {
-            userDao.getUserByName(username);
-            String message = "Username " + username + " already in use";
-            LOGGER.error(message);
-            throw new NameNotAvailableServiceException(message);
-        } catch (EntityNotFoundDaoException ex) {
-
-        }
     }
 }
