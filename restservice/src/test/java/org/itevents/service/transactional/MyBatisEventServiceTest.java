@@ -7,6 +7,7 @@ import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.wrapper.FilterWrapper;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -32,6 +34,8 @@ public class MyBatisEventServiceTest {
     @InjectMocks
     @Inject
     private EventService eventService;
+    @Inject
+    private DateTimeUtil dateTimeUtil;
     @Mock
     private EventDao eventDao;
 
@@ -135,15 +139,23 @@ public class MyBatisEventServiceTest {
     public void shouldAssignToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
-        eventService.assign(user, event);
-        verify(eventDao).assign(user, event);
+        eventService.assignUserToEvent(user, event);
+        verify(eventDao).assignUserToEvent(user, event);
     }
 
     @Test
     public void shouldUnassignUserFromEvent()throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        eventService.unassign(user, event);
-        verify(eventDao).unassign(user, event);
+
+        Date unassignDate = dateTimeUtil.setDate("20.07.2115");
+        String unassignReason = "test";
+        List events = new ArrayList<>();
+        events.add(event);
+
+        when(eventService.getEventsByUser(user)).thenReturn(events);
+
+        eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 }
