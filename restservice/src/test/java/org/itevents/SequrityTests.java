@@ -125,5 +125,4 @@ public class SequrityTests extends AbstractDbTest {
 				.andExpect(authenticated().withUsername("guest"))
 				.andExpect(status().isCreated());
 	}
-
 }
