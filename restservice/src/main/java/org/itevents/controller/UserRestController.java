@@ -11,7 +11,7 @@ import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
-import org.itevents.util.time.TimeUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +65,7 @@ public class UserRestController {
     @ResponseStatus(value = HttpStatus.OK)
     public void activateSubscription(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
-        filter.setCreateDate(TimeUtil.getNowDate());
+        filter.setCreateDate(DateTimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
         userService.activateUserSubscription(user);

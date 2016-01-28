@@ -20,6 +20,4 @@ public class IndexController {
 	public String onlyForAdmin(ModelMap model) {
 		return "index";
 	}
-
-
 }

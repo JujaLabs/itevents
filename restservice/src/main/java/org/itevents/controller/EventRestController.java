@@ -4,25 +4,22 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.model.VisitLog;
-import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
-import org.itevents.util.time.TimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @Api("Events")
 @RequestMapping("/events")
 public class EventRestController {
-
     @Inject
     private EventService eventService;
     @Inject
@@ -48,16 +45,18 @@ public class EventRestController {
     public void assign(@PathVariable("event_id") int eventId) {
         Event event = eventService.getFutureEvent(eventId);
         User user = userService.getAuthorizedUser();
-        eventService.assign(user, event);
+        eventService.assignUserToEvent(user, event);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{event_id}/unassign")
+    @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign")
     @ApiOperation(value = "Unassigns logged in user from event")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void unassign(@PathVariable("event_id") int eventId) {
+    public void unassign(
+            @PathVariable("event_id") int eventId,
+            @RequestParam("unassign_reason")
+            String unassignReason ) {
         Event event = eventService.getFutureEvent(eventId);
         User user = userService.getAuthorizedUser();
-        eventService.unassign(user, event);
+        eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(),unassignReason);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
