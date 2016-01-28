@@ -13,6 +13,7 @@
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
     <context:component-scan base-package="org.itevents.util"/>
+    <context:component-scan base-package="org.itevents.dao.mybatis.sql_session_dao"/>
     <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -33,22 +34,4 @@
     <bean id="sendgrid" class="com.sendgrid.SendGrid">
         <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
-
-    <bean id="sqlSessionDaoSupport" class="org.mybatis.spring.support.SqlSessionDaoSupport" abstract="true">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-    <bean id="userDao" class="org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao" parent="sqlSessionDaoSupport"/>
-    <bean id="eventDao" class="org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao" parent="sqlSessionDaoSupport"/>
-    <bean id="cityDao" class="org.itevents.dao.mybatis.sql_session_dao.CityMyBatisDao" parent="sqlSessionDaoSupport"/>
-    <bean id="currencyDao" class="org.itevents.dao.mybatis.sql_session_dao.CurrencyMyBatisDao"
-          parent="sqlSessionDaoSupport"/>
-    <bean id="technologyDao" class="org.itevents.dao.mybatis.sql_session_dao.TechnologyMyBatisDao"
-          parent="sqlSessionDaoSupport"/>
-    <bean id="filterDao" class="org.itevents.dao.mybatis.sql_session_dao.FilterMyBatisDao" parent="sqlSessionDaoSupport"/>
-    <bean id="locationDao" class="org.itevents.dao.mybatis.sql_session_dao.LocationMyBatisDao"
-          parent="sqlSessionDaoSupport"/>
-    <bean id="roleDao" class="org.itevents.dao.mybatis.sql_session_dao.RoleMyBatisDao" parent="sqlSessionDaoSupport"/>
-    <bean id="visitLogDao" class="org.itevents.dao.mybatis.sql_session_dao.VisitLogMyBatisDao"
-          parent="sqlSessionDaoSupport"/>
-
 </beans>

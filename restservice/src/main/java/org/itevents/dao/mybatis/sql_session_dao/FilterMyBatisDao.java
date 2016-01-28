@@ -4,14 +4,15 @@ import org.itevents.dao.FilterDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by vaa25 on 09.12.2015.
  */
-public class FilterMyBatisDao extends SqlSessionDaoSupport implements FilterDao {
+@Component("filterDao")
+public class FilterMyBatisDao extends AbstractMyBatisDao implements FilterDao {
     @Override
     public Filter getFilter(int id) {
         Filter filter = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.FilterMapper.getFilter", id);

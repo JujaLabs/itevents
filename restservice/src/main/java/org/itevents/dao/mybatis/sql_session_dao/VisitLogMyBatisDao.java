@@ -4,14 +4,15 @@ import org.itevents.dao.VisitLogDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.VisitLog;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by vaa25 on 09.12.2015.
  */
-public class VisitLogMyBatisDao extends SqlSessionDaoSupport implements VisitLogDao {
+@Component("visitLogDao")
+public class VisitLogMyBatisDao extends AbstractMyBatisDao implements VisitLogDao {
     @Override
     public VisitLog getVisitLog(int id) {
         VisitLog visitLog = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.VisitLogMapper.getVisitLog", id);

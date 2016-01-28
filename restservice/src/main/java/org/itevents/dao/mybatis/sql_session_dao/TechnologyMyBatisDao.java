@@ -3,14 +3,15 @@ package org.itevents.dao.mybatis.sql_session_dao;
 import org.itevents.dao.TechnologyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Technology;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by vaa25 on 09.12.2015.
  */
-public class TechnologyMyBatisDao extends SqlSessionDaoSupport implements TechnologyDao {
+@Component("technologyDao")
+public class TechnologyMyBatisDao extends AbstractMyBatisDao implements TechnologyDao {
     @Override
     public Technology getTechnology(int id) {
         Technology technology = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.TechnologyMapper.getTechnology", id);

@@ -3,12 +3,13 @@ package org.itevents.dao.mybatis.sql_session_dao;
 import org.itevents.dao.RoleDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Role;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by vaa25 on 09.12.2015.
  */
-public class RoleMyBatisDao extends SqlSessionDaoSupport implements RoleDao {
+@Component("roleDao")
+public class RoleMyBatisDao extends AbstractMyBatisDao implements RoleDao {
     @Override
     public Role getRole(int id) {
         Role role = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.RoleMapper.getRole", id);

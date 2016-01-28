@@ -4,15 +4,15 @@ import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by vaa25 on 03.11.2015.
  */
-
-public class UserMyBatisDao extends SqlSessionDaoSupport implements UserDao {
+@Component("userDao")
+public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
 
     @Override
     public User getUser(int id) {
