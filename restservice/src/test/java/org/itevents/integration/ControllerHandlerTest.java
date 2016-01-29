@@ -6,6 +6,7 @@ import org.itevents.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
+import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -59,7 +61,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assign(any(User.class), any(Event.class));
+        verify(eventService, never()).assignUserToEvent(any(), any());
     }
 
     @Test
@@ -71,7 +73,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
 
-        verify(eventService, never()).assign(any(), any());
+        verify(eventService, never()).assignUserToEvent(any(), any());
     }
 
     @Test
@@ -113,4 +115,18 @@ public class ControllerHandlerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void shouldNotAssignUserToEventIfAssigned() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        Event event = BuilderUtil.buildEventJava();
+        ArrayList<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+
+        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doThrow(ActionAlreadyDoneServiceException.class).when(eventService).assignUserToEvent(user, event);
+
+        mvc.perform(post("/events/" + event.getId() + "/assign"))
+                .andExpect(status().isConflict());
+    }
 }

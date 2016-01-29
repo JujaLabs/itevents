@@ -6,13 +6,15 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
-import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,10 +22,10 @@ import org.junit.Test;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -213,7 +215,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
 
-        Date unassignDate = dateTimeUtil.setDate("2115.07.20");
+        Date unassignDate = DateTimeUtil.yyyyMMddStringToDate("2115.07.20");
         String unassignReason = "test";
 
         eventMyBatisDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);

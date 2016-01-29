@@ -7,6 +7,7 @@ import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,13 +61,14 @@ public class EventMyBatisDao extends AbstractMyBatisDao implements EventDao {
     }
 
     @Override
-    public void assign(User user, Event event) {
-        getSqlSession().insert("org.itevents.dao.mybatis.mapper.EventMapper.assign", new UserEvent(user, event));
+    public void assignUserToEvent(User user, Event event) {
+        getSqlSession().insert("org.itevents.dao.mybatis.mapper.EventMapper.assignUserToEvent", new AssignData(user, event));
     }
 
     @Override
-    public void unassign(User user, Event event) {
-        getSqlSession().delete("org.itevents.dao.mybatis.mapper.EventMapper.unassign", new UserEvent(user, event));
+    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+        getSqlSession().update("org.itevents.dao.mybatis.mapper.EventMapper.unassignUserFromEvent",
+                new UnassignData(user, event, unassignDate, unassignReason));
     }
 
     @Override
@@ -74,11 +76,11 @@ public class EventMyBatisDao extends AbstractMyBatisDao implements EventDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapper.getEventsByUser", user);
     }
 
-    private class UserEvent {
+    private class AssignData {
         private User user;
         private Event event;
 
-        public UserEvent(User user, Event event) {
+        public AssignData(User user, Event event) {
             this.user = user;
             this.event = event;
         }
@@ -97,6 +99,52 @@ public class EventMyBatisDao extends AbstractMyBatisDao implements EventDao {
 
         public void setEvent(Event event) {
             this.event = event;
+        }
+    }
+
+    private class UnassignData{
+        private User user;
+        private Event event;
+        private Date unassignDate;
+        private String unassignReason;
+
+        public UnassignData(User user, Event event, Date unassignDate, String unassignReason) {
+            this.user = user;
+            this.event = event;
+            this.unassignDate = unassignDate;
+            this.unassignReason = unassignReason;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public Event getEvent() {
+            return event;
+        }
+
+        public void setEvent(Event event) {
+            this.event = event;
+        }
+
+        public Date getUnassignDate() {
+            return unassignDate;
+        }
+
+        public void setUnassignDate(Date unassignDate) {
+            this.unassignDate = unassignDate;
+        }
+
+        public String getUnassignReason() {
+            return unassignReason;
+        }
+
+        public void setUnassignReason(String unassignReason) {
+            this.unassignReason = unassignReason;
         }
     }
 }
