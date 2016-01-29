@@ -5,7 +5,6 @@ import org.itevents.model.Filter;
 import org.itevents.model.Technology;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class FilteredEventsSqlBuilder {
@@ -26,14 +25,10 @@ public class FilteredEventsSqlBuilder {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
-                if (params.getFree()) {
-                    WHERE("(price IS NULL OR price = 0)");
-                } else {
-                    WHERE("price > 0");
-                }
+                WHERE(params.getFree() ? "(price IS NULL OR price = 0)" : "price > 0");
             }
             if (!CollectionUtils.isEmpty(params.getTechnologies())) {
-                JOIN(makeJoin(params));
+                JOIN(makeJoinSql(params.getTechnologies()));
                 WHERE("e.id=et.event_id");
             }
             ORDER_BY("event_date");
@@ -54,18 +49,13 @@ public class FilteredEventsSqlBuilder {
         return sql;
     }
 
-    private String makeJoin(Filter params) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("event_technology et ON ");
-        List<Technology> technologies = params.getTechnologies();
-        Iterator<Technology> iterator = technologies.iterator();
-        while (iterator.hasNext()) {
-            sb.append("et.technology_id=");
-            sb.append(iterator.next().getId());
-            if (iterator.hasNext()) {
-                sb.append(" or ");
-            }
+    private String makeJoinSql(List<Technology> technologies) {
+        StringBuilder sb = new StringBuilder("event_technology et ON ");
+        for (Technology technology : technologies) {
+            sb.append("et.technology_id=").append(technology.getId())
+                    .append(" or ");
         }
+        sb.delete(sb.length() - 4, sb.length());
         return sb.toString();
     }
 }

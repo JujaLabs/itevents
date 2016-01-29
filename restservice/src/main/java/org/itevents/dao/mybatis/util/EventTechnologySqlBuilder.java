@@ -4,24 +4,28 @@ import org.itevents.model.Event;
 import org.itevents.model.Technology;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class EventTechnologySqlBuilder {
 
     public String addEventTechnology(final Event event) {
         List<Technology> technologies = event.getTechnologies();
-        StringBuilder sql = new StringBuilder();
-        if (!CollectionUtils.isEmpty(technologies)) {
-            sql.append("INSERT INTO event_technology (event_id, technology_id) VALUES ");
-            Iterator<Technology> iterator = technologies.iterator();
-            while (iterator.hasNext()) {
-                sql.append("(").append(event.getId()).append(", ").append(iterator.next().getId()).append(")");
-                if (iterator.hasNext()) {
-                    sql.append(", ");
-                }
-            }
+        if (CollectionUtils.isEmpty(technologies)) {
+            return "";
+        } else {
+            return makeSql(event, technologies);
         }
+    }
+
+    private String makeSql(Event event, List<Technology> technologies) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO event_technology (event_id, technology_id) VALUES ");
+        for (Technology technology : technologies) {
+            sql.append("(")
+                    .append(event.getId()).append(", ")
+                    .append(technology.getId()).append("), ");
+        }
+        sql.delete(sql.length() - 2, sql.length());
         return sql.toString();
     }
 }
