@@ -4,6 +4,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.itevents.model.User;
+import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +41,8 @@ public class SequrityTests extends AbstractDbTest {
 
 	@Inject
 	private WebApplicationContext context;
+	@Inject
+	private UserService userService;
 
 	private MockMvc mvc;
 
@@ -121,7 +124,7 @@ public class SequrityTests extends AbstractDbTest {
 
 		mvc.perform(post("/users/register")
 				.param("username", testSubscriber.getLogin())
-				.param("password", testSubscriber.getPassword()))
+				.param("password", userService.getUserPassword(testSubscriber)))
 				.andExpect(authenticated().withUsername("guest"))
 				.andExpect(status().isOk());
 	}
