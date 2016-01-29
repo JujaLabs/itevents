@@ -1,5 +1,6 @@
 package org.itevents.controller;
 
+import com.sendgrid.SendGrid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,7 +14,6 @@ import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
-import org.itevents.util.time.DateTimeUtil;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.itevents.util.mail.BuilderUrl;
@@ -84,10 +84,10 @@ public class UserRestController {
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
         userService.addUser(user);
-        //generateOtp(1440, user);
-        //userService.addOtp(user, otpGenerator);
-        //SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url),user.getLogin());
-        //mailService.send(activationMail);
+        generateOtp(1440, user);
+        userService.addOtp(user, otpGenerator);
+        SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url),user.getLogin());
+        mailService.send(activationMail);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -141,7 +141,7 @@ public class UserRestController {
     public ResponseEntity<User> activateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         OtpGenerator otpGenerator = userService.getOtp(user);
-        if (!password.equals(otpGenerator.getPassword()) || otpGenerator.getExpirationDate().after(new Date())) {
+        if (!password.equals(otpGenerator.getOtp()) || otpGenerator.getExpirationDate().after(new Date())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         userService.activateUser(user);
@@ -162,7 +162,7 @@ public class UserRestController {
     public ResponseEntity<User> deactivateUser(@PathVariable("otp") String password) {
         User user = getUserFromSecurityContext();
         OtpGenerator otpGenerator = userService.getOtp(user);
-        if (!password.equals(otpGenerator.getPassword()) || !otpGenerator.getExpirationDate().after(new Date())) {
+        if (!password.equals(otpGenerator.getOtp()) || !otpGenerator.getExpirationDate().after(new Date())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         userService.deactivateUser(user);

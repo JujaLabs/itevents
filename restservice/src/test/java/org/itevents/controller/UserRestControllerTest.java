@@ -11,6 +11,7 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -51,6 +52,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
         super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
+    @Ignore
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
