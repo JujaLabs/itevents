@@ -15,7 +15,7 @@ import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.converter.FilterConverter;
-import org.itevents.util.time.TimeUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.itevents.wrapper.TokenWrapper;
 import org.springframework.http.HttpStatus;
@@ -96,7 +96,7 @@ public class UserRestController {
     @ApiOperation(value = "Activates authorized user's e-mail subscription with filter")
     public ResponseEntity activateSubscription(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
-        filter.setCreateDate(TimeUtil.getNowDate());
+        filter.setCreateDate(DateTimeUtil.getNowDate());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
         userService.activateUserSubscription(user);
