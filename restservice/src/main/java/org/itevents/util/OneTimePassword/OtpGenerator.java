@@ -11,16 +11,16 @@ import java.util.UUID;
 @Component
 public class OtpGenerator implements Serializable {
 
-    private String password;
+    private String otp;
     private Date creationDate;
     private Date expirationDate;
 
-    public String getPassword() {
-        return password;
+    public String getOtp() {
+        return otp;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public Date getCreationDate() {
@@ -43,9 +43,9 @@ public class OtpGenerator implements Serializable {
         setCreationDate(new Date());
         if (lifetimeInMinutes>0) {
             setExpirationDate(new Date(creationDate.getTime() + lifetimeInMinutes * 60 * 1000));
-            setPassword(UUID.randomUUID().toString());
+            setOtp(UUID.randomUUID().toString());
         } else {
-            setPassword(UUID.randomUUID().toString());
+            setOtp(UUID.randomUUID().toString());
         }
     }
 
