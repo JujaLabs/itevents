@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-public class UserRestControllerTest extends AbstractControllerSecurityTest {
+public class UserRestControllerTest extends AbstractControllerTest {
 
     @Mock
     private RoleService roleService;
@@ -47,7 +47,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
     @Test
@@ -83,7 +82,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldDeactivateSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
