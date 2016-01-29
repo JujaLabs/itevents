@@ -2,6 +2,7 @@ package org.itevents.service.security;
 
 
 import java.io.IOException;
+import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,6 +16,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.NullRememberMeServices;
@@ -34,6 +37,7 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
     private CryptTokenService cryptTokenService;
 
     public CustomTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
+        Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         this.authenticationManager = authenticationManager;
         this.ignoreFailure = true;
@@ -58,15 +62,18 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Token token = cryptTokenService.decrypt(header.substring(7));
 
-                if(this.authenticationIsRequired(token.getUsername())) {
-                    UsernamePasswordAuthenticationToken authRequest =
-                            new UsernamePasswordAuthenticationToken(token.getUsername(), token.getPassword());
-                    authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-                    Authentication authResult = this.authenticationManager.authenticate(authRequest);
+                List<GrantedAuthority> authorityList
+                        = AuthorityUtils.commaSeparatedStringToAuthorityList(token.getRole());
 
-                    SecurityContextHolder.getContext().setAuthentication(authResult);
-                    this.rememberMeServices.loginSuccess(request, response, authResult);
-                }
+                UsernamePasswordAuthenticationToken authRequest =
+                    new UsernamePasswordAuthenticationToken(token.getUsername(), header, authorityList);
+
+                authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
+                Authentication authResult = this.authenticationManager.authenticate(authRequest);
+
+                SecurityContextHolder.getContext().setAuthentication(authResult);
+                this.rememberMeServices.loginSuccess(request, response, authResult);
+
             } catch (AuthenticationException var10) {
                 SecurityContextHolder.clearContext();
                 this.rememberMeServices.loginFail(request, response);
@@ -83,11 +90,6 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
         } else {
             chain.doFilter(request, response);
         }
-    }
-
-    private boolean authenticationIsRequired(String username) {
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-        return existingAuth != null && existingAuth.isAuthenticated()?(existingAuth instanceof UsernamePasswordAuthenticationToken && !existingAuth.getName().equals(username)?true:existingAuth instanceof AnonymousAuthenticationToken):true;
     }
 
     protected AuthenticationEntryPoint getAuthenticationEntryPoint() {

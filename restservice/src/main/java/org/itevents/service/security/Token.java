@@ -7,13 +7,12 @@ import java.util.Date;
  */
 public class Token {
 
-    private Date createDate = new Date();
     private String username;
-    private String password;
+    private String role;
 
-    public Token(String username, String password) {
+    public Token(String username, String role) {
         this.username = username;
-        this.password = password;
+        this.role = role;
     }
 
     public Token() {
@@ -27,19 +26,19 @@ public class Token {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    @Override
+    public String toString() {
+        return "Token{" +
+                ", username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

@@ -7,6 +7,7 @@ import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,15 +31,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
-@ContextConfiguration({"classpath*:mvc-dispatcher-servlet.xml", "classpath*:spring-security.xml"})
-@TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
-		value = WithSecurityContextTestExecutionListener.class)
+@ContextConfiguration({
+		"classpath*:mvc-dispatcher-servlet.xml",
+		"classpath*:spring-security.xml",
+		"classpath*:applicationContext.xml"
+})
+@TestExecutionListeners(
+		mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
+		value = WithSecurityContextTestExecutionListener.class
+)
 @WebAppConfiguration
-@DatabaseSetup(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
-		type = DatabaseOperation.REFRESH)
-@DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
-		type = DatabaseOperation.DELETE_ALL)
-public class SequrityTests extends AbstractDbTest {
+public class SecurityTests extends AbstractDbTest {
 
 	@Inject
 	private WebApplicationContext context;
@@ -51,16 +54,11 @@ public class SequrityTests extends AbstractDbTest {
 	}
 
 	@Test
-	public void shouldGenerateToken() throws Exception {
-		MvcResult result = mvc.perform(post("/users/login")
-				.param("username", "ramax@email.com")
-				.param("password", "passwd"))
-				.andExpect(status().isOk())
-				.andReturn();
-
-		String content = result.getResponse().getContentAsString();
-		Assert.notNull(content);
-		Assert.isTrue(!content.isEmpty());
+	@WithMockUser(username="kuchin@email.com",roles={"admin"})
+	public void shouldGrantAccessToAdminForAdmin() throws Exception {
+		mvc.perform(get("/admin"))
+				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("admin"))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -79,23 +77,16 @@ public class SequrityTests extends AbstractDbTest {
 	}
 
 	@Test
-	@WithUserDetails("vlasov@email.com")
+	@WithMockUser(username="vlasov@email.com",roles={"subscriber"})
 	public void shouldDenyAccessToAdminForSubscriber() throws Exception {
 		mvc.perform(get("/admin"))
 				.andExpect(authenticated().withUsername("vlasov@email.com").withRoles("subscriber"))
 				.andExpect(status().isForbidden());
 	}
 
-	@Test
-	@WithUserDetails("kuchin@email.com")
-	public void shouldGrantAccessToAdminForAdmin() throws Exception {
-		mvc.perform(get("/admin"))
-				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("admin"))
-				.andExpect(status().isOk());
-	}
 
 	@Test
-	@WithUserDetails("vlasov@email.com")
+	@WithMockUser(username="vlasov@email.com",roles={"subscriber"})
 	public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
 		mvc.perform(post("/users/register"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
@@ -103,13 +94,12 @@ public class SequrityTests extends AbstractDbTest {
 	}
 
 	@Test
-	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
+	public void shouldGrantAccessToRegisterNewSubscriber() throws Exception {
 		User testSubscriber = BuilderUtil.buildSubscriberTest();
 
 		mvc.perform(post("/users/register")
 				.param("username", testSubscriber.getLogin())
 				.param("password", testSubscriber.getPassword()))
-				.andExpect(authenticated().withUsername("guest"))
 				.andExpect(status().isOk());
 	}
 

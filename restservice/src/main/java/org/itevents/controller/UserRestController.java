@@ -51,7 +51,14 @@ public class UserRestController {
     @ApiOperation(value = "Generate authorization token")
     public ResponseEntity<TokenWrapper> login(@ModelAttribute("username") String username,
                                               @ModelAttribute("password") String password) {
-        String token = tokenService.encrypt(new Token(username, password));
+
+        User user = userService.getUserByName(username);
+        System.out.println("--------------User controller------------");
+        System.out.println(user.getPassword().equals(passwordEncoder.encode(password)));
+        System.out.println(user.getRole().getName());
+        String token = tokenService.encrypt(new Token(username, user.getRole().getName()));
+        System.out.println(token);
+        System.out.println("-------------- END User controller------------");
         return new ResponseEntity<>(new TokenWrapper(token), HttpStatus.OK);
     }
 
