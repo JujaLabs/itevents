@@ -128,5 +128,7 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
+
+        reset(eventService);
     }
 }
