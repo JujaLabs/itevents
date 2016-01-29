@@ -12,7 +12,6 @@ import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +56,8 @@ public class UserMapperDbTest extends AbstractDbTest {
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAddUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
-        userMapper.addUser(testUser);
+        String password = "testUserPassword";
+        userMapper.addUser(testUser, password);
     }
 
     @Test

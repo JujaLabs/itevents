@@ -16,11 +16,15 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    void addUser(User user);
+    void addUser(User user, String password);
 
     void updateUser(User user);
 
     List<User> getUsersByEvent(Event event);
 
     List<User> getSubscribedUsers();
+
+    String getUserPassword(User user);
+
+    void setUserPassword(User user, String password);
 }

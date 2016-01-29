@@ -67,12 +67,12 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldAddUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
+        String password = "testUserPassword";
+        doNothing().when(userDao).addUser(testUser, password);
 
-        doNothing().when(userDao).addUser(testUser);
+        userService.addUser(testUser, password);
 
-        userService.addUser(testUser);
-
-        verify(userDao).addUser(testUser);
+        verify(userDao).addUser(testUser, password);
     }
 
     @Test
@@ -115,5 +115,12 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         userService.getUsersByEvent(event);
         verify(userDao).getUsersByEvent(event);
+    }
+
+    @Test
+    public void shouldReturnUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        userService.getUserPassword(user);
+        verify(userDao).getUserPassword(user);
     }
 }
