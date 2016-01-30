@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * Created by vaa25 on 28.01.2016.
  */
 @Component
-public class AbstractMyBatisDao extends SqlSessionDaoSupport {
+public abstract class AbstractMyBatisDao extends SqlSessionDaoSupport {
     @Inject
     private SqlSessionFactoryBean sqlSessionFactoryBean;
 
