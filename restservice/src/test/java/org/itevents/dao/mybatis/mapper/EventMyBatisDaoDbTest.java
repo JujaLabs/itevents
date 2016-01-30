@@ -39,8 +39,6 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
     private EventMyBatisDao eventMyBatisDao;
-    @Inject
-    private DateTimeUtil dateTimeUtil;
 
     @Test
     public void testFindEventById() throws Exception {
