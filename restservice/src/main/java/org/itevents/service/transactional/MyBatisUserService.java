@@ -20,8 +20,8 @@ public class MyBatisUserService implements UserService {
     private UserDao userDao;
 
     @Override
-    public void addUser(User user) {
-        userDao.addUser(user);
+    public void addUser(User user, String password) {
+        userDao.addUser(user, password);
     }
 
     @Override
@@ -67,5 +67,15 @@ public class MyBatisUserService implements UserService {
     @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
+    }
+
+    @Override
+    public String getUserPassword(User user) {
+        return userDao.getUserPassword(user);
+    }
+
+    @Override
+    public void setUserPassword(User user, String password) {
+        userDao.setUserPassword(user, password);
     }
 }

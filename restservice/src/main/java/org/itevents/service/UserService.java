@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    void addUser(User user);
+    void addUser(User user, String password);
 
     User getUser(int userId);
 
@@ -26,4 +26,8 @@ public interface UserService {
     List<User> getSubscribedUsers();
 
     List<User> getUsersByEvent(Event event);
+
+    String getUserPassword(User user);
+
+    void setUserPassword(User user, String password);
 }

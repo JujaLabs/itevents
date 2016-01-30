@@ -28,13 +28,14 @@ public interface UserMapper extends UserDao {
     List<User> getAllUsers();
 
     @Override
-    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{login}, #{password}, " +
-            "#{role.id}, #{subscribed})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{user.login}, #{password}, " +
+            "#{user.role.id}, #{user.subscribed})")
     @Options(useGeneratedKeys = true)
-    void addUser(User user);
+    void addUser(@Param("user") User user,
+                 @Param("password") String password);
 
     @Override
-    @Update("UPDATE user_profile SET login=#{login}, password=#{password}, role_id=#{role.id}, subscribed=#{subscribed} " +
+    @Update("UPDATE user_profile SET login=#{login}, role_id=#{role.id}, subscribed=#{subscribed} " +
             "WHERE id=#{id}")
     void updateUser(User user);
 
@@ -47,4 +48,14 @@ public interface UserMapper extends UserDao {
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
     List<User> getSubscribedUsers();
+
+    @Override
+    @Select("SELECT password FROM user_profile WHERE id = #{id}")
+    String getUserPassword(User user);
+
+    @Override
+    @Update("UPDATE user_profile SET password=#{password}" +
+            "WHERE id=#{user.id}")
+    void setUserPassword(@Param("user") User user,
+                         @Param("password") String password);
 }

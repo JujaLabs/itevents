@@ -38,7 +38,7 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(eventRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
+        super.authenticationUser(BuilderUtil.buildSubscriberTest(), "testPassword");
     }
 
     @Test

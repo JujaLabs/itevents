@@ -48,7 +48,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
+        super.authenticationUser(BuilderUtil.buildSubscriberTest(), "testPassword");
     }
 
     @Test
@@ -59,35 +59,36 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
         when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
         when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(encodedPassword);
-        doNothing().when(userService).addUser(testUser);
+        when(passwordEncoder.encode(encodedPassword)).thenReturn(encodedPassword);
+        doNothing().when(userService).addUser(testUser, encodedPassword);
 
         mockMvc.perform(post("/users/register")
                 .param("username", testUser.getLogin())
-                .param("password", testUser.getPassword()))
+                .param("password", encodedPassword))
                 .andExpect(status().isOk());
 
         testUser.setRole(subscriberRole);
-        testUser.setPassword(encodedPassword);
+        userService.setUserPassword(testUser, encodedPassword);
         verify(roleService).getRoleByName(subscriberRole.getName());
         verify(userService).getUserByName(testUser.getLogin());
-        verify(userService).addUser(testUser);
+        verify(userService).addUser(testUser, encodedPassword);
     }
 
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
+        String password = "testUserPassword";
 
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
         mockMvc.perform(post("/users/register")
                 .param("username", user.getLogin())
-                .param("password", user.getPassword()))
+                .param("password", password))
                 .andExpect(status().isImUsed());
 
         verify(roleService, never()).getRole(anyInt());
         verify(userService).getUserByName(user.getLogin());
-        verify(userService, never()).addUser(user);
+        verify(userService, never()).addUser(user, password);
     }
 
     @Test
