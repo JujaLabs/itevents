@@ -9,6 +9,7 @@ import org.itevents.AbstractDbTest;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -51,6 +52,7 @@ public class UserMapperDbTest extends AbstractDbTest {
         assertNull(returnedUser);
     }
 
+    @Ignore
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
