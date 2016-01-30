@@ -8,12 +8,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.model.builder.UserBuilder;
-import org.itevents.service.CryptTokenService;
-import org.itevents.service.security.Token;
-import org.itevents.service.EventService;
-import org.itevents.service.FilterService;
-import org.itevents.service.RoleService;
-import org.itevents.service.UserService;
+import org.itevents.service.*;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
@@ -41,7 +36,7 @@ public class UserRestController {
     @Inject
     private PasswordEncoder passwordEncoder;
     @Inject
-    private CryptTokenService tokenService;
+    private TokenService tokenService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -52,14 +47,12 @@ public class UserRestController {
     public ResponseEntity<TokenWrapper> login(@ModelAttribute("username") String username,
                                               @ModelAttribute("password") String password) {
 
-        User user = userService.getUserByName(username);
-        System.out.println("--------------User controller------------");
-        System.out.println(user.getPassword().equals(passwordEncoder.encode(password)));
-        System.out.println(user.getRole().getName());
-        String token = tokenService.encrypt(new Token(username, user.getRole().getName()));
-        System.out.println(token);
-        System.out.println("-------------- END User controller------------");
-        return new ResponseEntity<>(new TokenWrapper(token), HttpStatus.OK);
+        String token = tokenService.createToken(username, password);
+        if (token != null) {
+            return new ResponseEntity<>(new TokenWrapper(token), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiImplicitParams({

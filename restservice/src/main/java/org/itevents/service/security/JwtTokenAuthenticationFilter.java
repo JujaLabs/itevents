@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.itevents.service.CryptTokenService;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +25,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
+public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     private AuthenticationEntryPoint authenticationEntryPoint;
     private AuthenticationManager authenticationManager;
@@ -36,7 +35,7 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
     @Inject
     private CryptTokenService cryptTokenService;
 
-    public CustomTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         this.authenticationManager = authenticationManager;

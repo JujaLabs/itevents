@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
 import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;

@@ -17,7 +17,15 @@
     <bean id="visitLogService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="org.itevents.service.VisitLogService"/>
     </bean>
-
+    <bean id="cryptTokenService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.itevents.service.security.AESCryptTokenService"/>
+    </bean>
+    <bean id="tokenService" class="org.mockito.Mockito" factory-method="mock">
+    <constructor-arg value="org.itevents.service.security.JwtTokenService"/>
+    </bean>
+    <bean id="passwordEncoder" class="org.mockito.Mockito" factory-method="mock">
+    <constructor-arg value="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    </bean>
     <bean id="expectedDigestEmail" class="java.lang.String">
         <constructor-arg>
             <bean class="org.springframework.util.FileCopyUtils" factory-method="copyToByteArray">

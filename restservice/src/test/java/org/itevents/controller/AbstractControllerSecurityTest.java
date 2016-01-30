@@ -2,6 +2,7 @@ package org.itevents.controller;
 
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.After;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,5 +32,10 @@ public abstract class AbstractControllerSecurityTest extends AbstractControllerT
                 })
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    @After
+    public void logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 }

@@ -5,10 +5,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Role;
 import org.itevents.model.User;
-import org.itevents.service.EventService;
-import org.itevents.service.FilterService;
-import org.itevents.service.RoleService;
-import org.itevents.service.UserService;
+import org.itevents.service.*;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +38,9 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private EventService eventService;
+    @Mock
+    private TokenService tokenService;
+
     @InjectMocks
     private UserRestController userRestController;
 
@@ -135,5 +135,14 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
+    }
+
+    @Test
+    public void shouldGenerateToken() throws Exception {
+        when(tokenService.createToken("someMail@mail.ua","passwd")).thenReturn("someToken");
+        mockMvc.perform(post("/users/login")
+                .param("username","someMail@mail.ua")
+                .param("password","passwd")
+        ).andExpect(status().isOk());
     }
 }

@@ -8,6 +8,7 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

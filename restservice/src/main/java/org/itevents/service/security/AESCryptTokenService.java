@@ -4,6 +4,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.service.CryptTokenService;
+import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

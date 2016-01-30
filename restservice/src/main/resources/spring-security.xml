@@ -24,7 +24,7 @@
         <intercept-url pattern="/users/register" access='!isAuthenticated()'/>
         <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
         <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
-        <intercept-url pattern="/users/*/events" access='hasRole("admin")'/>
+        <intercept-url pattern="/users/*/events" access='hasAuthority("admin")'/>
         <intercept-url pattern="/users/subscribe" access='isAuthenticated()'/>
         <intercept-url pattern="/users/unsubscribe" access='isAuthenticated()'/>
         <intercept-url pattern="/users/me" access='isAuthenticated()'/>
@@ -34,12 +34,10 @@
     </http>
 
     <beans:bean id="jwtAuthenticationFilter"
-          class="org.itevents.service.security.CustomTokenAuthenticationFilter">
+          class="org.itevents.service.security.JwtTokenAuthenticationFilter">
         <beans:constructor-arg index="0" ref="authenticationManager"/>
     </beans:bean>
 
-    <beans:bean name="passwordEncoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
     </authentication-manager>
