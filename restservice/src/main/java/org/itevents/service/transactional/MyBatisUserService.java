@@ -68,4 +68,12 @@ public class MyBatisUserService implements UserService {
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
     }
+
+    @Override
+    public boolean checkPasswordByLogin(User user, String password) {
+        if (userDao.getUserPasswordByLogin(user).equals(password)) {
+            return true;
+        } else
+            return false;
+    }
 }
