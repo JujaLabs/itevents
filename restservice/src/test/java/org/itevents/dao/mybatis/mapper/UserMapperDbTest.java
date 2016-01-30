@@ -52,6 +52,13 @@ public class UserMapperDbTest extends AbstractDbTest {
         assertNull(returnedUser);
     }
 
+
+    /*
+  *
+  * @TODO: fix mapper org.itevents.dao.mybatis.mapper.UserMapper.addUser, description in issue 138
+  * https://github.com/JuniorsJava/itevents/issues/138
+  *
+  */
     @Ignore
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",

@@ -27,12 +27,6 @@ public interface UserMapper extends UserDao {
     @Select("SELECT * FROM user_profile ORDER BY login")
     List<User> getAllUsers();
 
-    /*
-    *
-    * @TODO: fix mapper addUser, description in issue 138
-    * https://github.com/JuniorsJava/itevents/issues/138
-    *
-    */
     @Override
     @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{user.login}, #{password}, " +
             "#{user.role.id}, #{user.subscribed})")
