@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,6 +34,8 @@ public class MyBatisUserServiceTest {
     private UserDao userDao;
     @Mock
     private EventDao eventDao;
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     @Before
     public void setUp() {
@@ -121,11 +124,12 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldCheckPasswordByLogin() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
-        String password = "testPassword";
+        String password = testUser.getPassword();
+        String encodedPassword = passwordEncoder.encode(password);
 
-        when(userDao.getUserPasswordByLogin(testUser)).thenReturn(password);
+        when(userDao.getUserPasswordByLogin(testUser)).thenReturn(encodedPassword);
 
-        boolean isCorrect = userService.checkPasswordByLogin(testUser, password);
+        boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
         verify(userDao).getUserPasswordByLogin(testUser);
         assertTrue(isCorrect);
