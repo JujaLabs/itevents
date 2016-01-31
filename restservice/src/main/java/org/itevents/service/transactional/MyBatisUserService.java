@@ -20,7 +20,6 @@ public class MyBatisUserService implements UserService {
     @Inject
     private UserDao userDao;
     @Inject
-//    @Qualifier("PasswordEncoder")
     private PasswordEncoder passwordEncoder;
 
     @Override
