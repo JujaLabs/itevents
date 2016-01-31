@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/JuniorsJava/itevents.png?label=ready&title=Ready)](https://waffle.io/JuniorsJava/itevents)
 # itevents
 
 [![Join the chat at https://gitter.im/JuniorsJava/itevents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/JuniorsJava/itevents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
