@@ -122,17 +122,16 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldCheckPasswordByLogin() throws Exception {
+    public void shouldCheckPasswordByUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         String password = testUser.getPassword();
         String encodedPassword = "encodedPassword";
 
         when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
-        when(userService.matchPasswordByLogin(testUser, password)).thenReturn(true);
-
+        when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
-        verify(userDao, atLeastOnce()).getEncodedUserPassword(testUser);
+        verify(userDao, atMost(2)).getEncodedUserPassword(testUser);
         assertTrue(isCorrect);
     }
 }
