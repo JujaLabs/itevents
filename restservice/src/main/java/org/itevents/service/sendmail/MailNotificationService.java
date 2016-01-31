@@ -21,10 +21,10 @@ public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Value("${event_filter_range_in_days}")
+    @Value("${event.filter.range.in.days}")
     private Integer FILTER_RANGE_IN_DAYS;
 
-    @Value("${event_count_of_events_in_email}")
+    @Value("${event.count.of.events.in.email}")
     private Integer COUNT_OF_EVENTS_IN_EMAIL;
 
     @Inject

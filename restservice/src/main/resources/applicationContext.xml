@@ -16,10 +16,10 @@
     <context:property-placeholder location="classpath*:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${database_driver}"/>
-        <property name="url" value="${database_url}"/>
-        <property name="username" value="${database_username}"/>
-        <property name="password" value="${database_password}"/>
+        <property name="driverClassName" value="${database.driver}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="sendgrid" class="com.sendgrid.SendGrid">
-        <constructor-arg value="${sendgrid_api_key}"/>
+        <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
 
 </beans>

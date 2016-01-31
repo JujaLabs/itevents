@@ -62,45 +62,15 @@ dependencies {
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
 }
 
-String projectEnvironmentVariablePrefix = "itev_"
-String testPrefix = "test_"
-
 Properties properties = new Properties()
+properties.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 Properties testProperties = new Properties()
+testProperties.load(new FileInputStream(projectDir.toString().replace('\\', '/')
+        + "/src/test/resources/test-local.properties"))
 
-def propertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
-def testPropertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
-
-if (propertiesFile.exists() && testPropertiesFile.exists()) {
-    properties.load(new FileInputStream(propertiesFile))
-    testProperties.load(new FileInputStream(testPropertiesFile))
-} else {
-    def propertiesWriter = new PrintWriter(propertiesFile)
-    def testPropertiesWriter = new PrintWriter(testPropertiesFile)
-    Map<String,String> environmentVariables = System.getenv();
-    for (String environmentVariable : environmentVariables.keySet()) {
-        if (environmentVariable.startsWith(projectEnvironmentVariablePrefix)) {
-            String variableWithoutPrefix = environmentVariable.substring(projectEnvironmentVariablePrefix.length())
-            String projectProperty = variableWithoutPrefix;
-            if (projectProperty.startsWith(testPrefix)) {
-                projectProperty = projectProperty.substring(testPrefix.length());
-                testProperties.setProperty(projectProperty, environmentVariables.get(environmentVariable))
-                testPropertiesWriter.println(projectProperty + '=' + environmentVariables.get(environmentVariable))
-            } else {
-                properties.setProperty(projectProperty, environmentVariables.get(environmentVariable))
-                propertiesWriter.println(projectProperty + '=' + environmentVariables.get(environmentVariable))
-            }
-        }
-    }
-    propertiesWriter.flush()
-    propertiesWriter.close()
-    testPropertiesWriter.flush()
-    testPropertiesWriter.close()
-}
-
-httpPort = Integer.valueOf(properties.getProperty('http_port'));
-stopPort = Integer.valueOf(properties.getProperty('stop_port'));
-stopKey = properties.getProperty('stop_key');
+httpPort = Integer.valueOf(properties.getProperty('http.port'));
+stopPort = Integer.valueOf(properties.getProperty('stop.port'));
+stopKey = properties.getProperty('stop.key');
 
 test.dependsOn "liquibaseTestUpdate"
 
@@ -119,11 +89,11 @@ task liquibaseUpdate(type: JavaExec) {
         args "--password=${propertyMap['password']}"
         args "--url=${propertyMap['url']}"
     } else {
-        args "--username=${properties.getProperty('database_username')}"
-        args "--password=${properties.getProperty('database_password')}"
-        args "--url=${properties.getProperty('database_url')}"
+        args "--username=${properties.getProperty('database.username')}"
+        args "--password=${properties.getProperty('database.password')}"
+        args "--url=${properties.getProperty('database.url')}"
     }
-    args "--changeLogFile=${properties.getProperty('changelog_file')}"
+    args "--changeLogFile=${properties.getProperty('changelog.file')}"
     args 'update'
 }
 
@@ -132,10 +102,10 @@ task liquibaseRollback(type: JavaExec) {
     group = "Liquibase"
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${properties.getProperty('database_username')}"
-    args "--password=${properties.getProperty('database_password')}"
-    args "--url=${properties.getProperty('database_url')}"
-    args "--changeLogFile=${properties.getProperty('changelog_file')}"
+    args "--username=${properties.getProperty('database.username')}"
+    args "--password=${properties.getProperty('database.password')}"
+    args "--url=${properties.getProperty('database.url')}"
+    args "--changeLogFile=${properties.getProperty('changelog.file')}"
     args 'rollbackCount'
     args '0'
 }
@@ -145,9 +115,9 @@ task liquibaseTestUpdate(type: JavaExec) {
     group = 'Liquibase'
     classpath configurations.liquibase
     main = 'liquibase.integration.commandline.Main'
-    args "--username=${testProperties.getProperty('database_username')}"
-    args "--password=${testProperties.getProperty('database_password')}"
-    args "--url=${testProperties.getProperty('database_url')}"
-    args "--changeLogFile=${testProperties.getProperty('changelog_file')}"
+    args "--username=${testProperties.getProperty('database.username')}"
+    args "--password=${testProperties.getProperty('database.password')}"
+    args "--url=${testProperties.getProperty('database.url')}"
+    args "--changeLogFile=${testProperties.getProperty('changelog.file')}"
     args 'update'
 }

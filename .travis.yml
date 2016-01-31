@@ -8,9 +8,12 @@ addons:
   postgresql: '9.2'
 services:
 - postgresql
+before_install:
+- cp .travis/properties/travis.properties restservice/src/main/resources/local.properties
+- cp .travis/properties/test-travis.properties restservice/src/test/resources/test-local.properties
 before_script:
-- psql -c 'create database itevent_db;' -U postgres
-- psql -c 'create database itevent_test_db;' -U postgres
+- psql -c 'create database itevents;' -U postgres
+- psql -c 'create database test;' -U postgres
 script:
 - gradle
 after_success:
@@ -24,4 +27,10 @@ deploy:
   app: $OPENSHIFT_APP
 notifications:
   slack:
-    secure: A1zOv+GblpGLr/mqrLKnEnCZwjsv+Uq0tJNoIL6AqYzSYp7C7bRfRUN+cTmQrfZE3zWORZiWBbT2CDeO5qhjtD2a25YpaDoTfIMW7DuEsIXQYBWTFaknYwU7cRwdB8orIkTH7l7mm46N6FQsFE/pxSMP69DvZP9we02xj0TgL8YZ+QUeS4GvaYlK52DZ8MzmswiaLEqx7ieOlWLc1RT9tlE7R/6YtxGrr+qDCETdsMmmNdIVTn2R3oJ0u4Mfob3l68ykXQIVMzlbyTltrLa9A815LxHKVChaa79cyB7BEU3uoWerQSGyUpT2NnM9stWtib8NsNnH6jquVrczWeKQlAig8s5lzLydeRIpSFu2bKgYGoVDTJvxk5w8TS/7epKPmhPbKeo+8tR68sj57/vqwQlNF4OW01EVaX9wUyOX+kk2M7eI/8iyzkr8u9ZUsCCFS0JC5AhCRGjAMfi2b9JQ+CU1DkXP9p8Otyf2s0hftP9M+hhHI8Gybd/zpyqhA18CYUPGcIBOczBw3ojyoNIeG6G20LVUQ7tF5HPngOS39O/D0JILnI40V9r6sNeu8FuFZ/ODtrGkRH6jSPwqo3maXCrdoc3Kv7HTThYZMUk8pnaTilIxYcwF+QnjiB1EQTTdb7Wtnr2DfhhjgVwAMMGHpPyPmwtQZKGiJQ60JwTFvTk=
+    secure: mR2QhKHdCsbLrJ7vSkbKJbxGh1EoL1snl80LlckmGgdWpJ7d6jxWS0NmRtObOHwJJuJPUVWc3wZ2UTj65RukMjFFXJPRD8dfEGd6lVmiY26Qoni9UGYYBp/Tj1DieuA8WDCbWO65sYAWRvq0ry15kNDYxBF+FfQD60ZDqnYkALpI3VqOWUIfG2gNMAx0JSRflwXsUsW9m8Nm7PObjVa3KhYROCq0pr/kaAPcR3D0fg/sSz9jWwaHtENMdMW+Qz2MMG4JCnERB5KAxuNDv2YMr9lo3DggxeeTF77BVLkuvFUZkervRgpc/EaRWTRluwI7azeIr9QOW/YotTXC6jj1gvqMJE4026BwCpmH1rhE0o/LUUV+SbZfMnjRRg/rzgnOd5mMWnypOruQmwk9OzcXkHMT6FaANwUUzh36dBMpjZfiPP5KYYJjEys3bW/FE7B+KGi90HQZvmL+U9RJhjHD7fOrN9sSPZYukExOydeW1g2ckF4u+Ran+pAoiKl84Yy8hd4Y/7SFUqgBdbs77+OzSCGcIjcHpIFPT4QTeXX89FLUTxVtQl1nQSwof+hHsoeNSLvpQu/T8tT1GXGyc6P+pajZuq0KtKgEsHLx7OxGP4jAvTjlmdy8d4HfegR5Iv0RCjb1yxeDEz6t57HHCO2YwOvjfPX4AX8rSJowTnFAzC8=
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
