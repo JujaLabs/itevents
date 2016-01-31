@@ -47,7 +47,7 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenUserIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenUserIsAbsent() throws Exception {
         userMyBatisDao.getUser(ABSENT_ID);
     }
 

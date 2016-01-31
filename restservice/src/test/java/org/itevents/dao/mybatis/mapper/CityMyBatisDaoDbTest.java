@@ -39,7 +39,7 @@ public class CityMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenCityIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenCityIsAbsent() throws Exception {
         cityMyBatisDao.getCity(ABSENT_ID);
     }
 

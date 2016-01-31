@@ -39,7 +39,7 @@ public class CurrencyMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenCurrencyIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenCurrencyIsAbsent() throws Exception {
         currencyMyBatisDao.getCurrency(ABSENT_ID);
     }
 

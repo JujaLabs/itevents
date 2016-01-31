@@ -34,7 +34,7 @@ public class RoleMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void shouldNotFindRoleWhenRoleIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenRoleIsAbsent() throws Exception {
         roleMyBatisDao.getRole(ABSENT_ID);
     }
 }

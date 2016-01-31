@@ -55,7 +55,7 @@ public class TechnologyMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenTechnologyIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenTechnologyIsAbsent() throws Exception {
         technologyMyBatisDao.getTechnology(ABSENT_ID);
     }
 

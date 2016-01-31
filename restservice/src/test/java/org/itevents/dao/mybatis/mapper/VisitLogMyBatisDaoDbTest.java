@@ -40,7 +40,7 @@ public class VisitLogMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenVisitLogIsAbsent() throws Exception {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenVisitLogIsAbsent() throws Exception {
         visitLogMyBatisDao.getVisitLog(ABSENT_ID);
     }
 

@@ -45,7 +45,7 @@ public class FilterMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenFilterIsAbsent() {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenFilterIsAbsent() {
         filterMyBatisDao.getFilter(ABSENT_ID);
     }
 

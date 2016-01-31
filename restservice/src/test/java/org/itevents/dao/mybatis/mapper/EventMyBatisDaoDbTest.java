@@ -48,7 +48,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void expectNullWhenEventIsAbsent() {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenEventIsAbsent() {
         eventMyBatisDao.getEvent(ABSENT_ID);
     }
 
