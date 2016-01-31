@@ -10,7 +10,6 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.inject.Inject;
 
@@ -95,7 +94,7 @@ public class UserMapperDbTest extends AbstractDbTest {
     public void shouldGetPasswordByLogin() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = user.getPassword();
-        String returnedPassword = userMapper.getUserPasswordByLogin(user);
+        String returnedPassword = userMapper.getEncodedUserPassword(user);
 
         assertEquals(expectedPassword, returnedPassword);
     }

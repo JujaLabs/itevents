@@ -34,7 +34,7 @@ public class MyBatisUserServiceTest {
     private UserDao userDao;
     @Mock
     private EventDao eventDao;
-    @Inject
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Before
@@ -125,13 +125,14 @@ public class MyBatisUserServiceTest {
     public void shouldCheckPasswordByLogin() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         String password = testUser.getPassword();
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = "encodedPassword";
 
-        when(userDao.getUserPasswordByLogin(testUser)).thenReturn(encodedPassword);
+        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
+        when(userService.matchPasswordByLogin(testUser, password)).thenReturn(true);
 
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
-        verify(userDao).getUserPasswordByLogin(testUser);
+        verify(userDao, atLeastOnce()).getEncodedUserPassword(testUser);
         assertTrue(isCorrect);
     }
 }

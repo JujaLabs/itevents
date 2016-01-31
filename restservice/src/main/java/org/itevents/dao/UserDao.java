@@ -24,5 +24,5 @@ public interface UserDao {
 
     List<User> getSubscribedUsers();
 
-    String getUserPasswordByLogin(User user);
+    String getEncodedUserPassword(User user);
 }

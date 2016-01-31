@@ -50,5 +50,5 @@ public interface UserMapper extends UserDao {
 
     @Override
     @Select("SELECT password FROM user_profile WHERE login = #{login}")
-    String getUserPasswordByLogin(User user);
+    String getEncodedUserPassword(User user);
 }
