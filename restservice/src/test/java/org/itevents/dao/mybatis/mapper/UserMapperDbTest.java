@@ -10,6 +10,7 @@ import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.inject.Inject;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -87,5 +89,14 @@ public class UserMapperDbTest extends AbstractDbTest {
         Event event = BuilderUtil.buildEventPhp();
         List returnedUsers = userMapper.getUsersByEvent(event);
         assertEquals(expectedUsers,returnedUsers);
+    }
+
+    @Test
+    public void shouldGetPasswordByLogin() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String expectedPassword = user.getPassword();
+        String returnedPassword = userMapper.getUserPasswordByLogin(user);
+
+        assertEquals(expectedPassword, returnedPassword);
     }
 }

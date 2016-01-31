@@ -6,6 +6,7 @@ import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class MyBatisUserService implements UserService {
 
     @Inject
     private UserDao userDao;
+    @Inject
+//    @Qualifier("PasswordEncoder")
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void addUser(User user) {
@@ -67,5 +71,12 @@ public class MyBatisUserService implements UserService {
     @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
+    }
+
+    @Override
+    public boolean matchPasswordByLogin(User user, String password) {
+        String encodedPassword = userDao.getUserPasswordByLogin(user);
+        boolean isMatches = passwordEncoder.matches(password, encodedPassword);
+        return isMatches;
     }
 }
