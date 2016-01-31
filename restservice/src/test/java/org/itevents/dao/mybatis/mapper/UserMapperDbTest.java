@@ -97,4 +97,24 @@ public class UserMapperDbTest extends AbstractDbTest {
         List returnedUsers = userMapper.getUsersByEvent(event);
         assertEquals(expectedUsers,returnedUsers);
     }
+
+    @Test
+    public void shouldGetUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String expectedPassword = "$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq";
+        String returnedPassword = userMapper.getUserPassword(user);
+        assertEquals(expectedPassword, returnedPassword);
+    }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "setUserPassword_expected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldSetuserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String expectedPassword = "newPassword";
+        userMapper.setUserPassword(user, expectedPassword);
+
+        String returnedPassword = userMapper.getUserPassword(user);
+        assertEquals(expectedPassword, returnedPassword);
+    }
 }

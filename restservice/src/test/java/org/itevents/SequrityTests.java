@@ -3,9 +3,6 @@ package org.itevents;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import org.itevents.model.User;
-import org.itevents.service.UserService;
-import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -29,7 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
-@ContextConfiguration({"classpath*:mvc-dispatcher-servlet.xml", "classpath*:spring-security.xml"})
+@ContextConfiguration({
+        "classpath*:mvc-dispatcher-servlet.xml",
+        "classpath*:spring-security.xml"})
 @TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
 		value = WithSecurityContextTestExecutionListener.class)
 @WebAppConfiguration
@@ -41,9 +40,6 @@ public class SequrityTests extends AbstractDbTest {
 
 	@Inject
 	private WebApplicationContext context;
-	@Inject
-	private UserService userService;
-
 	private MockMvc mvc;
 
 	@Before
@@ -120,13 +116,11 @@ public class SequrityTests extends AbstractDbTest {
 
 	@Test
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
-		User testSubscriber = BuilderUtil.buildSubscriberTest();
-
 		mvc.perform(post("/users/register")
-				.param("username", testSubscriber.getLogin())
-				.param("password", userService.getUserPassword(testSubscriber)))
-				.andExpect(authenticated().withUsername("guest"))
-				.andExpect(status().isOk());
+                .param("username", "vlasov@email.com")
+                .param("password", "password"))
+                .andExpect(authenticated().withUsername("guest"))
+                .andExpect(status().isOk());
 	}
 
 }

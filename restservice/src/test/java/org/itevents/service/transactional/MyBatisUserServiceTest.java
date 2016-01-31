@@ -17,6 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -113,14 +115,35 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldReturnUsersByEvent() throws Exception {
         Event event = BuilderUtil.buildEventJs();
-        userService.getUsersByEvent(event);
+        List users = new ArrayList<>();
+
+        when(userDao.getUsersByEvent(event)).thenReturn(users);
+        List returnedUsers = userService.getUsersByEvent(event);
+
         verify(userDao).getUsersByEvent(event);
+        assertEquals(users, returnedUsers);
     }
 
     @Test
     public void shouldReturnUserPassword() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        userService.getUserPassword(user);
+        String password = "password";
+
+        when(userDao.getUserPassword(user)).thenReturn(password);
+        String returnedPassword = userService.getUserPassword(user);
+
         verify(userDao).getUserPassword(user);
+        assertEquals(password, returnedPassword);
+    }
+
+    @Test
+    public void shouldSetUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String password = "password";
+
+        doNothing().when(userDao).setUserPassword(user, password);
+
+        userService.setUserPassword(user, password);
+        verify(userDao).setUserPassword(user, password);
     }
 }
