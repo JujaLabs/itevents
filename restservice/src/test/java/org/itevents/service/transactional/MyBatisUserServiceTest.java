@@ -131,7 +131,7 @@ public class MyBatisUserServiceTest {
         when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
-        verify(userDao, atMost(2)).getEncodedUserPassword(testUser);
+        verify(userDao).getEncodedUserPassword(testUser);
         assertTrue(isCorrect);
     }
 }
