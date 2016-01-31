@@ -59,7 +59,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void shouldGetAllTechnologies() {
+    public void shouldGetAllTechnologies() throws Exception {
         technologyService.getAllTechnologies();
 
         verify(technologyDao).getAllTechnologies();

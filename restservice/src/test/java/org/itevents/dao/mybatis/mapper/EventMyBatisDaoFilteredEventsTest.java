@@ -13,7 +13,6 @@ import org.itevents.test_utils.dbunit.dataset_loader.EventDateReplacementDataSet
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +33,7 @@ public class EventMyBatisDaoFilteredEventsTest extends AbstractDbTest {
     private EventMyBatisDao eventMyBatisDao;
 
     @Test
-    public void shouldReturnKyivEvents() throws ParseException {
+    public void shouldReturnKyivEvents() throws Exception {
         Filter filter = BuilderUtil.buildKyivFilter();
         filter.setLimit(FILTER_RANGE_IN_DAYS);
         filter.setRangeInDays(COUNT_OF_EVENTS_IN_EMAIL);
@@ -47,7 +46,7 @@ public class EventMyBatisDaoFilteredEventsTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldReturnFreeEvents() throws ParseException {
+    public void shouldReturnFreeEvents() throws Exception {
         Filter filter = BuilderUtil.buildFreeFilter();
         filter.setLimit(FILTER_RANGE_IN_DAYS);
         filter.setRangeInDays(COUNT_OF_EVENTS_IN_EMAIL);
@@ -60,7 +59,7 @@ public class EventMyBatisDaoFilteredEventsTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldReturnJavaEvents() throws ParseException {
+    public void shouldReturnJavaEvents() throws Exception {
         Filter filter = BuilderUtil.builderFilterJava();
         filter.setLimit(FILTER_RANGE_IN_DAYS);
         filter.setRangeInDays(COUNT_OF_EVENTS_IN_EMAIL);

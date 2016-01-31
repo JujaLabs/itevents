@@ -61,7 +61,7 @@ public class CurrencyMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllCurrencies() {
+    public void shouldGetAllCurrencies() throws Exception {
         int expectedSize = 3;
         int returnedSize = currencyMyBatisDao.getAllCurrencies().size();
         assertEquals(expectedSize, returnedSize);

@@ -16,7 +16,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +44,12 @@ public class FilterMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void shouldThrowEntityNotFoundDaoExceptionWhenFilterIsAbsent() {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenFilterIsAbsent() throws Exception {
         filterMyBatisDao.getFilter(ABSENT_ID);
     }
 
     @Test
-    public void shouldFindLastFilterOfUser() {
+    public void shouldFindLastFilterOfUser() throws Exception {
         Filter expectedFilter = BuilderUtil.buildFilterFifth();
         User user = BuilderUtil.buildUserKuchin();
 
@@ -60,7 +59,7 @@ public class FilterMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllFilters() throws ParseException {
+    public void shouldGetAllFilters() throws Exception {
         int expectedSize = 5;
 
         int returnedSize = filterMyBatisDao.getAllFilters().size();
@@ -71,7 +70,7 @@ public class FilterMyBatisDaoDbTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddFilter_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddFilter() throws ParseException {
+    public void shouldAddFilter() throws Exception {
         Filter addingFilter = BuilderUtil.buildFilterTest();
 
         filterMyBatisDao.addFilter(addingFilter);
@@ -81,7 +80,7 @@ public class FilterMyBatisDaoDbTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddFilterTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddFilterTechnology_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddTechnologiesToFilterTechnologyTable() throws ParseException {
+    public void shouldAddTechnologiesToFilterTechnologyTable() throws Exception {
         Filter addingFilter = BuilderUtil.buildFilterTest();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());

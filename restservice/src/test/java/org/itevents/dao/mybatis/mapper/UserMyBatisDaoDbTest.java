@@ -69,7 +69,7 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldUpdateUser() {
+    public void shouldUpdateUser() throws Exception {
         User user = BuilderUtil.buildUserVlasov();
         user.setSubscribed(true);
         userMyBatisDao.updateUser(user);

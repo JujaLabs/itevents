@@ -109,14 +109,14 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldGetAllUsers() {
+    public void shouldGetAllUsers() throws Exception {
         userService.getAllUsers();
 
         verify(userDao).getAllUsers();
     }
 
     @Test
-    public void shouldActivateUserSubscription() {
+    public void shouldActivateUserSubscription() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         boolean expectedSubscribed = true;
 
@@ -130,7 +130,7 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldDeactivateUserSubscription() {
+    public void shouldDeactivateUserSubscription() throws Exception {
         User testSubscriber = BuilderUtil.buildSubscriberTest();
         boolean expectedSubscribed = false;
 

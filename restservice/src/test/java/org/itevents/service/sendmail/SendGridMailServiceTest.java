@@ -1,26 +1,21 @@
 package org.itevents.service.sendmail;
 
 import com.sendgrid.SendGrid;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-
-import com.sendgrid.SendGridException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.BeforeTransaction;
 
 import javax.inject.Inject;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by max on 30.07.15.
@@ -46,7 +41,7 @@ public class SendGridMailServiceTest {
     }
 
     @Test
-    public void shouldSendMail() throws SendGridException {
+    public void shouldSendMail() throws Exception {
         when(sendGrid.send( any(SendGrid.Email.class) )).thenReturn(
                 new SendGrid.Response(HttpStatus.OK.value(),"ok")
         );

@@ -49,7 +49,7 @@ public class MyBatisVisitLogServiceTest {
     }
 
     @Test
-    public void shouldGetAllVisitlogs() {
+    public void shouldGetAllVisitlogs() throws Exception {
         visitLogService.getAllVisitLogs();
 
         verify(visitLogDao).getAllVisitLogs();

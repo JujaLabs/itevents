@@ -51,7 +51,7 @@ public class MyBatisCityServiceTest {
     }
 
     @Test
-    public void shouldGetAllCities() {
+    public void shouldGetAllCities() throws Exception {
         cityService.getAllCities();
 
         verify(cityDao).getAllCities();

@@ -80,7 +80,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldFindEventsByParameter() throws ParseException {
+    public void shouldFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
 
@@ -93,7 +93,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldNotFindEventsByParameter() throws ParseException {
+    public void shouldNotFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
 
         when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(new ArrayList<>());
@@ -105,7 +105,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldReturnEventsByUser() throws Exception{
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
 
         eventService.getEventsByUser(user);
@@ -124,7 +124,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldUnassignUserFromEvent()throws Exception {
+    public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
         Date unassignDate = DateTimeUtil.yyyyMMddStringToDate("20.07.2115");

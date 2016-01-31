@@ -33,7 +33,7 @@ public class FilterSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryByDateCityIdEventIdAndPagination() {
+    public void shouldBuildSqlQueryByDateCityIdEventIdAndPagination() throws Exception {
         parameter.setCity(BuilderUtil.buildCityKyiv());
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyJava());
@@ -48,7 +48,7 @@ public class FilterSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryByDateCityIdPriceAndPagination() {
+    public void shouldBuildSqlQueryByDateCityIdPriceAndPagination() throws Exception {
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
 
@@ -61,7 +61,7 @@ public class FilterSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() {
+    public void shouldBuiltSqlQueryByFewTechnologiesAndPagination() throws Exception {
 
         List<Technology> testTechnologies = new ArrayList<>();
         testTechnologies.add(BuilderUtil.buildTechnologyPhp());
@@ -81,7 +81,7 @@ public class FilterSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryWithPaginationToGetEventsInRadius() {
+    public void shouldBuildSqlQueryWithPaginationToGetEventsInRadius() throws Exception {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
@@ -112,7 +112,7 @@ public class FilterSqlBuilderTest {
     }
 
     @Test
-    public void shouldBuildSqlQueryWithDateRangeWithRating() {
+    public void shouldBuildSqlQueryWithDateRangeWithRating() throws Exception {
         Filter filter = BuilderUtil.buildTestFilter();
         String expectedSql = "SELECT * FROM event e " +
                 "JOIN event_technology et ON et.technology_id=-1 or et.technology_id=-5 or et.technology_id=-8 " +

@@ -61,7 +61,7 @@ public class CityMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllCities() {
+    public void shouldGetAllCities() throws Exception {
         int expectedSize = 4;
         int returnedSize = cityMyBatisDao.getAllCities().size();
         assertEquals(expectedSize, returnedSize);

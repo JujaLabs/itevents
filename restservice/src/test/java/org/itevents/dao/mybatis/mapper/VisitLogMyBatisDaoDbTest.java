@@ -14,7 +14,6 @@ import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +32,7 @@ public class VisitLogMyBatisDaoDbTest extends AbstractDbTest {
     private VisitLogMyBatisDao visitLogMyBatisDao;
 
     @Test
-    public void shouldFindVisitLogById() throws ParseException {
+    public void shouldFindVisitLogById() throws Exception {
         VisitLog expectedVisitLog = BuilderUtil.buildVisitLogFirst();
         VisitLog returnedVisitLog = visitLogMyBatisDao.getVisitLog(ID_1);
         assertEquals(expectedVisitLog, returnedVisitLog);
@@ -61,7 +60,7 @@ public class VisitLogMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllVisitLogs() {
+    public void shouldGetAllVisitLogs() throws Exception {
         int expectedSize = 7;
         int returnedSize = visitLogMyBatisDao.getAllVisitLogs().size();
         assertEquals(expectedSize, returnedSize);

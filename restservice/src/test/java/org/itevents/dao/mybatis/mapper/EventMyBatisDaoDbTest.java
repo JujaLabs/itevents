@@ -48,7 +48,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test(expected = EntityNotFoundDaoException.class)
-    public void shouldThrowEntityNotFoundDaoExceptionWhenEventIsAbsent() {
+    public void shouldThrowEntityNotFoundDaoExceptionWhenEventIsAbsent() throws Exception {
         eventMyBatisDao.getEvent(ABSENT_ID);
     }
 
@@ -63,7 +63,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "testAddEventTechnology_expected.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addEventTechnology_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws ParseException {
+    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws Exception {
         Event removingEvent = BuilderUtil.buildEventRuby();
         eventMyBatisDao.removeEventTechnology(removingEvent);
     }
@@ -71,7 +71,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddEvent_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddEvent() throws ParseException {
+    public void shouldAddEvent() throws Exception {
         Event addingEvent = BuilderUtil.buildEventRuby();
         eventMyBatisDao.addEvent(addingEvent);
     }
@@ -80,7 +80,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     @DatabaseSetup(value = TEST_PATH + "addEventTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddEventTechnology_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddTechnologiesToEventTechnologyTable() throws ParseException {
+    public void shouldAddTechnologiesToEventTechnologyTable() throws Exception {
         Event addingEvent = BuilderUtil.buildEventRuby();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
@@ -90,7 +90,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsWithDefaultParameters() {
+    public void shouldFindEventsWithDefaultParameters() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         int expectedSize = 7;
         int returnedSize = eventMyBatisDao.getFilteredEvents(parameter).size();
@@ -105,7 +105,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsWithPage3ItemsPerPage2() throws ParseException {
+    public void shouldFindEventsWithPage3ItemsPerPage2() throws Exception {
         FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(3);
         wrapper.setItemsPerPage(2);
@@ -120,7 +120,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsWithDefaultPagination() {
+    public void shouldFindEventsWithDefaultPagination() throws Exception {
         FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(30);
         wrapper.setItemsPerPage(-2);
@@ -133,7 +133,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsInKyivWithTechnologyJava() throws ParseException {
+    public void shouldFindEventsInKyivWithTechnologyJava() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
@@ -148,7 +148,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindPayedEventsInBoyarka() throws ParseException {
+    public void shouldFindPayedEventsInBoyarka() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
@@ -161,7 +161,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsWithTechnologyPhpOrAntOrSql() throws ParseException {
+    public void shouldFindEventsWithTechnologyPhpOrAntOrSql() throws Exception {
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
@@ -179,7 +179,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsInRadiusWithGivenCenter() throws ParseException {
+    public void shouldFindEventsInRadiusWithGivenCenter() throws Exception {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
