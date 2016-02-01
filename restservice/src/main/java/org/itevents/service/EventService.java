@@ -21,11 +21,10 @@ public interface EventService {
 
     List<Event> getFilteredEvents(FilterWrapper wrapper);
 
+    void assignUserToEvent(User user, Event event);
     List<Event> getFilteredEventsWithRating(Filter filter);
 
-    void assign(User user, Event event);
-
-    void unassign(User user, Event event);
+    void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
     List<Event> getEventsByUser(User user);
 

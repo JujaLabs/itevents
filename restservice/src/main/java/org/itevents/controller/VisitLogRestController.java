@@ -11,7 +11,7 @@ import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.itevents.util.time.TimeUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +44,7 @@ public class VisitLogRestController {
             VisitLog visitLog = VisitLogBuilder.aVisitLog()
                     .event(event)
                     .user(user)
-                    .date(TimeUtil.getNowDate())
+                    .date(DateTimeUtil.getNowDate())
                     .build();
             visitLogService.addVisitLog(visitLog);
             return new ResponseEntity(event.getRegLink(), HttpStatus.OK);

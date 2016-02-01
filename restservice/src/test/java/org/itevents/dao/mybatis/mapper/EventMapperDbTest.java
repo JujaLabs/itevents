@@ -13,13 +13,14 @@ import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
-
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -37,6 +38,8 @@ public class EventMapperDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
     private EventMapper eventMapper;
+    @Inject
+    private DateTimeUtil dateTimeUtil;
 
     @Test
     public void testFindEventById() throws Exception {
@@ -206,25 +209,29 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "testAddUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testAssignUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.assign(user, event);
+        eventMapper.assignUserToEvent(user, event);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testAddUserEvent_expected.xml" , type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "addUserEvent_initial.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseSetup(value = TEST_PATH + "testUnassignUserEvent_initial.xml" , type = DatabaseOperation.REFRESH)
+    @ExpectedDatabase(value = TEST_PATH + "testUnassignUserEvent_expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.unassign(user, event);
+
+        Date unassignDate = dateTimeUtil.setDate("2115.07.20");
+        String unassignReason = "test";
+
+        eventMapper.unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
     public void shouldReturnEventsByUser() throws Exception{
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
