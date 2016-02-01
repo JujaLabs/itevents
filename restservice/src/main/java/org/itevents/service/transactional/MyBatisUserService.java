@@ -73,19 +73,19 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void setEncodedUserPassword(User user, String password) {
+    public void setAndEncodeUserPassword(User user, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        userDao.setEncodedUserPassword(user, encodedPassword);
+        userDao.setUserPassword(user, encodedPassword);
     }
 
     @Override
-    public String getEncodedUserPassword(User user) {
-        return userDao.getEncodedUserPassword(user);
+    public String getUserPassword(User user) {
+        return userDao.getUserPassword(user);
     }
 
     @Override
     public boolean matchPasswordByLogin(User user, String password) {
-        String encodedPassword = userDao.getEncodedUserPassword(user);
+        String encodedPassword = userDao.getUserPassword(user);
         return passwordEncoder.matches(password, encodedPassword);
     }
 }

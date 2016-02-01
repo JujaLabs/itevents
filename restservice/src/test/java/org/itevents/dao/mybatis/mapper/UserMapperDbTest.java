@@ -102,7 +102,7 @@ public class UserMapperDbTest extends AbstractDbTest {
     public void shouldGetEncodedPasswordByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = "$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq";
-        String returnedPassword = userMapper.getEncodedUserPassword(user);
+        String returnedPassword = userMapper.getUserPassword(user);
 
         assertEquals(expectedPassword, returnedPassword);
     }
@@ -113,9 +113,6 @@ public class UserMapperDbTest extends AbstractDbTest {
     public void shouldSetEncodedUserPassword() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = "newPassword";
-        userMapper.setEncodedUserPassword(user, expectedPassword);
-
-        String returnedPassword = userMapper.getEncodedUserPassword(user);
-        assertEquals(expectedPassword, returnedPassword);
+        userMapper.setUserPassword(user, expectedPassword);
     }
 }

@@ -133,10 +133,10 @@ public class MyBatisUserServiceTest {
         User user = BuilderUtil.buildUserAnakin();
         String encodedPassword = "encodedPassword";
 
-        when(userDao.getEncodedUserPassword(user)).thenReturn(encodedPassword);
-        String returnedPassword = userService.getEncodedUserPassword(user);
+        when(userDao.getUserPassword(user)).thenReturn(encodedPassword);
+        String returnedPassword = userService.getUserPassword(user);
 
-        verify(userDao).getEncodedUserPassword(user);
+        verify(userDao).getUserPassword(user);
         assertEquals(encodedPassword, returnedPassword);
     }
 
@@ -147,11 +147,11 @@ public class MyBatisUserServiceTest {
         String encodedpassword = "encodedPassword";
 
         when(passwordEncoder.encode(password)).thenReturn(encodedpassword);
-        doNothing().when(userDao).setEncodedUserPassword(user, password);
+        doNothing().when(userDao).setUserPassword(user, password);
 
-        userService.setEncodedUserPassword(user, password);
+        userService.setAndEncodeUserPassword(user, password);
 
-        verify(userDao).setEncodedUserPassword(user, encodedpassword);
+        verify(userDao).setUserPassword(user, encodedpassword);
     }
 
     @Test
@@ -160,11 +160,11 @@ public class MyBatisUserServiceTest {
         String password = "password";
         String encodedPassword = "encodedPassword";
 
-        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
+        when(userDao.getUserPassword(testUser)).thenReturn(encodedPassword);
         when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
-        verify(userDao).getEncodedUserPassword(testUser);
+        verify(userDao).getUserPassword(testUser);
         assertTrue(isCorrect);
     }
 }

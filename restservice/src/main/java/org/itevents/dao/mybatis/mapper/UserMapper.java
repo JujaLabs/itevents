@@ -53,11 +53,11 @@ public interface UserMapper extends UserDao {
 
     @Override
     @Select("SELECT password FROM user_profile WHERE login = #{login}")
-    String getEncodedUserPassword(User user);
+    String getUserPassword(User user);
 
     @Override
     @Update("UPDATE user_profile SET password=#{password}" +
             "WHERE login = #{user.login}")
-    void setEncodedUserPassword(@Param("user") User user,
-                                @Param("password") String password);
+    void setUserPassword(@Param("user") User user,
+                         @Param("password") String password);
 }
