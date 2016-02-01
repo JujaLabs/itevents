@@ -116,4 +116,10 @@ public class MyBatisUserService implements UserService {
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
     }
+// TODO: 01.02.2016 add exception refactoring
+    @Override
+    public boolean matchPasswordByLogin(User user, String password) {
+        String encodedPassword = userDao.getEncodedUserPassword(user);
+        return passwordEncoder.matches(password, encodedPassword);
+    }
 }

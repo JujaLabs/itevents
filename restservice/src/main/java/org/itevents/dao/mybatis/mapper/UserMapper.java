@@ -48,4 +48,8 @@ public interface UserMapper extends UserDao {
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
     List<User> getSubscribedUsers();
+
+    @Override
+    @Select("SELECT password FROM user_profile WHERE login = #{login}")
+    String getEncodedUserPassword(User user);
 }

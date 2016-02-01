@@ -87,4 +87,13 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         List returnedUsers = userMyBatisDao.getUsersByEvent(event);
         assertEquals(expectedUsers,returnedUsers);
     }
+
+    @Test
+    public void shouldGetPasswordByUser() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String expectedPassword = user.getPassword();
+        String returnedPassword = userMyBatisDao.getEncodedUserPassword(user);
+
+        assertEquals(expectedPassword, returnedPassword);
+    }
 }

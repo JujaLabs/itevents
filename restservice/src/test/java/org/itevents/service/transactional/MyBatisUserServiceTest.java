@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -148,5 +149,19 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         userService.getUsersByEvent(event);
         verify(userDao).getUsersByEvent(event);
+    }
+
+    @Test
+    public void shouldCheckPasswordByUser() throws Exception {
+        User testUser = BuilderUtil.buildUserTest();
+        String password = testUser.getPassword();
+        String encodedPassword = "encodedPassword";
+
+        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
+        when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
+        boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
+
+        verify(userDao).getEncodedUserPassword(testUser);
+        assertTrue(isCorrect);
     }
 }
