@@ -25,12 +25,12 @@ deploy:
   password: $OPENSHIFT_PASSWORD
   domain: $OPENSHIFT_DOMAIN
   app: $OPENSHIFT_APP
-notifications:
-  slack:
-    secure: mR2QhKHdCsbLrJ7vSkbKJbxGh1EoL1snl80LlckmGgdWpJ7d6jxWS0NmRtObOHwJJuJPUVWc3wZ2UTj65RukMjFFXJPRD8dfEGd6lVmiY26Qoni9UGYYBp/Tj1DieuA8WDCbWO65sYAWRvq0ry15kNDYxBF+FfQD60ZDqnYkALpI3VqOWUIfG2gNMAx0JSRflwXsUsW9m8Nm7PObjVa3KhYROCq0pr/kaAPcR3D0fg/sSz9jWwaHtENMdMW+Qz2MMG4JCnERB5KAxuNDv2YMr9lo3DggxeeTF77BVLkuvFUZkervRgpc/EaRWTRluwI7azeIr9QOW/YotTXC6jj1gvqMJE4026BwCpmH1rhE0o/LUUV+SbZfMnjRRg/rzgnOd5mMWnypOruQmwk9OzcXkHMT6FaANwUUzh36dBMpjZfiPP5KYYJjEys3bW/FE7B+KGi90HQZvmL+U9RJhjHD7fOrN9sSPZYukExOydeW1g2ckF4u+Ran+pAoiKl84Yy8hd4Y/7SFUqgBdbs77+OzSCGcIjcHpIFPT4QTeXX89FLUTxVtQl1nQSwof+hHsoeNSLvpQu/T8tT1GXGyc6P+pajZuq0KtKgEsHLx7OxGP4jAvTjlmdy8d4HfegR5Iv0RCjb1yxeDEz6t57HHCO2YwOvjfPX4AX8rSJowTnFAzC8=
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+notifications:
+  slack:
+    secure: Y6XGs71xXRHJ6cGL7wSdv4bqRgm25vQoRNgFWmCbLlYyFkTSEkRpI7mE9rq8VdItr86L9O5ZakWMQlT15J6JJVkzaHAoUDGv5WnBPxZMgWcgnnNnjAwCudIhchVhXCPMgjuaCILftq0uLYfMw36SEZUk4yeW4eabn5RwLIuZVH2Dq+jq9uArrO0E6sZgYuJ7nnV2pxmVh36l8rCEmzderXjPsSBtpMkad9a1KRZ9Gd6Uoz7NIDEHZGmjmHFcVK9qD667tXr/P0r2qqnlew+fwYul1mxpVR95AnjFOYg6BUdJ2Wf9CbYRjcxPrRxoZtAdZtuo3WFrEUOYB4GtylTFiHSC2Gemw03e3l2vlCIP5g802xef19dd/1Sl6DXQ1thJnsJVofrEiK8ZdXZ1RCRPIB1pvCK84QoJgcQI0V3Ah2VT/F4WuZpPA0GsnGrlisSbJYm8lFH3mbiVYjBgYVr3zYvEVizWIGRpDQ0ceGkjjjZsm8PcdcMW/UxB6f3aKrxfFRegiCSRQgMOTKCnG01kfv34C4ZlAaGLMVDRa0kpnULgpqNM6JmyxXBf5rNV1hCfCl2VfWbNoxo+7UGSV+85aZFUHxC4bdHK5CR5RmD2xRo6bvKX0u3Xb93GXYTgdnvlS97xPtdrPST9o5FLcsGvgvshNfiDR4n1/vHF1wpKx3E=
