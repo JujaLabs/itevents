@@ -57,4 +57,9 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserMapper.getSubscribedUsers");
     }
 
+    @Override
+    public String getEncodedUserPassword(User user) {
+        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getEncodedUserPassword", user);
+    }
+
 }

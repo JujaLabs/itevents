@@ -11,6 +11,7 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.WrongPasswordServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -116,10 +117,14 @@ public class MyBatisUserService implements UserService {
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
     }
-// TODO: 01.02.2016 add exception refactoring
+
     @Override
-    public boolean matchPasswordByLogin(User user, String password) {
+    public void checkPassword(User user, String password) {
         String encodedPassword = userDao.getEncodedUserPassword(user);
-        return passwordEncoder.matches(password, encodedPassword);
+        if (!passwordEncoder.matches(password, encodedPassword)) {
+            String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
+            LOGGER.error(message);
+            throw new WrongPasswordServiceException(message);
+        }
     }
 }

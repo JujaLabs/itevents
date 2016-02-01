@@ -8,6 +8,7 @@ import org.itevents.model.User;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,6 @@ import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -100,7 +100,7 @@ public class MyBatisUserServiceTest {
     }
 
     @Test(expected = EntityAlreadyExistsServiceException.class)
-    public void shouldThrowServiceExceptionWhenAddExistingSubscriber() throws Exception {
+    public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
         User testUser = BuilderUtil.buildUserVlasov();
 
         when(passwordEncoder.encode(testUser.getPassword())).thenReturn(testUser.getPassword());
@@ -158,10 +158,26 @@ public class MyBatisUserServiceTest {
         String encodedPassword = "encodedPassword";
 
         when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
-        when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
-        boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
+
+        userService.checkPassword(testUser, password);
 
         verify(userDao).getEncodedUserPassword(testUser);
-        assertTrue(isCorrect);
+        verify(passwordEncoder).matches(password, encodedPassword);
+    }
+
+    @Test(expected = WrongPasswordServiceException.class)
+    public void shouldThrowWrongPasswordServiceExceptionIfCheckPasswordFails() throws Exception {
+        User testUser = BuilderUtil.buildUserTest();
+        String password = testUser.getPassword();
+        String encodedPassword = null;
+
+        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
+
+        userService.checkPassword(testUser, password);
+
+        verify(userDao).getEncodedUserPassword(testUser);
+        verify(passwordEncoder).matches(password, encodedPassword);
     }
 }
