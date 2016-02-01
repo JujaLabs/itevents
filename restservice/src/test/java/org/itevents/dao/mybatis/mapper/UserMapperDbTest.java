@@ -91,7 +91,7 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetPasswordByLogin() throws Exception {
+    public void shouldGetPasswordByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = user.getPassword();
         String returnedPassword = userMapper.getEncodedUserPassword(user);
