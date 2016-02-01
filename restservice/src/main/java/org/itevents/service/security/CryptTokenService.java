@@ -1,4 +1,4 @@
-package org.itevents.service;
+package org.itevents.service.security;
 
 import org.itevents.service.security.Token;
 

@@ -1,7 +1,6 @@
 package org.itevents.service.security;
 
 import org.itevents.model.User;
-import org.itevents.service.CryptTokenService;
 import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;

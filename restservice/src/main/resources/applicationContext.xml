@@ -11,7 +11,9 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
-    <context:component-scan base-package="org.itevents.service"/>
+    <context:component-scan base-package="org.itevents.service.transactional"/>
+    <context:component-scan base-package="org.itevents.service.sendmail"/>
+    <context:component-scan base-package="org.itevents.service.converter"/>
     <context:component-scan base-package="org.itevents.util"/>
     <context:property-placeholder location="classpath*:local.properties"/>
 

@@ -1,7 +1,5 @@
 package org.itevents.service.security;
 
-import java.util.Date;
-
 /**
  * Created by ramax on 1/15/16.
  */

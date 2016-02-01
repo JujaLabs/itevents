@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.itevents.service.CryptTokenService;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,36 +18,25 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.NullRememberMeServices;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Component("jwtAuthenticationFilter")
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    @Inject
     private AuthenticationManager authenticationManager;
-    private RememberMeServices rememberMeServices = new NullRememberMeServices();
-    private boolean ignoreFailure = false;
-
     @Inject
     private CryptTokenService cryptTokenService;
 
     public JwtTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
-        Assert.notNull(authenticationManager, "authenticationManager cannot be null");
         this.authenticationManager = authenticationManager;
-        this.ignoreFailure = true;
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        Assert.notNull(this.authenticationManager, "An AuthenticationManager is required");
-        if(!this.isIgnoreFailure()) {
-            Assert.notNull(this.authenticationEntryPoint, "An AuthenticationEntryPoint is required");
-        }
-
+    public JwtTokenAuthenticationFilter() {
     }
 
     protected void doFilterInternal(
@@ -71,36 +59,16 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
-                this.rememberMeServices.loginSuccess(request, response, authResult);
-
             } catch (AuthenticationException var10) {
                 SecurityContextHolder.clearContext();
-                this.rememberMeServices.loginFail(request, response);
-                if(this.ignoreFailure) {
-                    chain.doFilter(request, response);
-                } else {
-                    this.authenticationEntryPoint.commence(request, response, var10);
-                }
+                chain.doFilter(request, response);
 
                 return;
             }
-
             chain.doFilter(request, response);
         } else {
             chain.doFilter(request, response);
         }
-    }
-
-    protected AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return this.authenticationEntryPoint;
-    }
-
-    protected AuthenticationManager getAuthenticationManager() {
-        return this.authenticationManager;
-    }
-
-    protected boolean isIgnoreFailure() {
-        return this.ignoreFailure;
     }
 
     public void setAuthenticationDetailsSource(AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
@@ -108,8 +76,4 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         this.authenticationDetailsSource = authenticationDetailsSource;
     }
 
-    public void setRememberMeServices(RememberMeServices rememberMeServices) {
-        Assert.notNull(rememberMeServices, "rememberMeServices cannot be null");
-        this.rememberMeServices = rememberMeServices;
-    }
 }
