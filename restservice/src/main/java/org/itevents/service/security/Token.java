@@ -39,4 +39,23 @@ public class Token {
                 ", role='" + role + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Token token = (Token) o;
+
+        if (!username.equals(token.username)) return false;
+        return role.equals(token.role);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + role.hashCode();
+        return result;
+    }
 }

@@ -3,15 +3,14 @@ package org.itevents.service.security;
 import org.itevents.model.User;
 import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
 /**
  * Created by ramax on 1/30/16.
  */
-@Component
+@Service
 public class JwtTokenService implements TokenService {
 
     @Inject

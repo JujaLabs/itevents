@@ -4,7 +4,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Created by ramax on 1/15/16.
  */
-@Component
+@Service
 public class AESCryptTokenService implements CryptTokenService {
 
     @Value("${aes.init.vector.hex}")
