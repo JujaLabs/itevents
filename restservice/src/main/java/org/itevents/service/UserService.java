@@ -26,4 +26,6 @@ public interface UserService {
     List<User> getSubscribedUsers();
 
     List<User> getUsersByEvent(Event event);
+
+    boolean matchPasswordByLogin(User user, String password);
 }

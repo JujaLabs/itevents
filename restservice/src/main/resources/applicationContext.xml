@@ -9,7 +9,7 @@
        http://mybatis.org/schema/mybatis-spring.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-
+    <import resource="password-encoder.xml"/>
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service"/>
     <context:component-scan base-package="org.itevents.util"/>
