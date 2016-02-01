@@ -23,4 +23,6 @@ public interface UserDao {
     List<User> getUsersByEvent(Event event);
 
     List<User> getSubscribedUsers();
+
+    String getEncodedUserPassword(User user);
 }
