@@ -63,14 +63,25 @@ dependencies {
 }
 
 Properties properties = new Properties()
-properties.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 Properties testProperties = new Properties()
-testProperties.load(new FileInputStream(projectDir.toString().replace('\\', '/')
-        + "/src/test/resources/test-local.properties"))
 
-httpPort = Integer.valueOf(properties.getProperty('http.port'));
-stopPort = Integer.valueOf(properties.getProperty('stop.port'));
-stopKey = properties.getProperty('stop.key');
+def propertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+def testPropertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
+
+if (propertiesFile.exists()) {
+    properties.load(new FileInputStream(propertiesFile))
+    httpPort = Integer.valueOf(properties.getProperty('http.port'));
+    stopPort = Integer.valueOf(properties.getProperty('stop.port'));
+    stopKey = properties.getProperty('stop.key');
+} else {
+    logger.error('local.properties is absent!')
+}
+
+if (testPropertiesFile.exists()) {
+    testProperties.load(new FileInputStream(testPropertiesFile))
+} else {
+    logger.error('test-local.properties is absent!')
+}
 
 test.dependsOn "liquibaseTestUpdate"
 

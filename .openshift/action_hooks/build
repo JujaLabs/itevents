@@ -6,5 +6,4 @@ export PATH=$GRADLE_HOME/bin:$PATH
 export PATH=$OPENSHIFT_DATA_DIR/jdk1.8.0_71/bin:$PATH
 export JAVA_HOME="$OPENSHIFT_DATA_DIR/jdk1.8.0_71"
 cp $OPENSHIFT_DATA_DIR/properties/local.properties restservice/src/main/resources/local.properties
-cp $OPENSHIFT_DATA_DIR/properties/test-local.properties restservice/src/test/resources/test-local.properties
-gradle -x test -x liquibaseUpdate
+gradle assemble
