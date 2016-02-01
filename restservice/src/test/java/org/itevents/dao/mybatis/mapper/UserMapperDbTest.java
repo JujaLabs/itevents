@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by vaa25 on 21.07.2015.
@@ -87,5 +88,14 @@ public class UserMapperDbTest extends AbstractDbTest {
         Event event = BuilderUtil.buildEventPhp();
         List returnedUsers = userMapper.getUsersByEvent(event);
         assertEquals(expectedUsers,returnedUsers);
+    }
+
+    @Test
+    public void shouldGetPasswordByUser() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String expectedPassword = user.getPassword();
+        String returnedPassword = userMapper.getEncodedUserPassword(user);
+
+        assertEquals(expectedPassword, returnedPassword);
     }
 }

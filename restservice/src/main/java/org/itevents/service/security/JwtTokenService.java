@@ -20,13 +20,10 @@ public class JwtTokenService implements TokenService {
     @Inject
     private CryptTokenService cryptTokenService;
 
-    @Inject
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public String createToken(String username, String password) {
         User user = userService.getUserByName(username);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+        if (user != null && userService.matchPasswordByLogin(user, password)) {
             Token token = new Token(username, user.getRole().getName());
             return cryptTokenService.encrypt(token);
         } else {

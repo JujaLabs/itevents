@@ -9,7 +9,7 @@
        http://mybatis.org/schema/mybatis-spring.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-
+    <import resource="password-encoder.xml"/>
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service.transactional"/>
     <context:component-scan base-package="org.itevents.service.sendmail"/>
@@ -36,6 +36,6 @@
         <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
 
-    <bean name="passwordEncoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <!--<bean name="passwordEncoder"-->
+                <!--class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>-->
 </beans>

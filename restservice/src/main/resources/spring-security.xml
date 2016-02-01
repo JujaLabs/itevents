@@ -9,8 +9,11 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <beans:import resource="password-encoder.xml"/>
+
     <context:property-placeholder location="classpath*:local.properties"/>
     <context:component-scan base-package="org.itevents.service.security"/>
+
     <global-method-security pre-post-annotations="enabled"/>
     <http realm="itevents"
           entry-point-ref="restAuthenticationEntryPoint"
@@ -32,11 +35,6 @@
 
         <custom-filter ref="jwtAuthenticationFilter" position="FORM_LOGIN_FILTER"   />
     </http>
-
-    <!--<beans:bean id="jwtAuthenticationFilter"-->
-          <!--class="org.itevents.service.security.JwtTokenAuthenticationFilter">-->
-        <!--<beans:constructor-arg index="0" ref="authenticationManager"/>-->
-    <!--</beans:bean>-->
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />

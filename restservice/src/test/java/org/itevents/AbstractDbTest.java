@@ -10,7 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
+@ContextConfiguration({
+        "classpath:applicationContext.xml",
+        "classpath:applicationContextTestAddon.xml"})
 @TestPropertySource("classpath:test-local.properties")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionDbUnitTestExecutionListener.class})
 @DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection")
