@@ -50,12 +50,12 @@ public interface UserMapper extends UserDao {
     List<User> getSubscribedUsers();
 
     @Override
-    @Select("SELECT password FROM user_profile WHERE id = #{id}")
-    String getUserPassword(User user);
-
+    @Select("SELECT password FROM user_profile WHERE login = #{login}")
+    String getEncodedUserPassword(User user);
+//    TODO: НАПИСАТЬ ТЕСТ!
     @Override
     @Update("UPDATE user_profile SET password=#{password}" +
-            "WHERE id=#{user.id}")
-    void setUserPassword(@Param("user") User user,
-                         @Param("password") String password);
+            "WHERE login = #{user.login}")
+    void setEncodedUserPassword(@Param("user") User user,
+                                @Param("password") String password);
 }
