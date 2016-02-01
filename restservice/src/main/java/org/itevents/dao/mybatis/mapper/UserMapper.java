@@ -2,7 +2,9 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.*;
+import org.itevents.model.Event;
+import org.itevents.model.Role;
+import org.itevents.model.User;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ public interface UserMapper extends UserDao {
     @Override
     @Select("SELECT password FROM user_profile WHERE login = #{login}")
     String getEncodedUserPassword(User user);
-//    TODO: НАПИСАТЬ ТЕСТ!
+
     @Override
     @Update("UPDATE user_profile SET password=#{password}" +
             "WHERE login = #{user.login}")

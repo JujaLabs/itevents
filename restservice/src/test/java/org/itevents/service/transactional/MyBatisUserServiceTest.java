@@ -131,34 +131,37 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldReturnUserPassword() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        String password = "password";
+        String encodedPassword = "encodedPassword";
 
-        when(userDao.getUserPassword(user)).thenReturn(password);
-        String returnedPassword = userService.getUserPassword(user);
+        when(userDao.getEncodedUserPassword(user)).thenReturn(encodedPassword);
+        String returnedPassword = userService.getEncodedUserPassword(user);
 
-        verify(userDao).getUserPassword(user);
-        assertEquals(password, returnedPassword);
+        verify(userDao).getEncodedUserPassword(user);
+        assertEquals(encodedPassword, returnedPassword);
     }
 
     @Test
-    public void shouldSetUserPassword() throws Exception {
+    public void shouldSetEncodedUserPassword() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String password = "password";
+        String encodedpassword = "encodedPassword";
 
-        doNothing().when(userDao).setUserPassword(user, password);
+        when(passwordEncoder.encode(password)).thenReturn(encodedpassword);
+        doNothing().when(userDao).setEncodedUserPassword(user, password);
 
-        userService.setUserPassword(user, password);
-        verify(userDao).setUserPassword(user, password);
+        userService.setEncodedUserPassword(user, password);
+
+        verify(userDao).setEncodedUserPassword(user, encodedpassword);
     }
 
     @Test
-    public void shouldCheckPasswordByUser() throws Exception {
+    public void shouldMatchPasswordByUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
-        String password = testUser.getPassword();
+        String password = "password";
         String encodedPassword = "encodedPassword";
 
         when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
-        when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
         verify(userDao).getEncodedUserPassword(testUser);

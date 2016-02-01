@@ -26,5 +26,5 @@ public interface UserDao {
 
     String getEncodedUserPassword(User user);
 
-    void setUserPassword(User user, String password);
+    void setEncodedUserPassword(User user, String password);
 }

@@ -27,7 +27,9 @@ public interface UserService {
 
     List<User> getUsersByEvent(Event event);
 
-    boolean matchPasswordByLogin(User user, String password);
+    void setEncodedUserPassword(User user, String password);
 
-    void setUserPassword(User user, String password);
+    String getEncodedUserPassword(User user);
+
+    boolean matchPasswordByLogin(User user, String password);
 }

@@ -68,7 +68,7 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
                 .andExpect(status().isOk());
 
         testUser.setRole(subscriberRole);
-        userService.setUserPassword(testUser, encodedPassword);
+        userService.setEncodedUserPassword(testUser, encodedPassword);
         verify(roleService).getRoleByName(subscriberRole.getName());
         verify(userService).getUserByName(testUser.getLogin());
         verify(userService).addUser(testUser, encodedPassword);
