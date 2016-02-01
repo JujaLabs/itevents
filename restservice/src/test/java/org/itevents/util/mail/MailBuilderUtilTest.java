@@ -17,7 +17,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
+@ContextConfiguration(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
     @Inject
     private String expectedDigestEmail;
