@@ -12,7 +12,6 @@ before_install:
 - cp .travis/properties/travis.properties restservice/src/main/resources/local.properties
 - cp .travis/properties/test-travis.properties restservice/src/test/resources/test-local.properties
 before_script:
-- psql -c 'create database itevents;' -U postgres
 - psql -c 'create database test;' -U postgres
 script:
 - gradle test
