@@ -15,10 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +48,7 @@ public class MailReminderAboutEventServiceTest {
     }
 
     @Test
-    public void executeTest() throws ParseException, TransformerException, JAXBException, IOException {
+    public void shouldGetUsersByEventDateAndSendMail() throws Exception {
 
         List<Event> events = new ArrayList<Event>();
         events.add(BuilderUtil.buildEventJava());
