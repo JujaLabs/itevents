@@ -22,7 +22,7 @@ public class CryptTokenServiceTest {
     private CryptTokenService cryptTokenService;
 
     @Test
-    public void shouldEncryptToken() {
+    public void decryptEncryptTokenTest() {
         Token token = new Token("username", "role");
 
         String encryptToken = cryptTokenService.encrypt(token);
