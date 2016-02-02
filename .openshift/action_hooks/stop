@@ -10,7 +10,3 @@ then
 else
     kill $PID
 fi
-
-cd $OPENSHIFT_DATA_DIR/tomcat/webapps/
-rm -rf ROOT/
-rm -f ROOT.war

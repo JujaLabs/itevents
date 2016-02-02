@@ -16,9 +16,6 @@ before_script:
 - psql -c 'create database test;' -U postgres
 script:
 - gradle test
-after_success:
-- git remote rename origin initial
-- git remote rename openshift origin
 deploy:
   provider: openshift
   user: $OPENSHIFT_USER
