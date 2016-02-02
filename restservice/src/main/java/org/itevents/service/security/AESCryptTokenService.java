@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.inject.Inject;
 
 /**
  * Created by ramax on 1/15/16.
@@ -22,7 +23,8 @@ public class AESCryptTokenService implements CryptTokenService {
     @Value("${aes.key.hex}")
     private String keyHex;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    @Inject
+    private ObjectMapper objectMapper;
 
     private String encryptAES(String str) throws Exception {
         IvParameterSpec iv = new IvParameterSpec(Hex.decodeHex(initVectorHex.toCharArray()));
@@ -51,7 +53,7 @@ public class AESCryptTokenService implements CryptTokenService {
     @Override
     public String encrypt(Token token) {
         try {
-            String strToken = mapper.writeValueAsString(token);
+            String strToken = objectMapper.writeValueAsString(token);
             return encryptAES(strToken);
         } catch (Exception e) {
             throw new AESCryptTokenException("Error encrypt token", e);
@@ -62,7 +64,7 @@ public class AESCryptTokenService implements CryptTokenService {
     public Token decrypt(String token) {
         try {
             String strToken = decryptAES(token);
-            return mapper.readValue(strToken, Token.class);
+            return objectMapper.readValue(strToken, Token.class);
         } catch (Exception e) {
             throw new AESCryptTokenException("Error decrypt token", e);
         }

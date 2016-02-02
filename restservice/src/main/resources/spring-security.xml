@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
     <beans:import resource="password-encoder.xml"/>
+    <beans:bean name="objectMapper" class="org.codehaus.jackson.map.ObjectMapper" />
 
     <context:property-placeholder location="classpath*:local.properties"/>
     <context:component-scan base-package="org.itevents.service.security"/>
