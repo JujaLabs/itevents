@@ -1,10 +1,12 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,17 +36,43 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
+    public User getAuthorizedUser() {
+        return getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public void activateUserSubscription(User user) {
+        user.setSubscribed(true);
+        userDao.updateUser(user);
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public void deactivateUserSubscription(User user) {
+        user.setSubscribed(false);
+        userDao.updateUser(user);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
     @Override
     public User removeUser(User user) {
-        User deletingUser = userDao.getUser(user.getId());
-        if (deletingUser != null) {
-            userDao.removeUser(user);
-        }
-        return deletingUser;
+        return null;
+    }
+
+    @Override
+    public List<User> getSubscribedUsers() {
+        return userDao.getSubscribedUsers();
+    }
+
+    @Override
+    public List<User> getUsersByEvent(Event event) {
+        return userDao.getUsersByEvent(event);
     }
 
     @Override
@@ -58,12 +86,12 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addOtp(User user, OtpGen otpGen) {
-        userDao.addOtp(user, otpGen);
+    public void addOtp(User user, OtpGenerator otpGenerator) {
+        userDao.addOtp(user, otpGenerator);
     }
 
     @Override
-    public OtpGen getOtp(User user) {
+    public OtpGenerator getOtp(User user) {
         return userDao.getOtp(user);
     }
 
@@ -74,7 +102,6 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public List<Event> getUserEvents(User user) {
-       return userDao.getUserEvents(user);
+        return null;
     }
-
 }

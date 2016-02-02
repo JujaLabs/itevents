@@ -1,13 +1,14 @@
 package org.itevents.util.mail;
 
-import org.itevents.controller.UserRestController;
+import org.apache.xalan.extensions.XSLProcessorContext;
+import org.apache.xalan.templates.ElemExtensionCall;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGen;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.http.HttpRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,14 +24,21 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
+
     @Inject
-    String expectedDigestEmail;
+    private String expectedDigestEmail;
     @Inject
-    String expectedUserOtpEmail;
+    private String expectedUserOtpEmail;
     @Inject
-    MailBuilderUtil mailBuilderUtil;
+    private MailBuilderUtil mailBuilderUtil;
     @Inject
-    OtpGen otpGen;
+    private OtpGenerator otpGenerator;
+    @Inject
+    private BuilderUrl url;
+    @Value("${serverName}")
+    private String serverName;
+    @Value("${httpPort}")
+    private String httpPort;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
@@ -40,12 +48,13 @@ public class MailBuilderUtilTest {
     }
 
     @Test
-    public void shouldReturnMailWithUsernameAndOtp()  throws Exception {
+    public void shouldReturnMailWithLinkToActivate()  throws Exception {
+        XSLProcessorContext context = null;
+        ElemExtensionCall elem = null;
         User user = BuilderUtil.buildUserAnakin();
-        otpGen.generateOtp(1440);
-        HttpRequest url = null;
-        url = UserRestController.returnUrlForNewSubscriber(url);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGen, url);
+        otpGenerator.generateOtp(1440);
+        url.buildUrl(context, elem);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator, url);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

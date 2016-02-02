@@ -1,21 +1,29 @@
 package org.itevents.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.Role;
 import org.itevents.model.User;
+import org.itevents.service.EventService;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGen;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,41 +36,50 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     private RoleService roleService;
     @Mock
     private UserService userService;
+    @Mock
+    private FilterService filterService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private EventService eventService;
     @InjectMocks
     private UserRestController userRestController;
-    @Mock
-    OtpGen otpGen;
 
     @Before
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
+        super.authenticationUser(BuilderUtil.buildSubscriberTest());
     }
 
+    @Ignore
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        User testUser = BuilderUtil.buildUserTest();
+        String encodedPassword = "encodedPassword";
 
         when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
-        when(userService.getUserByName(testSubscriber.getLogin())).thenReturn(null);
-        doNothing().when(userService).addUser(testSubscriber);
+        when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
+        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(encodedPassword);
+        doNothing().when(userService).addUser(testUser);
 
         mockMvc.perform(post("/users/register")
-                .param("username", testSubscriber.getLogin())
-                .param("password", testSubscriber.getPassword()))
+                .param("username", testUser.getLogin())
+                .param("password", testUser.getPassword()))
                 .andExpect(status().isOk());
 
+        testUser.setRole(subscriberRole);
+        testUser.setPassword(encodedPassword);
         verify(roleService).getRoleByName(subscriberRole.getName());
-        verify(userService).getUserByName(testSubscriber.getLogin());
-        verify(userService).addUser(testSubscriber);
+        verify(userService).getUserByName(testUser.getLogin());
+        verify(userService).addUser(testUser);
     }
 
     @Test
     public void shouldNotRegisterExistingSubscriber() throws Exception {
-        super.authenticationUser(BuilderUtil.buildSubscriberTest());
-
         User user = BuilderUtil.buildSubscriberTest();
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
         mockMvc.perform(post("/users/register")
@@ -77,27 +94,48 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldRemoveExistingSubscriber() throws Exception {
+    public void shouldAddFilterForSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(userService.removeUser(user)).thenReturn(user);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doNothing().when(filterService).addFilter(eq(user), any(Filter.class));
+        doNothing().when(userService).activateUserSubscription(user);
 
-        mockMvc.perform(delete("/users/delete"))
+        mockMvc.perform(get("/users/subscribe"))
                 .andExpect(status().isOk());
 
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService).removeUser(user);
+        verify(userService).getAuthorizedUser();
+        verify(userService).activateUserSubscription(user);
+        verify(filterService).addFilter(eq(user), any(Filter.class));
     }
-    
+
     @Test
-    public void shouldReturnUserSubscribedEvents() throws Exception {
+    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
+    public void shouldDeactivateSubscription() throws Exception {
+        User user = BuilderUtil.buildSubscriberTest();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doNothing().when(userService).deactivateUserSubscription(user);
+
+        mockMvc.perform(get("/users/unsubscribe"))
+                .andExpect(status().isOk());
+
+        verify(userService).getAuthorizedUser();
+        verify(userService).deactivateUserSubscription(user);
+    }
+
+    @Test
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        List expectedList = userService.getUserEvents(user);
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(BuilderUtil.buildEventJs());
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(expectedEvents);
+
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
         when(userService.getUser(user.getId())).thenReturn(user);
+
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedList.toString()));
-        verify(userService,atLeastOnce()).getUserEvents(user);
+                .andExpect(content().json(expectedEventsInJson));
     }
 }

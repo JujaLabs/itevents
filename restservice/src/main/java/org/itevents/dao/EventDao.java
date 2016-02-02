@@ -4,6 +4,7 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EventDao {
@@ -20,18 +21,15 @@ public interface EventDao {
 
     List<Event> getFilteredEvents(Filter params);
 
-    // @alex-anakin: it would be good to use method getFilteredEvents(Filter params)
-    // making Filter more complicated
     List<Event> getFilteredEventsWithRating(Filter params);
 
     void removeEvent(Event event);
 
     void removeEventTechnology(Event event);
 
-    void assign(User user, Event event);
+    void assignUserToEvent(User user, Event event);
 
-    void unassign(User user, Event event);
+    void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
-    List<User> getVisitors(Event event);
-
+    List<Event> getEventsByUser(User user);
 }

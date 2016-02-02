@@ -27,8 +27,6 @@
     <event id="-7" title="Delphi" event_date="2115-07-05 00:00:00.0" reg_link="http://www.delphi.com.ua"
            address="Arsenalna" point="POINT(30.547603 50.442843)" contact="delphi@gmail.com" price="30" currency_id="-1"
            city_id="-1"/>
-    <event id="-8" title="Ruby" event_date="2115-07-20 00:00:00.0" reg_link="http://www.ruby.com.ua"
-           address="Shulyavska" point="POINT(30.445495 50.454605)" contact="ruby@gmail.com" city_id="-1"/>
     <technology id="-1" name="Java"/>
     <technology id="-2" name="JavaScript"/>
     <technology id="-3" name="PHP"/>
@@ -53,10 +51,13 @@
     <role id="-3" name="subscriber"/>
     <role id="-2" name="admin"/>
     <role id="-1" name="guest"/>
-    <user_profile id="-4" login="vlasov@email.com" password="alex" role_id="-3"/>
-    <user_profile id="-3" login="kuchin@email.com" password="viktor" role_id="-2"/>
-    <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
+    <user_profile id="-4" login="vlasov@email.com"
+                  password="$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm" role_id="-3"/>
+    <user_profile id="-3" login="kuchin@email.com"
+                  password="$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq" role_id="-2"/>
+    <user_profile id="-2" login="anakin@email.com"
+                  password="$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq" role_id="-2"/>
     <user_profile id="-1" login="guest" password="guest" role_id="-1"/>
-    <user_event user_id="-2" event_id="-3"/>
-    <user_event user_id="-3" event_id="-2"/>
+    <user_event user_id="-3" event_id="-2" id = "-2"/>
+    <user_event user_id="-2" event_id="-3" id = "-1"/>
 </dataset>

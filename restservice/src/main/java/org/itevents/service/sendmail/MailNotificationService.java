@@ -2,12 +2,12 @@ package org.itevents.service.sendmail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.dao.UserDao;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
-import org.itevents.service.MailFilterService;
-import org.itevents.service.NotificationService;
+import org.itevents.service.*;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -21,25 +21,36 @@ public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @Value("${event.filterRangeInDays}")
+    private Integer FILTER_RANGE_IN_DAYS;
+
+    @Value("${event.countOfEventsInEmail}")
+    private Integer COUNT_OF_EVENTS_IN_EMAIL;
+
     @Inject
-    private MailFilterService mailFilterService;
+    private EventService eventService;
+
+    @Inject
+    private FilterService filterService;
 
     @Inject
     private MailService mailService;
 
     @Inject
-    private UserDao userDao;
+    private UserService userService;
 
     @Inject
     private MailBuilderUtil mailBuilderUtil;
 
     @Override
     public void performNotify()  {
-        List<User> users = userDao.getAllUsers();
+        List<User> users = userService.getSubscribedUsers();
         for (User user : users) {
-            List<Event> events = mailFilterService.getFilteredEventsInDateRangeWithRating(user.getFilter());
-            String htmlLetter = buildMail(events);
-            mailService.sendMail(htmlLetter, user.getLogin());
+            List<Event> events = getFilteredEventsByUser(user);
+            if (!events.isEmpty()) {
+                String htmlLetter = buildMail(events);
+                mailService.sendMail(htmlLetter, user.getLogin());
+            }
         }
     }
 
@@ -52,4 +63,12 @@ public class MailNotificationService implements NotificationService {
         }
     }
 
+    private List<Event> getFilteredEventsByUser(User user) {
+        Filter filter = filterService.getLastFilterByUser(user);
+
+        filter.setLimit(COUNT_OF_EVENTS_IN_EMAIL);
+        filter.setRangeInDays(FILTER_RANGE_IN_DAYS);
+
+        return eventService.getFilteredEventsWithRating(filter);
+    }
 }

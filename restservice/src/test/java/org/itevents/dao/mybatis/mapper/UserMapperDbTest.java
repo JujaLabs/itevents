@@ -48,7 +48,7 @@ public class UserMapperDbTest extends AbstractDbTest {
 
     @Test
     public void expectNullWhenUserIsAbsent() throws Exception {
-        User returnedUser = userMapper.getUser(ID_0);
+        User returnedUser = userMapper.getUser(ABSENT_ID);
         assertNull(returnedUser);
     }
 
@@ -68,22 +68,24 @@ public class UserMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveUser_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "UserMapperTest_initial.xml",
+    @ExpectedDatabase(value = TEST_PATH + "testUpdateUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveUser() {
-        User testUser = BuilderUtil.buildUserTest();
-        userMapper.removeUser(testUser);
+    public void shouldUpdateUser() {
+        User user = BuilderUtil.buildUserVlasov();
+        user.setSubscribed(true);
+        userMapper.updateUser(user);
     }
 
     @Test
-    @DatabaseSetup(value = PATH + "EventMapperTest/addUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
-    public void shouldReturnUserEvents() throws Exception{
-        User user = BuilderUtil.buildUserAnakin();
-        Event event = BuilderUtil.buildEventJs();
-        List expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
-        List returnedEvents = userMapper.getUserEvents(user);
-        assertEquals(expectedEvents,returnedEvents);
+    @DatabaseSetup(value = TEST_PATH + "assignUserEvent_initial.xml", type = DatabaseOperation.REFRESH)
+    @DatabaseTearDown(value = TEST_PATH + "assignUserEvent_initial.xml",
+            type = DatabaseOperation.DELETE_ALL)
+    public void shouldReturnUsersByEvent() throws Exception {
+        User user = BuilderUtil.buildUserKuchin();
+        List expectedUsers = new ArrayList<>();
+        expectedUsers.add(user);
+        Event event = BuilderUtil.buildEventPhp();
+        List returnedUsers = userMapper.getUsersByEvent(event);
+        assertEquals(expectedUsers,returnedUsers);
     }
 }

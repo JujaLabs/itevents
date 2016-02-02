@@ -5,10 +5,13 @@
         databasechangeloglock*,
         event*,
         event_technology*,
+        filter*,
+        filter_technology*,
         role*,
         spatial_ref_sys*,
         technology*,
         user_event*,
+        user_filter*,
         user_profile*,
         visit_log*)>
 
@@ -72,6 +75,24 @@
                 technology_id CDATA #REQUIRED
                 >
 
+        <!ELEMENT filter EMPTY>
+        <!ATTLIST filter
+                id CDATA #IMPLIED
+                row_limit CDATA #IMPLIED
+                create_date CDATA #REQUIRED
+                city_id CDATA #IMPLIED
+                free CDATA #IMPLIED
+                longitude CDATA #IMPLIED
+                latitude CDATA #IMPLIED
+                radius CDATA #IMPLIED
+                >
+
+        <!ELEMENT filter_technology EMPTY>
+        <!ATTLIST filter_technology
+                filter_id CDATA #REQUIRED
+                technology_id CDATA #REQUIRED
+                >
+
         <!ELEMENT role EMPTY>
         <!ATTLIST role
                 id CDATA #IMPLIED
@@ -96,6 +117,15 @@
         <!ATTLIST user_event
                 user_id CDATA #REQUIRED
                 event_id CDATA #REQUIRED
+                deleted_date CDATA #IMPLIED
+                deleted_reason CDATA #IMPLIED
+                id CDATA #IMPLIED
+                >
+
+        <!ELEMENT user_filter EMPTY>
+        <!ATTLIST user_filter
+                user_id CDATA #REQUIRED
+                filter_id CDATA #REQUIRED
                 >
 
         <!ELEMENT user_profile EMPTY>
@@ -104,6 +134,7 @@
                 login CDATA #REQUIRED
                 password CDATA #REQUIRED
                 role_id CDATA #REQUIRED
+                subscribed CDATA #IMPLIED
                 >
 
         <!ELEMENT visit_log EMPTY>

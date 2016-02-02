@@ -9,18 +9,18 @@ import java.util.Date;
 import java.util.UUID;
 
 @Component
-public class OtpGen implements Serializable {
+public class OtpGenerator implements Serializable {
 
-   private String password;
-   private Date creationDate;
-   private Date expirationDate;
+    private String otp;
+    private Date creationDate;
+    private Date expirationDate;
 
-    public String getPassword() {
-        return password;
+    public String getOtp() {
+        return otp;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public Date getCreationDate() {
@@ -41,14 +41,15 @@ public class OtpGen implements Serializable {
 
     public void generateOtp(long lifetimeInMinutes) {
         setCreationDate(new Date());
-        if (lifetimeInMinutes>0){
+        if (lifetimeInMinutes>0) {
             setExpirationDate(new Date(creationDate.getTime() + lifetimeInMinutes * 60 * 1000));
-            setPassword(UUID.randomUUID().toString());
-        }else
-            setPassword(UUID.randomUUID().toString());
+            setOtp(UUID.randomUUID().toString());
+        } else {
+            setOtp(UUID.randomUUID().toString());
+        }
     }
 
-    public OtpGen() {
+    public OtpGenerator() {
     }
 
     private static Date parseDate(String date) throws ParseException {

@@ -4,27 +4,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.model.Event;
+import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.converter.EventConverter;
-import org.itevents.wrapper.EventWrapper;
+import org.itevents.service.converter.FilterConverter;
+import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("eventService")
 @Transactional
 public class MyBatisEventService implements EventService {
 
-    private static final Logger logger = LogManager.getLogger();
+    public static final Integer FILTER_RANGE_IN_DAYS = 7;
+    public static final Integer COUNT_OF_EVENTS_IN_EMAIL = 10;
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private EventDao eventDao;
     @Inject
-    private EventConverter eventConverter;
+    private FilterConverter filterConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -43,18 +47,22 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void assign(User user, Event event) {
-        eventDao.assign(user, event);
+    public void assignUserToEvent(User user, Event event) {
+        eventDao.assignUserToEvent(user, event);
     }
 
     @Override
-    public void unassign(User user, Event event) {
-            eventDao.unassign(user, event);
+    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+        if (event == null || !isAssigned(user, event)) {
+            throw new IllegalArgumentException("not assigned or event not found");
+        } else {
+            eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        }
     }
 
     @Override
-    public List<User> getVisitors(Event event) {
-        return eventDao.getVisitors(event);
+    public List<Event> getEventsByUser(User user) {
+        return eventDao.getEventsByUser(user);
     }
 
     @Override
@@ -68,14 +76,16 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(EventWrapper wrapper) {
-        List<Event> result;
-        try {
-            result = eventDao.getFilteredEvents(eventConverter.convert(wrapper));
-        } catch (Exception e) {
-            logger.error("getFilteredEvents Exception :", e.getStackTrace());
-            result = new ArrayList<>();
-        }
-        return result;
+    public List<Event> getFilteredEvents(FilterWrapper wrapper) {
+        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
     }
+
+    public List<Event> getFilteredEventsWithRating(Filter filter){
+        return eventDao.getFilteredEventsWithRating(filter);
+    }
+
+    private boolean isAssigned(User user, Event event) {
+        return getEventsByUser(user).contains(event);
+    }
+
 }

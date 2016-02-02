@@ -47,6 +47,7 @@ dependencies {
     compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
     compile 'io.springfox:springfox-swagger2:2.1.1'
     compile 'com.sendgrid:sendgrid-java:2.2.2'
+    compile 'xalan:xalan:2.7.2'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.1'
     testCompile 'junit:junit:4.12'
@@ -55,16 +56,18 @@ dependencies {
     testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
     testCompile 'org.postgis:postgis-jdbc:1.1.6'
     testCompile 'org.mockito:mockito-core:1.9.5'
-}
+    testCompile 'org.skyscreamer:jsonassert:1.2.3'
+  }
 
 Properties props = new Properties()
 props.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties"))
 Properties testProps = new Properties()
 testProps.load(new FileInputStream(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties"))
 
-httpPort = Integer.valueOf(props.getProperty('httpPort'));
-stopPort = Integer.valueOf(props.getProperty('stopPort'));
-stopKey = props.getProperty('stopKey');
+Integer httpPort = Integer.valueOf(props.getProperty('httpPort'));
+Integer stopPort = Integer.valueOf(props.getProperty('stopPort'));
+String stopKey = props.getProperty('stopKey');
+String serverName = props.getProperty('serverName');
 
 test.dependsOn "liquibaseTestUpdate"
 

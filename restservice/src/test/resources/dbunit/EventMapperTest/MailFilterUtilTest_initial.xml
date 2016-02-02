@@ -60,7 +60,7 @@
            city_id="-1"
            contact="FreeKyivJavaEvent@gmail.com"
            point="POINT(30.445495 50.454605)" />
-    <event_technology event_id="-1" technology_id="-1"/>
+    <event_technology event_id="-5" technology_id="-1"/>
 
     <event id="-6"
            title="FarFutureFreeKyivJavaEvent"
@@ -70,20 +70,20 @@
            city_id="-1"
            contact="FreeKyivJavaEvent@gmail.com"
            point="POINT(30.445495 50.454605)" />
-    <event_technology event_id="-1" technology_id="-1"/>
+    <event_technology event_id="-6" technology_id="-1"/>
 
     <role id="-2" name="admin"/>
     <user_profile id="-2" login="anakin@email.com" password="alex" role_id="-2"/>
 
-    <visit_log id="-1" event_id="-1" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-1" event_id="-1" date="2115-07-20" user_id="-2"/>
     <visit_log id="-2" event_id="-2" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-2" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-3" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-3" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-3" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-4" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-4" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-4" date="2015-09-20" user_id="-2"/>
-    <visit_log id="-2" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-3" event_id="-2" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-4" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-5" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-6" event_id="-3" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-7" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-8" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-9" event_id="-4" date="2015-09-20" user_id="-2"/>
+    <visit_log id="-10" event_id="-4" date="2015-09-20" user_id="-2"/>
 
 </dataset>

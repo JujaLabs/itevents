@@ -10,7 +10,7 @@ database.password=DB_PASSWORD
 changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
 # SendGrid
-sendgrid_api_key=SEND_GRID_TOKEN
+sendgrid.api.key=SEND_GRID_TOKEN
 
 # Scheduler
 # * * * * *  command to execute
@@ -26,4 +26,9 @@ cron.start_sending=30 2 * * * ?
 httpPort=8080
 stopPort=9080
 stopKey=stop
+serverName=localhost
+
+# EventService
+event.filterRangeInDays=7
+event.countOfEventsInEmail=10
 
