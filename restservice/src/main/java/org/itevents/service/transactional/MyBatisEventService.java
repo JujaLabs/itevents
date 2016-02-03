@@ -7,8 +7,6 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.converter.FilterConverter;
-import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +22,6 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
-    @Inject
-    private FilterConverter filterConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -73,8 +69,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilterWrapper wrapper) {
-        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
+    public List<Event> getFilteredEvents(Filter filter) {
+        return eventDao.getFilteredEvents(filter);
     }
 
     public List<Event> getFilteredEventsWithRating(Filter filter){

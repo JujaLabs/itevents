@@ -1,4 +1,4 @@
-package org.itevents.wrapper;
+package org.itevents.controller.wrapper;
 
 /**
  * Created by ramax on 1/16/16.
