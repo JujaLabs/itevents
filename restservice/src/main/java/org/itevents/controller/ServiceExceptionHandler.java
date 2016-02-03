@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
-    public ResponseEntity<String> handleEventNotFoundControllerException(EntityNotFoundServiceException ex) {
+    public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

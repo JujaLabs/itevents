@@ -27,7 +27,6 @@ public interface TechnologyMapper extends TechnologyDao {
     @SelectProvider(type = TechnologySqlBuilder.class, method = "getTechnologiesByNames")
     List<Technology> getTechnologiesByNames(String[] names);
 
-
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}" +
             " ORDER BY name")
