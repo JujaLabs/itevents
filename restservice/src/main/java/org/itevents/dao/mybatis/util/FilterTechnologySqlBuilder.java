@@ -25,7 +25,8 @@ public class FilterTechnologySqlBuilder {
                     .append(filter.getId()).append(", ")
                     .append(technology.getId()).append("), ");
         }
-        sql.delete(sql.length() - 2, sql.length());
+        int lastCommaPositionFromEnd = 2;
+        sql.delete(sql.length() - lastCommaPositionFromEnd, sql.length());
         return sql.toString();
     }
 }

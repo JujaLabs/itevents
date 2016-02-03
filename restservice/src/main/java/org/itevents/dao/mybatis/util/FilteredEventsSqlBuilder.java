@@ -55,7 +55,8 @@ public class FilteredEventsSqlBuilder {
             sb.append("et.technology_id=").append(technology.getId())
                     .append(" or ");
         }
-        sb.delete(sb.length() - 4, sb.length());
+        int lastOrPositionFromEnd = 4;
+        sb.delete(sb.length() - lastOrPositionFromEnd, sb.length());
         return sb.toString();
     }
 }
