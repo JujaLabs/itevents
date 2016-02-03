@@ -6,18 +6,26 @@ public class TechnologySqlBuilder {
 
     public String getTechnologiesByNames(DefaultSqlSession.StrictMap strictMap) {
         String[] names = (String[]) strictMap.get("array");
-        StringBuilder sql = new StringBuilder();
-        if (names != null && names.length > 0) {
-            sql.append("SELECT * FROM technology WHERE name IN (");
-            for (int i = 0; i < names.length; i++) {
-                if (i > 0) {
-                    sql.append(", ");
-                }
-                sql.append("'").append(names[i]).append("'");
-            }
-            sql.append(") ORDER BY name");
+
+        if (isEmpty(names)) {
+            return "";
+        } else {
+            return getSql(names);
         }
-        System.out.println(sql.toString());
+    }
+
+    private boolean isEmpty(String[] names) {
+        return names == null || names.length <= 0;
+    }
+
+    private String getSql(String[] names) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM technology WHERE name IN (");
+        for (String name : names) {
+            sql.append("'").append(name).append("'").append(", ");
+        }
+        sql.delete(sql.length() - 2, sql.length());
+        sql.append(") ORDER BY name");
         return sql.toString();
     }
 }
