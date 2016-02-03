@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "classpath:spring-config-mocks.xml",
+        "classpath:spring-security-mocks.xml",
         "classpath*:spring-security.xml"
 })
 public class CryptTokenServiceTest {
