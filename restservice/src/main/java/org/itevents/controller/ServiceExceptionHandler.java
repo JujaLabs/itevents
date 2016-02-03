@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * Created by vaa25 on 31.10.2015.
  */
 @ControllerAdvice(annotations = RestController.class)
-public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
     public ResponseEntity<String> handleEventNotFoundControllerException(EntityNotFoundServiceException ex) {
