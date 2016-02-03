@@ -114,6 +114,12 @@ public class SequrityTests extends AbstractDbTest {
 				.andExpect(status().isForbidden());
 	}
 
+	/*
+	*
+	* @TODO: this test fails when launched as single test. issue 151
+	* https://github.com/JuniorsJava/itevents/issues/151
+	*
+	* */
 	@Test
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		mvc.perform(post("/users/register")
