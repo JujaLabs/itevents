@@ -7,4 +7,4 @@ database.username=DB_USERNAME
 database.password=DB_PASSWORD
 
 # Liquibase
-changeLogFile=src\\test\\resources\\liquibase\\db.changelog-create.xml
+changelog.file=src\\test\\resources\\liquibase\\db.changelog-create.xml
