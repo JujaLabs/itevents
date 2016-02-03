@@ -4,15 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.UserService;
-import org.itevents.service.converter.FilterConverter;
 import org.itevents.util.time.DateTimeUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

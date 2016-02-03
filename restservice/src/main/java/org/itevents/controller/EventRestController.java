@@ -2,6 +2,8 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.model.VisitLog;
@@ -10,7 +12,6 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.util.time.DateTimeUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,8 @@ public class EventRestController {
     private UserService userService;
     @Inject
     private VisitLogService visitLogService;
+    @Inject
+    private FilterConverter filterConverter;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ApiOperation(value = "Returns one event with the given id")
@@ -38,7 +41,7 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Returns events with the given parameters ")
     public List<Event> getFilteredEvents(@ModelAttribute FilterWrapper wrapper) throws SQLException {
-        return eventService.getFilteredEvents(wrapper);
+        return eventService.getFilteredEvents(filterConverter.toFilter(wrapper));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/assign")

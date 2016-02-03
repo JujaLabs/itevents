@@ -28,8 +28,6 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
-    @Inject
-    private FilterConverter filterConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -91,14 +89,16 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilterWrapper wrapper) {
-        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
+    public List<Event> getFilteredEvents(Filter filter) {
+        return eventDao.getFilteredEvents(filter);
     }
 
+    @Override
     public List<Event> getFilteredEventsWithRating(Filter filter){
         return eventDao.getFilteredEventsWithRating(filter);
     }
 
+    @Override
     private boolean isAssigned(User user, Event event) {
         return getEventsByUser(user).contains(event);
     }

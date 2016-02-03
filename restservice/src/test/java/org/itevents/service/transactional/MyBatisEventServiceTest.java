@@ -1,15 +1,11 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
-import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.time.DateTimeUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -83,24 +80,26 @@ public class MyBatisEventServiceTest {
     public void shouldFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
+        Filter filter = new Filter();
 
-        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(expectedEvents);
+        when(eventDao.getFilteredEvents(filter)).thenReturn(expectedEvents);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(filter);
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
+        verify(eventDao).getFilteredEvents(filter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
     public void shouldNotFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
+        Filter filter = new Filter();
 
-        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(new ArrayList<>());
+        when(eventDao.getFilteredEvents(filter)).thenReturn(new ArrayList<>());
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(filter);
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
+        verify(eventDao).getFilteredEvents(filter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -127,14 +126,15 @@ public class MyBatisEventServiceTest {
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        Date unassignDate = DateTimeUtil.yyyyMMddStringToDate("20.07.2115");
+        Date unassignDate = new Date();
         String unassignReason = "test";
         List events = new ArrayList<>();
         events.add(event);
 
-        when(eventService.getEventsByUser(user)).thenReturn(events);
+        when(eventDao.getEventsByUser(user)).thenReturn(events);
 
         eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+
         verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 }

@@ -1,4 +1,4 @@
-package org.itevents.wrapper;
+package org.itevents.controller.wrapper;
 
 import java.util.Arrays;
 
