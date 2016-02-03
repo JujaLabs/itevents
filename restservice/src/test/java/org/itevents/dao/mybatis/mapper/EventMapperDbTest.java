@@ -6,17 +6,17 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
-import org.itevents.model.Filter;
 import org.itevents.model.User;
-import org.itevents.service.converter.FilterConverter;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.DateTimeUtil;
-import org.itevents.wrapper.FilterWrapper;
 import org.junit.Assert;
 import org.junit.Test;
+
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -224,7 +224,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
 
-        Date unassignDate = dateTimeUtil.setDate("2115.07.20");
+        Date unassignDate = DateTimeUtil.setDate("2115.07.20");
         String unassignReason = "test";
 
         eventMapper.unassignUserFromEvent(user, event, unassignDate, unassignReason);
