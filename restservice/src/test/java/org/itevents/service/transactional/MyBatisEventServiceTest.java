@@ -1,10 +1,12 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})

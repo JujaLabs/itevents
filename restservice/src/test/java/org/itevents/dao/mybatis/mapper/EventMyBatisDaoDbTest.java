@@ -6,6 +6,10 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
@@ -14,6 +18,7 @@ import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.DateTimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
+
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;

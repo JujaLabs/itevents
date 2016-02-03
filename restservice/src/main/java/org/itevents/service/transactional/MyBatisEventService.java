@@ -8,11 +8,9 @@ import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.converter.FilterConverter;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
-import org.itevents.wrapper.FilterWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,7 +96,6 @@ public class MyBatisEventService implements EventService {
         return eventDao.getFilteredEventsWithRating(filter);
     }
 
-    @Override
     private boolean isAssigned(User user, Event event) {
         return getEventsByUser(user).contains(event);
     }
