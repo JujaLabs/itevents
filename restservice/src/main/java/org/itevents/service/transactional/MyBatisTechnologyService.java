@@ -1,8 +1,12 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.TechnologyDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Technology;
 import org.itevents.service.TechnologyService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +20,19 @@ import java.util.List;
 @Transactional
 public class MyBatisTechnologyService implements TechnologyService {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Inject
     private TechnologyDao technologyDao;
 
     @Override
     public Technology getTechnology(int id) {
-        return technologyDao.getTechnology(id);
+        try {
+            return technologyDao.getTechnology(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -37,19 +48,5 @@ public class MyBatisTechnologyService implements TechnologyService {
     @Override
     public void addTechnology(Technology technology) {
         technologyDao.addTechnology(technology);
-    }
-
-    @Override
-    public void updateTechnology(Technology technology) {
-        technologyDao.updateTechnology(technology);
-    }
-
-    @Override
-    public Technology removeTechnology(Technology technology) {
-        Technology deletingTechnology = technologyDao.getTechnology(technology.getId());
-        if (deletingTechnology != null) {
-            technologyDao.removeTechnology(technology);
-        }
-        return deletingTechnology;
     }
 }

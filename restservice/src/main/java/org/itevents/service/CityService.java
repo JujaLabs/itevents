@@ -11,6 +11,4 @@ public interface CityService {
     City getCity(int id);
 
     List<City> getAllCities();
-
-    City removeCity(City city);
 }

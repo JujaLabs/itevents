@@ -1,4 +1,4 @@
-package org.itevents.dao.mybatis.util;
+package org.itevents.dao.mybatis.builder;
 
 import org.itevents.model.Filter;
 import org.itevents.test_utils.BuilderUtil;
@@ -9,18 +9,15 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vaa25 on 06.11.2015.
  */
-public class FilterTechnologySqlBuilderTest {
+public class FilterSqlBuilderTest {
 
     @Test
     public void shouldBuildSqlQueryToAddFilterTechnologiesOfGivenFilter() throws Exception {
         Filter filter = BuilderUtil.buildFilterTest();
-        FilterTechnologySqlBuilder builder = new FilterTechnologySqlBuilder();
-
         String expectedSql = "INSERT INTO filter_technology (filter_id, technology_id) VALUES (-6, -1), (-6, -2)";
 
-        String returnedSql = builder.addFilterTechnology(filter);
+        String returnedSql = new FilterSqlBuilder().addFilterTechnology(filter);
 
         assertEquals(expectedSql, returnedSql);
     }
-
 }

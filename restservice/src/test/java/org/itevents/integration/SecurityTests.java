@@ -1,8 +1,9 @@
-package org.itevents;
+package org.itevents.integration;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import org.itevents.AbstractDbTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 		type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
 		type = DatabaseOperation.DELETE_ALL)
-public class SequrityTests extends AbstractDbTest {
+public class SecurityTests extends AbstractDbTest {
 
 	@Inject
 	private WebApplicationContext context;
@@ -123,10 +124,9 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		mvc.perform(post("/users/register")
-                .param("username", "vlasov@email.com")
-                .param("password", "password"))
+				.param("username", "NewUser@email.com")
+				.param("password", "password"))
                 .andExpect(authenticated().withUsername("guest"))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 	}
-
 }

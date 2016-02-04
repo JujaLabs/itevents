@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -59,7 +59,7 @@ public class MyBatisTechnologyServiceTest {
     }
 
     @Test
-    public void shouldGetAllTechnologies() {
+    public void shouldGetAllTechnologies() throws Exception {
         technologyService.getAllTechnologies();
 
         verify(technologyDao).getAllTechnologies();
@@ -72,29 +72,5 @@ public class MyBatisTechnologyServiceTest {
         technologyService.addTechnology(testTechnology);
 
         verify(technologyDao).addTechnology(testTechnology);
-    }
-
-    @Test
-    public void shouldRemoveTechnology() {
-        Technology expectedTechnology = BuilderUtil.buildTechnologyTest();
-
-        when(technologyDao.getTechnology(expectedTechnology.getId())).thenReturn(expectedTechnology);
-        doNothing().when(technologyDao).removeTechnology(expectedTechnology);
-
-        Technology returnedTechnology = technologyService.removeTechnology(expectedTechnology);
-
-        assertEquals(expectedTechnology, returnedTechnology);
-    }
-
-    @Test
-    public void shouldNotRemoveTechnologyWhenItIsNotExisting() {
-        Technology testTechnology = BuilderUtil.buildTechnologyTest();
-
-        when(technologyDao.getTechnology(testTechnology.getId())).thenReturn(null);
-        doNothing().when(technologyDao).removeTechnology(testTechnology);
-
-        Technology returnedTechnology = technologyService.removeTechnology(testTechnology);
-
-        assertNull(returnedTechnology);
     }
 }

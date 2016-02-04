@@ -3,10 +3,12 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.model.VisitLog;
+import org.itevents.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -16,21 +18,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventRestControllerTest extends AbstractControllerSecurityTest {
+public class EventRestControllerTest extends AbstractControllerTest {
 
     @Mock
     private EventService eventService;
     @Mock
     private UserService userService;
     @Mock
-    private DateTimeUtil dateTimeUtil;
+    private VisitLogService visitLogService;
     @InjectMocks
     private EventRestController eventRestController;
 
@@ -38,7 +41,6 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(eventRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest(), "testPassword");
     }
 
     @Test
@@ -55,29 +57,29 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     @Test
     public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildSubscriberTest();
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
-        verify(eventService).getEvent(event.getId());
+        verify(eventService).assignUserToEvent(user, event);
     }
 
     @Test
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         User user = BuilderUtil.buildUserAnakin();
-        ArrayList <Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
         String unassignReason = "test";
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", unassignReason))
                 .andExpect(status().isOk());
+        verify(eventService).unassignUserFromEvent(eq(user), eq(event), any(Date.class), eq(unassignReason));
     }
 
     @Test
@@ -96,32 +98,21 @@ public class EventRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
-        mockMvc.perform(post("/events/0/assign"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
+    public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        event.setEventDate(new Date());
-
-        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void shouldNotAssignUserToEventIfAssigned() throws Exception {
-        User user = BuilderUtil.buildUserAnakin();
-        Event event = BuilderUtil.buildEventJava();
-        ArrayList <Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
+        User userGuest = BuilderUtil.buildUserGuest();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+        when(userService.getAuthorizedUser()).thenReturn(userGuest);
+        doNothing().when(visitLogService).addVisitLog(visitLog);
 
-        mockMvc.perform(post("/events/" + event.getId() + "/assign"))
-                .andExpect(status().isConflict());
+        mockMvc.perform(get("/events/" + event.getId() + "/register"))
+                .andExpect(content().string(event.getRegLink()))
+                .andExpect(status().isOk());
+
+        verify(eventService).getEvent(event.getId());
+        verify(userService).getAuthorizedUser();
+        verify(visitLogService).addVisitLog(any(VisitLog.class));
     }
 }

@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.TechnologyDao;
+import org.itevents.dao.mybatis.builder.TechnologySqlBuilder;
 import org.itevents.model.Technology;
 
 import java.util.List;
@@ -23,15 +24,8 @@ public interface TechnologyMapper extends TechnologyDao {
 
     @Override
     @ResultType(Technology.class)
-    @Select({"<script>",
-            "SELECT * FROM technology WHERE name IN ",
-            "<foreach item='name' index='index' collection='names' open='(' separator=',' close=')'>",
-            "   #{name}",
-            "</foreach>",
-            " ORDER BY name",
-            "</script>"})
-    List<Technology> getTechnologiesByNames(@Param("names") String[] names);
-
+    @SelectProvider(type = TechnologySqlBuilder.class, method = "getTechnologiesByNames")
+    List<Technology> getTechnologiesByNames(String[] names);
 
     @ResultType(Technology.class)
     @Select("SELECT * FROM technology t JOIN event_technology et ON t.id=et.technology_id AND et.event_id = #{eventId}" +
@@ -47,14 +41,5 @@ public interface TechnologyMapper extends TechnologyDao {
     @Insert("INSERT INTO technology(name) VALUES(#{name})")
     @Options(useGeneratedKeys = true)
     void addTechnology(Technology technology);
-
-
-    @Override
-    @Update("UPDATE technology SET name=#{name} WHERE id =#{id}")
-    void updateTechnology(Technology technology);
-
-    @Override
-    @Delete("DELETE FROM technology WHERE id =#{id}")
-    void removeTechnology(Technology technology);
 
 }

@@ -15,8 +15,6 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    Event removeEvent(Event event);
-
     List<Event> getFilteredEvents(Filter filter);
 
     void assignUserToEvent(User user, Event event);
@@ -26,4 +24,6 @@ public interface EventService {
     void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
     List<Event> getEventsByUser(User user);
+
+    Event getFutureEvent(int eventId);
 }

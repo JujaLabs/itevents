@@ -30,8 +30,8 @@ public interface UserMapper extends UserDao {
     List<User> getAllUsers();
 
     @Override
-    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{user.login}, #{password}, " +
-            "#{user.role.id}, #{user.subscribed})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) " +
+            "VALUES(#{login}, #{password}, #{role.id}, #{subscribed})")
     @Options(useGeneratedKeys = true)
     void addUser(@Param("user") User user,
                  @Param("password") String password);
@@ -44,9 +44,10 @@ public interface UserMapper extends UserDao {
     @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id " +
-            "WHERE ue.event_id = #{event.id} AND deleted_date IS NULL")
-    List<User> getUsersByEvent(@Param("event") Event event);
+            "WHERE ue.event_id = #{id} AND deleted_date IS NULL")
+    List<User> getUsersByEvent(Event event);
 
+    @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
     List<User> getSubscribedUsers();

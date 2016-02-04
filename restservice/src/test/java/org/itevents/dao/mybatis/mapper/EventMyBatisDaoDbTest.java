@@ -8,6 +8,8 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.Technology;
@@ -24,7 +26,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -33,78 +34,66 @@ import static org.junit.Assert.assertNull;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/EventMapperTest/EventMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
-public class EventMapperDbTest extends AbstractDbTest {
+public class EventMyBatisDaoDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
-    private EventMapper eventMapper;
-    @Inject
-    private DateTimeUtil dateTimeUtil;
+    private EventMyBatisDao eventMyBatisDao;
 
     @Test
     public void testFindEventById() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
-        Event returnedEvent = eventMapper.getEvent(expectedEvent.getId());
+        Event returnedEvent = eventMyBatisDao.getEvent(expectedEvent.getId());
         assertEquals(expectedEvent, returnedEvent);
     }
 
-    @Test
-    public void expectNullWhenEventIsAbsent() {
-        Event returnedEvent = eventMapper.getEvent(ABSENT_ID);
-        assertNull(returnedEvent);
+    @Test(expected = EntityNotFoundDaoException.class)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenEventIsAbsent() throws Exception {
+        eventMyBatisDao.getEvent(ABSENT_ID);
     }
 
     @Test
     public void shouldGetAllEvents() throws ParseException {
         int expectedSize = 7;
-        int returnedSize = eventMapper.getAllEvents().size();
+        int returnedSize = eventMyBatisDao.getAllEvents().size();
         Assert.assertEquals(expectedSize, returnedSize);
-    }
-
-    @Test
-    @DatabaseSetup(value = TEST_PATH + "testRemoveEvent_initial.xml", type = DatabaseOperation.REFRESH)
-    @ExpectedDatabase(value = TEST_PATH + "EventMapperTest_initial.xml",
-            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveEvent() throws ParseException {
-        Event removingEvent = BuilderUtil.buildEventRuby();
-        eventMapper.removeEvent(removingEvent);
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "testAddEventTechnology_expected.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "addEventTechnology_initial.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws ParseException {
+    public void shouldRemoveTechnologiesFromEventTechnologyTable() throws Exception {
         Event removingEvent = BuilderUtil.buildEventRuby();
-        eventMapper.removeEventTechnology(removingEvent);
+        eventMyBatisDao.removeEventTechnology(removingEvent);
     }
 
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddEvent_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddEvent() throws ParseException {
+    public void shouldAddEvent() throws Exception {
         Event addingEvent = BuilderUtil.buildEventRuby();
-        eventMapper.addEvent(addingEvent);
+        eventMyBatisDao.addEvent(addingEvent);
     }
 
     @Test
     @DatabaseSetup(value = TEST_PATH + "addEventTechnology_initial.xml", type = DatabaseOperation.REFRESH)
     @ExpectedDatabase(value = TEST_PATH + "testAddEventTechnology_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-    public void shouldAddTechnologiesToEventTechnologyTable() throws ParseException {
+    public void shouldAddTechnologiesToEventTechnologyTable() throws Exception {
         Event addingEvent = BuilderUtil.buildEventRuby();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
         technologies.add(BuilderUtil.buildTechnologyMyBatis());
         addingEvent.setTechnologies(technologies);
-        eventMapper.addEventTechnology(addingEvent);
+        eventMyBatisDao.addEventTechnology(addingEvent);
     }
 
     @Test
-    public void shouldFindEventsWithDefaultParameters() {
+    public void shouldFindEventsWithDefaultParameters() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         int expectedSize = 7;
-        int returnedSize = eventMapper.getFilteredEvents(parameter).size();
+        int returnedSize = eventMyBatisDao.getFilteredEvents(parameter).size();
         assertEquals(expectedSize, returnedSize);
     }
 
@@ -116,7 +105,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldFindEventsWithPage3ItemsPerPage2() throws ParseException {
+    public void shouldFindEventsWithPage3ItemsPerPage2() throws Exception {
         FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(3);
         wrapper.setItemsPerPage(2);
@@ -126,12 +115,12 @@ public class EventMapperDbTest extends AbstractDbTest {
         expectedEvents.add(BuilderUtil.buildEventCplus());
         expectedEvents.add(BuilderUtil.buildEventPhp());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldFindEventsWithDefaultPagination() {
+    public void shouldFindEventsWithDefaultPagination() throws Exception {
         FilterWrapper wrapper = new FilterWrapper();
         wrapper.setPage(30);
         wrapper.setItemsPerPage(-2);
@@ -139,12 +128,12 @@ public class EventMapperDbTest extends AbstractDbTest {
 
         List<Event> expectedEvents = new ArrayList<>();
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldFindEventsInKyivWithTechnologyJava() throws ParseException {
+    public void shouldFindEventsInKyivWithTechnologyJava() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyJava());
@@ -154,12 +143,12 @@ public class EventMapperDbTest extends AbstractDbTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldFindPayedEventsInBoyarka() throws ParseException {
+    public void shouldFindPayedEventsInBoyarka() throws Exception {
         Filter parameter = getDefaultFilteredEventsParameter();
         parameter.setCity(BuilderUtil.buildCityBoyarka());
         parameter.setFree(false);
@@ -167,12 +156,12 @@ public class EventMapperDbTest extends AbstractDbTest {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventCsharp());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldFindEventsWithTechnologyPhpOrAntOrSql() throws ParseException {
+    public void shouldFindEventsWithTechnologyPhpOrAntOrSql() throws Exception {
         List<Technology> technologies = new ArrayList<>();
         technologies.add(BuilderUtil.buildTechnologyPhp());
         technologies.add(BuilderUtil.buildTechnologyAnt());
@@ -185,12 +174,12 @@ public class EventMapperDbTest extends AbstractDbTest {
         expectedEvents.add(BuilderUtil.buildEventCplus());
         expectedEvents.add(BuilderUtil.buildEventJs());
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldFindEventsInRadiusWithGivenCenter() throws ParseException {
+    public void shouldFindEventsInRadiusWithGivenCenter() throws Exception {
         double testLatitude = 50.454605;
         double testLongitude = 30.403965;
         int testRadius = 5000;
@@ -204,7 +193,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         parameter.setLongitude(testLongitude);
         parameter.setRadius(testRadius);
 
-        List<Event> returnedEvents = eventMapper.getFilteredEvents(parameter);
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(parameter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
@@ -214,7 +203,7 @@ public class EventMapperDbTest extends AbstractDbTest {
     public void shouldAssignUserToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-        eventMapper.assignUserToEvent(user, event);
+        eventMyBatisDao.assignUserToEvent(user, event);
     }
 
     @Test
@@ -224,10 +213,10 @@ public class EventMapperDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
 
-        Date unassignDate = DateTimeUtil.setDate("2115.07.20");
+        Date unassignDate = DateTimeUtil.yyyyMMddStringToDate("2115.07.20");
         String unassignReason = "test";
 
-        eventMapper.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        eventMyBatisDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 
     @Test
@@ -237,7 +226,7 @@ public class EventMapperDbTest extends AbstractDbTest {
         Event event = BuilderUtil.buildEventJs();
         List expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
-        List returnedEvents = eventMapper.getEventsByUser(user);
+        List returnedEvents = eventMyBatisDao.getEventsByUser(user);
         assertEquals(expectedEvents, returnedEvents);
     }
 }

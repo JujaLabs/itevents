@@ -1,10 +1,12 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -49,6 +51,16 @@ public class MyBatisEventServiceTest {
         verify(eventDao).getEvent(ID_1);
     }
 
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowEventNotFoundServiceException() throws Exception {
+        int absentId = 0;
+
+        when(eventDao.getEvent(absentId)).thenThrow(EntityNotFoundDaoException.class);
+
+        eventService.getEvent(absentId);
+    }
+
+
     @Test
     public void shouldAddEvent() throws ParseException {
         Event testEvent = BuilderUtil.buildEventRuby();
@@ -67,40 +79,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldRemoveEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao).removeEventTechnology(expectedEvent);
-        verify(eventDao).removeEvent(expectedEvent);
-        assertEquals(expectedEvent, returnedEvent);
-
-    }
-
-    @Test
-    public void shouldNotRemoveNonExistingEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(null);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao, never()).removeEventTechnology(expectedEvent);
-        verify(eventDao, never()).removeEvent(expectedEvent);
-        assertNull(returnedEvent);
-    }
-
-    @Test
-    public void shouldFindEventsByParameter() throws ParseException {
+    public void shouldFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
         Filter filter = new Filter();
@@ -114,7 +93,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldNotFindEventsByParameter() throws ParseException {
+    public void shouldNotFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
         Filter filter = new Filter();
 
@@ -127,7 +106,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldReturnEventsByUser() throws Exception{
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
 
         eventService.getEventsByUser(user);
@@ -146,7 +125,7 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldUnassignUserFromEvent()throws Exception {
+    public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
         Date unassignDate = new Date();
