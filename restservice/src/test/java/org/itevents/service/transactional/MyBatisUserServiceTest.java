@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -71,12 +73,12 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldAddUser() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
+        String password = "testUserPassword";
+        doNothing().when(userDao).addUser(testUser, password);
 
-        doNothing().when(userDao).addUser(testUser);
+        userService.addUser(testUser, password);
 
-        userService.addUser(testUser);
-
-        verify(userDao).addUser(testUser);
+        verify(userDao).addUser(testUser, password);
     }
 
     @Test
@@ -117,21 +119,52 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldReturnUsersByEvent() throws Exception {
         Event event = BuilderUtil.buildEventJs();
-        userService.getUsersByEvent(event);
+        List users = new ArrayList<>();
+
+        when(userDao.getUsersByEvent(event)).thenReturn(users);
+        List returnedUsers = userService.getUsersByEvent(event);
+
         verify(userDao).getUsersByEvent(event);
+        assertEquals(users, returnedUsers);
     }
 
     @Test
-    public void shouldCheckPasswordByUser() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
-        String password = testUser.getPassword();
+    public void shouldReturnUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
         String encodedPassword = "encodedPassword";
 
-        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
-        when(passwordEncoder.matches(testUser.getPassword(), encodedPassword)).thenReturn(true);
+        when(userDao.getUserPassword(user)).thenReturn(encodedPassword);
+        String returnedPassword = userService.getUserPassword(user);
+
+        verify(userDao).getUserPassword(user);
+        assertEquals(encodedPassword, returnedPassword);
+    }
+
+    @Test
+    public void shouldSetEncodedUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String password = "password";
+        String encodedpassword = "encodedPassword";
+
+        when(passwordEncoder.encode(password)).thenReturn(encodedpassword);
+        doNothing().when(userDao).setUserPassword(user, password);
+
+        userService.setAndEncodeUserPassword(user, password);
+
+        verify(userDao).setUserPassword(user, encodedpassword);
+    }
+
+    @Test
+    public void shouldMatchPasswordByUser() throws Exception {
+        User testUser = BuilderUtil.buildUserTest();
+        String password = "password";
+        String encodedPassword = "encodedPassword";
+
+        when(userDao.getUserPassword(testUser)).thenReturn(encodedPassword);
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
         boolean isCorrect = userService.matchPasswordByLogin(testUser, password);
 
-        verify(userDao).getEncodedUserPassword(testUser);
+        verify(userDao).getUserPassword(testUser);
         assertTrue(isCorrect);
     }
 }
