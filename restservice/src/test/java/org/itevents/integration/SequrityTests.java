@@ -1,8 +1,9 @@
-package org.itevents;
+package org.itevents.integration;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import org.itevents.AbstractDbTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
