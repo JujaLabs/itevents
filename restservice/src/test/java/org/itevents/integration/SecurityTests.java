@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 		type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
 		type = DatabaseOperation.DELETE_ALL)
-public class SequrityTests extends AbstractDbTest {
+public class SecurityTests extends AbstractDbTest {
 
 	@Inject
 	private WebApplicationContext context;
