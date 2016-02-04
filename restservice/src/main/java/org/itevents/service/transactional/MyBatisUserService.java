@@ -23,8 +23,8 @@ public class MyBatisUserService implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void addUser(User user) {
-        userDao.addUser(user);
+    public void addUser(User user, String password) {
+        userDao.addUser(user, password);
     }
 
     @Override
@@ -73,8 +73,19 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
+    public void setAndEncodeUserPassword(User user, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        userDao.setUserPassword(user, encodedPassword);
+    }
+
+    @Override
+    public String getUserPassword(User user) {
+        return userDao.getUserPassword(user);
+    }
+
+    @Override
     public boolean matchPasswordByLogin(User user, String password) {
-        String encodedPassword = userDao.getEncodedUserPassword(user);
+        String encodedPassword = userDao.getUserPassword(user);
         return passwordEncoder.matches(password, encodedPassword);
     }
 }

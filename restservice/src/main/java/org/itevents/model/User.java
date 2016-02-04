@@ -4,7 +4,6 @@ public class User {
 
     private int id;
     private String login;
-    private String password;
     private Role role;
     private boolean subscribed;
 
@@ -25,14 +24,6 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Role getRole() {
@@ -60,7 +51,6 @@ public class User {
 
         if (subscribed != user.subscribed) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
         return !(role != null ? !role.equals(user.role) : user.role != null);
 
     }
@@ -68,7 +58,6 @@ public class User {
     @Override
     public int hashCode() {
         int result = login != null ? login.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (subscribed ? 1 : 0);
         return result;
@@ -79,7 +68,6 @@ public class User {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("id=").append(id);
         sb.append(", login='").append(login).append('\'');
-        sb.append(", password='").append(password).append('\'');
         sb.append(", role=").append(role);
         sb.append(", subscribed=").append(subscribed);
         sb.append('}');

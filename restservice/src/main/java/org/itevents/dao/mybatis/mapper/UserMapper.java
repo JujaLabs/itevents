@@ -2,7 +2,9 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.*;
+import org.itevents.model.Event;
+import org.itevents.model.Role;
+import org.itevents.model.User;
 
 import java.util.List;
 
@@ -28,13 +30,14 @@ public interface UserMapper extends UserDao {
     List<User> getAllUsers();
 
     @Override
-    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{login}, #{password}, " +
-            "#{role.id}, #{subscribed})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{user.login}, #{password}, " +
+            "#{user.role.id}, #{user.subscribed})")
     @Options(useGeneratedKeys = true)
-    void addUser(User user);
+    void addUser(@Param("user") User user,
+                 @Param("password") String password);
 
     @Override
-    @Update("UPDATE user_profile SET login=#{login}, password=#{password}, role_id=#{role.id}, subscribed=#{subscribed} " +
+    @Update("UPDATE user_profile SET login=#{login}, role_id=#{role.id}, subscribed=#{subscribed} " +
             "WHERE id=#{id}")
     void updateUser(User user);
 
@@ -50,5 +53,11 @@ public interface UserMapper extends UserDao {
 
     @Override
     @Select("SELECT password FROM user_profile WHERE login = #{login}")
-    String getEncodedUserPassword(User user);
+    String getUserPassword(User user);
+
+    @Override
+    @Update("UPDATE user_profile SET password=#{password}" +
+            "WHERE login = #{user.login}")
+    void setUserPassword(@Param("user") User user,
+                         @Param("password") String password);
 }

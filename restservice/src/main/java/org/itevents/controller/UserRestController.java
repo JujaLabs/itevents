@@ -72,10 +72,9 @@ public class UserRestController {
         }
         User user = UserBuilder.anUser()
                 .login(username)
-                .password(passwordEncoder.encode(password))
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
-        userService.addUser(user);
+        userService.addUser(user, password);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -9,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -44,7 +43,6 @@ public class SecurityTests {
 
 	@Inject
 	private WebApplicationContext context;
-
 	private MockMvc mvc;
 
 	@Before
@@ -93,13 +91,10 @@ public class SecurityTests {
 	}
 
 	@Test
-	public void shouldGrantAccessToRegisterNewSubscriber() throws Exception {
-		User testSubscriber = BuilderUtil.buildSubscriberTest();
-
+	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		mvc.perform(post("/users/register")
-				.param("username", testSubscriber.getLogin())
-				.param("password", testSubscriber.getPassword()))
-				.andExpect(status().isOk());
+                .param("username", "vlasov@email.com")
+                .param("password", "password"))
+                .andExpect(status().isOk());
 	}
-
 }
