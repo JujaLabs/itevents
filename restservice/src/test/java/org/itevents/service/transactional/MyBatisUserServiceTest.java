@@ -5,6 +5,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
@@ -40,6 +41,8 @@ public class MyBatisUserServiceTest {
     private EventDao eventDao;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private RoleService roleService;
 
     @Before
     public void setUp() {
@@ -94,9 +97,13 @@ public class MyBatisUserServiceTest {
     public void shouldAddSubscriber() throws Exception {
         User testUser = BuilderUtil.buildUserVlasov();
 
+        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(testUser.getPassword());
+        when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
+        doNothing().when(userDao).addUser(eq(testUser));
+
         userService.addSubscriber(testUser.getLogin(), testUser.getPassword());
 
-        verify(userDao).addUser(any(User.class));
+        verify(userDao).addUser(eq(testUser));
     }
 
     @Test(expected = EntityAlreadyExistsServiceException.class)
@@ -104,7 +111,8 @@ public class MyBatisUserServiceTest {
         User testUser = BuilderUtil.buildUserVlasov();
 
         when(passwordEncoder.encode(testUser.getPassword())).thenReturn(testUser.getPassword());
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(testUser);
+        when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
+        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser));
 
         userService.addSubscriber(testUser.getLogin(), testUser.getPassword());
     }
