@@ -16,7 +16,7 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    void addUser(User user);
+    void addUser(User user, String password);
 
     void updateUser(User user);
 
@@ -24,5 +24,7 @@ public interface UserDao {
 
     List<User> getSubscribedUsers();
 
-    String getEncodedUserPassword(User user);
+    String getUserPassword(User user);
+
+    void setUserPassword(User user, String password);
 }

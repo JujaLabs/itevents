@@ -1,17 +1,9 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.model.builder.UserBuilder;
-import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service("userService")
@@ -35,9 +26,9 @@ public class MyBatisUserService implements UserService {
     @Inject
     private RoleService roleService;
 
-    private void addUser(User user) {
+    private void addUser(User user, String password) {
         try {
-            userDao.addUser(user);
+            userDao.addUser(user, password);
         } catch (Throwable e) {
             Throwable t = e;
             while (t.getCause() != null) {
@@ -56,10 +47,9 @@ public class MyBatisUserService implements UserService {
     public void addSubscriber(String username, String password) {
         User user = UserBuilder.anUser()
                 .login(username)
-                .password(passwordEncoder.encode(password))
                 .role(roleService.getRoleByName("subscriber"))
                 .build();
-        addUser(user);
+        addUser(user, passwordEncoder.encode(password));
 
     }
 
@@ -116,6 +106,17 @@ public class MyBatisUserService implements UserService {
     @Override
     public List<User> getUsersByEvent(Event event) {
         return userDao.getUsersByEvent(event);
+    }
+
+    @Override
+    public void setAndEncodeUserPassword(User user, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        userDao.setUserPassword(user, encodedPassword);
+    }
+
+    @Override
+    public String getUserPassword(User user) {
+        return userDao.getUserPassword(user);
     }
 
     @Override

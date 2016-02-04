@@ -2,14 +2,9 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
-import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +18,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -96,12 +91,14 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldAddSubscriber() throws Exception {
         User testUser = BuilderUtil.buildUserVlasov();
+        String password = "password";
+        String encodedPassword = "encodedPassword";
 
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(testUser.getPassword());
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
         when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
         doNothing().when(userDao).addUser(eq(testUser));
 
-        userService.addSubscriber(testUser.getLogin(), testUser.getPassword());
+        userService.addSubscriber(testUser.getLogin(), password);
 
         verify(userDao).addUser(eq(testUser));
     }
@@ -155,22 +152,53 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldReturnUsersByEvent() throws Exception {
         Event event = BuilderUtil.buildEventJs();
-        userService.getUsersByEvent(event);
+        List users = new ArrayList<>();
+
+        when(userDao.getUsersByEvent(event)).thenReturn(users);
+        List returnedUsers = userService.getUsersByEvent(event);
+
         verify(userDao).getUsersByEvent(event);
+        assertEquals(users, returnedUsers);
     }
 
     @Test
-    public void shouldCheckPasswordByUser() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
-        String password = testUser.getPassword();
+    public void shouldReturnUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
         String encodedPassword = "encodedPassword";
 
-        when(userDao.getEncodedUserPassword(testUser)).thenReturn(encodedPassword);
+        when(userDao.getUserPassword(user)).thenReturn(encodedPassword);
+        String returnedPassword = userService.getUserPassword(user);
+
+        verify(userDao).getUserPassword(user);
+        assertEquals(encodedPassword, returnedPassword);
+    }
+
+    @Test
+    public void shouldEncodeAndSaveUserPassword() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String password = "password";
+        String encodedpassword = "encodedPassword";
+
+        when(passwordEncoder.encode(password)).thenReturn(encodedpassword);
+        doNothing().when(userDao).setUserPassword(user, password);
+
+        userService.setAndEncodeUserPassword(user, password);
+
+        verify(userDao).setUserPassword(user, encodedpassword);
+    }
+
+    @Test
+    public void shouldDoNothingIfCheckPasswordByUserSuccess() throws Exception {
+        User testUser = BuilderUtil.buildUserTest();
+        String password = "password";
+        String encodedPassword = "encodedPassword";
+
+        when(userDao.getUserPassword(testUser)).thenReturn(encodedPassword);
         when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
         userService.checkPassword(testUser, password);
 
-        verify(userDao).getEncodedUserPassword(testUser);
+        verify(userDao).getUserPassword(testUser);
         verify(passwordEncoder).matches(password, encodedPassword);
     }
 

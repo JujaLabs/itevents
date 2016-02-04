@@ -9,11 +9,15 @@ import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
+import org.itevents.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
+import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -26,9 +30,13 @@ public class UserRestController {
     @Inject
     private UserService userService;
     @Inject
+    private RoleService roleService;
+    @Inject
     private EventService eventService;
     @Inject
     private FilterService filterService;
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),

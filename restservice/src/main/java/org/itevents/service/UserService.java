@@ -27,5 +27,9 @@ public interface UserService {
 
     List<User> getUsersByEvent(Event event);
 
+    void setAndEncodeUserPassword(User user, String password);
+
+    String getUserPassword(User user);
+
     void checkPassword(User user, String password);
 }

@@ -9,7 +9,6 @@ import org.itevents.model.User;
 public class UserBuilder {
     private int id;
     private String login;
-    private String password;
     private Role role;
     private boolean subscribed = false;
 
@@ -30,11 +29,6 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder password(String password) {
-        this.password = password;
-        return this;
-    }
-
     public UserBuilder role(Role role) {
         this.role = role;
         return this;
@@ -46,14 +40,13 @@ public class UserBuilder {
     }
 
     public UserBuilder but() {
-        return anUser().id(id).login(login).password(password).role(role).subscribed(subscribed);
+        return anUser().id(id).login(login).role(role).subscribed(subscribed);
     }
 
     public User build() {
         User user = new User();
         user.setId(id);
         user.setLogin(login);
-        user.setPassword(password);
         user.setRole(role);
         user.setSubscribed(subscribed);
         return user;
