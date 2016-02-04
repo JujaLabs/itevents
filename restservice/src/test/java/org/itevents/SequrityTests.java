@@ -123,8 +123,8 @@ public class SequrityTests extends AbstractDbTest {
 	@Test
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		mvc.perform(post("/users/register")
-                .param("username", "vlasov@email.com")
-                .param("password", "password"))
+				.param("username", "NewUser@email.com")
+				.param("password", "password"))
                 .andExpect(authenticated().withUsername("guest"))
                 .andExpect(status().isCreated());
 	}

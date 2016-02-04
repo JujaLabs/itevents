@@ -30,8 +30,8 @@ public interface UserMapper extends UserDao {
     List<User> getAllUsers();
 
     @Override
-    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{user.login}, #{password}, " +
-            "#{user.role.id}, #{user.subscribed})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) " +
+            "VALUES(#{login}, #{password}, #{role.id}, #{subscribed})")
     @Options(useGeneratedKeys = true)
     void addUser(@Param("user") User user,
                  @Param("password") String password);

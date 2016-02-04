@@ -3,6 +3,7 @@ package org.itevents.dao.mybatis.sql_session_dao;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
+import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +39,8 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
     }
 
     @Override
-    public void addUser(User user) {
-        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.addUser", user);
+    public void addUser(User user, String password) {
+        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.addUser", new UserPassword(user, password));
     }
 
     @Override
@@ -58,8 +59,67 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
     }
 
     @Override
-    public String getEncodedUserPassword(User user) {
-        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getEncodedUserPassword", user);
+    public String getUserPassword(User user) {
+        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserPassword", user);
+    }
+
+    @Override
+    public void setUserPassword(User user, String password) {
+        getSqlSession().update("org.itevents.dao.mybatis.mapper.UserMapper.setUserPassword", new UserPassword(user, password));
+    }
+
+    private class UserPassword {
+
+        private User user;
+        private Role role;
+        private String password;
+
+        public UserPassword(User user, String password) {
+            this.user = user;
+            role = user.getRole();
+            this.password = password;
+        }
+
+        public int getId() {
+            return user.getId();
+        }
+
+        public void setId(int id) {
+            user.setId(id);
+        }
+
+        public String getLogin() {
+            return user.getLogin();
+        }
+
+        public void setLogin(String login) {
+            user.setLogin(login);
+        }
+
+        public Role getRole() {
+            return role;
+        }
+
+        public void setRole(Role role) {
+            user.setRole(role);
+            this.role = role;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public boolean isSubscribed() {
+            return user.isSubscribed();
+        }
+
+        public void setSubscribed(boolean subscribed) {
+            user.setSubscribed(subscribed);
+        }
     }
 
 }

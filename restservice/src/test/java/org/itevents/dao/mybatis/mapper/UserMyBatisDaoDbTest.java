@@ -11,7 +11,6 @@ import org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -52,14 +51,6 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         userMyBatisDao.getUser(ABSENT_ID);
     }
 
-
-    /*
-  *
-  * @TODO: fix mapper org.itevents.dao.mybatis.mapper.UserMapper.addUser, description in issue 138
-  * https://github.com/JuniorsJava/itevents/issues/138
-  *
-  */
-    @Ignore
     @Test
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
@@ -98,7 +89,6 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         assertEquals(expectedUsers,returnedUsers);
     }
 
-    // TODO: 04.02.2016 change userMyBatisDao.getEncodedUserPassword to userMyBatisDao.getUserPassword
     @Test
     public void shouldGetPasswordByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
@@ -114,6 +104,6 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     public void shouldSaveUserPassword() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = "newPassword";
-        userMyBatisDao.saveUserPassword(user, expectedPassword);
+        userMyBatisDao.setUserPassword(user, expectedPassword);
     }
 }
