@@ -17,8 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-
-import java.text.ParseException;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -51,7 +49,7 @@ public class MailNotificationServiceTest {
     }
 
     @Test
-    public void performNotifyTest() throws ParseException {
+    public void performNotifyTest() throws Exception {
         List<User> users = BuilderUtil.buildAllUser();
         users.forEach(a->a.setSubscribed(true));
         when(userService.getSubscribedUsers()).thenReturn(users);

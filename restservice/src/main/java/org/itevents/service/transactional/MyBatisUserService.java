@@ -1,9 +1,17 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.model.builder.UserBuilder;
+import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.WrongPasswordServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,30 +19,67 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service("userService")
 @Transactional
 public class MyBatisUserService implements UserService {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Inject
     private UserDao userDao;
     @Inject
     private PasswordEncoder passwordEncoder;
+    @Inject
+    private RoleService roleService;
+
+    private void addUser(User user, String password) {
+        try {
+            userDao.addUser(user, password);
+        } catch (Throwable e) {
+            Throwable t = e;
+            while (t.getCause() != null) {
+                t = t.getCause();
+                if (t instanceof SQLIntegrityConstraintViolationException) {
+                    throw new EntityAlreadyExistsServiceException("User " + user.getLogin() + " already registered", e);
+                }
+            }
+            String message = e.getMessage() + ". Error when add new user (" + user.getLogin() + ")";
+            LOGGER.error(message, e);
+            throw new RuntimeException(message, e);
+        }
+    }
 
     @Override
-    public void addUser(User user, String password) {
-        userDao.addUser(user, password);
+    public void addSubscriber(String username, String password) {
+        User user = UserBuilder.anUser()
+                .login(username)
+                .role(roleService.getRoleByName("subscriber"))
+                .build();
+        addUser(user, passwordEncoder.encode(password));
+
     }
 
     @Override
     public User getUser(int id) {
-        return userDao.getUser(id);
+        try {
+            return userDao.getUser(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
     public User getUserByName(String name) {
-        return userDao.getUserByName(name);
+        try {
+            return userDao.getUserByName(name);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -84,8 +129,12 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public boolean matchPasswordByLogin(User user, String password) {
+    public void checkPassword(User user, String password) {
         String encodedPassword = userDao.getUserPassword(user);
-        return passwordEncoder.matches(password, encodedPassword);
+        if (!passwordEncoder.matches(password, encodedPassword)) {
+            String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
+            LOGGER.error(message);
+            throw new WrongPasswordServiceException(message);
+        }
     }
 }

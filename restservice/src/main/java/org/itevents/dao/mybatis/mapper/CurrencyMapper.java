@@ -29,9 +29,4 @@ public interface CurrencyMapper extends CurrencyDao {
     @Override
     @Update("UPDATE currency SET name=#{name} WHERE id =#{id}")
     void updateCurrency(Currency currency);
-
-    @Override
-    @Delete("DELETE FROM currency WHERE id =#{id}")
-    void removeCurrency(Currency currency);
-
 }

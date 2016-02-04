@@ -16,9 +16,4 @@ public interface TechnologyDao {
     List<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
-
-    void updateTechnology(Technology technology);
-
-    void removeTechnology(Technology technology);
-
 }

@@ -1,7 +1,5 @@
-package org.itevents;
+package org.itevents.integration;
 
-import org.itevents.model.User;
-import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -95,6 +93,6 @@ public class SecurityTests {
 		mvc.perform(post("/users/register")
                 .param("username", "vlasov@email.com")
                 .param("password", "password"))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 	}
 }

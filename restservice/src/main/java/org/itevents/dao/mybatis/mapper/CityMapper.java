@@ -27,14 +27,4 @@ public interface CityMapper extends CityDao {
             "VALUES(#{name}, #{details}, ST_MakePoint(#{location.longitude},#{location.latitude}))")
     @Options(useGeneratedKeys = true)
     void addCity(City city);
-
-    @Override
-    @Update("UPDATE city SET name=#{name}, details=#{details}, " +
-            "point=ST_MakePoint(#{location.longitude},#{location.latitude} WHERE id =#{id}")
-    void updateCity(City city);
-
-    @Override
-    @Delete("DELETE FROM city WHERE id =#{id}")
-    void removeCity(City city);
-
 }

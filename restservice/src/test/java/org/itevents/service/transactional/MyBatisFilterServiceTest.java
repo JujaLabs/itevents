@@ -51,7 +51,7 @@ public class MyBatisFilterServiceTest {
     }
 
     @Test
-    public void shouldFindLasFilterOfSpecifiedUser() {
+    public void shouldFindLasFilterOfSpecifiedUser() throws Exception {
         Filter expectedFilter = BuilderUtil.buildFilterFifth();
         User user = BuilderUtil.buildUserKuchin();
 
@@ -64,7 +64,7 @@ public class MyBatisFilterServiceTest {
     }
 
     @Test
-    public void shouldGetAllFilters() {
+    public void shouldGetAllFilters() throws Exception {
         filterService.getAllFilters();
 
         verify(filterDao).getAllFilters();

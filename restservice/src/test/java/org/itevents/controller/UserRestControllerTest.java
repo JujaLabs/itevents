@@ -3,7 +3,6 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
-import org.itevents.model.Role;
 import org.itevents.model.User;
 import org.itevents.service.*;
 import org.itevents.test_utils.BuilderUtil;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-public class UserRestControllerTest extends AbstractControllerSecurityTest {
+public class UserRestControllerTest extends AbstractControllerTest {
 
     @Mock
     private RoleService roleService;
@@ -48,47 +47,21 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     public void init() {
         super.initMock(this);
         super.initMvc(userRestController);
-        super.authenticationUser(BuilderUtil.buildSubscriberTest(), "testPassword");
     }
 
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
-        Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        User testUser = BuilderUtil.buildUserTest();
-        String encodedPassword = "encodedPassword";
+        String newSubscriberName = "newSubscriberName";
+        String newSubscriberPassword = "newSubscriberPassword";
 
-        when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
-        when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
-        when(passwordEncoder.encode(encodedPassword)).thenReturn(encodedPassword);
-        doNothing().when(userService).addUser(testUser, encodedPassword);
+        doNothing().when(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
 
         mockMvc.perform(post("/users/register")
-                .param("username", testUser.getLogin())
-                .param("password", encodedPassword))
-                .andExpect(status().isOk());
+                .param("username", newSubscriberName)
+                .param("password", newSubscriberPassword))
+                .andExpect(status().isCreated());
 
-        testUser.setRole(subscriberRole);
-        userService.setAndEncodeUserPassword(testUser, encodedPassword);
-        verify(roleService).getRoleByName(subscriberRole.getName());
-        verify(userService).getUserByName(testUser.getLogin());
-        verify(userService).addUser(testUser, encodedPassword);
-    }
-
-    @Test
-    public void shouldNotRegisterExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-        String password = "testUserPassword";
-
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-
-        mockMvc.perform(post("/users/register")
-                .param("username", user.getLogin())
-                .param("password", password))
-                .andExpect(status().isImUsed());
-
-        verify(roleService, never()).getRole(anyInt());
-        verify(userService).getUserByName(user.getLogin());
-        verify(userService, never()).addUser(user, password);
+        verify(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
     }
 
     @Test
@@ -109,7 +82,6 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldDeactivateSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
@@ -140,10 +112,22 @@ public class UserRestControllerTest extends AbstractControllerSecurityTest {
 
     @Test
     public void shouldGenerateToken() throws Exception {
-        when(tokenService.createToken("someMail@mail.ua","passwd")).thenReturn("someToken");
+        when(tokenService.createToken("someMail@mail.ua", "passwd")).thenReturn("someToken");
         mockMvc.perform(post("/users/login")
-                .param("username","someMail@mail.ua")
-                .param("password","passwd")
+                .param("username", "someMail@mail.ua")
+                .param("password", "passwd")
         ).andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturnUserById() throws Exception {
+        User user = BuilderUtil.buildUserVlasov();
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(user);
+
+        when(userService.getUser(user.getId())).thenReturn(user);
+
+        mockMvc.perform(get("/users/" + user.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedEventsInJson));
     }
 }

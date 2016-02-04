@@ -3,8 +3,6 @@ package org.itevents.service.security;
 import org.itevents.model.User;
 import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
-import org.itevents.service.security.CryptTokenService;
-import org.itevents.service.security.Token;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -24,11 +22,9 @@ public class JwtTokenService implements TokenService {
     @Override
     public String createToken(String username, String password) {
         User user = userService.getUserByName(username);
-        if (user != null && userService.matchPasswordByLogin(user, password)) {
-            Token token = new Token(username, user.getRole().getName());
-            return cryptTokenService.encrypt(token);
-        } else {
-            return null;
-        }
+        userService.checkPassword(user, password);
+
+        Token token = new Token(username, user.getRole().getName());
+        return cryptTokenService.encrypt(token);
     }
 }

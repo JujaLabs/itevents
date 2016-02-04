@@ -35,9 +35,4 @@ public interface VisitLogMapper extends VisitLogDao {
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")
     @Options(useGeneratedKeys = true)
     void addVisitLog(VisitLog visitLog);
-
-    @Override
-    @Delete("DELETE FROM visit_log WHERE id=#{id}")
-    void removeVisitLog(VisitLog visitLog);
-// to delete
 }
