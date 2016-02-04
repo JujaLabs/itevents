@@ -37,6 +37,11 @@
         <custom-filter ref="jwtAuthenticationFilter" position="FORM_LOGIN_FILTER"   />
     </http>
 
+    <beans:bean name="cryptTokenService" class="org.itevents.service.security.AESCryptTokenService">
+        <beans:constructor-arg index="0" value="${aes.init.vector.hex}"/>
+        <beans:constructor-arg index="1" value="${aes.key.hex}"/>
+    </beans:bean>
+
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
     </authentication-manager>
