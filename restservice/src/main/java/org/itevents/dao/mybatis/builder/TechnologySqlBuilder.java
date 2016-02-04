@@ -24,7 +24,8 @@ public class TechnologySqlBuilder {
         for (String name : names) {
             sql.append("'").append(name).append("'").append(", ");
         }
-        sql.delete(sql.length() - 2, sql.length());
+        int lastCommaPositionFromEnd = 2;
+        sql.delete(sql.length() - lastCommaPositionFromEnd, sql.length());
         sql.append(") ORDER BY name");
         return sql.toString();
     }
