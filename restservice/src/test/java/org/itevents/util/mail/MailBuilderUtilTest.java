@@ -1,7 +1,9 @@
 package org.itevents.util.mail;
 
 import org.itevents.model.Event;
+import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,14 +25,25 @@ import static org.junit.Assert.assertEquals;
 public class MailBuilderUtilTest {
     @Inject
     private String expectedDigestEmail;
-
+    @Inject
+    private String expectedUserOtpEmail;
     @Inject
     private MailBuilderUtil mailBuilderUtil;
+    @Inject
+    private OtpGenerator otpGenerator;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
         List<Event> filteredEvents = BuilderUtil.buildEventsForMailUtilTest();
         String returnedDigestEmail = mailBuilderUtil.buildHtmlFromEventsList(filteredEvents);
         assertEquals(expectedDigestEmail, returnedDigestEmail);
+    }
+
+    @Test
+    public void shouldReturnMailWithLinkToActivate()  throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        otpGenerator.generateOtp(1440);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator);
+        assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

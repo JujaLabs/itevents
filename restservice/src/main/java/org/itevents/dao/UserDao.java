@@ -2,6 +2,7 @@ package org.itevents.dao;
 
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 
 import java.util.List;
 
@@ -17,6 +18,12 @@ public interface UserDao {
     List<User> getAllUsers();
 
     void addUser(User user, String password);
+
+    void setOtpToUser(User user, OtpGenerator otpGenerator);
+
+    OtpGenerator getOtp(String password);
+
+    User getUserByOtp(OtpGenerator otpGenerator);
 
     void updateUser(User user);
 

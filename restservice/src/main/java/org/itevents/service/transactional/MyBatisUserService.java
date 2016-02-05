@@ -11,7 +11,11 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.OtpExpiredServiceExceprion;
 import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.sendmail.SendGridMailService;
+import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 
 @Service("userService")
@@ -34,6 +39,13 @@ public class MyBatisUserService implements UserService {
     private PasswordEncoder passwordEncoder;
     @Inject
     private RoleService roleService;
+    @Inject
+    private OtpGenerator otpGenerator;
+    @Inject
+    private SendGridMailService mailService;
+    @Inject
+    private MailBuilderUtil mailBuilderUtil;
+
 
     private void addUser(User user, String password) {
         try {
@@ -53,13 +65,14 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addSubscriber(String username, String password) {
+    public void addSubscriber(String username, String password) throws Exception {
         User user = UserBuilder.anUser()
                 .login(username)
-                .role(roleService.getRoleByName("subscriber"))
+                .role(roleService.getRoleByName("guest"))
                 .build();
         addUser(user, passwordEncoder.encode(password));
 
+        sendEmailWithActivationLink(user);
     }
 
     @Override
@@ -135,6 +148,39 @@ public class MyBatisUserService implements UserService {
             String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
             LOGGER.error(message);
             throw new WrongPasswordServiceException(message);
+        }
+    }
+
+    @Override
+    public void setOtpToUser(User user, OtpGenerator otpGenerator) {
+        userDao.setOtpToUser(user, otpGenerator);
+    }
+
+    @Override
+    public User getUserByOtp(OtpGenerator otp) {
+        return userDao.getUserByOtp(otp);
+    }
+
+    @Override
+    public void sendEmailWithActivationLink(User user) throws Exception {
+        OtpGenerator otp = otpGenerator.generateOtp(1440);
+        setOtpToUser(user, otp);
+        mailService.sendMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otp), user.getLogin());
+    }
+
+    @Override
+    public void activateUserWithOtp(String password) {
+        OtpGenerator otpGenerator = userDao.getOtp(password);
+        User user = userDao.getUserByOtp(otpGenerator);
+
+        if (otpGenerator.getExpirationDate().before(new Date()) ) {
+        user.setRole(roleService.getRoleByName("subscriber"));
+        userDao.updateUser(user);
+
+        } else {
+            String message = "Password expired";
+            LOGGER.error(message);
+            throw new OtpExpiredServiceExceprion(message);
         }
     }
 }

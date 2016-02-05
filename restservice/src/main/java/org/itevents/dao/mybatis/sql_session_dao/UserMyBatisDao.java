@@ -5,8 +5,10 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Role;
 import org.itevents.model.User;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,6 +70,21 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         getSqlSession().update("org.itevents.dao.mybatis.mapper.UserMapper.setUserPassword", new UserPassword(user, password));
     }
 
+    @Override
+    public void setOtpToUser(User user, OtpGenerator otpGenerator) {
+        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser", new UserOtp(user, otpGenerator));
+    }
+
+    @Override
+    public OtpGenerator getOtp(String password) {
+        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser");
+    }
+
+    @Override
+    public User getUserByOtp(OtpGenerator otpGenerator) {
+        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp");
+    }
+
     private class UserPassword {
 
         private User user;
@@ -119,6 +136,55 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
 
         public void setSubscribed(boolean subscribed) {
             user.setSubscribed(subscribed);
+        }
+    }
+
+    private class UserOtp {
+        private User user;
+        private OtpGenerator otpGenerator;
+
+        public UserOtp(User user, OtpGenerator otpGenerator) {
+            this.otpGenerator = otpGenerator;
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return otpGenerator.getPassword();
+        }
+        public void setPassword(String oneTimePssword) {
+            otpGenerator.setPassword(oneTimePssword);
+        }
+
+        public Date getCreationDate() {
+            return otpGenerator.getCreationDate();
+        }
+
+        public void setCreationDate(Date creationDate) {
+            otpGenerator.setCreationDate(creationDate);
+        }
+
+        public Date getExpirationDate() {
+            return otpGenerator.getExpirationDate();
+        }
+
+        public void setExpirationDate(Date expirationDate) {
+            otpGenerator.setExpirationDate(expirationDate);
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public OtpGenerator getOtpGenerator() {
+            return otpGenerator;
+        }
+
+        public void setOtpGenerator(OtpGenerator otpGenerator) {
+            this.otpGenerator = otpGenerator;
         }
     }
 

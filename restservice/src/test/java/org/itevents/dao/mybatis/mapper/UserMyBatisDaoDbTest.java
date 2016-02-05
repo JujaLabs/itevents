@@ -106,4 +106,15 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         String expectedPassword = "newPassword";
         userMyBatisDao.setUserPassword(user, expectedPassword);
     }
+
+//    @Test
+//    @ExpectedDatabase(value = TEST_PATH + "addOtpExpected.xml",
+//            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+//    public void shouldAddOtpByUserId() throws Exception {
+//        User user = BuilderUtil.buildUserAnakin();
+//        OtpGenerator otpGenerator = new OtpGenerator();
+//        String onetimePassword = "oneTimePassword";
+//        otpGenerator.setPassword(onetimePassword);
+//        userMyBatisDao.setOtpToUser(user, otpGenerator);
+//    }
 }

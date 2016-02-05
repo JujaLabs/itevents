@@ -2,6 +2,7 @@ package org.itevents.service;
 
 import org.itevents.model.Event;
 import org.itevents.model.User;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    void addSubscriber(String name, String password);
+    void addSubscriber(String name, String password) throws Exception;
 
     User getUser(int userId);
 
@@ -22,6 +23,14 @@ public interface UserService {
     void deactivateUserSubscription(User user);
 
     List<User> getAllUsers();
+
+    void setOtpToUser(User user, OtpGenerator otpGenerator);
+
+    User getUserByOtp(OtpGenerator otp);
+
+    void activateUserWithOtp(String password);
+
+    void sendEmailWithActivationLink(User user) throws Exception;
 
     List<User> getSubscribedUsers();
 

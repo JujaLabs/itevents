@@ -7,6 +7,7 @@
         event_technology*,
         filter*,
         filter_technology*,
+        one_time_password*,
         role*,
         spatial_ref_sys*,
         technology*,
@@ -91,6 +92,13 @@
         <!ATTLIST filter_technology
                 filter_id CDATA #REQUIRED
                 technology_id CDATA #REQUIRED
+                >
+        <!ELEMENT one_time_password EMPTY>
+        <!ATTLIST one_time_password
+                user_id CDATA #REQUIRED
+                password CDATA #REQUIRED
+                creation_date CDATA #IMPLIED
+                expiration_date CDATA #IMPLIED
                 >
 
         <!ELEMENT role EMPTY>
