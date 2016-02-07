@@ -15,9 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -53,37 +51,9 @@ public class MyBatisCityServiceTest {
     }
 
     @Test
-    public void shouldGetAllCities() {
+    public void shouldGetAllCities() throws Exception {
         cityService.getAllCities();
 
         verify(cityDao).getAllCities();
-    }
-
-    @Test
-    public void shouldRemoveCity() {
-        City expectedCity = BuilderUtil.buildCityTest();
-
-        when(cityDao.getCity(expectedCity.getId())).thenReturn(expectedCity);
-        doNothing().when(cityDao).removeCity(expectedCity);
-
-        City returnedCity = cityService.removeCity(expectedCity);
-
-        verify(cityDao).getCity(expectedCity.getId());
-        verify(cityDao).removeCity(expectedCity);
-        assertEquals(expectedCity, returnedCity);
-    }
-
-    @Test
-    public void shouldNotRemoveNonExistingCity() {
-        City testCity = BuilderUtil.buildCityTest();
-
-        when(cityDao.getCity(testCity.getId())).thenReturn(null);
-        doNothing().when(cityDao).removeCity(testCity);
-
-        City returnedCity = cityService.removeCity(testCity);
-
-        verify(cityDao).getCity(testCity.getId());
-        verify(cityDao, never()).removeCity(any(City.class));
-        assertNull(returnedCity);
     }
 }

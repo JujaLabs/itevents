@@ -19,12 +19,12 @@ public class MailSenderScheduler {
     @Inject
     private ReminderAboutEventService reminderAboutEventService;
 
-    @Scheduled(cron = "${cron.start_sending}")
+    @Scheduled(cron = "${cron.start.sending}")
     public void startSending(){
         notificationService.performNotify();
     }
 
-    @Scheduled(cron = "${cron.remindAboutEvent}")
+    @Scheduled(cron = "${cron.remind.about.event}")
     public void startRemind(){
         reminderAboutEventService.execute();
     }

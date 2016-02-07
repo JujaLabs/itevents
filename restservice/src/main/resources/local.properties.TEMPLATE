@@ -7,7 +7,7 @@ database.username=DB_USERNAME
 database.password=DB_PASSWORD
 
 # Liquibase
-changeLogFile=src\\main\\resources\\liquibase\\db.changelog-master.xml
+changelog.file=src\\main\\resources\\liquibase\\db.changelog-master.xml
 
 # SendGrid
 sendgrid.api.key=SEND_GRID_TOKEN
@@ -21,17 +21,13 @@ sendgrid.api.key=SEND_GRID_TOKEN
 # | | |_________ day of month (1 - 31)
 # | |___________ hour (0 - 23)
 # |______________ min (0 - 59)
-cron.start_sending=30 2 * * * ?
+cron.start.sending=30 2 * * * ?
 
-cron.remindAboutEvent=0 0 11 * * ?
-
-httpPort=8080
-stopPort=9080
-stopKey=stop
-
-# MailReminderAboutEventService
-reminderAboutEventForThePeriod=1
+http.port=8080
+stop.port=9080
+stop.key=stop
 
 # EventService
-event.filterRangeInDays=7
-event.countOfEventsInEmail=10
+event.filter.range.in.days=7
+event.count.of.events.in.email=10
+

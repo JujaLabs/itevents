@@ -16,7 +16,4 @@ public interface CurrencyDao {
     void addCurrency(Currency currency);
 
     void updateCurrency(Currency currency);
-
-    void removeCurrency(Currency currency);
-
 }

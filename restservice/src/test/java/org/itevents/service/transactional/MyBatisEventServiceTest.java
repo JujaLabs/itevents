@@ -1,13 +1,13 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.wrapper.FilterWrapper;
-import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -34,8 +34,6 @@ public class MyBatisEventServiceTest {
     @InjectMocks
     @Inject
     private EventService eventService;
-    @Inject
-    private DateTimeUtil dateTimeUtil;
     @Mock
     private EventDao eventDao;
 
@@ -52,6 +50,16 @@ public class MyBatisEventServiceTest {
 
         verify(eventDao).getEvent(ID_1);
     }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowEventNotFoundServiceException() throws Exception {
+        int absentId = 0;
+
+        when(eventDao.getEvent(absentId)).thenThrow(EntityNotFoundDaoException.class);
+
+        eventService.getEvent(absentId);
+    }
+
 
     @Test
     public void shouldAddEvent() throws ParseException {
@@ -71,67 +79,38 @@ public class MyBatisEventServiceTest {
     }
 
     @Test
-    public void shouldRemoveEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao).removeEventTechnology(expectedEvent);
-        verify(eventDao).removeEvent(expectedEvent);
-        assertEquals(expectedEvent, returnedEvent);
-
-    }
-
-    @Test
-    public void shouldNotRemoveNonExistingEvent() throws ParseException {
-        Event expectedEvent = BuilderUtil.buildEventRuby();
-
-        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(null);
-        doNothing().when(eventDao).removeEventTechnology(expectedEvent);
-        doNothing().when(eventDao).removeEvent(expectedEvent);
-
-        Event returnedEvent = eventService.removeEvent(expectedEvent);
-
-        verify(eventDao).getEvent(expectedEvent.getId());
-        verify(eventDao, never()).removeEventTechnology(expectedEvent);
-        verify(eventDao, never()).removeEvent(expectedEvent);
-        assertNull(returnedEvent);
-    }
-
-    @Test
-    public void shouldFindEventsByParameter() throws ParseException {
+    public void shouldFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(BuilderUtil.buildEventJava());
+        Filter filter = new Filter();
 
-        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(expectedEvents);
+        when(eventDao.getFilteredEvents(filter)).thenReturn(expectedEvents);
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(filter);
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
+        verify(eventDao).getFilteredEvents(filter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldNotFindEventsByParameter() throws ParseException {
+    public void shouldNotFindEventsByParameter() throws Exception {
         List<Event> expectedEvents = new ArrayList<>();
+        Filter filter = new Filter();
 
-        when(eventDao.getFilteredEvents(any(Filter.class))).thenReturn(new ArrayList<>());
+        when(eventDao.getFilteredEvents(filter)).thenReturn(new ArrayList<>());
 
-        List<Event> returnedEvents = eventService.getFilteredEvents(new FilterWrapper());
+        List<Event> returnedEvents = eventService.getFilteredEvents(filter);
 
-        verify(eventDao).getFilteredEvents(any(Filter.class));
+        verify(eventDao).getFilteredEvents(filter);
         assertEquals(expectedEvents, returnedEvents);
     }
 
     @Test
-    public void shouldReturnEventsByUser() throws Exception{
+    public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
+
         eventService.getEventsByUser(user);
+
         verify(eventDao).getEventsByUser(user);
     }
 
@@ -139,23 +118,25 @@ public class MyBatisEventServiceTest {
     public void shouldAssignToEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
+
         eventService.assignUserToEvent(user, event);
+
         verify(eventDao).assignUserToEvent(user, event);
     }
 
     @Test
-    public void shouldUnassignUserFromEvent()throws Exception {
+    public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-
-        Date unassignDate = dateTimeUtil.setDate("20.07.2115");
+        Date unassignDate = new Date();
         String unassignReason = "test";
         List events = new ArrayList<>();
         events.add(event);
 
-        when(eventService.getEventsByUser(user)).thenReturn(events);
+        when(eventDao.getEventsByUser(user)).thenReturn(events);
 
         eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+
         verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 

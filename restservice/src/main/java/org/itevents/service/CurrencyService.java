@@ -16,7 +16,4 @@ public interface CurrencyService {
     void addCurrency(Currency currency);
 
     void updateCurrency(Currency currency);
-
-    Currency removeCurrency(Currency currency);
-
 }

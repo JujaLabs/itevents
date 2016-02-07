@@ -7,9 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by roma on 18.10.15.
- */
 @Component
 public class DateTimeUtil {
 
@@ -19,19 +16,19 @@ public class DateTimeUtil {
         return dateToString(futureDate, dateFormat);
     }
 
-    public static Date addDaysToDate(Date date, int daysCount) {
+    private static Date addDaysToDate(Date date, int daysCount) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysCount);
         return calendar.getTime();
     }
 
-    public static String dateToString(Date date, String format) {
+    private static String dateToString(Date date, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.format(date);
     }
 
-    public static Date setDate(String date) throws Exception{
+    public static Date yyyyMMddStringToDate(String date) throws Exception {
         return new SimpleDateFormat("yyyy.MM.dd").parse(date);
     }
 

@@ -3,12 +3,14 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.model.Event;
 import org.itevents.model.Filter;
 import org.itevents.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.converter.FilterConverter;
-import org.itevents.wrapper.FilterWrapper;
+import org.itevents.service.exception.ActionAlreadyDoneServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.TimeCollisionServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +26,6 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
-    @Inject
-    private FilterConverter filterConverter;
 
     @Override
     public void addEvent(Event event) {
@@ -34,8 +34,13 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventId) {
-        return eventDao.getEvent(eventId);
+    public Event getEvent(int id) {
+        try {
+            return eventDao.getEvent(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -45,15 +50,23 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public void assignUserToEvent(User user, Event event) {
-        eventDao.assignUserToEvent(user, event);
+        if (isAssigned(user, event)) {
+            String message=user.getLogin() + " already assigned to "+event.getTitle();
+            LOGGER.error(message);
+            throw new ActionAlreadyDoneServiceException(message);
+        } else {
+            eventDao.assignUserToEvent(user, event);
+        }
     }
 
     @Override
     public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
-        if (event == null || !isAssigned(user, event)) {
-            throw new IllegalArgumentException("not assigned or event not found");
-        } else {
+        if (isAssigned(user, event)) {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        } else {
+            String message=user.getLogin() + " already unassigned from "+event.getTitle();
+            LOGGER.error(message);
+            throw new ActionAlreadyDoneServiceException(message);
         }
     }
 
@@ -63,20 +76,22 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event removeEvent(Event event) {
-        Event deletingEvent = eventDao.getEvent(event.getId());
-        if (deletingEvent != null) {
-            eventDao.removeEventTechnology(event);
-            eventDao.removeEvent(event);
+    public Event getFutureEvent(int eventId) {
+        Event event = getEvent(eventId);
+        if (!new Date().after(event.getEventDate())) {
+            String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
+            LOGGER.error(message);
+            throw new TimeCollisionServiceException(message);
         }
-        return deletingEvent;
+        return event;
     }
 
     @Override
-    public List<Event> getFilteredEvents(FilterWrapper wrapper) {
-        return eventDao.getFilteredEvents(filterConverter.toFilter(wrapper));
+    public List<Event> getFilteredEvents(Filter filter) {
+        return eventDao.getFilteredEvents(filter);
     }
 
+    @Override
     public List<Event> getFilteredEventsWithRating(Filter filter){
         return eventDao.getFilteredEventsWithRating(filter);
     }
