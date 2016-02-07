@@ -11,5 +11,5 @@
     <user_profile id="-2" login="anakin@email.com"
                   password="$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq" role_id="-2"/>
     <user_profile id="-1" login="guest" password="guest" role_id="-1"/>
-    <!--<one_time_password user_id="-2"  password="oneTimePassword" />-->
+    <one_time_password user_id="-2"  password="oneTimePassword" />
 </dataset>
