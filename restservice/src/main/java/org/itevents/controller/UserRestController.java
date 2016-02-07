@@ -87,7 +87,7 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/activate/{otp}")
-    @ApiOperation(value = "Activates logged in user by OTP")
+    @ApiOperation(value = "Activates user by OTP")
     @ResponseStatus(value = HttpStatus.OK)
     public void activateUser(@PathVariable("otp") String otp) {
         userService.activateUserWithOtp(otp);

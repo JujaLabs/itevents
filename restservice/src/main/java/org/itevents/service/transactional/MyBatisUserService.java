@@ -165,7 +165,8 @@ public class MyBatisUserService implements UserService {
     public void sendEmailWithActivationLink(User user) throws Exception {
         OtpGenerator otp = otpGenerator.generateOtp(1440);
         setOtpToUser(user, otp);
-        mailService.sendMail(mailBuilderUtil.buildHtmlFromUserOtp(user, otp), user.getLogin());
+        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+        mailService.sendMail(email, user.getLogin());
     }
 
     @Override
@@ -173,7 +174,7 @@ public class MyBatisUserService implements UserService {
         OtpGenerator otpGenerator = userDao.getOtp(password);
         User user = userDao.getUserByOtp(otpGenerator);
 
-        if (otpGenerator.getExpirationDate().before(new Date()) ) {
+        if (otpGenerator.getExpirationDate().after(new Date()) ) {
         user.setRole(roleService.getRoleByName("subscriber"));
         userDao.updateUser(user);
 

@@ -9,9 +9,14 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.OtpExpiredServiceExceprion;
 import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.mail.MailBuilderUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -25,6 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -45,6 +51,12 @@ public class MyBatisUserServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private RoleService roleService;
+    @Mock
+    private OtpGenerator otpGenerator;
+    @Mock
+    private MailBuilderUtil mailBuilderUtil;
+    @Mock
+    private SendGridMailService mailService;
 
     @Before
     public void setUp() {
@@ -224,5 +236,69 @@ public class MyBatisUserServiceTest {
 
         verify(userDao).getUserPassword(testUser);
         verify(passwordEncoder).matches(password, encodedPassword);
+    }
+
+    @Test
+    public void shouldSetOtpToUser() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+
+        userService.setOtpToUser(user, otpGenerator);
+
+        verify(userDao).setOtpToUser(user, otpGenerator);
+    }
+
+    @Test
+    public void shouldGetUserByOtp() throws Exception {
+        User expectedUser = BuilderUtil.buildUserAnakin();
+
+        when(userDao.getUserByOtp(otpGenerator)).thenReturn(expectedUser);
+
+        User returnedUser = userService.getUserByOtp(otpGenerator);
+
+        assertEquals(expectedUser, returnedUser);
+        verify(userDao).getUserByOtp(otpGenerator);
+    }
+
+    @Test
+    @Ignore
+    public void shouldSendEmailWithActivationLink() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String email = "email";
+
+        when(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator)).thenReturn(email);
+        spy(mailService).sendMail(email,user.getLogin());
+        userService.sendEmailWithActivationLink(user);
+
+        verify(mailBuilderUtil).buildHtmlFromUserOtp(user, otpGenerator);
+
+        verify(mailService).sendMail(email, user.getLogin());
+    }
+
+    @Test
+    public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
+        User user = BuilderUtil.buildUserGuest();
+        OtpGenerator otp = new OtpGenerator().generateOtp(1440);
+
+        when(userDao.getOtp("otp")).thenReturn(otp);
+        when(userDao.getUserByOtp(otp)).thenReturn(user);
+
+        userService.activateUserWithOtp("otp");
+
+        verify(userDao).updateUser(user);
+    }
+
+    @Test(expected = OtpExpiredServiceExceprion.class)
+    public void shouldNotUseOtpIfExpired() throws Exception {
+        User user = BuilderUtil.buildUserGuest();
+        OtpGenerator otpGenerator = new OtpGenerator();
+        otpGenerator.setExpirationDate(new Date());
+        String stringOtp = "otp";
+
+        when(userDao.getOtp(stringOtp)).thenReturn(otpGenerator);
+        when(userDao.getUserByOtp(otpGenerator)).thenReturn(user);
+
+        userService.activateUserWithOtp(stringOtp);
+
+        verify(userDao).updateUser(user);
     }
 }

@@ -11,6 +11,7 @@ import org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao;
 import org.itevents.model.Event;
 import org.itevents.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -31,6 +32,8 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "UserMapperTest/";
     @Inject
     private UserMyBatisDao userMyBatisDao;
+    @Inject
+    private OtpGenerator otpGenerator;
 
     @Test
     public void shouldFindUserById() throws Exception {
@@ -107,14 +110,13 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         userMyBatisDao.setUserPassword(user, expectedPassword);
     }
 
-//    @Test
-//    @ExpectedDatabase(value = TEST_PATH + "addOtpExpected.xml",
-//            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
-//    public void shouldAddOtpByUserId() throws Exception {
-//        User user = BuilderUtil.buildUserAnakin();
-//        OtpGenerator otpGenerator = new OtpGenerator();
-//        String onetimePassword = "oneTimePassword";
-//        otpGenerator.setPassword(onetimePassword);
-//        userMyBatisDao.setOtpToUser(user, otpGenerator);
-//    }
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "addOtpExpected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldAddOtpByUserId() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String onetimePassword = "oneTimePassword";
+        otpGenerator.setPassword(onetimePassword);
+        userMyBatisDao.setOtpToUser(user, otpGenerator);
+    }
 }
