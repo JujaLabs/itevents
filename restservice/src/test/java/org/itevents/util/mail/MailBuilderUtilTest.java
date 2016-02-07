@@ -1,6 +1,6 @@
 package org.itevents.util.mail;
 
-import org.itevents.model.Event;
+import org.itevents.dao.model.Event;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.model.City;
+import org.itevents.dao.model.City;
 
 import java.util.List;
 

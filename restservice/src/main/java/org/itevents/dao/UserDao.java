@@ -1,7 +1,7 @@
 package org.itevents.dao;
 
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 
 import java.util.List;
 

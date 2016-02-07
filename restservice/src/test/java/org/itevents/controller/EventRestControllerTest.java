@@ -1,10 +1,10 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.itevents.model.Event;
-import org.itevents.model.User;
-import org.itevents.model.VisitLog;
-import org.itevents.model.builder.VisitLogBuilder;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;

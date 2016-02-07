@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.itevents.dao.LocationDao;
-import org.itevents.model.Location;
+import org.itevents.dao.model.Location;
 
 public interface LocationMapper extends LocationDao {
 

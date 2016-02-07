@@ -1,8 +1,8 @@
 package org.itevents.service.sendmail;
 
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.UserService;

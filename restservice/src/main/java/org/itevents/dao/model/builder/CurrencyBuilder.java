@@ -1,6 +1,6 @@
-package org.itevents.model.builder;
+package org.itevents.dao.model.builder;
 
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 
 /**
  * Created by vaa25 on 03.10.2015.

@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.CurrencyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 import org.itevents.service.CurrencyService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;

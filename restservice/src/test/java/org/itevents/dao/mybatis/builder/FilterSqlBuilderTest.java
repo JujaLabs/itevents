@@ -1,6 +1,6 @@
 package org.itevents.dao.mybatis.builder;
 
-import org.itevents.model.Filter;
+import org.itevents.dao.model.Filter;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 

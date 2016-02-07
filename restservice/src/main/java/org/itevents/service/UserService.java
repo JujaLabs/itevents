@@ -1,7 +1,7 @@
 package org.itevents.service;
 
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
