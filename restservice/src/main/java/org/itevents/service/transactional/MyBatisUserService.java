@@ -16,6 +16,7 @@ import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +46,8 @@ public class MyBatisUserService implements UserService {
     private SendGridMailService mailService;
     @Inject
     private MailBuilderUtil mailBuilderUtil;
+    @Value("${user.activation.otp.lifetime.hours}")
+    private int otpLifetime;
 
 
     private void addUser(User user, String password) {
@@ -168,7 +171,7 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception {
-        OneTimePassword otp = oneTimePassword.generateOtp(1440);
+        OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
         setOtpToUser(user, otp);
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
         mailService.sendMail(email, user.getLogin());
