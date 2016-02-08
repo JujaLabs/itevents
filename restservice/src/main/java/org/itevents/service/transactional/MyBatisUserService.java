@@ -184,8 +184,8 @@ public class MyBatisUserService implements UserService {
 
         if (oneTimePassword.getExpirationDate().after(new Date()) ) {
         user.setRole(roleService.getRoleByName("subscriber"));
-        userDao.updateUser(user);
 
+        userDao.updateUser(user);
         } else {
             String message = "Password expired";
             LOGGER.error(message);
