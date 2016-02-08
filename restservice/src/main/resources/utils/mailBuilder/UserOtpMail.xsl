@@ -13,7 +13,8 @@
                 Dear subscriber!
                 You need to activate you account.
                 To do this, you need to follow this link:
-                <!--TODO: ПЕРЕДЕЛАТЬ ШАБЛОН, ДОБАВИТЬ ОТП-->
+                <!-- @TODO: add OTP and link to this template, issue 156
+                https://github.com/JuniorsJava/itevents/issues/156 -->
 
                 This link will work for 24 hours.
             </body>

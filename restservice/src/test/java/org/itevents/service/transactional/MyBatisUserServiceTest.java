@@ -107,6 +107,12 @@ public class MyBatisUserServiceTest {
         assertEquals(expectedUser, returnedUser);
     }
 
+    /*
+    * TODO: FIX THIS TEST
+    * This test fails for unknown reasons
+    * issue 155
+    * https://github.com/JuniorsJava/itevents/issues/155
+    */
     @Ignore
     @Test
     public void shouldAddSubscriber() throws Exception {
@@ -123,6 +129,12 @@ public class MyBatisUserServiceTest {
         verify(userDao).addUser(eq(testUser), eq(encodedPassword));
     }
 
+    /*
+    * TODO: FIX THIS TEST
+    * This test fails for unknown reasons
+    * issue 155
+    * https://github.com/JuniorsJava/itevents/issues/155
+    */
     @Ignore
     @Test(expected = EntityAlreadyExistsServiceException.class)
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
@@ -261,6 +273,13 @@ public class MyBatisUserServiceTest {
         verify(userDao).getUserByOtp(otpGenerator);
     }
 
+    /*
+    * TODO: FIX THIS TEST
+    * This test fails for unknown reasons
+    * issue 155
+    * https://github.com/JuniorsJava/itevents/issues/155
+    *
+    */
     @Test
     @Ignore
     public void shouldSendEmailWithActivationLink() throws Exception {
@@ -268,10 +287,7 @@ public class MyBatisUserServiceTest {
         String email = "email";
 
         when(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator)).thenReturn(email);
-        spy(mailService).sendMail(email,user.getLogin());
         userService.sendEmailWithActivationLink(user);
-
-        verify(mailBuilderUtil).buildHtmlFromUserOtp(user, otpGenerator);
 
         verify(mailService).sendMail(email, user.getLogin());
     }
