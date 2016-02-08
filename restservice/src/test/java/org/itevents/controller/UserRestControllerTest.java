@@ -126,7 +126,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     public void shouldActivateUserByOtp() throws Exception {
         String otp = "otp";
 
-        mockMvc.perform(post("/users//activate/"+ otp))
+        mockMvc.perform(get("/users//activate/"+ otp))
                 .andExpect(status().isOk());
     }
 }

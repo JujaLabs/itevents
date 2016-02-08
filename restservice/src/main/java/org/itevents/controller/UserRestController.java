@@ -86,7 +86,7 @@ public class UserRestController {
         return eventService.getEventsByUser(user);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/activate/{otp}")
+    @RequestMapping(method = RequestMethod.GET, value = "/activate/{otp}")
     @ApiOperation(value = "Activates user by OTP")
     @ResponseStatus(value = HttpStatus.OK)
     public void activateUser(@PathVariable("otp") String otp) {
