@@ -2,8 +2,8 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.CityDao;
-import org.itevents.model.City;
-import org.itevents.model.Location;
+import org.itevents.dao.model.City;
+import org.itevents.dao.model.Location;
 
 import java.util.List;
 

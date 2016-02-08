@@ -1,10 +1,15 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+
 import org.itevents.service.*;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
+import org.itevents.service.EventService;
+import org.itevents.service.FilterService;
+import org.itevents.service.RoleService;
+import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;

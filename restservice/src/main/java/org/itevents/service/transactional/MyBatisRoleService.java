@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.RoleDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.Role;
+import org.itevents.dao.model.Role;
 import org.itevents.service.RoleService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;

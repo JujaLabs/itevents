@@ -1,8 +1,7 @@
 package org.itevents.service.security;
 
-import org.itevents.model.User;
+import org.itevents.dao.model.User;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 

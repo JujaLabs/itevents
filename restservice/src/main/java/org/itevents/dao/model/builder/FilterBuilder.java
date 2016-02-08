@@ -1,8 +1,8 @@
-package org.itevents.model.builder;
+package org.itevents.dao.model.builder;
 
-import org.itevents.model.City;
-import org.itevents.model.Filter;
-import org.itevents.model.Technology;
+import org.itevents.dao.model.City;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.Technology;
 
 import java.util.ArrayList;
 import java.util.Date;

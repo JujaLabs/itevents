@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 
 import java.util.List;
 

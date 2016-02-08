@@ -1,7 +1,7 @@
 package org.itevents.service;
 
-import org.itevents.model.Event;
-import org.itevents.model.VisitLog;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.VisitLog;
 
 import java.util.List;
 
