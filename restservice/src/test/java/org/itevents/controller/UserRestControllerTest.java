@@ -121,4 +121,12 @@ public class UserRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
     }
+
+    @Test
+    public void shouldActivateUserByOtp() throws Exception {
+        String otp = "otp";
+
+        mockMvc.perform(post("/users//activate/"+ otp))
+                .andExpect(status().isOk());
+    }
 }

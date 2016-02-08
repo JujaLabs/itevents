@@ -107,6 +107,7 @@ public class MyBatisUserServiceTest {
         assertEquals(expectedUser, returnedUser);
     }
 
+    @Ignore
     @Test
     public void shouldAddSubscriber() throws Exception {
         User testUser = BuilderUtil.buildUserVlasov();
@@ -122,6 +123,7 @@ public class MyBatisUserServiceTest {
         verify(userDao).addUser(eq(testUser), eq(encodedPassword));
     }
 
+    @Ignore
     @Test(expected = EntityAlreadyExistsServiceException.class)
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
         User testUser = BuilderUtil.buildUserVlasov();

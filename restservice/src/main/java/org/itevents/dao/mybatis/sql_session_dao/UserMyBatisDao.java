@@ -77,12 +77,21 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
 
     @Override
     public OtpGenerator getOtp(String password) {
-        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser");
+        OtpGenerator otpGenerator = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getOtp", password);
+        if (otpGenerator == null) {
+            throw new EntityNotFoundDaoException("password " + password + " is not found");
+        } else {
+            return otpGenerator;
+        }
     }
 
     @Override
     public User getUserByOtp(OtpGenerator otpGenerator) {
-        return getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp");
+        User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp", otpGenerator);
+        if (user == null) {
+            throw new EntityNotFoundDaoException("user set to otp" + otpGenerator.getPassword() + " not found");
+        }
+        return user;
     }
 
     private class UserPassword {

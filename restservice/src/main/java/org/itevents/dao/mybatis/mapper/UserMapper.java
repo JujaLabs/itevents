@@ -78,7 +78,8 @@ public interface UserMapper extends UserDao {
     OtpGenerator getOtp(String password);
 
     @Override
+    @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN one_time_password otp ON up.id = otp.user_id " +
-            "WHERE otp.password = #{otpGenerator.password}")
+            "WHERE otp.password = #{password}")
     User getUserByOtp(OtpGenerator otpGenerator);
 }

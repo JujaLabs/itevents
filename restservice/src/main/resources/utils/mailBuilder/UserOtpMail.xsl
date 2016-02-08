@@ -1,7 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0"
-                xmlns:url="org.itevents.util.mail.BuilderUrl"
-                extension-element-prefixes="url"
                 xmlns:xalan="http://xml.apache.org/xslt">
     <xsl:output method="xml" indent="yes" xalan:indent-amount="4" omit-xml-declaration="yes"/>
     <xsl:template match="/">
@@ -14,8 +12,8 @@
             <body>
                 Dear subscriber!
                 You need to activate you account.
-                To do so, you need to follow this link:
-                <!--TODO: ПЕРЕДЕЛАТЬ ШАБЛОК, ДОБАВИТЬ ОТП-->
+                To do this, you need to follow this link:
+                <!--TODO: ПЕРЕДЕЛАТЬ ШАБЛОН, ДОБАВИТЬ ОТП-->
 
                 This link will work for 24 hours.
             </body>

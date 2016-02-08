@@ -158,7 +158,12 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public User getUserByOtp(OtpGenerator otp) {
-        return userDao.getUserByOtp(otp);
+        try {
+            return userDao.getUserByOtp(otp);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override

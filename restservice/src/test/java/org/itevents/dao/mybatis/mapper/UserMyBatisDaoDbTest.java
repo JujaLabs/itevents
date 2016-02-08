@@ -119,4 +119,42 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         otpGenerator.setPassword(onetimePassword);
         userMyBatisDao.setOtpToUser(user, otpGenerator);
     }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldGetOtpByPassword() {
+        String password = "oneTimePassword";
+
+        OtpGenerator returnedOtp = userMyBatisDao.getOtp(password);
+
+        assertEquals(password, returnedOtp.getPassword());
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldGetUserByOtp() throws Exception {
+        User expectedUser = BuilderUtil.buildUserAnakin();
+        String password = "oneTimePassword";
+        OtpGenerator otp = new OtpGenerator();
+        otp.setPassword(password);
+
+        User returnedUser = userMyBatisDao.getUserByOtp(otp);
+
+        assertEquals(expectedUser, returnedUser);
+    }
+
+    @Test(expected = EntityNotFoundDaoException.class)
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenOtpIsNotValid() throws Exception {
+        String password = "NotValidOtp";
+
+        userMyBatisDao.getOtp(password);
+    }
+
+    @Test(expected = EntityNotFoundDaoException.class)
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenOtpIsNotSetToUser() throws Exception {
+        OtpGenerator otp = otpGenerator.generateOtp(1);
+        userMyBatisDao.getUserByOtp(otp);
+    }
 }

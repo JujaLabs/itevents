@@ -131,4 +131,14 @@ public class ControllerHandlerTest {
 
         reset(eventService);
     }
+
+    @Test
+    public void shouldExpect404IfOtpNotValid() throws Exception {
+        String otp = "NotValidOtp";
+
+        doThrow(EntityNotFoundServiceException.class).when(userService).activateUserWithOtp(otp);
+
+        mvc.perform(post("/users/activate/"+ otp))
+                .andExpect(status().isNotFound());
+    }
 }
