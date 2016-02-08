@@ -287,7 +287,7 @@ public class MyBatisUserServiceTest {
         String email = "email";
 
         when(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword)).thenReturn(email);
-        userService.sendEmailWithActivationLink(user);
+        userService.generateOtpByUserIdAndSendItToUserEmail(user);
 
         verify(mailService).sendMail(email, user.getLogin());
     }

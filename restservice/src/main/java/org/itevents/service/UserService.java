@@ -32,7 +32,7 @@ public interface UserService {
 
     void activateUserWithOtp(String password);
 
-    void sendEmailWithActivationLink(User user) throws Exception;
+    void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception;
 
     List<User> getSubscribedUsers();
 

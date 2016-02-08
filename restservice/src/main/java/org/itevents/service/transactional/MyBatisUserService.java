@@ -72,7 +72,7 @@ public class MyBatisUserService implements UserService {
                 .build();
         addUser(user, passwordEncoder.encode(password));
 
-        sendEmailWithActivationLink(user);
+        generateOtpByUserIdAndSendItToUserEmail(user);
     }
 
     @Override
@@ -167,7 +167,7 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void sendEmailWithActivationLink(User user) throws Exception {
+    public void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception {
         OneTimePassword otp = oneTimePassword.generateOtp(1440);
         setOtpToUser(user, otp);
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);

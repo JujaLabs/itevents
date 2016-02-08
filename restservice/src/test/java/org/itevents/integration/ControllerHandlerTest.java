@@ -141,7 +141,7 @@ public class ControllerHandlerTest {
 
         doThrow(EntityNotFoundServiceException.class).when(userService).activateUserWithOtp(otp);
 
-        mvc.perform(post("/users/activate/"+ otp))
+        mvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isNotFound());
     }
 }
