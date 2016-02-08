@@ -1,6 +1,6 @@
-package org.itevents.model.builder;
+package org.itevents.dao.model.builder;
 
-import org.itevents.model.*;
+import org.itevents.dao.model.*;
 
 import java.util.Date;
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.itevents.test_utils;
 
-import org.itevents.model.Location;
+import org.itevents.dao.model.Location;
 import org.postgis.Geometry;
 import org.postgis.Point;
 import org.postgis.binary.BinaryParser;

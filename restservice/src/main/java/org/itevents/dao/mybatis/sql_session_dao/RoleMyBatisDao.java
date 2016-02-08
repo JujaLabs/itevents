@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.sql_session_dao;
 
 import org.itevents.dao.RoleDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.Role;
+import org.itevents.dao.model.Role;
 import org.springframework.stereotype.Component;
 
 /**

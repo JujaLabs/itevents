@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.builder;
 
-import org.itevents.model.Filter;
-import org.itevents.model.Technology;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.Technology;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.itevents.util.mail;
 
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OtpGenerator;
 import org.junit.Ignore;

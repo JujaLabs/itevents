@@ -8,7 +8,7 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.mybatis.sql_session_dao.CityMyBatisDao;
-import org.itevents.model.City;
+import org.itevents.dao.model.City;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.springframework.dao.DuplicateKeyException;

@@ -1,10 +1,12 @@
 package org.itevents.dao;
 
-import org.itevents.model.Event;
-import org.itevents.model.User;
+
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OtpGenerator;
 
 import java.util.List;
+
 
 /**
  * Created by vaa25 on 17.07.2015.

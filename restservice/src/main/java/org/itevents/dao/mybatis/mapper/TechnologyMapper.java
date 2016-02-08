@@ -3,7 +3,7 @@ package org.itevents.dao.mybatis.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.TechnologyDao;
 import org.itevents.dao.mybatis.builder.TechnologySqlBuilder;
-import org.itevents.model.Technology;
+import org.itevents.dao.model.Technology;
 
 import java.util.List;
 

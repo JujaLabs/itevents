@@ -1,11 +1,23 @@
-package org.itevents.model;
+package org.itevents.dao.model;
 
-public class Role {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
+public class Technology implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @XmlElement
     private int id;
+    @XmlElement
     private String name;
 
-    public Role() {
+    public Technology() {
     }
 
     public int getId() {
@@ -29,9 +41,9 @@ public class Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Role role = (Role) o;
+        Technology that = (Technology) o;
 
-        return !(name != null ? !name.equals(role.name) : role.name != null);
+        return !(name != null ? !name.equals(that.name) : that.name != null);
 
     }
 
@@ -42,7 +54,7 @@ public class Role {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Role{");
+        final StringBuilder sb = new StringBuilder("Technology{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append('}');

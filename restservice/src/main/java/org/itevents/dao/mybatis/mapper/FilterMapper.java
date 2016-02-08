@@ -3,9 +3,9 @@ package org.itevents.dao.mybatis.mapper;
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.FilterDao;
 import org.itevents.dao.mybatis.builder.FilterSqlBuilder;
-import org.itevents.model.City;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.City;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
