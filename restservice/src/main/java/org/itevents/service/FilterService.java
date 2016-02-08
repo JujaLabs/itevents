@@ -1,7 +1,7 @@
 package org.itevents.service;
 
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.itevents.test_utils;
 
-import org.itevents.model.*;
-import org.itevents.model.builder.*;
+import org.itevents.dao.model.*;
+import org.itevents.dao.model.builder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,7 +1,7 @@
 package org.itevents.dao.mybatis.sql_session_dao;
 
 import org.itevents.dao.LocationDao;
-import org.itevents.model.Location;
+import org.itevents.dao.model.Location;
 import org.springframework.stereotype.Component;
 
 /**

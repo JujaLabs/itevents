@@ -1,4 +1,4 @@
-package org.itevents.swagger;
+package org.itevents.controller.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

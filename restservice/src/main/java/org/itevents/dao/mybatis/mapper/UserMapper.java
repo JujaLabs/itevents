@@ -2,9 +2,9 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Event;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Role;
+import org.itevents.dao.model.User;
 
 import java.util.List;
 

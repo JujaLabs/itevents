@@ -1,6 +1,6 @@
-package org.itevents.model.builder;
+package org.itevents.dao.model.builder;
 
-import org.itevents.model.Role;
+import org.itevents.dao.model.Role;
 
 /**
  * Created by vaa25 on 03.10.2015.
