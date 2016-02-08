@@ -5,7 +5,7 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -71,25 +71,25 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
     }
 
     @Override
-    public void setOtpToUser(User user, OtpGenerator otpGenerator) {
-        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser", new UserOtp(user, otpGenerator));
+    public void setOtpToUser(User user, OneTimePassword oneTimePassword) {
+        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser", new UserOtp(user, oneTimePassword));
     }
 
     @Override
-    public OtpGenerator getOtp(String password) {
-        OtpGenerator otpGenerator = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getOtp", password);
-        if (otpGenerator == null) {
+    public OneTimePassword getOtp(String password) {
+        OneTimePassword oneTimePassword = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getOtp", password);
+        if (oneTimePassword == null) {
             throw new EntityNotFoundDaoException("password " + password + " is not found");
         } else {
-            return otpGenerator;
+            return oneTimePassword;
         }
     }
 
     @Override
-    public User getUserByOtp(OtpGenerator otpGenerator) {
-        User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp", otpGenerator);
+    public User getUserByOtp(OneTimePassword oneTimePassword) {
+        User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp", oneTimePassword);
         if (user == null) {
-            throw new EntityNotFoundDaoException("user set to otp" + otpGenerator.getPassword() + " not found");
+            throw new EntityNotFoundDaoException("user set to otp" + oneTimePassword.getPassword() + " not found");
         }
         return user;
     }
@@ -150,34 +150,27 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
 
     private class UserOtp {
         private User user;
-        private OtpGenerator otpGenerator;
+        private OneTimePassword oneTimePassword;
 
-        public UserOtp(User user, OtpGenerator otpGenerator) {
-            this.otpGenerator = otpGenerator;
+        public UserOtp(User user, OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
             this.user = user;
         }
 
         public String getPassword() {
-            return otpGenerator.getPassword();
+            return oneTimePassword.getPassword();
         }
+
         public void setPassword(String oneTimePssword) {
-            otpGenerator.setPassword(oneTimePssword);
-        }
-
-        public Date getCreationDate() {
-            return otpGenerator.getCreationDate();
-        }
-
-        public void setCreationDate(Date creationDate) {
-            otpGenerator.setCreationDate(creationDate);
+            oneTimePassword.setPassword(oneTimePssword);
         }
 
         public Date getExpirationDate() {
-            return otpGenerator.getExpirationDate();
+            return oneTimePassword.getExpirationDate();
         }
 
         public void setExpirationDate(Date expirationDate) {
-            otpGenerator.setExpirationDate(expirationDate);
+            oneTimePassword.setExpirationDate(expirationDate);
         }
 
         public User getUser() {
@@ -188,12 +181,12 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
             this.user = user;
         }
 
-        public OtpGenerator getOtpGenerator() {
-            return otpGenerator;
+        public OneTimePassword getOneTimePassword() {
+            return oneTimePassword;
         }
 
-        public void setOtpGenerator(OtpGenerator otpGenerator) {
-            this.otpGenerator = otpGenerator;
+        public void setOneTimePassword(OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
         }
     }
 

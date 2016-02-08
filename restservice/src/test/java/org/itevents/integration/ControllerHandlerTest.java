@@ -33,8 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by vaa25 on 04.01.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml",
-        "classpath:mvc-dispatcher-servlet.xml", "classpath:spring-security.xml"})
+@ContextConfiguration({
+        "classpath:applicationContext.xml",
+        "classpath:applicationContextTestAddon.xml",
+        "classpath:mvc-dispatcher-servlet.xml",
+        "classpath:spring-security.xml"})
 @WebAppConfiguration
 public class ControllerHandlerTest {
     @Inject

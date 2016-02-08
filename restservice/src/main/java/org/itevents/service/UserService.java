@@ -3,7 +3,7 @@ package org.itevents.service;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +26,9 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void setOtpToUser(User user, OtpGenerator otpGenerator);
+    void setOtpToUser(User user, OneTimePassword oneTimePassword);
 
-    User getUserByOtp(OtpGenerator otp);
+    User getUserByOtp(OneTimePassword otp);
 
     void activateUserWithOtp(String password);
 

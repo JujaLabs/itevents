@@ -97,7 +97,6 @@
         <!ATTLIST one_time_password
                 user_id CDATA #REQUIRED
                 password CDATA #REQUIRED
-                creation_date CDATA #IMPLIED
                 expiration_date CDATA #IMPLIED
                 >
 

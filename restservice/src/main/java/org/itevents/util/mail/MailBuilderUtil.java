@@ -3,7 +3,7 @@ package org.itevents.util.mail;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -38,8 +38,8 @@ public class MailBuilderUtil {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
 
-    public String buildHtmlFromUserOtp(User user, OtpGenerator otpGenerator)  throws Exception {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, otpGenerator));
+    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword)  throws Exception {
+        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -71,10 +71,10 @@ public class MailBuilderUtil {
         return mailStringWriter.toString();
     }
 
-    private String BuildXmlFromUserOtp(User user, OtpGenerator otpGenerator) throws JAXBException, IOException {
+    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException, IOException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
-        userOtpXmlWrapper.setOtpGenerator(otpGenerator);
+        userOtpXmlWrapper.setOneTimePassword(oneTimePassword);
 
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -125,7 +125,7 @@ public class MailBuilderUtil {
         @XmlElement(name = "user")
         private User user;
         @XmlElement(name = "otp")
-        private OtpGenerator otpGenerator;
+        private OneTimePassword oneTimePassword;
         @XmlElement(name = "url")
         private String url;
 
@@ -140,12 +140,12 @@ public class MailBuilderUtil {
             this.user = user;
         }
 
-        public OtpGenerator getOtpGenerator() {
-            return otpGenerator;
+        public OneTimePassword getOneTimePassword() {
+            return oneTimePassword;
         }
 
-        public void setOtpGenerator(OtpGenerator otpGenerator) {
-            this.otpGenerator = otpGenerator;
+        public void setOneTimePassword(OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
         }
 
         public String getUrl() {

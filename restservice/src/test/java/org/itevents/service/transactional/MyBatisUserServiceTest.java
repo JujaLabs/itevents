@@ -13,7 +13,7 @@ import org.itevents.service.exception.OtpExpiredServiceExceprion;
 import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -52,7 +52,7 @@ public class MyBatisUserServiceTest {
     @Mock
     private RoleService roleService;
     @Mock
-    private OtpGenerator otpGenerator;
+    private OneTimePassword oneTimePassword;
     @Mock
     private MailBuilderUtil mailBuilderUtil;
     @Mock
@@ -256,21 +256,21 @@ public class MyBatisUserServiceTest {
     public void shouldSetOtpToUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
 
-        userService.setOtpToUser(user, otpGenerator);
+        userService.setOtpToUser(user, oneTimePassword);
 
-        verify(userDao).setOtpToUser(user, otpGenerator);
+        verify(userDao).setOtpToUser(user, oneTimePassword);
     }
 
     @Test
     public void shouldGetUserByOtp() throws Exception {
         User expectedUser = BuilderUtil.buildUserAnakin();
 
-        when(userDao.getUserByOtp(otpGenerator)).thenReturn(expectedUser);
+        when(userDao.getUserByOtp(oneTimePassword)).thenReturn(expectedUser);
 
-        User returnedUser = userService.getUserByOtp(otpGenerator);
+        User returnedUser = userService.getUserByOtp(oneTimePassword);
 
         assertEquals(expectedUser, returnedUser);
-        verify(userDao).getUserByOtp(otpGenerator);
+        verify(userDao).getUserByOtp(oneTimePassword);
     }
 
     /*
@@ -286,7 +286,7 @@ public class MyBatisUserServiceTest {
         User user = BuilderUtil.buildUserAnakin();
         String email = "email";
 
-        when(mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator)).thenReturn(email);
+        when(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword)).thenReturn(email);
         userService.sendEmailWithActivationLink(user);
 
         verify(mailService).sendMail(email, user.getLogin());
@@ -295,7 +295,7 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User user = BuilderUtil.buildUserGuest();
-        OtpGenerator otp = new OtpGenerator().generateOtp(1440);
+        OneTimePassword otp = new OneTimePassword().generateOtp(1440);
 
         when(userDao.getOtp("otp")).thenReturn(otp);
         when(userDao.getUserByOtp(otp)).thenReturn(user);
@@ -308,12 +308,12 @@ public class MyBatisUserServiceTest {
     @Test(expected = OtpExpiredServiceExceprion.class)
     public void shouldNotUseOtpIfExpired() throws Exception {
         User user = BuilderUtil.buildUserGuest();
-        OtpGenerator otpGenerator = new OtpGenerator();
-        otpGenerator.setExpirationDate(new Date());
+        OneTimePassword oneTimePassword = new OneTimePassword();
+        oneTimePassword.setExpirationDate(new Date());
         String stringOtp = "otp";
 
-        when(userDao.getOtp(stringOtp)).thenReturn(otpGenerator);
-        when(userDao.getUserByOtp(otpGenerator)).thenReturn(user);
+        when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
+        when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
 
         userService.activateUserWithOtp(stringOtp);
 

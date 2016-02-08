@@ -3,7 +3,7 @@ package org.itevents.util.mail;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class MailBuilderUtilTest {
     @Inject
     private MailBuilderUtil mailBuilderUtil;
     @Inject
-    private OtpGenerator otpGenerator;
+    private OneTimePassword oneTimePassword;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
@@ -49,8 +49,8 @@ public class MailBuilderUtilTest {
     @Ignore
     public void shouldReturnMailWithActivationLink()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        otpGenerator.generateOtp(1440);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, otpGenerator);
+        oneTimePassword.generateOtp(1440);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

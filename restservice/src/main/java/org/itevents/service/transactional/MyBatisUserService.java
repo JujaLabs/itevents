@@ -14,7 +14,7 @@ import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.OtpExpiredServiceExceprion;
 import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +40,7 @@ public class MyBatisUserService implements UserService {
     @Inject
     private RoleService roleService;
     @Inject
-    private OtpGenerator otpGenerator;
+    private OneTimePassword oneTimePassword;
     @Inject
     private SendGridMailService mailService;
     @Inject
@@ -152,12 +152,12 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void setOtpToUser(User user, OtpGenerator otpGenerator) {
-        userDao.setOtpToUser(user, otpGenerator);
+    public void setOtpToUser(User user, OneTimePassword oneTimePassword) {
+        userDao.setOtpToUser(user, oneTimePassword);
     }
 
     @Override
-    public User getUserByOtp(OtpGenerator otp) {
+    public User getUserByOtp(OneTimePassword otp) {
         try {
             return userDao.getUserByOtp(otp);
         } catch (EntityNotFoundDaoException e) {
@@ -168,7 +168,7 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void sendEmailWithActivationLink(User user) throws Exception {
-        OtpGenerator otp = otpGenerator.generateOtp(1440);
+        OneTimePassword otp = oneTimePassword.generateOtp(1440);
         setOtpToUser(user, otp);
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
         mailService.sendMail(email, user.getLogin());
@@ -176,10 +176,10 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void activateUserWithOtp(String password) {
-        OtpGenerator otpGenerator = userDao.getOtp(password);
-        User user = userDao.getUserByOtp(otpGenerator);
+        OneTimePassword oneTimePassword = userDao.getOtp(password);
+        User user = userDao.getUserByOtp(oneTimePassword);
 
-        if (otpGenerator.getExpirationDate().after(new Date()) ) {
+        if (oneTimePassword.getExpirationDate().after(new Date()) ) {
         user.setRole(roleService.getRoleByName("subscriber"));
         userDao.updateUser(user);
 

@@ -5,7 +5,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
-import org.itevents.util.OneTimePassword.OtpGenerator;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 
 import java.util.List;
 
@@ -64,23 +64,22 @@ public interface UserMapper extends UserDao {
     void setUserPassword(@Param("user") User user,
                          @Param("password") String password);
 
-    @Insert("INSERT INTO one_time_password(user_id, password, creation_date, expiration_date) " +
-            "VALUES(#{user.id}, #{password}, #{creationDate}, #{expirationDate})")
+    @Insert("INSERT INTO one_time_password(user_id, password, expiration_date) " +
+            "VALUES(#{user.id}, #{password}, #{expirationDate})")
     void setOtpToUser(User user,
-                       OtpGenerator otpGenerator);
+                      OneTimePassword oneTimePassword);
 
     @Results(value = {
             @Result(property = "password", column = "password"),
-            @Result(property = "creationDate", column = "creation_date"),
             @Result(property = "expirationDate", column = "expiration_date"),
             @Result(property = "isActive", column = "active")
     })
     @Select("Select * FROM one_time_password WHERE password = #{password}")
-    OtpGenerator getOtp(String password);
+    OneTimePassword getOtp(String password);
 
     @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN one_time_password otp ON up.id = otp.user_id " +
             "WHERE otp.password = #{password}")
-    User getUserByOtp(OtpGenerator otpGenerator);
+    User getUserByOtp(OneTimePassword oneTimePassword);
 }
