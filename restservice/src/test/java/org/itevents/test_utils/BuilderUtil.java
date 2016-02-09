@@ -1,16 +1,14 @@
 package org.itevents.test_utils;
 
-import org.itevents.model.*;
-import org.itevents.model.Currency;
-import org.itevents.model.builder.*;
-import org.itevents.service.transactional.MyBatisEventService;
+import org.itevents.dao.model.*;
+import org.itevents.dao.model.builder.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vaa25 on 30.09.2015.
@@ -326,7 +324,6 @@ public class BuilderUtil {
     public static User buildUserGuest() {
         return UserBuilder.anUser()
                 .login("guest")
-                .password("guest")
                 .role(buildRoleGuest())
                 .id(-1)
                 .build();
@@ -335,7 +332,6 @@ public class BuilderUtil {
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
                 .login("anakin@email.com")
-                .password("$2a$10$XHrRyJdlnIWe3EHbWAO6teR1LYjif1r4J4t5OvwfnLZy7pnmlANlq") //alex
                 .role(buildRoleAdmin())
                 .id(-2)
                 .build();
@@ -344,7 +340,6 @@ public class BuilderUtil {
     public static User buildUserKuchin() {
         return UserBuilder.anUser()
                 .login("kuchin@email.com")
-                .password("$2a$10$aPyCWJ8WsJb0gTlz.IL/u.7kB7WiyZr67PUDoEO7x5D40OFOz1rWq") //viktor
                 .role(buildRoleAdmin())
                 .id(-3)
                 .build();
@@ -353,7 +348,6 @@ public class BuilderUtil {
     public static User buildUserVlasov() {
         return UserBuilder.anUser()
                 .login("vlasov@email.com")
-                .password("$2a$10$uB.nFUPkpIIoY1HpYmsM5.YHNiGFEYMDJbaK1Swt6KkknCWPjtGkm") //alex
                 .role(buildRoleSubscriber())
                 .id(-4)
                 .build();
@@ -362,7 +356,6 @@ public class BuilderUtil {
     public static User buildUserTest() {
         return UserBuilder.anUser()
                 .login("testUser")
-                .password("testUserPassword")
                 .role(buildRoleGuest())
                 .id(-5)
                 .build();
@@ -371,7 +364,6 @@ public class BuilderUtil {
     public static User buildSubscriberTest() {
         return UserBuilder.anUser()
                 .login("testSubscriber")
-                .password("testSubscriberPassword")
                 .role(buildRoleSubscriber())
                 .subscribed(true)
                 .id(-6)

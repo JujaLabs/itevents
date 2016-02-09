@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 
 import java.util.List;
 
@@ -16,7 +16,4 @@ public interface CurrencyService {
     void addCurrency(Currency currency);
 
     void updateCurrency(Currency currency);
-
-    Currency removeCurrency(Currency currency);
-
 }

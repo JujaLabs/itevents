@@ -1,9 +1,13 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.FilterDao;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.FilterService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +18,19 @@ import java.util.List;
 @Transactional
 public class MyBatisFilterService implements FilterService {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Inject
     private FilterDao filterDao;
 
     @Override
     public Filter getFilter(int id) {
-        return filterDao.getFilter(id);
+        try {
+            return filterDao.getFilter(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override

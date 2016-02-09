@@ -1,18 +1,21 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.Role;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,49 +28,44 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by vaa25 on 16.10.2015.
  */
-public class UserRestControllerTest extends AbstractWebTest {
+public class UserRestControllerTest extends AbstractControllerTest {
 
-    @Inject
+    @Mock
     private RoleService roleService;
-    @Inject
+    @Mock
     private UserService userService;
-    @Inject
+    @Mock
     private FilterService filterService;
-    @Inject
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
     private EventService eventService;
+    @InjectMocks
+    private UserRestController userRestController;
+
+    @Before
+    public void init() {
+        super.initMock(this);
+        super.initMvc(userRestController);
+    }
 
     @Test
     public void shouldRegisterNewSubscriber() throws Exception {
-        Role subscriberRole = BuilderUtil.buildRoleSubscriber();
-        User testUser = BuilderUtil.buildUserTest();
-        String encodedPassword = "encodedPassword";
+        String newSubscriberName = "newSubscriberName";
+        String newSubscriberPassword = "newSubscriberPassword";
 
-        when(roleService.getRoleByName(subscriberRole.getName())).thenReturn(subscriberRole);
-        when(userService.getUserByName(testUser.getLogin())).thenReturn(null);
-        doNothing().when(userService).addUser(testUser);
+        doNothing().when(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
 
         mockMvc.perform(post("/users/register")
-                .param("username", testUser.getLogin())
-                .param("password", testUser.getPassword()))
-                .andExpect(status().isOk());
+                .param("username", newSubscriberName)
+                .param("password", newSubscriberPassword))
+                .andExpect(status().isCreated());
 
-        testUser.setRole(subscriberRole);
-        testUser.setPassword(encodedPassword);
+        verify(userService).addSubscriber(newSubscriberName, newSubscriberPassword);
     }
 
     @Test
-    public void shouldNotRegisterExistingSubscriber() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
-
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
-
-        mockMvc.perform(post("/users/register")
-                .param("username", user.getLogin())
-                .param("password", user.getPassword()))
-                .andExpect(status().isImUsed());
-    }
-
-    @Test
+    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldAddFilterForSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
@@ -77,6 +75,10 @@ public class UserRestControllerTest extends AbstractWebTest {
 
         mockMvc.perform(get("/users/subscribe"))
                 .andExpect(status().isOk());
+
+        verify(userService).getAuthorizedUser();
+        verify(userService).activateUserSubscription(user);
+        verify(filterService).addFilter(eq(user), any(Filter.class));
     }
 
     @Test
@@ -88,6 +90,9 @@ public class UserRestControllerTest extends AbstractWebTest {
 
         mockMvc.perform(get("/users/unsubscribe"))
                 .andExpect(status().isOk());
+
+        verify(userService).getAuthorizedUser();
+        verify(userService).deactivateUserSubscription(user);
     }
 
     @Test
@@ -101,6 +106,18 @@ public class UserRestControllerTest extends AbstractWebTest {
         when(userService.getUser(user.getId())).thenReturn(user);
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedEventsInJson));
+    }
+
+    @Test
+    public void shouldReturnUserById() throws Exception {
+        User user = BuilderUtil.buildUserVlasov();
+        String expectedEventsInJson = new ObjectMapper().writeValueAsString(user);
+
+        when(userService.getUser(user.getId())).thenReturn(user);
+
+        mockMvc.perform(get("/users/" + user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
     }

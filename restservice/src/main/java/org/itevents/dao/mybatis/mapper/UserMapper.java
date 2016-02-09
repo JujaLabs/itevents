@@ -2,7 +2,9 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.UserDao;
-import org.itevents.model.*;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Role;
+import org.itevents.dao.model.User;
 
 import java.util.List;
 
@@ -28,23 +30,35 @@ public interface UserMapper extends UserDao {
     List<User> getAllUsers();
 
     @Override
-    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) VALUES(#{login}, #{password}, " +
-            "#{role.id}, #{subscribed})")
+    @Insert("INSERT INTO user_profile (login, password, role_id, subscribed) " +
+            "VALUES(#{login}, #{password}, #{role.id}, #{subscribed})")
     @Options(useGeneratedKeys = true)
-    void addUser(User user);
+    void addUser(@Param("user") User user,
+                 @Param("password") String password);
 
     @Override
-    @Update("UPDATE user_profile SET login=#{login}, password=#{password}, role_id=#{role.id}, subscribed=#{subscribed} " +
+    @Update("UPDATE user_profile SET login=#{login}, role_id=#{role.id}, subscribed=#{subscribed} " +
             "WHERE id=#{id}")
     void updateUser(User user);
 
     @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile up JOIN user_event ue ON up.id=ue.user_id " +
-            "WHERE ue.event_id = #{event.id} AND deleted_date IS NULL")
-    List<User> getUsersByEvent(@Param("event") Event event);
+            "WHERE ue.event_id = #{id} AND deleted_date IS NULL")
+    List<User> getUsersByEvent(Event event);
 
+    @Override
     @ResultMap("getUser-int")
     @Select("SELECT * FROM user_profile WHERE subscribed = TRUE")
     List<User> getSubscribedUsers();
+
+    @Override
+    @Select("SELECT password FROM user_profile WHERE login = #{login}")
+    String getUserPassword(User user);
+
+    @Override
+    @Update("UPDATE user_profile SET password=#{password}" +
+            "WHERE login = #{user.login}")
+    void setUserPassword(@Param("user") User user,
+                         @Param("password") String password);
 }

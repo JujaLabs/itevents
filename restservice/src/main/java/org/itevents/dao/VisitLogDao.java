@@ -1,7 +1,7 @@
 package org.itevents.dao;
 
-import org.itevents.model.Event;
-import org.itevents.model.VisitLog;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.VisitLog;
 
 import java.util.List;
 
@@ -14,7 +14,4 @@ public interface VisitLogDao {
     List<VisitLog> getVisitLogsByEvent(Event event);
 
     void addVisitLog(VisitLog visitLog);
-
-    void removeVisitLog(VisitLog visitLog);
-
 }

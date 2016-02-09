@@ -1,9 +1,13 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.VisitLogDao;
-import org.itevents.model.Event;
-import org.itevents.model.VisitLog;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.VisitLog;
 import org.itevents.service.VisitLogService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +20,8 @@ import java.util.List;
 @Service("visitLogService")
 @Transactional
 public class MyBatisVisitLogService implements VisitLogService {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private VisitLogDao visitLogDao;
@@ -32,20 +38,16 @@ public class MyBatisVisitLogService implements VisitLogService {
 
     @Override
     public VisitLog getVisitLog(int id) {
-        return visitLogDao.getVisitLog(id);
+        try {
+            return visitLogDao.getVisitLog(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
     public List<VisitLog> getAllVisitLogs() {
         return visitLogDao.getAllVisitLogs();
-    }
-
-    @Override
-    public VisitLog removeVisitLog(VisitLog visitLog) {
-        VisitLog deletingVisitLog = visitLogDao.getVisitLog(visitLog.getId());
-        if (deletingVisitLog != null) {
-            visitLogDao.removeVisitLog(visitLog);
-        }
-        return deletingVisitLog;
     }
 }

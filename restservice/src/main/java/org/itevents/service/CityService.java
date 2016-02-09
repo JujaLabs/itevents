@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.model.City;
+import org.itevents.dao.model.City;
 
 import java.util.List;
 
@@ -11,6 +11,4 @@ public interface CityService {
     City getCity(int id);
 
     List<City> getAllCities();
-
-    City removeCity(City city);
 }

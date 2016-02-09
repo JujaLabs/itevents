@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.model.Technology;
+import org.itevents.dao.model.Technology;
 
 import java.util.List;
 
@@ -16,9 +16,4 @@ public interface TechnologyService {
     List<Technology> getTechnologiesByNames(String[] names);
 
     void addTechnology(Technology technology);
-
-    void updateTechnology(Technology technology);
-
-    Technology removeTechnology(Technology technology);
-
 }

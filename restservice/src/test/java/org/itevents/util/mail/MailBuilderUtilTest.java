@@ -1,6 +1,6 @@
 package org.itevents.util.mail;
 
-import org.itevents.model.Event;
+import org.itevents.dao.model.Event;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml"})
+@ContextConfiguration(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:applicationContextTestAddon.xml"})
 public class MailBuilderUtilTest {
     @Inject
     private String expectedDigestEmail;

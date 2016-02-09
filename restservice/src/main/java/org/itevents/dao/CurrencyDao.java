@@ -1,6 +1,6 @@
 package org.itevents.dao;
 
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 
 import java.util.List;
 
@@ -16,7 +16,4 @@ public interface CurrencyDao {
     void addCurrency(Currency currency);
 
     void updateCurrency(Currency currency);
-
-    void removeCurrency(Currency currency);
-
 }

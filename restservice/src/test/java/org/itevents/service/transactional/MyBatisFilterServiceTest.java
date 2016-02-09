@@ -1,8 +1,8 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.FilterDao;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.FilterService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class MyBatisFilterServiceTest {
     }
 
     @Test
-    public void shouldFindLasFilterOfSpecifiedUser() {
+    public void shouldFindLasFilterOfSpecifiedUser() throws Exception {
         Filter expectedFilter = BuilderUtil.buildFilterFifth();
         User user = BuilderUtil.buildUserKuchin();
 
@@ -64,7 +64,7 @@ public class MyBatisFilterServiceTest {
     }
 
     @Test
-    public void shouldGetAllFilters() {
+    public void shouldGetAllFilters() throws Exception {
         filterService.getAllFilters();
 
         verify(filterDao).getAllFilters();

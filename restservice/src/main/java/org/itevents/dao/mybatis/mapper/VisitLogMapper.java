@@ -2,9 +2,9 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.VisitLogDao;
-import org.itevents.model.Event;
-import org.itevents.model.User;
-import org.itevents.model.VisitLog;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
 
 import java.util.List;
 
@@ -35,9 +35,4 @@ public interface VisitLogMapper extends VisitLogDao {
     @Insert("INSERT INTO visit_log(event_id, date, user_id) VALUES(#{event.id}, #{date},  #{user.id})")
     @Options(useGeneratedKeys = true)
     void addVisitLog(VisitLog visitLog);
-
-    @Override
-    @Delete("DELETE FROM visit_log WHERE id=#{id}")
-    void removeVisitLog(VisitLog visitLog);
-// to delete
 }

@@ -1,7 +1,7 @@
 package org.itevents.dao;
 
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 
 import java.util.List;
 
@@ -16,11 +16,15 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    void addUser(User user);
+    void addUser(User user, String password);
 
     void updateUser(User user);
 
     List<User> getUsersByEvent(Event event);
 
     List<User> getSubscribedUsers();
+
+    String getUserPassword(User user);
+
+    void setUserPassword(User user, String password);
 }

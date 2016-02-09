@@ -2,10 +2,10 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.FilterDao;
-import org.itevents.dao.mybatis.util.FilterTechnologySqlBuilder;
-import org.itevents.model.City;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.mybatis.builder.FilterSqlBuilder;
+import org.itevents.dao.model.City;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public interface FilterMapper extends FilterDao {
     void addFilter(Filter filter);
 
     @Override
-    @InsertProvider(type = FilterTechnologySqlBuilder.class, method = "addFilterTechnology")
+    @InsertProvider(type = FilterSqlBuilder.class, method = "addFilterTechnology")
     void addFilterTechnology(Filter filter);
 
     @Override

@@ -2,9 +2,9 @@ package org.itevents.service.sendmail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.*;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +21,10 @@ public class MailNotificationService implements NotificationService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Value("${event.filterRangeInDays}")
+    @Value("${event.filter.range.in.days}")
     private Integer FILTER_RANGE_IN_DAYS;
 
-    @Value("${event.countOfEventsInEmail}")
+    @Value("${event.count.of.events.in.email}")
     private Integer COUNT_OF_EVENTS_IN_EMAIL;
 
     @Inject

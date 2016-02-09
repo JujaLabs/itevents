@@ -1,8 +1,8 @@
 package org.itevents.service.sendmail;
 
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.UserService;
@@ -17,8 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-
-import java.text.ParseException;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -51,7 +49,7 @@ public class MailNotificationServiceTest {
     }
 
     @Test
-    public void performNotifyTest() throws ParseException {
+    public void performNotifyTest() throws Exception {
         List<User> users = BuilderUtil.buildAllUser();
         users.forEach(a->a.setSubscribed(true));
         when(userService.getSubscribedUsers()).thenReturn(users);

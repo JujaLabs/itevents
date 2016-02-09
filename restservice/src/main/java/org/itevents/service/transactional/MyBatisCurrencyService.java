@@ -1,8 +1,12 @@
 package org.itevents.service.transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.dao.CurrencyDao;
-import org.itevents.model.Currency;
+import org.itevents.dao.exception.EntityNotFoundDaoException;
+import org.itevents.dao.model.Currency;
 import org.itevents.service.CurrencyService;
+import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +20,19 @@ import java.util.List;
 @Transactional
 public class MyBatisCurrencyService implements CurrencyService {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Inject
     private CurrencyDao currencyDao;
 
     @Override
     public Currency getCurrency(int id) {
-        return currencyDao.getCurrency(id);
+        try {
+            return currencyDao.getCurrency(id);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -37,14 +48,5 @@ public class MyBatisCurrencyService implements CurrencyService {
     @Override
     public void updateCurrency(Currency currency) {
         currencyDao.updateCurrency(currency);
-    }
-
-    @Override
-    public Currency removeCurrency(Currency currency) {
-        Currency deletingCurrency = currencyDao.getCurrency(currency.getId());
-        if (deletingCurrency != null) {
-            currencyDao.removeCurrency(currency);
-        }
-        return deletingCurrency;
     }
 }
