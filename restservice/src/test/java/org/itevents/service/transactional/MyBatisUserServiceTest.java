@@ -119,13 +119,19 @@ public class MyBatisUserServiceTest {
         User testUser = BuilderUtil.buildUserVlasov();
         String password = "password";
         String encodedPassword = "encodedPassword";
+        OneTimePassword otp = new OneTimePassword();
+        otp.generateOtp(24);
+        String email = "email";
 
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
         when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
         doNothing().when(userDao).addUser(eq(testUser), eq(encodedPassword));
+        when(oneTimePassword.generateOtp(24)).thenReturn(otp);
+        when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp)).thenReturn(email);
 
         userService.addSubscriber(testUser.getLogin(), password);
 
+        verify(mailService).sendMail(email, testUser.getLogin());
         verify(userDao).addUser(eq(testUser), eq(encodedPassword));
     }
 
@@ -271,25 +277,6 @@ public class MyBatisUserServiceTest {
 
         assertEquals(expectedUser, returnedUser);
         verify(userDao).getUserByOtp(oneTimePassword);
-    }
-
-    /*
-    * TODO: FIX THIS TEST
-    * This test fails for unknown reasons
-    * issue 155
-    * https://github.com/JuniorsJava/itevents/issues/155
-    *
-    */
-    @Test
-    @Ignore
-    public void shouldSendEmailWithActivationLink() throws Exception {
-        User user = BuilderUtil.buildUserAnakin();
-        String email = "email";
-
-        when(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword)).thenReturn(email);
-        userService.generateOtpByUserIdAndSendItToUserEmail(user);
-
-        verify(mailService).sendMail(email, user.getLogin());
     }
 
     @Test

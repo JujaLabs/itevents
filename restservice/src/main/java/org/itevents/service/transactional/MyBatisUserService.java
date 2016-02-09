@@ -68,14 +68,21 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception {
+    public void addSubscriber(String username, String password) throws Exception  {
         User user = UserBuilder.anUser()
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
                 .build();
         addUser(user, passwordEncoder.encode(password));
 
-        generateOtpByUserIdAndSendItToUserEmail(user);
+        OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
+        setOtpToUser(user, otp);
+        sendActivationEmailToUserLogin(user, otp);
+    }
+
+    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
+        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+        mailService.sendMail(email, user.getLogin());
     }
 
     @Override
@@ -167,14 +174,6 @@ public class MyBatisUserService implements UserService {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception {
-        OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
-        setOtpToUser(user, otp);
-        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
-        mailService.sendMail(email, user.getLogin());
     }
 
     @Override

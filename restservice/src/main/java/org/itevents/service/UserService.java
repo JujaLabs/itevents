@@ -32,8 +32,6 @@ public interface UserService {
 
     void activateUserWithOtp(String password);
 
-    void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception;
-
     List<User> getSubscribedUsers();
 
     List<User> getUsersByEvent(Event event);
