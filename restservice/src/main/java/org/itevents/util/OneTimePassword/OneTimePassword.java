@@ -17,12 +17,6 @@ import java.util.UUID;
         setPassword(UUID.randomUUID().toString());
     }
 
-    public OneTimePassword(long lifetimeInHours) {
-        Date creationDate = new Date();
-        setExpirationDate(new Date(creationDate.getTime() + lifetimeInHours * 60 * 60 * 1000));
-        setPassword(UUID.randomUUID().toString());
-    }
-
     public String getPassword() {
         return password;
     }
@@ -39,7 +33,9 @@ import java.util.UUID;
         this.expirationDate = expirationDate;
     }
 
-    public OneTimePassword generateOtp(long lifetimeInHours) {
-       return new OneTimePassword(lifetimeInHours);
+    public OneTimePassword setLifetime(long lifetimeInHours) {
+        Date creationDate = new Date();
+        setExpirationDate(new Date(creationDate.getTime() + lifetimeInHours * 60 * 60 * 1000));
+        return this;
     }
 }

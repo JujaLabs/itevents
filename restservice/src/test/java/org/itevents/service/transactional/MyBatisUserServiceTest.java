@@ -295,7 +295,7 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User user = BuilderUtil.buildUserGuest();
-        OneTimePassword otp = new OneTimePassword().generateOtp(1440);
+        OneTimePassword otp = new OneTimePassword().setLifetime(1440);
 
         when(userDao.getOtp("otp")).thenReturn(otp);
         when(userDao.getUserByOtp(otp)).thenReturn(user);

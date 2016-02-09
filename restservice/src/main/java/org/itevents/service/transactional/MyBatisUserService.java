@@ -171,7 +171,7 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void generateOtpByUserIdAndSendItToUserEmail(User user) throws Exception {
-        OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
+        OneTimePassword otp = oneTimePassword.setLifetime(otpLifetime);
         setOtpToUser(user, otp);
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
         mailService.sendMail(email, user.getLogin());

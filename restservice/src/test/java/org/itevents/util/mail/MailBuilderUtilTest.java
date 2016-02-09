@@ -49,7 +49,7 @@ public class MailBuilderUtilTest {
     @Ignore
     public void shouldReturnMailWithActivationLink()  throws Exception {
         User user = BuilderUtil.buildUserAnakin();
-        oneTimePassword.generateOtp(1440);
+        oneTimePassword.setLifetime(1440);
         String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
