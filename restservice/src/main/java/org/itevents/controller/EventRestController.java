@@ -2,6 +2,8 @@ package org.itevents.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
@@ -13,6 +15,7 @@ import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;

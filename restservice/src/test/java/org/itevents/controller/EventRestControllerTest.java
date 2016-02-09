@@ -15,11 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -69,7 +67,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         User user = BuilderUtil.buildUserAnakin();
-        String unassignReason = "test";
+        String validParameter = "test";
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
@@ -111,30 +109,5 @@ public class EventRestControllerTest extends AbstractControllerTest {
         verify(eventService).getEvent(event.getId());
         verify(userService).getAuthorizedUser();
         verify(visitLogService).addVisitLog(any(VisitLog.class));
-    }
-
-    @Test
-    public void shouldNotUnassignAssignUserFromEventIfParamLengthIsNotValid() throws Exception {
-        Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildUserAnakin();
-        ArrayList <Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
-        String invalidParameter = "invalid";
-        String invalidNullParameter= "";
-        for (int i = 0; i <250 ; i++) {
-           invalidParameter = invalidParameter.concat("s");
-        }
-
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
-
-        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", invalidParameter))
-                .andExpect(status().isBadRequest());
-
-        mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", invalidNullParameter))
-                .andExpect(status().isBadRequest());
     }
 }
