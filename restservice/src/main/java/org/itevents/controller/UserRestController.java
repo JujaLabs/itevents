@@ -50,7 +50,7 @@ public class UserRestController {
     @ApiOperation(value = "Registers new Subscriber ")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void registerNewSubscriber(@ModelAttribute("username") String username,
-                                                @ModelAttribute("password") String password) {
+                                      @ModelAttribute("password") String password) {
         userService.addSubscriber(username, password);
     }
 

@@ -33,8 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by vaa25 on 04.01.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml",
-        "classpath:mvc-dispatcher-servlet.xml", "classpath:spring-security.xml"})
+@ContextConfiguration({ "classpath:applicationContext.xml",
+                        "classpath:applicationContextTestAddon.xml",
+                        "classpath:mvc-dispatcher-servlet.xml",
+                        "classpath:spring-security.xml"})
 @WebAppConfiguration
 public class ControllerHandlerTest {
     @Inject
@@ -130,5 +132,30 @@ public class ControllerHandlerTest {
                 .andExpect(status().isConflict());
 
         reset(eventService);
+    }
+
+    @Test
+    public void shouldNotUnassignAssignUserFromEventIfParamLengthIsNotValid() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildUserAnakin();
+        ArrayList <Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+        String invalidParameter = "invalid";
+        String invalidNullParameter= "";
+        for (int i = 0; i <250 ; i++) {
+            invalidParameter = invalidParameter.concat("s");
+        }
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+
+        mvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", invalidParameter))
+                .andExpect(status().isBadRequest());
+
+        mvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", invalidNullParameter))
+                .andExpect(status().isBadRequest());
     }
 }

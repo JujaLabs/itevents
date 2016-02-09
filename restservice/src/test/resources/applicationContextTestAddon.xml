@@ -4,8 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
     <bean id="userService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="org.itevents.service.UserService"/>
     </bean>
