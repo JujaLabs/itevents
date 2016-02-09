@@ -1,20 +1,17 @@
 package org.itevents.util.OneTimePassword;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Component
-@Scope("prototype")
  public class OneTimePassword {
 
     private String password;
     private Date expirationDate;
 
     public OneTimePassword() {
-        setPassword(UUID.randomUUID().toString());
     }
 
     public String getPassword() {
@@ -33,9 +30,11 @@ import java.util.UUID;
         this.expirationDate = expirationDate;
     }
 
-    public OneTimePassword setLifetime(long lifetimeInHours) {
+    public OneTimePassword generateOtp(long lifetimeInHours) {
+        OneTimePassword otp = new OneTimePassword();
         Date creationDate = new Date();
-        setExpirationDate(new Date(creationDate.getTime() + lifetimeInHours * 60 * 60 * 1000));
-        return this;
+        otp.setExpirationDate(new Date(creationDate.getTime() + lifetimeInHours * 60 * 60 * 1000));
+        otp.setPassword(UUID.randomUUID().toString());
+        return otp;
     }
 }

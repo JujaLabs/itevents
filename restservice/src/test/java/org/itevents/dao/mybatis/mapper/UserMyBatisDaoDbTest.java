@@ -154,7 +154,7 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     @Test(expected = EntityNotFoundDaoException.class)
     @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
     public void shouldThrowEntityNotFoundDaoExceptionWhenOtpIsNotSetToUser() throws Exception {
-        OneTimePassword otp = oneTimePassword.setLifetime(1);
+        OneTimePassword otp = oneTimePassword.generateOtp(1);
         userMyBatisDao.getUserByOtp(otp);
     }
 }
