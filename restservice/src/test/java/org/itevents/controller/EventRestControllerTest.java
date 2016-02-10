@@ -67,13 +67,13 @@ public class EventRestControllerTest extends AbstractControllerTest {
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         User user = BuilderUtil.buildUserAnakin();
-        String validUnassignReaon = "test";
+        String validUnassignReason = "test";
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", validUnassignReaon))
+                .param("unassign_reason", validUnassignReason))
                 .andExpect(status().isOk());
     }
 
