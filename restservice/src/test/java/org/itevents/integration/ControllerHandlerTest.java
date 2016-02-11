@@ -141,7 +141,6 @@ public class ControllerHandlerTest {
         ArrayList <Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
         String invalidParameter = "invalid";
-        String invalidNullParameter= "";
         for (int i = 0; i <250 ; i++) {
             invalidParameter = invalidParameter.concat("s");
         }
@@ -152,27 +151,6 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", invalidParameter))
-                .andExpect(status().isBadRequest());
-
-        mvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", invalidNullParameter))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void shouldNotUnassignFromEventIfParamLengthIsEmpty() throws Exception {
-        Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildUserAnakin();
-        ArrayList <Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
-        String invalidNullParameter= "";
-
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
-
-        mvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", invalidNullParameter))
                 .andExpect(status().isBadRequest());
     }
 }

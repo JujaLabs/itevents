@@ -62,7 +62,6 @@ public class EventRestController {
     @ResponseStatus(value = HttpStatus.OK)
     public void unassign(
             @PathVariable("event_id") int eventId,
-            @NotEmpty
             @Length(max = 250)
             @RequestParam("unassign_reason")
             String unassignReason ) {
