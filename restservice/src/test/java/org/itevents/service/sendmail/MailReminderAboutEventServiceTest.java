@@ -2,8 +2,8 @@ package org.itevents.service.sendmail;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;

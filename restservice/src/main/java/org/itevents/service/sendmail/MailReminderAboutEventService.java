@@ -6,17 +6,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -25,7 +22,7 @@ import java.util.*;
 @Service("reminderAboutEventService")
 public class MailReminderAboutEventService implements ReminderAboutEventService {
 
-    @Value("${reminderAboutEventForThePeriod}")
+    @Value("${remind.about.event.for.the.period}")
     private int daysTillEvent;
 
     @Inject
@@ -70,10 +67,10 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     }
 
     private void sendEmails(Multimap<User, Event> usersAndEvents){
-        for (User userWhoGoToNearestEvent : usersAndEvents.keySet()) {
-            List<Event> nearestEvent = new ArrayList<>(usersAndEvents.get(userWhoGoToNearestEvent));
+        for (User user : usersAndEvents.keySet()) {
+            List<Event> nearestEvent = new ArrayList<Event>(usersAndEvents.get(user));
             String htmlLetter = buildMail(nearestEvent);
-            sendGridMailService.sendMail(htmlLetter, userWhoGoToNearestEvent.getLogin());
+            sendGridMailService.sendMail(htmlLetter, user.getLogin());
         }
     }
 }

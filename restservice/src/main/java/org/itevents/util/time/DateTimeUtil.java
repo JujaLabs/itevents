@@ -16,7 +16,7 @@ public class DateTimeUtil {
         return dateToString(futureDate, dateFormat);
     }
 
-    private static Date addDaysToDate(Date date, int daysCount) {
+    public static Date addDaysToDate(Date date, int daysCount) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysCount);

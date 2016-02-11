@@ -235,7 +235,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         Event event = BuilderUtil.buildEventPhp();
         List <Event> expectedEvents = new ArrayList<Event>();
         expectedEvents.add(event);
-        List returnedEvents = eventMapper.getEventsByDate(event.getEventDate());
+        List returnedEvents = eventMyBatisDao.getEventsByDate(event.getEventDate());
         assertEquals(expectedEvents, returnedEvents);
     }
 }
