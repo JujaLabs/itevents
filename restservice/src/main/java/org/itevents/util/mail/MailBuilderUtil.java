@@ -1,6 +1,6 @@
 package org.itevents.util.mail;
 
-import org.itevents.model.Event;
+import org.itevents.dao.model.Event;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;

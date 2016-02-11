@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.sql_session_dao;
 
 import org.itevents.dao.TechnologyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.Technology;
+import org.itevents.dao.model.Technology;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

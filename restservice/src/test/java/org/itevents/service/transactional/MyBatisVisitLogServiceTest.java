@@ -1,8 +1,8 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.VisitLogDao;
-import org.itevents.model.Event;
-import org.itevents.model.VisitLog;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.VisitLog;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;

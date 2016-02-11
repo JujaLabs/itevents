@@ -8,8 +8,8 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao;
-import org.itevents.model.Event;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
 

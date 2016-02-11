@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.itevents.dao.CurrencyDao;
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 
 import java.util.List;
 

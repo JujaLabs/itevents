@@ -1,4 +1,4 @@
-package org.itevents.scheduler;
+package org.itevents.service.scheduler;
 
 import org.itevents.service.NotificationService;
 import org.itevents.service.sendmail.ReminderAboutEventService;

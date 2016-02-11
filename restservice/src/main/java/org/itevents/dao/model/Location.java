@@ -1,4 +1,4 @@
-package org.itevents.model;
+package org.itevents.dao.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

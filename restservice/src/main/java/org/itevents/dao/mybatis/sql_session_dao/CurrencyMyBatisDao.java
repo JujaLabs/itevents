@@ -2,7 +2,7 @@ package org.itevents.dao.mybatis.sql_session_dao;
 
 import org.itevents.dao.CurrencyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.Currency;
+import org.itevents.dao.model.Currency;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
