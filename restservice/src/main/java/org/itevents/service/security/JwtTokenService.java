@@ -1,6 +1,7 @@
 package org.itevents.service.security;
 
 import org.itevents.dao.model.User;
+import org.itevents.service.CryptTokenService;
 import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
 import org.springframework.stereotype.Service;

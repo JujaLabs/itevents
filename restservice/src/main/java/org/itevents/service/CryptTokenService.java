@@ -1,4 +1,6 @@
-package org.itevents.service.security;
+package org.itevents.service;
+
+import org.itevents.service.security.Token;
 
 /**
  * Created by ramax on 1/16/16.

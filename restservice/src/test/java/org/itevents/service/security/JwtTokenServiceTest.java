@@ -1,6 +1,7 @@
 package org.itevents.service.security;
 
 import org.itevents.dao.model.User;
+import org.itevents.service.CryptTokenService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Test;
@@ -38,6 +39,7 @@ public class JwtTokenServiceTest {
         when(userService.getUserByName(username)).thenReturn(user);
 
         String generateToken = "someGenerateToken";
+        Token jsonToken = new Token(user.getLogin(), user.getRole().getName());
         when(cryptTokenService.encrypt(any())).thenReturn(generateToken);
 
         String token = tokenService.createToken(username, password);

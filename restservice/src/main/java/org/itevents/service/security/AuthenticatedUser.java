@@ -11,12 +11,12 @@ import java.util.Collection;
 public class AuthenticatedUser implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
-    private String token;
+    private String password;
     private String username;
 
-    public AuthenticatedUser(String username, String token, Collection<? extends GrantedAuthority> authorities) {
+    public AuthenticatedUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
-        this.token = token;
+        this.password = password;
         this.authorities = authorities;
     }
 
@@ -27,7 +27,7 @@ public class AuthenticatedUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return token;
+        return password;
     }
 
     @Override

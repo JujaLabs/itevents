@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.itevents.service.CryptTokenService;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +25,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component("jwtAuthenticationFilter")
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
-    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+
+    private static final String BEARER = "Bearer ";
+
+    private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource =
+            new WebAuthenticationDetailsSource();
     @Inject
     private AuthenticationManager authenticationManager;
     @Inject
@@ -44,20 +49,11 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws IOException, ServletException {
         String header = request.getHeader("Authorization");
-        if(header != null && header.startsWith("Bearer ")) {
+        if(header != null && header.startsWith(BEARER)) {
             try {
-                Token token = cryptTokenService.decrypt(header.substring(7));
-
-                List<GrantedAuthority> authorityList
-                        = AuthorityUtils.commaSeparatedStringToAuthorityList(token.getRole());
-
-                UsernamePasswordAuthenticationToken authRequest =
-                    new UsernamePasswordAuthenticationToken(token.getUsername(), header, authorityList);
-
-                authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-                Authentication authResult = this.authenticationManager.authenticate(authRequest);
-
-                SecurityContextHolder.getContext().setAuthentication(authResult);
+                String encryptToken = header.substring(BEARER.length());
+                Authentication auth = createAuthentication(encryptToken);
+                authorizeUser(auth);
             } catch (AuthenticationException var10) {
                 SecurityContextHolder.clearContext();
                 chain.doFilter(request, response);
@@ -70,9 +66,20 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    public void setAuthenticationDetailsSource(AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
-        Assert.notNull(authenticationDetailsSource, "AuthenticationDetailsSource required");
-        this.authenticationDetailsSource = authenticationDetailsSource;
+    private void authorizeUser(Authentication auth) {
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    private Authentication createAuthentication(String encryptToken) {
+        Token token = cryptTokenService.decrypt(encryptToken);
+
+        List<GrantedAuthority> authorityList
+                = AuthorityUtils.commaSeparatedStringToAuthorityList(token.getRole());
+
+        UsernamePasswordAuthenticationToken authRequest =
+                new UsernamePasswordAuthenticationToken(token.getUsername(), encryptToken, authorityList);
+
+        return this.authenticationManager.authenticate(authRequest);
     }
 
 }
