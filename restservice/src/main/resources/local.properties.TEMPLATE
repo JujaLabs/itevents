@@ -13,10 +13,3 @@ sendgrid.api.key=SEND_GRID_TOKEN
 http.port=8080
 stop.port=9080
 stop.key=stop
-
-# AESCryptTokenService (not necessary)
-aes.init.vector.hex=000102030405060708090A0B0C0D0E0F
-#The secret key must equal the size of the key.  For
-#256-bit encryption, the binary secret key is 32 bytes.
-#For 128-bit encryption, the binary secret key is 16 bytes.
-aes.key.hex=000102030405060708090A0B0C0D0E0F
