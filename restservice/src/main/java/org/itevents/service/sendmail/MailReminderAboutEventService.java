@@ -68,7 +68,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
 
     private void sendEmails(Multimap<User, Event> usersAndEvents){
         for (User user : usersAndEvents.keySet()) {
-            List<Event> nearestEvent = new ArrayList<Event>(usersAndEvents.get(user));
+            List<Event> nearestEvent = new ArrayList<>(usersAndEvents.get(user));
             String htmlLetter = buildMail(nearestEvent);
             sendGridMailService.sendMail(htmlLetter, user.getLogin());
         }

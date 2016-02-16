@@ -98,7 +98,12 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public List<Event> getEventsByDate(Date eventDate){
-        return eventDao.getEventsByDate(eventDate);
+        try {
+            return eventDao.getEventsByDate(eventDate);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
+        }
     }
 
     private boolean isAssigned(User user, Event event) {

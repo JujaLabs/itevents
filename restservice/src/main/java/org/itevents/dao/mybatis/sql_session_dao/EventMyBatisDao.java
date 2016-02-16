@@ -78,7 +78,12 @@ public class EventMyBatisDao extends AbstractMyBatisDao implements EventDao {
 
     @Override
     public List<Event> getEventsByDate(Date eventDate) {
-        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapper.getEventsByDate", eventDate);
+
+        List<Event> event = getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapper.getEventsByDate", eventDate);
+        if (event.isEmpty()) {
+            throw new EntityNotFoundDaoException("Any event with date = " + eventDate + " not found");
+        }
+        return event;
     }
 
     private class AssignData {

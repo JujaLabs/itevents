@@ -39,17 +39,6 @@ public class MyBatisVisitLogService implements VisitLogService {
     }
 
     @Override
-    public List<VisitLog> getVisitLogsByDate(Date date) {
-        List<VisitLog> allVisitLog = visitLogDao.getAllVisitLogs();
-        List<VisitLog> resultVisitLog = new LinkedList<>();
-        for (VisitLog v: allVisitLog) {
-            if (v.getDate().equals( date ))
-                resultVisitLog.add(v);
-        }
-        return resultVisitLog;
-    }
-
-    @Override
     public VisitLog getVisitLog(int id) {
         try {
             return visitLogDao.getVisitLog(id);

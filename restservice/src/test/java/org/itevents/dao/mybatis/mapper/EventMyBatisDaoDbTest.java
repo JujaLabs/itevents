@@ -231,11 +231,16 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldReturnEventsByDate() throws ParseException {
+    public void shouldReturnEventsByDate() throws Exception {
         Event event = BuilderUtil.buildEventPhp();
-        List <Event> expectedEvents = new ArrayList<Event>();
+        List <Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
         List returnedEvents = eventMyBatisDao.getEventsByDate(event.getEventDate());
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test(expected = EntityNotFoundDaoException.class)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenNoEventWithThisDate() throws Exception {
+        eventMyBatisDao.getEventsByDate(new Date());
     }
 }
