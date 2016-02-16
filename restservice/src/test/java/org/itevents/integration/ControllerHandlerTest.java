@@ -153,4 +153,21 @@ public class ControllerHandlerTest {
                 .param("unassign_reason", invalidParameter))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void shouldUnassignUserIfParameterIsEmpty() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        User user = BuilderUtil.buildUserAnakin();
+        ArrayList <Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(event);
+        String validParameter = "";
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+
+        mvc.perform(post("/events/" + event.getId() + "/unassign")
+                .param("unassign_reason", validParameter))
+                .andExpect(status().isOk());
+    }
 }
