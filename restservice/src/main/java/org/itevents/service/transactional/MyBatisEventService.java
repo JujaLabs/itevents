@@ -78,7 +78,7 @@ public class MyBatisEventService implements EventService {
     @Override
     public Event getFutureEvent(int eventId) {
         Event event = getEvent(eventId);
-        if (!new Date().after(event.getEventDate())) {
+        if (!event.getEventDate().after(new Date())) {
             String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
             LOGGER.error(message);
             throw new TimeCollisionServiceException(message);
