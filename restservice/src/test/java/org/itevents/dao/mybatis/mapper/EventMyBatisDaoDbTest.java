@@ -238,9 +238,4 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         List returnedEvents = eventMyBatisDao.getEventsByDate(event.getEventDate());
         assertEquals(expectedEvents, returnedEvents);
     }
-
-    @Test(expected = EntityNotFoundDaoException.class)
-    public void shouldThrowEntityNotFoundDaoExceptionWhenNoEventWithThisDate() throws Exception {
-        eventMyBatisDao.getEventsByDate(new Date());
-    }
 }
