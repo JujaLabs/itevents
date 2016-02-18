@@ -1,5 +1,7 @@
 package org.itevents.test_utils;
 
+import org.itevents.controller.wrapper.FilterWrapper;
+import org.itevents.controller.wrapper.builder.FilterWrapperBuilder;
 import org.itevents.dao.model.*;
 import org.itevents.dao.model.builder.*;
 
@@ -553,6 +555,28 @@ public class BuilderUtil {
                 .technology(buildTechnologyJava())
                 .technology(buildTechnologyJavaScript())
                 .id(-6)
+                .build();
+    }
+
+    public static FilterWrapper buildFilteWrapperWithFreeJavaEventsInKuivAtWeek() {
+        return FilterWrapperBuilder.aFilterWrapper()
+                .page(1)
+                .itemsPerPage(10)
+                .cityId(buildCityKyiv().getId())
+                .free(true)
+                .technologyTag("Java")
+                .rangeInDays(7)
+                .build();
+    }
+
+    public static Filter buildFilterWithFreeJavaEventsInKuivAtWeek() throws ParseException {
+        return FilterBuilder.aFilter()
+                .offset(0)
+                .limit(10)
+                .city(buildCityKyiv())
+                .rangeInDays(7)
+                .createDate(parseDate("01.01.2015"))
+                .technology(buildTechnologyJava())
                 .build();
     }
 }

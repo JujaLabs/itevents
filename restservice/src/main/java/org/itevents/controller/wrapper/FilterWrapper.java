@@ -11,10 +11,11 @@ public class FilterWrapper {
     private Integer itemsPerPage;
     private Integer cityId;
     private Boolean free;
-    private Double lat;
-    private Double lon;
+    private Double latitude;
+    private Double longitude;
     private Integer radius;
-    private String[] techTag;
+    private String[] technologyTags;
+    private Integer rangeInDays;
 
     public Integer getPage() {
         return page;
@@ -49,19 +50,19 @@ public class FilterWrapper {
     }
 
     public Double getLatitude() {
-        return lat;
+        return latitude;
     }
 
     public void setLatitude(Double lat) {
-        this.lat = lat;
+        this.latitude = lat;
     }
 
     public Double getLongitude() {
-        return lon;
+        return longitude;
     }
 
     public void setLongitude(Double lon) {
-        this.lon = lon;
+        this.longitude = lon;
     }
 
     public Integer getRadius() {
@@ -73,11 +74,19 @@ public class FilterWrapper {
     }
 
     public String[] getTechnologiesNames() {
-        return techTag;
+        return technologyTags;
     }
 
-    public void setTechnologiesNames(String[] techTag) {
-        this.techTag = techTag;
+    public void setTechnologiesNames(String[] technologyTags) {
+        this.technologyTags = technologyTags;
+    }
+
+    public Integer getRangeInDays() {
+        return rangeInDays;
+    }
+
+    public void setRangeInDays(Integer rangeInDays) {
+        this.rangeInDays = rangeInDays;
     }
 
     @Override
@@ -87,10 +96,11 @@ public class FilterWrapper {
         sb.append(", itemsPerPage=").append(itemsPerPage);
         sb.append(", cityId=").append(cityId);
         sb.append(", free=").append(free);
-        sb.append(", lat=").append(lat);
-        sb.append(", lon=").append(lon);
+        sb.append(", latitude=").append(latitude);
+        sb.append(", longitude=").append(longitude);
         sb.append(", radius=").append(radius);
-        sb.append(", techTag=").append(Arrays.toString(techTag));
+        sb.append(", technologyTags=").append(Arrays.toString(technologyTags));
+        sb.append(", rangeInDays=").append(rangeInDays);
         sb.append('}');
         return sb.toString();
     }

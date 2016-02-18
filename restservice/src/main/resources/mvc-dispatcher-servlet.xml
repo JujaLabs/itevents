@@ -9,6 +9,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <import resource="converters.xml"/>
     <context:component-scan base-package="org.itevents.controller"/>
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/"/>

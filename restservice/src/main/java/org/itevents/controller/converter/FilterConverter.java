@@ -14,6 +14,7 @@ import javax.inject.Inject;
 @Component
 public class FilterConverter {
 
+    public static final int MINUMUM_RANGE_IN_DAYS_OF_FILTER = 0;
     private final int DEFAULT_ITEMS_PER_PAGE = 10;
     @Inject
     private TechnologyService technologyService;
@@ -22,34 +23,39 @@ public class FilterConverter {
 
     public Filter toFilter(FilterWrapper wrapper) {
 
-        Filter result = new Filter();
+        Filter filter = new Filter();
         int itemsPerPage;
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
             itemsPerPage = wrapper.getItemsPerPage();
         } else {
             itemsPerPage = getDefaultItemsPerPage();
         }
-        result.setLimit(itemsPerPage);
+        filter.setLimit(itemsPerPage);
         if (wrapper.getPage() == null || wrapper.getPage() <= 1) {
-            result.setOffset(0);
+            filter.setOffset(0);
         } else {
-            result.setOffset((wrapper.getPage() - 1) * itemsPerPage);
+            filter.setOffset((wrapper.getPage() - 1) * itemsPerPage);
         }
         if (wrapper.getTechnologiesNames() != null) {
-            result.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
+            filter.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
         }
         if (wrapper.getCityId() != null) {
-            result.setCity(cityService.getCity(wrapper.getCityId()));
+            filter.setCity(cityService.getCity(wrapper.getCityId()));
         }
         if (wrapper.getFree() != null) {
-            result.setFree(wrapper.getFree());
+            filter.setFree(wrapper.getFree());
         }
         if (wrapper.getLatitude() != null && wrapper.getLongitude() != null && wrapper.getRadius() != null) {
-            result.setLongitude(wrapper.getLongitude());
-            result.setLatitude(wrapper.getLatitude());
-            result.setRadius(wrapper.getRadius());
+            filter.setLongitude(wrapper.getLongitude());
+            filter.setLatitude(wrapper.getLatitude());
+            filter.setRadius(wrapper.getRadius());
         }
-        return result;
+        Integer rangeInDays = wrapper.getRangeInDays();
+        if (rangeInDays != null && rangeInDays > MINUMUM_RANGE_IN_DAYS_OF_FILTER) {
+            filter.setRangeInDays(rangeInDays);
+        }
+
+        return filter;
     }
 
     public int getDefaultItemsPerPage() {
