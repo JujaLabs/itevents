@@ -563,6 +563,10 @@ public class BuilderUtil {
                 .page(1)
                 .itemsPerPage(10)
                 .cityId(buildCityKyiv().getId())
+                .free(true)
+                .latitude(12.345)
+                .longitude(54.321)
+                .radius(10)
                 .technologyTag("Java")
                 .rangeInDays(7)
                 .build();
@@ -573,8 +577,12 @@ public class BuilderUtil {
                 .offset(0)
                 .limit(10)
                 .city(buildCityKyiv())
-                .rangeInDays(7)
+                .free(true)
+                .latitude(12.345)
+                .longitude(54.321)
+                .radius(10)
                 .technology(buildTechnologyJava())
+                .rangeInDays(7)
                 .build();
     }
 }

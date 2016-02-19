@@ -1,7 +1,10 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.VisitLog;
 import org.itevents.dao.model.builder.VisitLogBuilder;
@@ -10,11 +13,14 @@ import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +40,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
     private UserService userService;
     @Mock
     private VisitLogService visitLogService;
+    @Mock
+    private FilterConverter filterConverter;
     @InjectMocks
     private EventRestController eventRestController;
 
@@ -114,5 +122,36 @@ public class EventRestControllerTest extends AbstractControllerTest {
         verify(eventService).getEvent(event.getId());
         verify(userService).getAuthorizedUser();
         verify(visitLogService).addVisitLog(any(VisitLog.class));
+    }
+
+    @Ignore
+    @Test
+    public void shouldGetFilteredEvents() throws Exception {
+        FilterWrapper filterWrapperWithFreeJavaEventsInKyivAtWeek
+                = BuilderUtil.buildFilterWrapperWithFreeJavaEventsInKyivAtWeek();
+        Filter filterWithFreeJavaEventsInKyivAtWeek
+                = BuilderUtil.buildFilterWithFreeJavaEventsInKyivAtWeek();
+        List<Event> events = Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent());
+
+        when(filterConverter.toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek))
+                .thenReturn(filterWithFreeJavaEventsInKyivAtWeek);
+        when(eventService.getFilteredEvents(filterWithFreeJavaEventsInKyivAtWeek))
+                .thenReturn(events);
+
+        mockMvc.perform(get("/events")
+                .param("page", "1")
+                .param("itemsPerPage", "10")
+                .param("cityId", "-1")
+                .param("free", "true")
+                .param("latitude", "12.345")
+                .param("longitude", "54.321")
+                .param("radius", "10")
+                .param("technologyTags[0].value", "Java")
+                .param("rangeInDays", "7"))
+                //.andExpect(content().string(new ObjectMapper().writeValueAsString(events)))
+                .andExpect(status().isOk());
+
+        verify(filterConverter, times(1)).toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek);
+        verify(eventService, times(1)).getFilteredEvents(filterWithFreeJavaEventsInKyivAtWeek);
     }
 }
