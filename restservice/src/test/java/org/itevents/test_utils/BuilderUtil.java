@@ -563,7 +563,6 @@ public class BuilderUtil {
                 .page(1)
                 .itemsPerPage(10)
                 .cityId(buildCityKyiv().getId())
-                .free(true)
                 .technologyTag("Java")
                 .rangeInDays(7)
                 .build();
@@ -575,7 +574,6 @@ public class BuilderUtil {
                 .limit(10)
                 .city(buildCityKyiv())
                 .rangeInDays(7)
-                .createDate(parseDate("01.01.2015"))
                 .technology(buildTechnologyJava())
                 .build();
     }

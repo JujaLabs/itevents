@@ -44,7 +44,6 @@ public class FilterConverterTest{
         MockitoAnnotations.initMocks(this);
     }
 
-    @Ignore
     @Test
     public void shouldReturnFilterWithFreeJavaEventsInKyivAtWeek() throws ParseException {
         FilterWrapper filterWrapperWithFreeJavaEventsInKyivAtWeek
