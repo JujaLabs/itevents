@@ -25,31 +25,38 @@ public class FilterConverter {
 
         Filter filter = new Filter();
         int itemsPerPage;
+
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
             itemsPerPage = wrapper.getItemsPerPage();
         } else {
             itemsPerPage = getDefaultItemsPerPage();
         }
         filter.setLimit(itemsPerPage);
+
         if (wrapper.getPage() == null || wrapper.getPage() <= 1) {
             filter.setOffset(0);
         } else {
             filter.setOffset((wrapper.getPage() - 1) * itemsPerPage);
         }
+
         if (wrapper.getTechnologiesNames() != null) {
             filter.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
         }
+
         if (wrapper.getCityId() != null) {
             filter.setCity(cityService.getCity(wrapper.getCityId()));
         }
+
         if (wrapper.getFree() != null) {
             filter.setFree(wrapper.getFree());
         }
+
         if (wrapper.getLatitude() != null && wrapper.getLongitude() != null && wrapper.getRadius() != null) {
             filter.setLongitude(wrapper.getLongitude());
             filter.setLatitude(wrapper.getLatitude());
             filter.setRadius(wrapper.getRadius());
         }
+
         Integer rangeInDays = wrapper.getRangeInDays();
         if (rangeInDays != null && rangeInDays > MINUMUM_RANGE_IN_DAYS_OF_FILTER) {
             filter.setRangeInDays(rangeInDays);
