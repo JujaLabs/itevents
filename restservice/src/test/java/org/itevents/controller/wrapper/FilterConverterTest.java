@@ -1,7 +1,5 @@
 package org.itevents.controller.wrapper;
 
-import org.itevents.controller.AbstractControllerTest;
-import org.itevents.controller.EventRestController;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.dao.model.City;
 import org.itevents.dao.model.Filter;
@@ -49,10 +47,10 @@ public class FilterConverterTest{
     @Ignore
     @Test
     public void shouldReturnFilterWithFreeJavaEventsInKuivAtWeek() throws ParseException {
-        FilterWrapper filteWrapperWithFreeJavaEventsInKuivAtWeek
-                = BuilderUtil.buildFilteWrapperWithFreeJavaEventsInKuivAtWeek();
-        Filter expectedfilterWithFreeJavaEventsInKuivAtWeek
-                = BuilderUtil.buildFilterWithFreeJavaEventsInKuivAtWeek();
+        FilterWrapper filterWrapperWithFreeJavaEventsInKyivAtWeek
+                = BuilderUtil.buildFilterWrapperWithFreeJavaEventsInKyivAtWeek();
+        Filter expectedFilterWithFreeJavaEventsInKyivAtWeek
+                = BuilderUtil.buildFilterWithFreeJavaEventsInKyivAtWeek();
         String[] technologyNames = {"Java"};
         Technology javaTechnology = BuilderUtil.buildTechnologyJava();
         City kyivCity = BuilderUtil.buildCityKyiv();
@@ -62,11 +60,11 @@ public class FilterConverterTest{
         when(cityService.getCity(kyivCity.getId()))
                 .thenReturn(kyivCity);
 
-        Filter returnedFilter = filterConverter.toFilter(filteWrapperWithFreeJavaEventsInKuivAtWeek);
+        Filter returnedFilter = filterConverter.toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek);
 
         verify(technologyService, times(1)).getTechnologiesByNames(technologyNames);
         verify(cityService, times(1)).getCity(kyivCity.getId());
-        assertEquals(expectedfilterWithFreeJavaEventsInKuivAtWeek, returnedFilter);
+        assertEquals(expectedFilterWithFreeJavaEventsInKyivAtWeek, returnedFilter);
 
     }
 }

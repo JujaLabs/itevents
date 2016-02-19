@@ -558,7 +558,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static FilterWrapper buildFilteWrapperWithFreeJavaEventsInKuivAtWeek() {
+    public static FilterWrapper buildFilterWrapperWithFreeJavaEventsInKyivAtWeek() {
         return FilterWrapperBuilder.aFilterWrapper()
                 .page(1)
                 .itemsPerPage(10)
@@ -569,7 +569,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static Filter buildFilterWithFreeJavaEventsInKuivAtWeek() throws ParseException {
+    public static Filter buildFilterWithFreeJavaEventsInKyivAtWeek() throws ParseException {
         return FilterBuilder.aFilter()
                 .offset(0)
                 .limit(10)
