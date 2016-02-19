@@ -46,7 +46,7 @@ public class FilterConverterTest{
 
     @Ignore
     @Test
-    public void shouldReturnFilterWithFreeJavaEventsInKuivAtWeek() throws ParseException {
+    public void shouldReturnFilterWithFreeJavaEventsInKyivAtWeek() throws ParseException {
         FilterWrapper filterWrapperWithFreeJavaEventsInKyivAtWeek
                 = BuilderUtil.buildFilterWrapperWithFreeJavaEventsInKyivAtWeek();
         Filter expectedFilterWithFreeJavaEventsInKyivAtWeek
