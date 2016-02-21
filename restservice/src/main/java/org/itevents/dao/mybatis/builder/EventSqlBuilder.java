@@ -50,6 +50,9 @@ public class EventSqlBuilder {
             if (params.getFree() != null) {
                 WHERE(params.getFree() ? "(price IS NULL OR price = 0)" : "price > 0");
             }
+            if (params.getRangeInDays() != null) {
+                WHERE("e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL");
+            }
             if (!CollectionUtils.isEmpty(params.getTechnologies())) {
                 JOIN(makeJoinSql(params.getTechnologies()));
                 WHERE("e.id=et.event_id");
@@ -64,9 +67,6 @@ public class EventSqlBuilder {
 
     private SQL getFilteredEventsInDateRangeWithRatingSQL(final Filter params) {
         SQL sql = getFilteredEventsSQL(params);
-        if (params.getRangeInDays() != null) {
-            sql.WHERE("e.event_date < NOW() + (#{rangeInDays} || ' DAYS')::INTERVAL");
-        }
         sql.LEFT_OUTER_JOIN(" (SELECT event_id, COUNT(*) as visits FROM visit_log " +
                 "GROUP BY event_id) AS visits ON e.id = visits.event_id");
         return sql;

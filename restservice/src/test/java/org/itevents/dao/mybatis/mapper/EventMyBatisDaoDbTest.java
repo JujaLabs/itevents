@@ -1,22 +1,22 @@
 package org.itevents.dao.mybatis.mapper;
 
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.annotation.*;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.Technology;
 import org.itevents.dao.model.User;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.test_utils.dbunit.dataset_loader.EventDateReplacementDataSetLoader;
 import org.itevents.util.time.DateTimeUtil;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -34,11 +34,22 @@ import static org.junit.Assert.assertEquals;
         type = DatabaseOperation.REFRESH)
 @DatabaseTearDown(value = "file:src/test/resources/dbunit/EventMapperTest/EventMapperTest_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
+@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoader = EventDateReplacementDataSetLoader.class)
 public class EventMyBatisDaoDbTest extends AbstractDbTest {
 
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
     private EventMyBatisDao eventMyBatisDao;
+
+    @BeforeClass
+    public static void freezeTime(){
+        DateTimeUtil.freezeDateTime();
+    }
+
+    @AfterClass
+    public static void defreezeTime(){
+        DateTimeUtil.defreezeDateTime();
+    }
 
     @Test
     public void testFindEventById() throws Exception {
@@ -228,5 +239,18 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         expectedEvents.add(event);
         List returnedEvents = eventMyBatisDao.getEventsByUser(user);
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "shouldGetFreeJavaEventsInKyivInSevenDaysPeriod_initial.xml",
+            type = DatabaseOperation.CLEAN_INSERT)
+    @DatabaseTearDown(value = TEST_PATH + "shouldGetFreeJavaEventsInKyivInSevenDaysPeriod_initial.xml",
+            type = DatabaseOperation.DELETE_ALL)
+    public void shouldGetFreeJavaEventsInKyivInSevenDaysPeriod() throws Exception {
+        Filter filter = BuilderUtil.buildFilterWithFreeJavaEventsInKyivAtWeek();
+        List<Event> expectedEvents = new ArrayList<>();
+        expectedEvents.add(BuilderUtil.buildFreeKyivJavaEventAfterTwoDays());
+        List<Event> returnedEvents = eventMyBatisDao.getFilteredEvents(filter);
+        assertEquals("Events must be equal", expectedEvents, returnedEvents);
     }
 }

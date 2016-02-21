@@ -17,7 +17,7 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
     private static final String EVENT_TABLE_NAME = "event";
     private static final String EVENT_DATE_COLUMN_NAME = "event_date";
     private static final String DATE_TEMPLATE_REGEXP = "\\{now([+-]\\d+)\\}"; // {now+5}, {now-10}
-    private static final String DATE_TIME_FORMAT_FOR_DATABASE = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_TIME_FORMAT_FOR_DATABASE = "yyyy-MM-dd HH:mm:ss.SSS";
 
     @Override
     protected void replace() throws DataSetException {

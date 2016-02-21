@@ -4,6 +4,7 @@ import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.controller.wrapper.builder.FilterWrapperBuilder;
 import org.itevents.dao.model.*;
 import org.itevents.dao.model.builder.*;
+import org.itevents.util.time.DateTimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -477,6 +478,12 @@ public class BuilderUtil {
                 .build();
     }
 
+    public static Event buildFreeKyivJavaEventAfterTwoDays(){
+        Event event = buildFreeKyivJavaEvent();
+        event.setEventDate(DateTimeUtil.addDaysToDate(DateTimeUtil.getNowDate(), 2));
+        return event;
+    }
+
     public static Event buildPayedOdessaGradleEvent() {
         return EventBuilder.anEvent()
                 .id(-2)
@@ -564,8 +571,8 @@ public class BuilderUtil {
                 .itemsPerPage(10)
                 .cityId(buildCityKyiv().getId())
                 .free(true)
-                .latitude(12.345)
-                .longitude(54.321)
+                .latitude(50.4505)
+                .longitude(30.523)
                 .radius(10)
                 .technologyTag("Java")
                 .rangeInDays(7)
@@ -578,8 +585,8 @@ public class BuilderUtil {
                 .limit(10)
                 .city(buildCityKyiv())
                 .free(true)
-                .latitude(12.345)
-                .longitude(54.321)
+                .latitude(50.4505)
+                .longitude(30.523)
                 .radius(10)
                 .technology(buildTechnologyJava())
                 .rangeInDays(7)

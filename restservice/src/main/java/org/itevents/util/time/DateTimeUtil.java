@@ -10,13 +10,15 @@ import java.util.Date;
 @Component
 public class DateTimeUtil {
 
+    private static Date frozenDateTime = null;
+
     public static String getFormattedNowDatePlusDays(int days, String dateFormat) {
         Date nowDate = getNowDate();
         Date futureDate = addDaysToDate(nowDate, days);
         return dateToString(futureDate, dateFormat);
     }
 
-    private static Date addDaysToDate(Date date, int daysCount) {
+    public static Date addDaysToDate(Date date, int daysCount) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysCount);
@@ -32,7 +34,21 @@ public class DateTimeUtil {
         return new SimpleDateFormat("yyyy.MM.dd").parse(date);
     }
 
-    public static Date getNowDate(){
-        return Calendar.getInstance().getTime();
+    synchronized public static Date getNowDate(){
+        if (frozenDateTime != null) {
+            return frozenDateTime;
+        } else {
+            return Calendar.getInstance().getTime();
+        }
+    }
+
+    synchronized public static void freezeDateTime(){
+        if (frozenDateTime == null) {
+            frozenDateTime = Calendar.getInstance().getTime();
+        }
+    }
+
+    synchronized public static void defreezeDateTime(){
+        frozenDateTime = null;
     }
 }
