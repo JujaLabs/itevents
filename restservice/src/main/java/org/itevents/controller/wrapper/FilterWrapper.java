@@ -73,11 +73,11 @@ public class FilterWrapper {
         this.radius = radius;
     }
 
-    public String[] getTechnologiesNames() {
+    public String[] getTechnologyTags() {
         return technologyTags;
     }
 
-    public void setTechnologiesNames(String[] technologyTags) {
+    public void setTechnologyTags(String[] technologyTags) {
         this.technologyTags = technologyTags;
     }
 
@@ -87,6 +87,39 @@ public class FilterWrapper {
 
     public void setRangeInDays(Integer rangeInDays) {
         this.rangeInDays = rangeInDays;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FilterWrapper that = (FilterWrapper) o;
+
+        if (page != null ? !page.equals(that.page) : that.page != null) return false;
+        if (itemsPerPage != null ? !itemsPerPage.equals(that.itemsPerPage) : that.itemsPerPage != null) return false;
+        if (cityId != null ? !cityId.equals(that.cityId) : that.cityId != null) return false;
+        if (free != null ? !free.equals(that.free) : that.free != null) return false;
+        if (latitude != null ? !latitude.equals(that.latitude) : that.latitude != null) return false;
+        if (longitude != null ? !longitude.equals(that.longitude) : that.longitude != null) return false;
+        if (radius != null ? !radius.equals(that.radius) : that.radius != null) return false;
+        if (!Arrays.equals(technologyTags, that.technologyTags)) return false;
+        return rangeInDays != null ? rangeInDays.equals(that.rangeInDays) : that.rangeInDays == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = page != null ? page.hashCode() : 0;
+        result = 31 * result + (itemsPerPage != null ? itemsPerPage.hashCode() : 0);
+        result = 31 * result + (cityId != null ? cityId.hashCode() : 0);
+        result = 31 * result + (free != null ? free.hashCode() : 0);
+        result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
+        result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
+        result = 31 * result + (radius != null ? radius.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(technologyTags);
+        result = 31 * result + (rangeInDays != null ? rangeInDays.hashCode() : 0);
+        return result;
     }
 
     @Override

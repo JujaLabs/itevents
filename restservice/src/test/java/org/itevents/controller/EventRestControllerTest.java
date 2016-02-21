@@ -124,7 +124,6 @@ public class EventRestControllerTest extends AbstractControllerTest {
         verify(visitLogService).addVisitLog(any(VisitLog.class));
     }
 
-    @Ignore
     @Test
     public void shouldGetFilteredEvents() throws Exception {
         FilterWrapper filterWrapperWithFreeJavaEventsInKyivAtWeek
@@ -132,6 +131,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Filter filterWithFreeJavaEventsInKyivAtWeek
                 = BuilderUtil.buildFilterWithFreeJavaEventsInKyivAtWeek();
         List<Event> events = Arrays.asList(BuilderUtil.buildFreeKyivJavaEvent());
+        String eventsInJson = new ObjectMapper().writeValueAsString(events);
 
         when(filterConverter.toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek))
                 .thenReturn(filterWithFreeJavaEventsInKyivAtWeek);
@@ -146,9 +146,9 @@ public class EventRestControllerTest extends AbstractControllerTest {
                 .param("latitude", "12.345")
                 .param("longitude", "54.321")
                 .param("radius", "10")
-                .param("technologyTags[0].value", "Java")
+                .param("technologyTags", "Java")
                 .param("rangeInDays", "7"))
-                //.andExpect(content().string(new ObjectMapper().writeValueAsString(events)))
+                .andExpect(content().json(eventsInJson))
                 .andExpect(status().isOk());
 
         verify(filterConverter, times(1)).toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek);

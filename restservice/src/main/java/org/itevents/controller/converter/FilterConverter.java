@@ -39,8 +39,8 @@ public class FilterConverter {
             filter.setOffset((wrapper.getPage() - 1) * itemsPerPage);
         }
 
-        if (wrapper.getTechnologiesNames() != null) {
-            filter.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologiesNames()));
+        if (wrapper.getTechnologyTags() != null) {
+            filter.setTechnologies(technologyService.getTechnologiesByNames(wrapper.getTechnologyTags()));
         }
 
         if (wrapper.getCityId() != null) {

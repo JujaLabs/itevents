@@ -100,7 +100,7 @@ public class FilterWrapperBuilder {
         filterWrapper.setLatitude(latitude);
         filterWrapper.setLongitude(longitude);
         filterWrapper.setRadius(radius);
-        filterWrapper.setTechnologiesNames(technologyTags);
+        filterWrapper.setTechnologyTags(technologyTags);
         filterWrapper.setRangeInDays(rangeInDays);
         return filterWrapper;
     }
