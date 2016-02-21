@@ -1,9 +1,13 @@
 package org.itevents.util.mail;
 
+
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -26,10 +30,16 @@ import java.util.List;
 public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/recommendation-events-mail.xsl")
     private Resource emailTemplateXslResource;
+    @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
+    private Resource emailUserOtpTemplateXslResource;
 
     public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
             TransformerException {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
+    }
+
+    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword)  throws Exception {
+        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -61,6 +71,34 @@ public class MailBuilderUtil {
         return mailStringWriter.toString();
     }
 
+    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException, IOException {
+        UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
+        userOtpXmlWrapper.setUser(user);
+        userOtpXmlWrapper.setOneTimePassword(oneTimePassword);
+
+        Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+        StringWriter userOtpInXmlStringWriter = new StringWriter();
+        marshaller.marshal(userOtpXmlWrapper, userOtpInXmlStringWriter);
+        return userOtpInXmlStringWriter.toString();
+    }
+
+    private String buildMailFromXmlUserOtp(String userOtpUrl)  throws IOException, TransformerException {
+        StringReader stringReader = new StringReader(userOtpUrl);
+        StringWriter mailStringWriter = new StringWriter();
+        Transformer transformer =
+                TransformerFactory.newInstance().newTransformer(
+                        new StreamSource(emailUserOtpTemplateXslResource.getFile())
+                );
+        transformer.transform(
+                new StreamSource(stringReader),
+                new StreamResult(mailStringWriter)
+        );
+        return mailStringWriter.toString();
+    }
+
     @XmlRootElement(name = "events")
     @XmlAccessorType(XmlAccessType.FIELD)
     private static class EventsXmlNodeWrapper {
@@ -77,6 +115,45 @@ public class MailBuilderUtil {
 
         public void setEvents(List<Event> events) {
             this.events = events;
+        }
+
+    }
+
+    @XmlRootElement(name ="userOtp")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    private static class UserOtpXmlWrapper {
+        @XmlElement(name = "user")
+        private User user;
+        @XmlElement(name = "otp")
+        private OneTimePassword oneTimePassword;
+        @XmlElement(name = "url")
+        private String url;
+
+        public UserOtpXmlWrapper() {
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public OneTimePassword getOneTimePassword() {
+            return oneTimePassword;
+        }
+
+        public void setOneTimePassword(OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

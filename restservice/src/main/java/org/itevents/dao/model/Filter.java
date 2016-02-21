@@ -7,6 +7,7 @@ import java.util.List;
  * Created by vaa25 on 28.07.2015.
  */
 public class Filter {
+
     private Integer id;
     private Integer offset;
     private Integer limit;

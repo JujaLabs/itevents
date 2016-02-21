@@ -1,6 +1,7 @@
 package org.itevents.service.sendmail;
 
 import com.sendgrid.SendGrid;
+import com.sendgrid.SendGridException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +18,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by max on 30.07.15.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
 public class SendGridMailServiceTest {
@@ -41,13 +39,11 @@ public class SendGridMailServiceTest {
     }
 
     @Test
-    public void shouldSendMail() throws Exception {
+    public void shouldSendMail() throws SendGridException {
         when(sendGrid.send( any(SendGrid.Email.class) )).thenReturn(
                 new SendGrid.Response(HttpStatus.OK.value(),"ok")
         );
         mailService.sendMail(HTML_LETTER, USER_EMAIL_ADDRESS);
         verify(sendGrid).send( any(SendGrid.Email.class) );
     }
-
-
 }

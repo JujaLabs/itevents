@@ -31,3 +31,6 @@ stop.key=stop
 event.filter.range.in.days=7
 event.count.of.events.in.email=10
 
+# UserService
+user.activation.otp.lifetime.hours = 24
+
