@@ -11,7 +11,7 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceExceprion;
+import org.itevents.service.exception.OtpExpiredServiceException;
 import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -188,7 +188,7 @@ public class MyBatisUserService implements UserService {
         } else {
             String message = "Password expired";
             LOGGER.error(message);
-            throw new OtpExpiredServiceExceprion(message);
+            throw new OtpExpiredServiceException(message);
         }
     }
 }
