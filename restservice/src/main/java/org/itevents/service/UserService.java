@@ -1,13 +1,11 @@
 package org.itevents.service;
 
-
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 public interface UserService {

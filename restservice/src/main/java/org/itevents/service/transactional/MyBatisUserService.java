@@ -172,12 +172,11 @@ public class MyBatisUserService implements UserService {
             OneTimePassword oneTimePassword = userDao.getOtp(password);
             User user = userDao.getUserByOtp(oneTimePassword);
 
-            if (oneTimePassword.getExpirationDate().after(new Date()) ) {
+            if (oneTimePassword.getExpirationDate().after(new Date())) {
                 user.setRole(roleService.getRoleByName("subscriber"));
-
                 userDao.updateUser(user);
             } else {
-                String message = "Password expired";
+                String message = user.getLogin() + "Password expired";
                 LOGGER.error(message);
                 throw new OtpExpiredServiceException(message);
             }
@@ -185,6 +184,5 @@ public class MyBatisUserService implements UserService {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
-
     }
 }
