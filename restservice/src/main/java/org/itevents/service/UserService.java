@@ -28,8 +28,6 @@ public interface UserService {
 
     void setOtpToUser(User user, OneTimePassword oneTimePassword);
 
-    User getUserByOtp(OneTimePassword otp);
-
     void activateUserWithOtp(String password);
 
     List<User> getSubscribedUsers();

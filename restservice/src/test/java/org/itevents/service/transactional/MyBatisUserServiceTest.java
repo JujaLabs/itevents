@@ -270,18 +270,6 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    public void shouldGetUserByOtp() throws Exception {
-        User expectedUser = BuilderUtil.buildUserAnakin();
-
-        when(userDao.getUserByOtp(oneTimePassword)).thenReturn(expectedUser);
-
-        User returnedUser = userService.getUserByOtp(oneTimePassword);
-
-        assertEquals(expectedUser, returnedUser);
-        verify(userDao).getUserByOtp(oneTimePassword);
-    }
-
-    @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User user = BuilderUtil.buildUserGuest();
         OneTimePassword otp = new OneTimePassword().generateOtp(LIFETIME_IN_MINUTES);
