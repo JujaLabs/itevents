@@ -303,5 +303,7 @@ public class MyBatisUserServiceTest {
 
         when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
+
+        userService.activateUserWithOtp(stringOtp);
     }
 }
