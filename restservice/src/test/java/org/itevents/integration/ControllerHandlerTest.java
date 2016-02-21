@@ -127,7 +127,8 @@ public class ControllerHandlerTest {
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        doThrow(ActionAlreadyDoneServiceException.class).when(eventService).assignUserToEvent(user, event);
+        doThrow(ActionAlreadyDoneServiceException.class)
+            .when(eventService).assignUserToEvent(user, event);
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
@@ -139,7 +140,8 @@ public class ControllerHandlerTest {
     public void shouldExpect404IfOtpNotValid() throws Exception {
         String otp = "NotValidOtp";
 
-        doThrow(EntityNotFoundServiceException.class).when(userService).activateUserWithOtp(otp);
+        doThrow(EntityNotFoundServiceException.class)
+            .when(userService).activateUserWithOtp(otp);
 
         mvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isNotFound());
