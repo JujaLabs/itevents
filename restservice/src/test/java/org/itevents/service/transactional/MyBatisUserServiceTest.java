@@ -9,7 +9,7 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceExceprion;
+import org.itevents.service.exception.OtpExpiredServiceException;
 import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
@@ -39,6 +39,8 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class MyBatisUserServiceTest {
+
+    public static final int LIFETIME_IN_MINUTES = 1440;
 
     @InjectMocks
     @Inject
@@ -282,7 +284,7 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User user = BuilderUtil.buildUserGuest();
-        OneTimePassword otp = new OneTimePassword().generateOtp(1440);
+        OneTimePassword otp = new OneTimePassword().generateOtp(LIFETIME_IN_MINUTES);
 
         when(userDao.getOtp("otp")).thenReturn(otp);
         when(userDao.getUserByOtp(otp)).thenReturn(user);
@@ -292,7 +294,7 @@ public class MyBatisUserServiceTest {
         verify(userDao).updateUser(user);
     }
 
-    @Test(expected = OtpExpiredServiceExceprion.class)
+    @Test(expected = OtpExpiredServiceException.class)
     public void shouldNotUseOtpIfExpired() throws Exception {
         User user = BuilderUtil.buildUserGuest();
         OneTimePassword oneTimePassword = new OneTimePassword();
@@ -301,9 +303,5 @@ public class MyBatisUserServiceTest {
 
         when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
-
-        userService.activateUserWithOtp(stringOtp);
-
-        verify(userDao).updateUser(user);
     }
 }
