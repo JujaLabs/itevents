@@ -13,7 +13,7 @@
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
-    <bean class="org.itevents.swagger.SwaggerCustomConfig"/>
+    <bean class="org.itevents.controller.swagger.SwaggerCustomConfig"/>
 
     <mvc:resources mapping="/static/**" location="static/" />
 

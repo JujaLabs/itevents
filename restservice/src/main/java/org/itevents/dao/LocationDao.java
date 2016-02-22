@@ -1,6 +1,6 @@
 package org.itevents.dao;
 
-import org.itevents.model.Location;
+import org.itevents.dao.model.Location;
 
 public interface LocationDao {
 

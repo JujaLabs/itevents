@@ -1,4 +1,4 @@
-package org.itevents.model;
+package org.itevents.dao.model;
 
 import org.itevents.util.mail.adapters.DateAdapter;
 

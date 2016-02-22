@@ -1,7 +1,7 @@
-package org.itevents.model.builder;
+package org.itevents.dao.model.builder;
 
-import org.itevents.model.City;
-import org.itevents.model.Location;
+import org.itevents.dao.model.City;
+import org.itevents.dao.model.Location;
 
 /**
  * Created by vaa25 on 30.09.2015.

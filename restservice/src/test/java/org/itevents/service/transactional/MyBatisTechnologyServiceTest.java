@@ -1,7 +1,7 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.TechnologyDao;
-import org.itevents.model.Technology;
+import org.itevents.dao.model.Technology;
 import org.itevents.service.TechnologyService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;

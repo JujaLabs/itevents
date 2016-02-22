@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.CityDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.model.City;
+import org.itevents.dao.model.City;
 import org.itevents.service.CityService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.springframework.stereotype.Service;

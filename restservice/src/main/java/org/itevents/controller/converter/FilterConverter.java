@@ -1,7 +1,7 @@
 package org.itevents.controller.converter;
 
 import org.itevents.controller.wrapper.FilterWrapper;
-import org.itevents.model.Filter;
+import org.itevents.dao.model.Filter;
 import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
 import org.springframework.stereotype.Component;

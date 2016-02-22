@@ -2,9 +2,9 @@ package org.itevents.service.sendmail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.model.Event;
-import org.itevents.model.Filter;
-import org.itevents.model.User;
+import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
+import org.itevents.dao.model.User;
 import org.itevents.service.*;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.beans.factory.annotation.Value;
