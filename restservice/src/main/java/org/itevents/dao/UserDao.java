@@ -1,9 +1,12 @@
 package org.itevents.dao;
 
+
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 
 import java.util.List;
+
 
 /**
  * Created by vaa25 on 17.07.2015.
@@ -17,6 +20,12 @@ public interface UserDao {
     List<User> getAllUsers();
 
     void addUser(User user, String password);
+
+    void setOtpToUser(User user, OneTimePassword oneTimePassword);
+
+    OneTimePassword getOtp(String password);
+
+    User getUserByOtp(OneTimePassword oneTimePassword);
 
     void updateUser(User user);
 
