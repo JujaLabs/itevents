@@ -48,8 +48,9 @@ public class MailBuilderUtilTest {
     @Test
     @Ignore
     public void shouldReturnMailWithActivationLink()  throws Exception {
+        int twoMonthInHours = 1440;
         User user = BuilderUtil.buildUserAnakin();
-        oneTimePassword.generateOtp(1440);
+        oneTimePassword.generateOtp(twoMonthInHours);
         String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
