@@ -11,6 +11,7 @@ import org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -31,6 +32,8 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "UserMapperTest/";
     @Inject
     private UserMyBatisDao userMyBatisDao;
+    @Inject
+    private OneTimePassword oneTimePassword;
 
     @Test
     public void shouldFindUserById() throws Exception {
@@ -105,5 +108,53 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserAnakin();
         String expectedPassword = "newPassword";
         userMyBatisDao.setUserPassword(user, expectedPassword);
+    }
+
+    @Test
+    @ExpectedDatabase(value = TEST_PATH + "addOtpExpected.xml",
+            assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    public void shouldAddOtpByUserId() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+        String onetimePassword = "oneTimePassword";
+        oneTimePassword.setPassword(onetimePassword);
+        userMyBatisDao.setOtpToUser(user, oneTimePassword);
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldGetOtpByPassword() {
+        String password = "oneTimePassword";
+
+        OneTimePassword returnedOtp = userMyBatisDao.getOtp(password);
+
+        assertEquals(password, returnedOtp.getPassword());
+    }
+
+    @Test
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldGetUserByOtp() throws Exception {
+        User expectedUser = BuilderUtil.buildUserAnakin();
+        String password = "oneTimePassword";
+        OneTimePassword otp = new OneTimePassword();
+        otp.setPassword(password);
+
+        User returnedUser = userMyBatisDao.getUserByOtp(otp);
+
+        assertEquals(expectedUser, returnedUser);
+    }
+
+    @Test(expected = EntityNotFoundDaoException.class)
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenOtpIsNotValid() throws Exception {
+        String password = "NotValidOtp";
+
+        userMyBatisDao.getOtp(password);
+    }
+
+    @Test(expected = EntityNotFoundDaoException.class)
+    @DatabaseSetup(value = TEST_PATH + "addOtpExpected.xml", type = DatabaseOperation.REFRESH)
+    public void shouldThrowEntityNotFoundDaoExceptionWhenOtpIsNotSetToUser() throws Exception {
+        OneTimePassword otp = oneTimePassword.generateOtp(1);
+        userMyBatisDao.getUserByOtp(otp);
     }
 }

@@ -5,8 +5,10 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
+import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,6 +70,30 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         getSqlSession().update("org.itevents.dao.mybatis.mapper.UserMapper.setUserPassword", new UserPassword(user, password));
     }
 
+    @Override
+    public void setOtpToUser(User user, OneTimePassword oneTimePassword) {
+        getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.setOtpToUser", new UserOtp(user, oneTimePassword));
+    }
+
+    @Override
+    public OneTimePassword getOtp(String password) {
+        OneTimePassword oneTimePassword = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getOtp", password);
+        if (oneTimePassword == null) {
+            throw new EntityNotFoundDaoException("password " + password + " is not found");
+        } else {
+            return oneTimePassword;
+        }
+    }
+
+    @Override
+    public User getUserByOtp(OneTimePassword oneTimePassword) {
+        User user = getSqlSession().selectOne("org.itevents.dao.mybatis.mapper.UserMapper.getUserByOtp", oneTimePassword);
+        if (user == null) {
+            throw new EntityNotFoundDaoException("user set to otp" + oneTimePassword.getPassword() + " not found");
+        }
+        return user;
+    }
+
     private class UserPassword {
 
         private User user;
@@ -119,6 +145,48 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
 
         public void setSubscribed(boolean subscribed) {
             user.setSubscribed(subscribed);
+        }
+    }
+
+    private class UserOtp {
+        private User user;
+        private OneTimePassword oneTimePassword;
+
+        public UserOtp(User user, OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return oneTimePassword.getPassword();
+        }
+
+        public void setPassword(String oneTimePssword) {
+            oneTimePassword.setPassword(oneTimePssword);
+        }
+
+        public Date getExpirationDate() {
+            return oneTimePassword.getExpirationDate();
+        }
+
+        public void setExpirationDate(Date expirationDate) {
+            oneTimePassword.setExpirationDate(expirationDate);
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public OneTimePassword getOneTimePassword() {
+            return oneTimePassword;
+        }
+
+        public void setOneTimePassword(OneTimePassword oneTimePassword) {
+            this.oneTimePassword = oneTimePassword;
         }
     }
 
