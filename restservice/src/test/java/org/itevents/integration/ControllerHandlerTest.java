@@ -33,8 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by vaa25 on 04.01.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:applicationContext.xml", "classpath:applicationContextTestAddon.xml",
-        "classpath:mvc-dispatcher-servlet.xml", "classpath:spring-security.xml"})
+@ContextConfiguration({
+        "classpath:applicationContext.xml",
+        "classpath:applicationContextTestAddon.xml",
+        "classpath:mvc-dispatcher-servlet.xml",
+        "classpath:spring-security.xml"})
 @WebAppConfiguration
 public class ControllerHandlerTest {
     @Inject
@@ -124,11 +127,23 @@ public class ControllerHandlerTest {
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        doThrow(ActionAlreadyDoneServiceException.class).when(eventService).assignUserToEvent(user, event);
+        doThrow(ActionAlreadyDoneServiceException.class)
+            .when(eventService).assignUserToEvent(user, event);
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
 
         reset(eventService);
+    }
+
+    @Test
+    public void shouldExpect404IfOtpNotValid() throws Exception {
+        String otp = "NotValidOtp";
+
+        doThrow(EntityNotFoundServiceException.class)
+            .when(userService).activateUserWithOtp(otp);
+
+        mvc.perform(get("/users/activate/"+ otp))
+                .andExpect(status().isNotFound());
     }
 }

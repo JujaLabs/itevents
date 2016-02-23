@@ -33,3 +33,7 @@ event.count.of.events.in.email=10
 
 # JWTCryptTokenService
 jwt.key=password
+
+# UserService
+user.activation.otp.lifetime.hours = 24
+

@@ -79,7 +79,6 @@ public class SecurityTests {
 				.andExpect(status().isForbidden());
 	}
 
-
 	@Test
 	@WithMockUser(username="vlasov@email.com", roles={"subscriber"})
 	public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {

@@ -27,9 +27,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by vaa25 on 16.10.2015.
- */
 public class UserRestControllerTest extends AbstractControllerTest {
 
     @Mock
@@ -134,5 +131,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/users/" + user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
+    }
+
+    @Test
+    public void shouldActivateUserByOtp() throws Exception {
+        String otp = "otp";
+
+        mockMvc.perform(get("/users/activate/"+ otp))
+                .andExpect(status().isOk());
     }
 }

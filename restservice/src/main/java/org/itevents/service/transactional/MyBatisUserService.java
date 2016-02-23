@@ -11,7 +11,12 @@ import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.OtpExpiredServiceException;
 import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.sendmail.SendGridMailService;
+import org.itevents.util.OneTimePassword.OneTimePassword;
+import org.itevents.util.mail.MailBuilderUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 
 @Service("userService")
@@ -34,6 +40,15 @@ public class MyBatisUserService implements UserService {
     private PasswordEncoder passwordEncoder;
     @Inject
     private RoleService roleService;
+    @Inject
+    private OneTimePassword oneTimePassword;
+    @Inject
+    private SendGridMailService mailService;
+    @Inject
+    private MailBuilderUtil mailBuilderUtil;
+    @Value("${user.activation.otp.lifetime.hours}")
+    private int otpLifetime;
+
 
     private void addUser(User user, String password) {
         try {
@@ -53,13 +68,21 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addSubscriber(String username, String password) {
+    public void addSubscriber(String username, String password) throws Exception  {
         User user = UserBuilder.anUser()
                 .login(username)
-                .role(roleService.getRoleByName("subscriber"))
+                .role(roleService.getRoleByName("guest"))
                 .build();
         addUser(user, passwordEncoder.encode(password));
 
+        OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
+        setOtpToUser(user, otp);
+        sendActivationEmailToUserLogin(user, otp);
+    }
+
+    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
+        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+        mailService.sendMail(email, user.getLogin());
     }
 
     @Override
@@ -135,6 +158,35 @@ public class MyBatisUserService implements UserService {
             String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
             LOGGER.error(message);
             throw new WrongPasswordServiceException(message);
+        }
+    }
+
+    @Override
+    public void setOtpToUser(User user, OneTimePassword oneTimePassword) {
+        userDao.setOtpToUser(user, oneTimePassword);
+    }
+
+    @Override
+    public void activateUserWithOtp(String password) {
+        OneTimePassword oneTimePassword = userDao.getOtp(password);
+        User user = getUserByOtp(oneTimePassword);
+
+        if (oneTimePassword.getExpirationDate().after(new Date()) ) {
+            user.setRole(roleService.getRoleByName("subscriber"));
+            userDao.updateUser(user);
+        } else {
+            String message = "Password expired";
+            LOGGER.error(message);
+            throw new OtpExpiredServiceException(message);
+        }
+    }
+
+    private User getUserByOtp(OneTimePassword otp) {
+        try {
+            return userDao.getUserByOtp(otp);
+        } catch (EntityNotFoundDaoException e) {
+            LOGGER.error(e.getMessage());
+            throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
 }

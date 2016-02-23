@@ -25,6 +25,7 @@
 
         <intercept-url pattern="/admin**" access='hasRole("admin")'/>
         <intercept-url pattern="/users/register" access='!isAuthenticated()'/>
+        <intercept-url pattern="/users/activate" access='!isAuthenticated()'/>
         <intercept-url pattern="/events/*/assign" access='isAuthenticated()'/>
         <intercept-url pattern="/events/*/unassign" access='isAuthenticated()'/>
         <intercept-url pattern="/users/*/events" access='hasRole("admin")'/>
