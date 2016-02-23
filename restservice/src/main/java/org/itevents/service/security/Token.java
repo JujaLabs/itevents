@@ -50,4 +50,12 @@ public class Token {
         result = 31 * result + role.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

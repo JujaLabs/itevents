@@ -33,16 +33,14 @@ public class JwtTokenServiceTest {
     public void shouldCreateToken() throws Exception {
 
         User user = BuilderUtil.buildUserGuest();
-
-        String username = "SomeLogin";
         String password = "SomePassword";
-        when(userService.getUserByName(username)).thenReturn(user);
-
         String generateToken = "someGenerateToken";
         Token jsonToken = new Token(user.getLogin(), user.getRole().getName());
-        when(cryptTokenService.encrypt(any())).thenReturn(generateToken);
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(cryptTokenService.encrypt(jsonToken)).thenReturn(generateToken);
 
-        String token = tokenService.createToken(username, password);
+        String token = tokenService.createToken(user.getLogin(), password);
+
         assertEquals(token, generateToken);
         verify(userService).checkPassword(user, password);
     }
