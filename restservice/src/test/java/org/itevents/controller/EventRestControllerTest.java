@@ -13,12 +13,10 @@ import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -151,7 +149,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().json(eventsInJson))
                 .andExpect(status().isOk());
 
-        verify(filterConverter, times(1)).toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek);
-        verify(eventService, times(1)).getFilteredEvents(filterWithFreeJavaEventsInKyivAtWeek);
+        verify(filterConverter).toFilter(filterWrapperWithFreeJavaEventsInKyivAtWeek);
+        verify(eventService).getFilteredEvents(filterWithFreeJavaEventsInKyivAtWeek);
     }
 }
