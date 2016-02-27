@@ -1,5 +1,5 @@
 # Create copy of this file in same directory with name "local.properties" and update value of properties
-# There you can replace any property you need from default.properties or add new secret property
+# There you can replace any property you need from global.properties or add new secret property
 
 # Database
 database.driver=org.postgresql.Driver
