@@ -171,7 +171,6 @@ public class ControllerHandlerTest {
                 .param("unassign_reason", validParameter))
                 .andExpect(status().isOk());
     }
-}
 
     @Test
     public void shouldExpect404IfOtpNotValid() throws Exception {
