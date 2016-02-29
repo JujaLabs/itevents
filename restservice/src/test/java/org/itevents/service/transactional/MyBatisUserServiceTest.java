@@ -40,7 +40,7 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class MyBatisUserServiceTest {
 
-    public static final int LIFETIME_IN_MINUTES = 1440;
+    public static final int LIFETIME_IN_HOURS = 24;
 
     @InjectMocks
     @Inject
@@ -272,7 +272,7 @@ public class MyBatisUserServiceTest {
     @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User user = BuilderUtil.buildUserGuest();
-        OneTimePassword otp = new OneTimePassword().generateOtp(LIFETIME_IN_MINUTES);
+        OneTimePassword otp = new OneTimePassword().generateOtp(LIFETIME_IN_HOURS);
 
         when(userDao.getOtp("otp")).thenReturn(otp);
         when(userDao.getUserByOtp(otp)).thenReturn(user);

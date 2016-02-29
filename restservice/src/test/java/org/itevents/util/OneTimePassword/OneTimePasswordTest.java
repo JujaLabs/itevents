@@ -13,15 +13,15 @@ import static org.junit.Assert.assertNotEquals;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class OneTimePasswordTest {
 
-    public static final int LIFETIME_IN_MINUTES = 1440;
+    public static final int LIFETIME_IN_HOURS = 24;
 
     @Inject
     private OneTimePassword oneTimePassword;
 
     @Test
     public void shouldGenerateDifferentPasswords() throws Exception {
-        String password1 = oneTimePassword.generateOtp(LIFETIME_IN_MINUTES).getPassword();
-        String password2 = oneTimePassword.generateOtp(LIFETIME_IN_MINUTES).getPassword();
+        String password1 = oneTimePassword.generateOtp(LIFETIME_IN_HOURS).getPassword();
+        String password2 = oneTimePassword.generateOtp(LIFETIME_IN_HOURS).getPassword();
         assertNotEquals(password1, password2);
     }
 }
