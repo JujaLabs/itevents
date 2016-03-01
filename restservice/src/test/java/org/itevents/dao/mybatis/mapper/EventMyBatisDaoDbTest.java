@@ -20,7 +20,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +63,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllEvents() throws ParseException {
+    public void shouldGetAllEvents() throws Exception {
         int expectedSize = 7;
         int returnedSize = eventMyBatisDao.getAllEvents().size();
         Assert.assertEquals(expectedSize, returnedSize);

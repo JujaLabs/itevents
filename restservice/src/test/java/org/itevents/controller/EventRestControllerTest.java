@@ -22,9 +22,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -57,7 +56,6 @@ public class EventRestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/events/" + event.getId()))
                 .andExpect(status().isOk());
-        verify(eventService).getEvent(event.getId());
     }
 
     @Test
@@ -70,22 +68,20 @@ public class EventRestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
-        verify(eventService).assignUserToEvent(user, event);
     }
 
     @Test
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
         User user = BuilderUtil.buildUserAnakin();
-        String unassignReason = "test";
+        String validUnassignReason = "test";
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
-                .param("unassign_reason", unassignReason))
+                .param("unassign_reason", validUnassignReason))
                 .andExpect(status().isOk());
-        verify(eventService).unassignUserFromEvent(eq(user), eq(event), any(Date.class), eq(unassignReason));
     }
 
     @Test
@@ -116,10 +112,6 @@ public class EventRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
-
-        verify(eventService).getEvent(event.getId());
-        verify(userService).getAuthorizedUser();
-        verify(visitLogService).addVisitLog(any(VisitLog.class));
     }
 
     @Test

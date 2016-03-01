@@ -7,6 +7,7 @@ import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -138,5 +140,33 @@ public class MyBatisEventServiceTest {
         eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
 
         verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
+    }
+
+    @Test
+    public void shouldFindFutureEvent() throws Exception {
+        Event expectedEvent = BuilderUtil.buildEventJava();
+
+        when(eventDao.getEvent(expectedEvent.getId())).thenReturn(expectedEvent);
+
+        Event returnedEvent = eventService.getFutureEvent(expectedEvent.getId());
+
+        assertEquals(expectedEvent, returnedEvent);
+    }
+
+    @Test(expected = TimeCollisionServiceException.class)
+    public void shouldThrowTimeCollisionServiceExceptionWhenTryFindPastEventAsFutureEvent() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        int yesterday = -1;
+        event.setEventDate(getDateInPast(yesterday));
+
+        when(eventDao.getEvent(event.getId())).thenReturn(event);
+
+        eventService.getFutureEvent(event.getId());
+    }
+
+    private Date getDateInPast(int daysCount) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, daysCount);
+        return calendar.getTime();
     }
 }

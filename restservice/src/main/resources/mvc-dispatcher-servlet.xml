@@ -39,6 +39,8 @@
           class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="en"/>
     </bean>
+    
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
