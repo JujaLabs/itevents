@@ -2,6 +2,30 @@ subprojects {
 
     apply plugin: 'java'
 
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+//    apply plugin: 'checkstyle'
+
+    pmd {
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/reports/pmd")
+    }
+
+    findbugs {
+        ignoreFailures = true
+        toolVersion = "3.0.0"
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "default"
+        reportLevel = "medium"
+    }
+
+    /*checkstyle {
+        ignoreFailures = true
+        toolVersion = "6.0"
+        configFile = rootProject.file('config/checkstyle.xml')
+        reportsDir = file("$project.buildDir/reports/checkstyle")
+    }*/
+
     repositories {
         mavenCentral()
         mavenLocal()
@@ -11,4 +35,4 @@ subprojects {
     targetCompatibility = 1.8
 }
 
-defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'
+defaultTasks 'check', 'clean', 'assemble', 'liquibaseUpdate', 'test'
