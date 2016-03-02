@@ -12,13 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    /*
-        We don't need to additional authentication checks
-     */
     @Override
     protected void additionalAuthenticationChecks(
             UserDetails userDetails,
             UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+        // We don't need to additional authentication checks
     }
 
     @Override

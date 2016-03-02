@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by ramax on 2/1/16.
@@ -34,7 +34,7 @@ public class JwtTokenServiceTest {
 
         User user = BuilderUtil.buildUserGuest();
         String password = "SomePassword";
-        String generateToken = "someGenerateToken";
+        String generateToken = "SomeGeneratedToken";
         Token jsonToken = new Token(user.getLogin(), user.getRole().getName());
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
         when(cryptTokenService.encrypt(jsonToken)).thenReturn(generateToken);
