@@ -53,6 +53,8 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.1.1'
     compile 'com.google.guava:guava:19.0-rc2'
     compile 'com.sendgrid:sendgrid-java:2.2.2'
+    compile 'org.hibernate:hibernate-validator:5.2.2.Final'
+    compile 'javax.el:javax.el-api:3.0.0'
     liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
     liquibase 'org.liquibase:liquibase-core:3.4.1'
     testCompile 'junit:junit:4.12'
@@ -65,25 +67,24 @@ dependencies {
 }
 
 Properties properties = new Properties()
-Properties testProperties = new Properties()
 
-def propertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
-def testPropertiesFile = new File (projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
 
-if (propertiesFile.exists()) {
-    properties.load(new FileInputStream(propertiesFile))
+def defaultPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/global.properties")
+def localPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
+
+properties.load(new FileInputStream(defaultPropertiesFile))
+if (localPropertiesFile.exists()) {
+    properties.load(new FileInputStream(localPropertiesFile));
     httpPort = Integer.valueOf(properties.getProperty('http.port'));
     stopPort = Integer.valueOf(properties.getProperty('stop.port'));
     stopKey = properties.getProperty('stop.key');
 } else {
-    logger.error('local.properties is absent!')
+    String errorMessage = 'local.properties is absent!'
+    logger.error(errorMessage)
+    throw new InvalidUserDataException(errorMessage)
 }
 
-if (testPropertiesFile.exists()) {
-    testProperties.load(new FileInputStream(testPropertiesFile))
-} else {
-    logger.error('test-local.properties is absent!')
-}
+
 
 test.dependsOn "liquibaseTestUpdate"
 
@@ -124,6 +125,14 @@ task liquibaseRollback(type: JavaExec) {
 }
 
 task liquibaseTestUpdate(type: JavaExec) {
+    def testPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-local.properties")
+    if (!testPropertiesFile.exists()) {
+        String errorMessage = 'test-local.properties is absent!'
+        logger.error(errorMessage)
+        throw new InvalidUserDataException(errorMessage)
+    }
+    Properties testProperties = new Properties()
+    testProperties.load(new FileInputStream(testPropertiesFile))
     description 'Liquibase updates Test DB by all not used changesets'
     group = 'Liquibase'
     classpath configurations.liquibase

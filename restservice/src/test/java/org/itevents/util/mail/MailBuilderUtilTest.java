@@ -1,7 +1,10 @@
 package org.itevents.util.mail;
 
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.OneTimePassword.OneTimePassword;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,14 +26,32 @@ import static org.junit.Assert.assertEquals;
 public class MailBuilderUtilTest {
     @Inject
     private String expectedDigestEmail;
-
+    @Inject
+    private String expectedUserOtpEmail;
     @Inject
     private MailBuilderUtil mailBuilderUtil;
+    @Inject
+    private OneTimePassword oneTimePassword;
 
     @Test
     public void testMailBuild() throws JAXBException, ParseException, IOException, TransformerException {
         List<Event> filteredEvents = BuilderUtil.buildEventsForMailUtilTest();
         String returnedDigestEmail = mailBuilderUtil.buildHtmlFromEventsList(filteredEvents);
         assertEquals(expectedDigestEmail, returnedDigestEmail);
+    }
+
+    /*
+    * @TODO: FIX THIS TEST
+    * issue 156
+    * https://github.com/JuniorsJava/itevents/issues/156
+    */
+    @Test
+    @Ignore
+    public void shouldReturnMailWithActivationLink()  throws Exception {
+        int twoMonthInHours = 1440;
+        User user = BuilderUtil.buildUserAnakin();
+        oneTimePassword.generateOtp(twoMonthInHours);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword);
+        assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

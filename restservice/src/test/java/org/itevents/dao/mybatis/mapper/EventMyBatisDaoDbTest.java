@@ -9,18 +9,17 @@ import org.itevents.AbstractDbTest;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
-import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.Technology;
 import org.itevents.dao.model.User;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.DateTimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.inject.Inject;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +52,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void shouldGetAllEvents() throws ParseException {
+    public void shouldGetAllEvents() throws Exception {
         int expectedSize = 7;
         int returnedSize = eventMyBatisDao.getAllEvents().size();
         Assert.assertEquals(expectedSize, returnedSize);
