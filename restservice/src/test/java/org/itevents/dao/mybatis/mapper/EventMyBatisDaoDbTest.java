@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by vaa25 on 22.07.2015.
@@ -236,5 +238,11 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         expectedEvents.add(event);
         List returnedEvents = eventMyBatisDao.getEventsByDate(event.getEventDate());
         assertEquals(expectedEvents, returnedEvents);
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhenEventsNotFounded() throws Exception {
+        List returnedEvents = eventMyBatisDao.getEventsByDate(new Date());
+        assertTrue(returnedEvents.isEmpty());
     }
 }
