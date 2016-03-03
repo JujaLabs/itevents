@@ -23,7 +23,7 @@ import java.util.List;
 @Component("authenticationFilter")
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String BEARER = "Bearer ";
+    private static final String AUTH_MARK = "Bearer ";
 
     @Inject
     private AuthenticationManager authenticationManager;
@@ -45,9 +45,9 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws IOException, ServletException {
         String header = request.getHeader("Authorization");
-        if(header != null && header.startsWith(BEARER)) {
+        if(header != null && header.startsWith(AUTH_MARK)) {
             try {
-                String encryptToken = header.substring(BEARER.length());
+                String encryptToken = header.substring(AUTH_MARK.length());
                 Authentication auth = createAuthentication(encryptToken);
                 authorizeUser(auth);
             } catch (AuthenticationException var10) {

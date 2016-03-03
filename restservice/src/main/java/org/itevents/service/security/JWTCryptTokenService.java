@@ -39,9 +39,7 @@ public class JWTCryptTokenService implements CryptTokenService {
             String role = (String) claims.get("role");
 
             return new Token(username, role);
-        } catch (SignatureException e) {
-            throw new CryptTokenServiceException("Don't trust the JWT");
-        } catch (MalformedJwtException e) {
+        } catch (SignatureException | MalformedJwtException e) {
             throw new CryptTokenServiceException("Don't trust the JWT");
         }
     }

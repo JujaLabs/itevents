@@ -2,7 +2,9 @@ package org.itevents.service.security;
 
 import org.itevents.service.CryptTokenService;
 import org.itevents.service.exception.CryptTokenServiceException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -16,7 +18,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class JWTCryptTokenServiceTest {
 
-
     // Token generate from http://jwt.io/
     private final String KEY = "someSecretKey";
     private final String ENCODED_TOKEN =
@@ -26,6 +27,9 @@ public class JWTCryptTokenServiceTest {
 
     @InjectMocks
     private CryptTokenService cryptTokenService = new JWTCryptTokenService(KEY);
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void shouldEncryptToken() throws Exception {
@@ -41,8 +45,10 @@ public class JWTCryptTokenServiceTest {
         assertThat(token, is(TOKEN));
     }
 
-    @Test(expected = CryptTokenServiceException.class)
+    @Test
     public void shouldFailedDecryptToken() throws Exception {
+        expectedException.expect(CryptTokenServiceException.class);
+        expectedException.expectMessage("Don't trust the JWT");
         String encodedToken = "someNotValidToken";
 
         cryptTokenService.decrypt(encodedToken);

@@ -20,9 +20,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
 
     @Override
-    protected UserDetails retrieveUser(
-            String username,
-            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
 
         String login = (String) authentication.getPrincipal();
         String token = (String) authentication.getCredentials();
