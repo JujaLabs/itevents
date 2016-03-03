@@ -19,10 +19,10 @@ import java.util.*;
 /**
  * Created by ramax on 11/2/15.
  */
-@Service("reminderAboutEventService")
-public class MailReminderAboutEventService implements ReminderAboutEventService {
+@Service
+public class MailEventReminderService implements EventReminderService {
 
-    @Value("${remind.about.event.for.the.period}")
+    @Value("${days.till.event.to.remind}")
     private int daysTillEvent;
 
     @Inject
@@ -32,12 +32,12 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
     @Inject
     private  MailBuilderUtil mailBuilderUtil;
     @Inject
-    private MailService sendGridMailService;
+    private MailService mailService;
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void execute() {
+    public void remind() {
         Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent();
         sendEmails(usersAndEventsToRemind);
     }
@@ -70,7 +70,7 @@ public class MailReminderAboutEventService implements ReminderAboutEventService 
         for (User user : usersAndEvents.keySet()) {
             List<Event> nearestEvent = new ArrayList<>(usersAndEvents.get(user));
             String htmlLetter = buildMail(nearestEvent);
-            sendGridMailService.sendMail(htmlLetter, user.getLogin());
+            mailService.sendMail(htmlLetter, user.getLogin());
         }
     }
 }

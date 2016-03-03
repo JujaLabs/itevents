@@ -27,11 +27,11 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:applicationContext.xml")
-public class MailReminderAboutEventServiceTest {
+public class MailEventReminderServiceTest {
 
     @InjectMocks
     @Inject
-    private MailReminderAboutEventService mailReminderAboutEventService;
+    private MailEventReminderService mailReminderAboutEventService;
 
     @Mock
     private EventDao eventDao;
@@ -60,7 +60,7 @@ public class MailReminderAboutEventServiceTest {
 
         doNothing().when(mailService).sendMail(anyString(), anyString());
 
-        mailReminderAboutEventService.execute();
+        mailReminderAboutEventService.remind();
 
         verify(eventDao).getEventsByDate(any(Date.class));
         verify(userDao, times(events.size())).getUsersByEvent(any((Event.class)));
