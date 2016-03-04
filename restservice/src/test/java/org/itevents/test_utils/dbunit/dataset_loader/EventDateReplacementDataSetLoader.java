@@ -23,7 +23,8 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
     protected void replace() throws DataSetException {
         List<String> dateTemplates = getDateTemplatesFromDataSet();
         for (String dateTemplate : dateTemplates) {
-            // {now+5} > 18.10.15 17:23:45
+            // if now is 13.10.15 17:23:45.678 then
+            // {now+5} > 18.10.15 17:23:45.678
             replace(dateTemplate, buildFormattedDateFromDateTemplate(dateTemplate));
         }
     }
