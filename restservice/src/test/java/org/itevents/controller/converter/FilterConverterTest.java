@@ -1,6 +1,5 @@
 package org.itevents.controller.converter;
 
-import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.City;
 import org.itevents.dao.model.Filter;
@@ -9,7 +8,6 @@ import org.itevents.service.CityService;
 import org.itevents.service.TechnologyService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
