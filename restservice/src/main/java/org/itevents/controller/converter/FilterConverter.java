@@ -29,7 +29,7 @@ public class FilterConverter {
         if (wrapper.getItemsPerPage() != null && wrapper.getItemsPerPage() > 0) {
             itemsPerPage = wrapper.getItemsPerPage();
         } else {
-            itemsPerPage = getDefaultItemsPerPage();
+            itemsPerPage = DEFAULT_ITEMS_PER_PAGE;
         }
         filter.setLimit(itemsPerPage);
 
@@ -65,7 +65,4 @@ public class FilterConverter {
         return filter;
     }
 
-    public int getDefaultItemsPerPage() {
-        return DEFAULT_ITEMS_PER_PAGE;
-    }
 }
