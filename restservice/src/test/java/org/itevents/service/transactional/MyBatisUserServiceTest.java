@@ -144,24 +144,23 @@ public class MyBatisUserServiceTest {
 
     }
 
-    /*
-    * TODO: FIX THIS TEST
-    * This test fails for unknown reasons
-    * issue 155
-    * https://github.com/JuniorsJava/itevents/issues/155
-    */
-    @Ignore
     @Test(expected = EntityAlreadyExistsServiceException.class)
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
-        User testUser = BuilderUtil.buildUserVlasov();
+        String testLogin = "test@example.com";
+        User testUser = UserBuilder.anUser()
+                .login(testLogin)
+                .role(BuilderUtil.buildRoleGuest())
+                .build();
         String password = "password";
-        String encodedPassword = "encodedPassword";
+        Role guestRole = BuilderUtil.buildRoleGuest();
 
-        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
-        when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser), eq(encodedPassword));
+        when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
+        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser), any(String.class));
 
         userService.addSubscriber(testUser.getLogin(), password);
+
+        verify(roleService).getRoleByName(GUEST_ROLE_NAME);
+        verify(passwordEncoder).encode(password);
     }
 
     @Test
