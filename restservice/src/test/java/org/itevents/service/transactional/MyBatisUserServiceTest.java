@@ -158,9 +158,6 @@ public class MyBatisUserServiceTest {
         doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser), any(String.class));
 
         userService.addSubscriber(testUser.getLogin(), password);
-
-        verify(roleService).getRoleByName(GUEST_ROLE_NAME);
-        verify(passwordEncoder).encode(password);
     }
 
     @Test
