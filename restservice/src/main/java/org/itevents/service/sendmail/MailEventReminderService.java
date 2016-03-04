@@ -34,7 +34,7 @@ public class MailEventReminderService implements EventReminderService {
     @Inject
     private MailService mailService;
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(MailEventReminderService.class);
 
     @Override
     public void remind() {
