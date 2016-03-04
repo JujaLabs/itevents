@@ -7,6 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/*
+* @TODO: replace DateTimeUtil class with OOP alternative;
+* @TODO: add interface Clock and its implementations for production and test environments;
+* created in: https://github.com/JuniorsJava/itevents/issues/125
+* issue for to-do: https://github.com/JuniorsJava/itevents/issues/172
+*/
+
 @Component
 public class DateTimeUtil {
 
