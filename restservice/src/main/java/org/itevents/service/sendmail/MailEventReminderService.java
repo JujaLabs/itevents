@@ -34,8 +34,6 @@ public class MailEventReminderService implements EventReminderService {
     @Inject
     private MailService mailService;
 
-    private static final Logger LOGGER = LogManager.getLogger(MailEventReminderService.class);
-
     @Override
     public void remind() {
         Multimap<User,Event> usersAndEventsToRemind = getUsersAndEventsByDaysTillEvent();
@@ -61,7 +59,6 @@ public class MailEventReminderService implements EventReminderService {
         try {
             return mailBuilderUtil.buildHtmlFromEventsList(events);
         } catch (Exception e) {
-            LOGGER.error("Error build mail for user");
             throw new BuildMailException("Build mail for user error:", e);
         }
     }
