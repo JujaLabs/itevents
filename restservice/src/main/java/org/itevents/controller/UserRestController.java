@@ -1,23 +1,35 @@
 package org.itevents.controller;
 
+import com.sendgrid.SendGrid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
+import javax.inject.Inject;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
+import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
+import org.itevents.service.sendmail.SendGridMailService;
+import org.itevents.util.OneTimePassword.OneTimePassword;
+import org.itevents.util.mail.MailBuilderUtil;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import static org.apache.logging.log4j.LogManager.exists;
 
 @RestController
 @Api("Users")
@@ -29,6 +41,14 @@ public class UserRestController {
     private EventService eventService;
     @Inject
     private FilterService filterService;
+    @Inject
+    private RoleService roleService;
+    @Inject
+    private OneTimePassword oneTimePassword;
+    @Inject
+    private SendGridMailService mailService;
+    @Inject
+    private MailBuilderUtil mailBuilderUtil;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -49,9 +69,19 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ApiOperation(value = "Registers new Subscriber ")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void registerNewSubscriber(@ModelAttribute("username") String username,
-                                      @ModelAttribute("password") String password) throws Exception {
+    public ResponseEntity registerNewSubscriber(@ModelAttribute("username") String username,
+                                                @ModelAttribute("password") String password) throws Exception {
+        if (exists(username)) {
+            return new ResponseEntity(HttpStatus.IM_USED);
+        }
+        User user = UserBuilder.anUser()
+            .login(username)
+            .role(roleService.getRoleByName("subscriber"))
+            .build();
         userService.addSubscriber(username, password);
+        SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword),user.getLogin());
+        mailService.send(activationMail);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
