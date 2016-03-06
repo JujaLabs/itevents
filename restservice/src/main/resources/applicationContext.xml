@@ -34,4 +34,10 @@
     <bean id="sendgrid" class="com.sendgrid.SendGrid">
         <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
+
+    <bean id="builderUrl" class="org.itevents.util.mail.BuilderUrl">
+        <property name="serverName" value="${server.name}"/>
+        <property name="httpPort" value="${http.port}"/>
+    </bean>
+
 </beans>
