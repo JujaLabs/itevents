@@ -1,6 +1,5 @@
 package org.itevents.controller;
 
-import com.sendgrid.SendGrid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -79,8 +78,7 @@ public class UserRestController {
             .role(roleService.getRoleByName("subscriber"))
             .build();
         userService.addSubscriber(username, password);
-        SendGrid.Email activationMail = mailService.createMail(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword),user.getLogin());
-        mailService.send(activationMail);
+        mailService.sendMail(mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword),user.getLogin());
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
