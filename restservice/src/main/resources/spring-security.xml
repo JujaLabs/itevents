@@ -33,7 +33,7 @@
         <anonymous username="guest"/>
     </http>
     <beans:bean id="authenticationFailureHandler"
-                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+                class="org.itevents.service.security.JsonAuthenticationFailureHandler"/>
     <beans:bean id="logoutSuccessHandler"
                 class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
     <authentication-manager alias="authenticationManager">

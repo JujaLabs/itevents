@@ -1,5 +1,6 @@
 package org.itevents.service.security;
 
+import org.itevents.service.security.json_response.JsonAuthenticationFailureResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public final class RestAuthenticationEntryPoint implements AuthenticationEntryPo
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException authException) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        new JsonAuthenticationFailureResponse(response, authException).send();
     }
 
 }
