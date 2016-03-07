@@ -1,5 +1,6 @@
 package org.itevents.test_utils;
 
+import com.google.gson.JsonObject;
 import org.itevents.dao.model.*;
 import org.itevents.dao.model.builder.*;
 
@@ -540,7 +541,7 @@ public class BuilderUtil {
         return FilterBuilder.aFilter()
                 .city(buildCityKyiv())
                 .free(false)
-                .technologies(new ArrayList<Technology>())
+                .technologies(new ArrayList<>())
                 .id(-5)
                 .build();
     }
@@ -554,5 +555,19 @@ public class BuilderUtil {
                 .technology(buildTechnologyJavaScript())
                 .id(-6)
                 .build();
+    }
+
+    public static String buildUnauthorisedErrorAsJson(){
+        JsonObject json = new JsonObject();
+        json.addProperty("error", "unauthorised");
+        json.addProperty("description", "You need to be authenticated to access this page");
+        return json.toString();
+    }
+
+    public static String buildBadCredentialsErrorAsJson(){
+        JsonObject json = new JsonObject();
+        json.addProperty("error", "unauthorised");
+        json.addProperty("description", "You have entered wrong username or password");
+        return json.toString();
     }
 }

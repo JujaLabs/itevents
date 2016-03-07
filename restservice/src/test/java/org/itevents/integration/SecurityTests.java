@@ -4,6 +4,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.itevents.AbstractDbTest;
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -23,8 +24,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ContextConfiguration({
@@ -42,6 +42,8 @@ public class SecurityTests extends AbstractDbTest {
 	@Inject
 	private WebApplicationContext context;
 	private MockMvc mvc;
+	private final String UNAUTHORISED_ERROR_AS_JSON = BuilderUtil.buildUnauthorisedErrorAsJson();
+	private final String BAD_CREDENTIALS_ERROR_AS_JSON = BuilderUtil.buildBadCredentialsErrorAsJson();
 
 	@Before
 	public void setup() {
@@ -54,7 +56,8 @@ public class SecurityTests extends AbstractDbTest {
 				.param("username", "vlasov@email.com")
 				.param("password", "wrongPassword"))
 				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized());
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(BAD_CREDENTIALS_ERROR_AS_JSON));
 	}
 
 	@Test
@@ -88,7 +91,8 @@ public class SecurityTests extends AbstractDbTest {
 	public void shouldDenyAccessToAdminForAnonymous() throws Exception {
 		mvc.perform(get("/admin"))
 				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized());
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
 	}
 
 	@Test
@@ -126,5 +130,47 @@ public class SecurityTests extends AbstractDbTest {
 				.param("password", "password"))
                 .andExpect(authenticated().withUsername("guest"))
                 .andExpect(status().isCreated());
+	}
+
+	@Test
+	public void shouldReturnErrorWhenAssignAnonymousUserToEvent() throws Exception {
+		mvc.perform(post("/events/-1/assign"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenUnassignAnonymousUserFromEvent() throws Exception {
+		mvc.perform(post("/events/-1/unassign"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenSubscribeAnonymousUser() throws Exception {
+		mvc.perform(post("/users/subscribe"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenUnsubscribeAnonymousUser() throws Exception {
+		mvc.perform(post("/users/unsubscribe"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenAnonymousUserTryToGetEventsOfUser() throws Exception {
+		mvc.perform(post("/users/-1/events"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenRegisterAnonymousUserToEvent() throws Exception {
+		mvc.perform(post("/users/-1/events"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
 	}
 }
