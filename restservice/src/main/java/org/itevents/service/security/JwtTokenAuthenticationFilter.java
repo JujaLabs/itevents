@@ -23,7 +23,7 @@ import java.util.List;
 @Component("authenticationFilter")
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String AUTH_MARK = "Bearer ";
+    private static final String AUTHENTICATION_MARKER = "Bearer ";
 
     @Inject
     private AuthenticationManager authenticationManager;
@@ -45,18 +45,16 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws IOException, ServletException {
         String header = request.getHeader("Authorization");
-        if(header != null && header.startsWith(AUTH_MARK)) {
+        if(header != null && header.startsWith(AUTHENTICATION_MARKER)) {
             try {
-                String encryptToken = header.substring(AUTH_MARK.length());
+                String encryptToken = header.substring(AUTHENTICATION_MARKER.length());
                 Authentication auth = createAuthentication(encryptToken);
                 authorizeUser(auth);
-            } catch (AuthenticationException var10) {
+            } catch (AuthenticationException e) {
                 SecurityContextHolder.clearContext();
+            } finally {
                 chain.doFilter(request, response);
-
-                return;
             }
-            chain.doFilter(request, response);
         } else {
             chain.doFilter(request, response);
         }
@@ -66,14 +64,14 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    private Authentication createAuthentication(String encryptToken) {
-        Token token = cryptTokenService.decrypt(encryptToken);
+    private Authentication createAuthentication(String encryptedToken) {
+        Token token = cryptTokenService.decrypt(encryptedToken);
 
-        List<GrantedAuthority> authorityList
+        List<GrantedAuthority> authorities
                 = AuthorityUtils.commaSeparatedStringToAuthorityList(token.getRole());
 
         UsernamePasswordAuthenticationToken authRequest =
-                new UsernamePasswordAuthenticationToken(token.getUsername(), encryptToken, authorityList);
+                new UsernamePasswordAuthenticationToken(token.getUsername(), encryptedToken, authorities);
 
         return this.authenticationManager.authenticate(authRequest);
     }

@@ -84,7 +84,7 @@ public class JwtTokenAuthenticationFilterTest {
     }
 
     @Test
-    public void shouldCallChaneDoFilterWhenThawAuthenticationException() throws Exception {
+    public void shouldCallChainDoFilterWhenThrowAuthenticationException() throws Exception {
         String encoded_token = "someEncodedToken";
 
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -101,7 +101,7 @@ public class JwtTokenAuthenticationFilterTest {
     }
 
     @Test
-    public void shouldCallChaneDoFilterWhenHeaderIsNull() throws Exception {
+    public void shouldCallChainDoFilterWhenHeaderIsNull() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         FilterChain filterChain = mock(FilterChain.class);
         when(request.getHeader("Authorization")).thenReturn(null);
@@ -112,7 +112,7 @@ public class JwtTokenAuthenticationFilterTest {
     }
 
     @Test
-    public void shouldCallChaneDoFilterWhenHeaderIsNotValid() throws Exception {
+    public void shouldCallChainDoFilterWhenHeaderIsNotValid() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         FilterChain filterChain = mock(FilterChain.class);
         HttpServletResponse response = mock(HttpServletResponse.class);

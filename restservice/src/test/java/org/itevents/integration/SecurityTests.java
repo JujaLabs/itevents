@@ -49,10 +49,10 @@ public class SecurityTests {
 	}
 
 	@Test
-	@WithMockUser(username="kuchin@email.com", roles={"admin"})
+	@WithMockUser(username="kuchin@email.com", roles={"ADMIN"})
 	public void shouldGrantAccessToAdminForAdmin() throws Exception {
 		mvc.perform(get("/admin"))
-				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("admin"))
+				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
 				.andExpect(status().isOk());
 	}
 

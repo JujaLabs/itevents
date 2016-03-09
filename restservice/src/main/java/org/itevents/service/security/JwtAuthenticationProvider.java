@@ -3,6 +3,7 @@ package org.itevents.service.security;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +26,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         String login = (String) authentication.getPrincipal();
         String token = (String) authentication.getCredentials();
 
-        return new AuthenticatedUser(
-                login,
-                token,
-                authentication.getAuthorities()
-        );
+        return new User(login, token, true, true, true, true, authentication.getAuthorities());
     }
 
 }
