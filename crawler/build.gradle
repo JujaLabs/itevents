@@ -1,0 +1,19 @@
+group 'org.itevents'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+
+configurations {
+    compile.extendsFrom configurations.springFramework
+    compile.extendsFrom configurations.javaxInject
+    compile.extendsFrom configurations.dao
+    testCompile.extendsFrom configurations.testing
+}
+
+dependencies {
+    compile project(':restservice')
+    testCompile project(':restservice')
+}
+test.dependsOn "liquibaseTestUpdate"
+
+mainClassName = 'org.itevents.service.CrawlerService'
