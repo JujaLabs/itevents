@@ -3,6 +3,11 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
 
+jar {
+    archiveName = 'crawler.jar'
+    destinationDir = file('../webapps')
+}
+
 configurations {
     compile.extendsFrom configurations.springFramework
     compile.extendsFrom configurations.javaxInject
