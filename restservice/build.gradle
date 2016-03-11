@@ -30,46 +30,6 @@ test {
     }
 }
 
-dependencies {
-    compile 'org.springframework:spring-core:4.1.6.RELEASE'
-    compile 'org.springframework:spring-web:4.1.6.RELEASE'
-    compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
-    compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
-    compile 'org.springframework:spring-tx:4.1.6.RELEASE'
-    compile 'org.springframework:spring-context-support:4.1.6.RELEASE'
-    compile 'org.springframework.security:spring-security-core:4.0.2.RELEASE'
-    compile 'org.springframework.security:spring-security-web:4.0.2.RELEASE'
-    compile 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
-    compile 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
-    compile 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
-    compile 'javax.inject:javax.inject:1'
-    compile 'javax.servlet:javax.servlet-api:3.1.0'
-    compile 'javax.servlet:jstl:1.2'
-    compile 'org.mybatis:mybatis:3.3.0'
-    compile 'org.mybatis:mybatis-spring:1.2.3'
-    compile 'org.postgresql:postgresql:9.4-1201-jdbc41'
-    compile 'org.apache.logging.log4j:log4j-api:2.3'
-    compile 'org.apache.logging.log4j:log4j-core:2.3'
-    compile 'org.apache.logging.log4j:log4j-web:2.3'
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
-    compile 'org.jvnet.ws.wadl:wadl-core:1.1.6'
-    compile 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
-    compile 'io.springfox:springfox-swagger2:2.1.1'
-    compile 'com.sendgrid:sendgrid-java:2.2.2'
-    compile 'io.jsonwebtoken:jjwt:0.6.0'
-    compile 'org.hibernate:hibernate-validator:5.2.2.Final'
-    compile 'javax.el:javax.el-api:3.0.0'
-    liquibase 'org.postgresql:postgresql:9.4-1201-jdbc41'
-    liquibase 'org.liquibase:liquibase-core:3.4.1'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
-    testCompile 'org.dbunit:dbunit:2.5.1'
-    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
-    testCompile 'org.postgis:postgis-jdbc:1.1.6'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'org.skyscreamer:jsonassert:1.2.3'
-}
-
 Properties properties = new Properties()
 
 

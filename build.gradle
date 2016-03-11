@@ -41,6 +41,7 @@ subprojects {
         springSecurity 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
         springSecurity 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
         springSecurity 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
+        springSecurity 'io.jsonwebtoken:jjwt:0.6.0'
         javaxInject 'javax.inject:javax.inject:1'
         javaxServlet 'javax.servlet:javax.servlet-api:3.1.0'
         javaxServlet 'javax.servlet:jstl:1.2'
