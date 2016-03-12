@@ -10,7 +10,11 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="org.itevents.controller"/>
-    <mvc:annotation-driven />
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="defaultContentType" value="application/json" />
+    </bean>
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <bean class="org.itevents.controller.swagger.SwaggerCustomConfig"/>
@@ -38,6 +42,8 @@
           class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="en"/>
     </bean>
+    
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">

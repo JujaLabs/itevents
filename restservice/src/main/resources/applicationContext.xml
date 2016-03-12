@@ -11,10 +11,11 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
     <import resource="password-encoder.xml"/>
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
-    <context:component-scan base-package="org.itevents.service"/>
+    <context:component-scan base-package="org.itevents.service.transactional"/>
+    <context:component-scan base-package="org.itevents.service.sendmail"/>
     <context:component-scan base-package="org.itevents.util"/>
     <context:component-scan base-package="org.itevents.dao.mybatis.sql_session_dao"/>
-    <context:property-placeholder location="classpath*:local.properties"/>
+    <context:property-placeholder  location="classpath:global.properties, classpath:local.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${database.driver}"/>

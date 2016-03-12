@@ -6,13 +6,15 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
+import org.itevents.service.*;
+import org.itevents.util.time.DateTimeUtil;
+import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
 import org.itevents.service.UserService;
-import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +31,20 @@ public class UserRestController {
     private EventService eventService;
     @Inject
     private FilterService filterService;
+    @Inject
+    private TokenService tokenService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
     @RequestMapping(method = RequestMethod.POST, value = "login")
-    public void login() {
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "logout")
-    public void logout() {
+    @ApiOperation(value = "Generate authorization token")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TokenWrapper login(@ModelAttribute("username") String username,
+                              @ModelAttribute("password") String password) {
+        String token = tokenService.createToken(username, password);
+        return new TokenWrapper(token);
     }
 
     @ApiImplicitParams({
@@ -52,6 +57,13 @@ public class UserRestController {
     public void registerNewSubscriber(@ModelAttribute("username") String username,
                                       @ModelAttribute("password") String password) throws Exception {
         userService.addSubscriber(username, password);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "me")
+    @ApiOperation(value = "Returns authorization user")
+    @ResponseStatus(value = HttpStatus.OK)
+    public User getMe() {
+        return userService.getAuthorizedUser();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}")
