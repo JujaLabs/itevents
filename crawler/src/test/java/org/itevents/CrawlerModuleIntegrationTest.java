@@ -18,8 +18,8 @@ import static org.junit.Assert.assertNotNull;
  * https://objectpartners.com/2012/01/26/building-with-gradle/
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:applicationContext.xml"})
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
+@ContextConfiguration("classpath:applicationContext.xml")
+@TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
 public class CrawlerModuleIntegrationTest {
 
     @Inject
