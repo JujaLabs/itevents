@@ -38,8 +38,8 @@ public class MailBuilderUtil {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
 
-    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword)  throws Exception {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
+    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword, String confirmationUrl)  throws Exception {
+        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword, confirmationUrl));
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
@@ -71,10 +71,11 @@ public class MailBuilderUtil {
         return mailStringWriter.toString();
     }
 
-    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException, IOException {
+    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword, String confirmationUrl) throws JAXBException, IOException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOneTimePassword(oneTimePassword);
+        userOtpXmlWrapper.setUrl(confirmationUrl);
 
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

@@ -6,8 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
-import org.apache.xalan.extensions.XSLProcessorContext;
-import org.apache.xalan.templates.ElemExtensionCall;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
@@ -41,12 +39,11 @@ public class MailBuilderUtilTest {
 
     @Test
     public void shouldReturnMailWithActivationLink()  throws Exception {
-        XSLProcessorContext context = null;
-        ElemExtensionCall elem = null;
         int twoMonthInHours = 1440;
         User user = BuilderUtil.buildUserAnakin();
+        String confirmationUrl = "http://localhost:8080/users/activate/68eeea0d-f89d-4634-aa52-67da452eadb0";
         oneTimePassword.generateOtp(twoMonthInHours);
-        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword);
+        String returnedUserOtpEmail = mailBuilderUtil.buildHtmlFromUserOtp(user, oneTimePassword, confirmationUrl);
         assertEquals(expectedUserOtpEmail,returnedUserOtpEmail);
     }
 }

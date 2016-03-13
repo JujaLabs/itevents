@@ -123,13 +123,14 @@ public class MyBatisUserServiceTest {
         String encodedPassword = "encodedPassword";
         OneTimePassword otp = new OneTimePassword();
         otp.generateOtp(24);
+        String confirmationUrl = "http://localhost:8080/users/activate/68eeea0d-f89d-4634-aa52-67da452eadb0";
         String email = "email";
 
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
         when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
         doNothing().when(userDao).addUser(eq(testUser), eq(encodedPassword));
         when(oneTimePassword.generateOtp(24)).thenReturn(otp);
-        when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp)).thenReturn(email);
+        when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp, confirmationUrl)).thenReturn(email);
 
         userService.addSubscriber(testUser.getLogin(), password);
 
