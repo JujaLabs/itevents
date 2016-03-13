@@ -11,6 +11,7 @@ import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.test_utils.FrozenClock;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -41,6 +42,8 @@ public class UserRestControllerTest extends AbstractControllerTest {
     private EventService eventService;
     @Mock
     private TokenService tokenService;
+    @Mock
+    private FrozenClock clock;
 
     @InjectMocks
     private UserRestController userRestController;

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.service.*;
+import org.itevents.util.time.Clock;
 import org.itevents.util.time.DateTimeUtil;
 import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.Event;
@@ -33,6 +34,8 @@ public class UserRestController {
     private FilterService filterService;
     @Inject
     private TokenService tokenService;
+    @Inject
+    private Clock clock;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -77,7 +80,7 @@ public class UserRestController {
     @ResponseStatus(value = HttpStatus.OK)
     public void activateSubscription(@ModelAttribute FilterWrapper wrapper) {
         Filter filter = new FilterConverter().toFilter(wrapper);
-        filter.setCreateDate(DateTimeUtil.getNowDate());
+        filter.setCreateDate(clock.getNowDateTime());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);
         userService.activateUserSubscription(user);

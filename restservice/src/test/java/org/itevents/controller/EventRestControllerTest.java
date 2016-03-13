@@ -9,6 +9,7 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.test_utils.FrozenClock;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,6 +33,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
     private UserService userService;
     @Mock
     private VisitLogService visitLogService;
+    @Mock
+    private FrozenClock clock;
     @InjectMocks
     private EventRestController eventRestController;
 

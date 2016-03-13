@@ -12,6 +12,7 @@ import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
+import org.itevents.util.time.Clock;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequestMapping("/events")
 @Validated
 public class EventRestController {
+    public static final int MAXIMUM_LENGTH_OF_UNASSIGN_REASON = 250;
     @Inject
     private EventService eventService;
     @Inject
@@ -34,6 +36,8 @@ public class EventRestController {
     private VisitLogService visitLogService;
     @Inject
     private FilterConverter filterConverter;
+    @Inject
+    private Clock clock;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ApiOperation(value = "Returns one event with the given id")
@@ -66,7 +70,7 @@ public class EventRestController {
             String unassignReason ) {
         Event event = eventService.getFutureEvent(eventId);
         User user = userService.getAuthorizedUser();
-        eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(),unassignReason);
+        eventService.unassignUserFromEvent(user, event, clock.getNowDateTime(),unassignReason);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")
@@ -86,7 +90,7 @@ public class EventRestController {
         VisitLog visitLog = VisitLogBuilder.aVisitLog()
                 .event(event)
                 .user(user)
-                .date(DateTimeUtil.getNowDate())
+                .date(clock.getNowDateTime())
                 .build();
         visitLogService.addVisitLog(visitLog);
         return event.getRegLink();
