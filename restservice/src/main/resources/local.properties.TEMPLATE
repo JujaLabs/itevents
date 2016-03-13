@@ -13,5 +13,6 @@ sendgrid.api.key=SEND_GRID_TOKEN
 http.port=8080
 stop.port=9080
 stop.key=stop
+server.name=localhost
 
 
