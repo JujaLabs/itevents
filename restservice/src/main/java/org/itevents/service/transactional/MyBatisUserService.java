@@ -48,6 +48,10 @@ public class MyBatisUserService implements UserService {
     private MailBuilderUtil mailBuilderUtil;
     @Value("${user.activation.otp.lifetime.hours}")
     private int otpLifetime;
+    @Value("${server.name}")
+    private String serverName;
+    @Value("${http.port}")
+    private String httpPort;
 
 
     private void addUser(User user, String password) {
@@ -81,7 +85,8 @@ public class MyBatisUserService implements UserService {
     }
 
     private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
-        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+        String confirmationUrl = "http://" + serverName + ":" + httpPort + "/users/activate/" + oneTimePassword;
+        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp, confirmationUrl);
         mailService.sendMail(email, user.getLogin());
     }
 
