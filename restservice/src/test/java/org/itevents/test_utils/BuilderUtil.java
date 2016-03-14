@@ -68,6 +68,7 @@ public class BuilderUtil {
                 .city(buildCityKyiv())
                 .technologies(technologies)
                 .id(-1)
+                .description("Java event in Kyiv")
                 .build();
     }
 
@@ -188,6 +189,7 @@ public class BuilderUtil {
                 .contact("ruby@gmail.com")
                 .city(buildCityKyiv())
                 .id(-8)
+                .description("Ruby event in Kyiv")
                 .build();
     }
 
