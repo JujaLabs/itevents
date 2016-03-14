@@ -136,7 +136,7 @@ public class MyBatisUserServiceTest {
         userService.addSubscriber(testLogin, password);
 
         verify(roleService).getRoleByName(GUEST_ROLE_NAME);
-        verify(userDao).addUser(eq(testUser), eq(encodedPassword));
+        verify(userDao).addUser(testUser, encodedPassword);
         verify(passwordEncoder).encode(password);
         verify(oneTimePassword).generateOtp(OTP_LIFETIME_IN_HOURS);
         verify(userDao).setOtpToUser(testUser, otp);
