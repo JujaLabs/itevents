@@ -18,8 +18,9 @@ import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -62,6 +63,9 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -144,7 +148,7 @@ public class MyBatisUserServiceTest {
 
     }
 
-    @Test(expected = EntityAlreadyExistsServiceException.class)
+    @Test
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
         String testLogin = "test@example.com";
         User testUser = UserBuilder.anUser()
@@ -155,7 +159,10 @@ public class MyBatisUserServiceTest {
         Role guestRole = BuilderUtil.buildRoleGuest();
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser), any(String.class));
+        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException()))
+                .when(userDao).addUser(eq(testUser), any(String.class));
+        expectedException.expect(EntityAlreadyExistsServiceException.class);
+        expectedException.expectMessage("User test@example.com already registered");
 
         userService.addSubscriber(testUser.getLogin(), password);
     }
