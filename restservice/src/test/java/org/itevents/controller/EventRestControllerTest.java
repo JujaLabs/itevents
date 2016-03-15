@@ -9,16 +9,17 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.test_utils.FrozenClock;
+import org.itevents.util.time.Clock;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,7 +35,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Mock
     private VisitLogService visitLogService;
     @Mock
-    private FrozenClock clock;
+    private Clock clock;
     @InjectMocks
     private EventRestController eventRestController;
 
@@ -74,13 +75,20 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         User user = BuilderUtil.buildUserAnakin();
         String validUnassignReason = "test";
+        Date nowDate = new Date();
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
+        when(clock.getNowDateTime()).thenReturn(nowDate);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validUnassignReason))
                 .andExpect(status().isOk());
+
+        verify(eventService).getFutureEvent(event.getId());
+        verify(userService).getAuthorizedUser();
+        verify(clock).getNowDateTime();
+        verify(eventService).unassignUserFromEvent(user, event, nowDate, validUnassignReason);
     }
 
     @Test
@@ -99,17 +107,27 @@ public class EventRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
+    public void shouldRegisterUserToEventAndReturnUrlToEventSite() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         User userGuest = BuilderUtil.buildUserGuest();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
+        Date nowDate = new Date();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(userGuest)
+                .date(nowDate)
+                .build();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
-        doNothing().when(visitLogService).addVisitLog(visitLog);
+        when(clock.getNowDateTime()).thenReturn(nowDate);
 
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
+
+        verify(eventService).getEvent(event.getId());
+        verify(userService).getAuthorizedUser();
+        verify(visitLogService).addVisitLog(visitLog);
+        verify(clock).getNowDateTime();
     }
 }

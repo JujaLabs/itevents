@@ -13,7 +13,6 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.util.time.Clock;
-import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,6 @@ import java.util.List;
 @RequestMapping("/events")
 @Validated
 public class EventRestController {
-    public static final int MAXIMUM_LENGTH_OF_UNASSIGN_REASON = 250;
     @Inject
     private EventService eventService;
     @Inject
@@ -84,7 +82,7 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/register")
     @ApiOperation(value = "Redirects to to given event page")
     @ResponseStatus(HttpStatus.OK)
-    public String redirectToEventSite(@PathVariable("event_id") int eventId) {
+    public String registerUserToEventAndReturnUrlToEventSite(@PathVariable("event_id") int eventId) {
         Event event = eventService.getEvent(eventId);
         User user = userService.getAuthorizedUser();
         VisitLog visitLog = VisitLogBuilder.aVisitLog()
