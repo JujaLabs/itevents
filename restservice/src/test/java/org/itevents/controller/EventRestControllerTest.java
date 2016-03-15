@@ -61,7 +61,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildSubscriberTest();
+        User user = BuilderUtil.buildTestSubscriber();
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);

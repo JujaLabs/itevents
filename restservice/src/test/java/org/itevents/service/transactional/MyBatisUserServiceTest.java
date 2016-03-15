@@ -180,7 +180,7 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldDeactivateUserSubscription() throws Exception {
-        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        User testSubscriber = BuilderUtil.buildTestSubscriber();
         boolean expectedSubscribed = false;
 
         doNothing().when(userDao).updateUser(testSubscriber);

@@ -6,16 +6,15 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
-import org.itevents.service.*;
-import org.itevents.util.time.Clock;
-import org.itevents.util.time.DateTimeUtil;
 import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
+import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
+import org.itevents.util.time.Clock;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +35,8 @@ public class UserRestController {
     private TokenService tokenService;
     @Inject
     private Clock clock;
+    @Inject
+    private FilterConverter filterConverter;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
@@ -79,7 +80,7 @@ public class UserRestController {
     @ApiOperation(value = "Activates authorized user's e-mail subscription with filter")
     @ResponseStatus(value = HttpStatus.OK)
     public void activateSubscription(@ModelAttribute FilterWrapper wrapper) {
-        Filter filter = new FilterConverter().toFilter(wrapper);
+        Filter filter = filterConverter.toFilter(wrapper);
         filter.setCreateDate(clock.getNowDateTime());
         User user = userService.getAuthorizedUser();
         filterService.addFilter(user, filter);

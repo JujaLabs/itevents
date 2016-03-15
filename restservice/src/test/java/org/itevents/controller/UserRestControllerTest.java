@@ -1,17 +1,14 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
-
-import org.itevents.service.*;
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
-import org.itevents.service.EventService;
-import org.itevents.service.FilterService;
-import org.itevents.service.RoleService;
-import org.itevents.service.UserService;
+import org.itevents.service.*;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.test_utils.FrozenClock;
+import org.itevents.util.time.Clock;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -43,7 +41,9 @@ public class UserRestControllerTest extends AbstractControllerTest {
     @Mock
     private TokenService tokenService;
     @Mock
-    private FrozenClock clock;
+    private Clock clock;
+    @Mock
+    private FilterConverter filterConverter;
 
     @InjectMocks
     private UserRestController userRestController;
@@ -71,24 +71,30 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
-    public void shouldAddFilterForSubscription() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
+    public void shouldActivateSubscription() throws Exception {
+        User user = BuilderUtil.buildTestSubscriber();
+        Filter kyivFilter = BuilderUtil.buildKyivFilter();
+        FilterWrapper kyivFilterWrapper = new FilterWrapper();
+        kyivFilterWrapper.setCityId(-1);
+        Date nowDate = new Date();
 
+        when(clock.getNowDateTime()).thenReturn(nowDate);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        doNothing().when(filterService).addFilter(eq(user), any(Filter.class));
-        doNothing().when(userService).activateUserSubscription(user);
+        when(filterConverter.toFilter(kyivFilterWrapper)).thenReturn(kyivFilter);
 
-        mockMvc.perform(get("/users/subscribe"))
+        mockMvc.perform(get("/users/subscribe").param("cityId", "-1"))
                 .andExpect(status().isOk());
 
+        verify(clock).getNowDateTime();
         verify(userService).getAuthorizedUser();
         verify(userService).activateUserSubscription(user);
-        verify(filterService).addFilter(eq(user), any(Filter.class));
+        verify(filterService).addFilter(user, kyivFilter);
+        verify(filterConverter).toFilter(kyivFilterWrapper);
     }
 
     @Test
     public void shouldDeactivateSubscription() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
+        User user = BuilderUtil.buildTestSubscriber();
 
         when(userService.getAuthorizedUser()).thenReturn(user);
         doNothing().when(userService).deactivateUserSubscription(user);

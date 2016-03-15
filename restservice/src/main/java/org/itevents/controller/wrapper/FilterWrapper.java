@@ -94,4 +94,36 @@ public class FilterWrapper {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FilterWrapper that = (FilterWrapper) o;
+
+        if (page != null ? !page.equals(that.page) : that.page != null) return false;
+        if (itemsPerPage != null ? !itemsPerPage.equals(that.itemsPerPage) : that.itemsPerPage != null) return false;
+        if (cityId != null ? !cityId.equals(that.cityId) : that.cityId != null) return false;
+        if (free != null ? !free.equals(that.free) : that.free != null) return false;
+        if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
+        if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
+        if (radius != null ? !radius.equals(that.radius) : that.radius != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(techTag, that.techTag);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = page != null ? page.hashCode() : 0;
+        result = 31 * result + (itemsPerPage != null ? itemsPerPage.hashCode() : 0);
+        result = 31 * result + (cityId != null ? cityId.hashCode() : 0);
+        result = 31 * result + (free != null ? free.hashCode() : 0);
+        result = 31 * result + (lat != null ? lat.hashCode() : 0);
+        result = 31 * result + (lon != null ? lon.hashCode() : 0);
+        result = 31 * result + (radius != null ? radius.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(techTag);
+        return result;
+    }
 }
