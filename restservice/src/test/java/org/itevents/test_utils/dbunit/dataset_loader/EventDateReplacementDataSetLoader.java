@@ -3,11 +3,10 @@ package org.itevents.test_utils.dbunit.dataset_loader;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.itevents.util.time.Clock;
-import org.itevents.util.time.FormattedDateTime;
+import org.itevents.util.time.CustomDateTime;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,10 +50,10 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
         String formattedDateTimeString;
         if (regexDateTemplateMatcher.find()) {
             int incrementingDaysCount = Integer.parseInt(regexDateTemplateMatcher.group(1));
-            LocalDateTime incrementedLocalDateTime = clock.getNowLocalDateTime().plusDays(incrementingDaysCount);
-            FormattedDateTime formattedDateTime
-                    = new FormattedDateTime(incrementedLocalDateTime, DATE_TIME_FORMAT_FOR_DATABASE);
-            formattedDateTimeString = formattedDateTime.buildFormatedDateTimeString();
+            CustomDateTime incrementedDateTime = new CustomDateTime()
+                    .withLocalDateTime(clock.getNowLocalDateTime().plusDays(incrementingDaysCount))
+                    .withFormat(DATE_TIME_FORMAT_FOR_DATABASE);
+            formattedDateTimeString = incrementedDateTime.toString();
         } else {
             formattedDateTimeString =  dateTemplate;
         }
