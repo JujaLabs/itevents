@@ -6,6 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
+import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.mybatis.sql_session_dao.UserMyBatisDao;
 import org.itevents.dao.model.Event;
@@ -157,4 +158,11 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
         OneTimePassword otp = oneTimePassword.generateOtp(1);
         userMyBatisDao.getUserByOtp(otp);
     }
+
+    @Test(expected = EntityAlreadyExistsDaoException.class)
+    public void shouldThrowEntityAlreadyExistDaoExceptionWhenAddExistingSubscriber() throws Exception {
+        User existingUser = BuilderUtil.buildUserAnakin();
+        userMyBatisDao.addUser(existingUser, "password");
+    }
+
 }
