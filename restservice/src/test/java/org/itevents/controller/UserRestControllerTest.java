@@ -29,13 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserRestControllerTest extends AbstractControllerTest {
 
     @Mock
-    private RoleService roleService;
-    @Mock
     private UserService userService;
     @Mock
     private FilterService filterService;
-    @Mock
-    private PasswordEncoder passwordEncoder;
     @Mock
     private EventService eventService;
     @Mock

@@ -48,8 +48,6 @@ public class MyBatisUserServiceTest {
     @Mock
     private UserDao userDao;
     @Mock
-    private EventDao eventDao;
-    @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
     private RoleService roleService;

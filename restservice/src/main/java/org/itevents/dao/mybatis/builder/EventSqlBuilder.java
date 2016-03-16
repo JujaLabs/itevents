@@ -44,7 +44,7 @@ public class EventSqlBuilder {
             if (params.getCity() != null) {
                 WHERE("city_id = #{city.id}");
             }
-            if (params.getCity() == null && (params.getLatitude() != null)) {
+            if (params.getCity() == null && params.getLatitude() != null) {
                 WHERE("ST_DWithin((point)::geography, ST_MakePoint(#{longitude},#{latitude})::geography, #{radius})");
             }
             if (params.getFree() != null) {
