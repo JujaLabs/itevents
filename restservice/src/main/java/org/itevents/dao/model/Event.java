@@ -5,7 +5,8 @@ import org.itevents.util.mail.adapters.DateAdapter;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
@@ -39,8 +40,19 @@ public class Event implements Serializable {
     @XmlElementWrapper(name = "technologies")
     @XmlElement(name = "technology")
     private List<Technology> technologies;
+    @XmlElement
+    private String description;
+
 
     public Event() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getId() {
@@ -156,7 +168,8 @@ public class Event implements Serializable {
         if (price != null ? !price.equals(event.price) : event.price != null) return false;
         if (currency != null ? !currency.equals(event.currency) : event.currency != null) return false;
         if (city != null ? !city.equals(event.city) : event.city != null) return false;
-        return !(technologies != null ? !technologies.equals(event.technologies) : event.technologies != null);
+        if (technologies != null ? !technologies.equals(event.technologies) : event.technologies != null) return false;
+        return description != null ? description.equals(event.description) : event.description == null;
 
     }
 
@@ -173,6 +186,7 @@ public class Event implements Serializable {
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (technologies != null ? technologies.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
@@ -191,6 +205,7 @@ public class Event implements Serializable {
         sb.append(", currency=").append(currency);
         sb.append(", city=").append(city);
         sb.append(", technologies=").append(technologies);
+        sb.append(", description='").append(description).append('\'');
         sb.append('}');
         return sb.toString();
     }
