@@ -294,4 +294,12 @@ public class MyBatisUserServiceTest {
 
         userService.activateUserWithOtp(stringOtp);
     }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionIfOtpIsInvalid() throws Exception {
+        String stringOtp = "otp";
+
+        doThrow(EntityNotFoundDaoException.class).when(userDao).getOtp(stringOtp);
+
+    }
 }
