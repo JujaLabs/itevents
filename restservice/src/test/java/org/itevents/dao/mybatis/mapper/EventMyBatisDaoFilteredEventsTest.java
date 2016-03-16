@@ -5,11 +5,10 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import org.itevents.AbstractDbTest;
-import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
+import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.test_utils.dbunit.dataset_loader.EventDateReplacementDataSetLoader;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -19,7 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoader = EventDateReplacementDataSetLoader.class)
+@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection", dataSetLoaderBean = "eventDateReplacementDataSetLoader")
 @DatabaseSetup(value = EventMyBatisDaoFilteredEventsTest.TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.CLEAN_INSERT)
 @DatabaseTearDown(value = EventMyBatisDaoFilteredEventsTest.TEST_PATH + "MailFilterUtilTest_initial.xml", type = DatabaseOperation.DELETE_ALL)
 public class EventMyBatisDaoFilteredEventsTest extends AbstractDbTest {

@@ -15,7 +15,7 @@ import org.itevents.dao.model.Technology;
 import org.itevents.dao.model.User;
 import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.time.DateTimeUtil;
+import org.itevents.util.time.FormattedDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -212,7 +212,9 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
 
-        Date unassignDate = DateTimeUtil.yyyyMMddStringToDate("2115.07.20");
+        Date unassignDate = new FormattedDateTime("yyyy.MM.dd")
+                .parseFormattedDateTimeFromString("2115.07.20")
+                .getDateTime();
         String unassignReason = "test";
 
         eventMyBatisDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);

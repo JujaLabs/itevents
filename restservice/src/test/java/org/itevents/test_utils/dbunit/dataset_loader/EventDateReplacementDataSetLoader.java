@@ -2,8 +2,12 @@ package org.itevents.test_utils.dbunit.dataset_loader;
 
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
-import org.itevents.util.time.DateTimeUtil;
+import org.itevents.util.time.Clock;
+import org.itevents.util.time.FormattedDateTime;
+import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,12 +16,16 @@ import java.util.regex.Pattern;
 /**
  * Created by roma on 13.10.15.
  */
+@Component
 public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSetLoader {
 
     private static final String EVENT_TABLE_NAME = "event";
     private static final String EVENT_DATE_COLUMN_NAME = "event_date";
     private static final String DATE_TEMPLATE_REGEXP = "\\{now([+-]\\d+)\\}"; // {now+5}, {now-10}
     private static final String DATE_TIME_FORMAT_FOR_DATABASE = "yyyy-MM-dd HH:mm:ss";
+
+    @Inject
+    private Clock clock;
 
     @Override
     protected void replace() throws DataSetException {
@@ -38,16 +46,18 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
     }
 
     private String buildFormattedDateFromDateTemplate(String dateTemplate) {
-        Matcher regexMatcher = Pattern.compile(DATE_TEMPLATE_REGEXP)
+        Matcher regexDateTemplateMatcher = Pattern.compile(DATE_TEMPLATE_REGEXP)
                 .matcher(dateTemplate);
-        if (regexMatcher.find()) {
-            return regexMatcher.replaceAll(
-                    DateTimeUtil.getFormattedNowDatePlusDays(
-                            Integer.parseInt(regexMatcher.group(1)), DATE_TIME_FORMAT_FOR_DATABASE
-                    )
-            );
+        String formattedDateTimeString;
+        if (regexDateTemplateMatcher.find()) {
+            int incrementingDaysCount = Integer.parseInt(regexDateTemplateMatcher.group(1));
+            LocalDateTime incrementedLocalDateTime = clock.getNowLocalDateTime().plusDays(incrementingDaysCount);
+            FormattedDateTime formattedDateTime
+                    = new FormattedDateTime(incrementedLocalDateTime, DATE_TIME_FORMAT_FOR_DATABASE);
+            formattedDateTimeString = formattedDateTime.buildFormatedDateTimeString();
         } else {
-            return dateTemplate;
+            formattedDateTimeString =  dateTemplate;
         }
+        return formattedDateTimeString;
     }
 }
