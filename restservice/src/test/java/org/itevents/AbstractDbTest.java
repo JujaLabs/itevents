@@ -11,7 +11,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:applicationContext.xml",
                         "classpath:dbUnitDatabaseConnection.xml",
-                        "classpath:eventDateReplacementDataSetLoader.xml"})
+                        "classpath:eventDateReplacementDataSetLoader.xml",
+                        "classpath:time-context.xml"})
 @TestPropertySource("classpath:test-local.properties")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionDbUnitTestExecutionListener.class})
 public abstract class AbstractDbTest {
