@@ -3,7 +3,6 @@ package org.itevents.service.scheduler;
 import org.itevents.service.NotificationService;
 import org.itevents.service.sendmail.BuildMailException;
 import org.itevents.service.sendmail.EventReminderService;
-import org.itevents.util.mail.MailBuilderUtil;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

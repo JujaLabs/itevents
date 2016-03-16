@@ -170,10 +170,4 @@ public class MyBatisEventServiceTest {
         return calendar.getTime();
     }
 
-    @Test
-    public void shouldReturnEventsByDate() throws Exception{
-        Date date = BuilderUtil.buildEventJava().getEventDate();
-        eventService.getEventsByDate(date);
-        verify(eventDao).getEventsByDate(date);
-    }
 }

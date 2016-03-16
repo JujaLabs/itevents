@@ -2,8 +2,6 @@ package org.itevents.service.sendmail;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.model.Event;

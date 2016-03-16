@@ -242,7 +242,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
 
     @Test
     public void shouldReturnEmptyListWhenEventsNotFounded() throws Exception {
-        List returnedEvents = eventMyBatisDao.getEventsByDate(new Date());
+        List returnedEvents = eventMyBatisDao.getEventsByDate(ABSENT_DATE);
         assertTrue(returnedEvents.isEmpty());
     }
 }

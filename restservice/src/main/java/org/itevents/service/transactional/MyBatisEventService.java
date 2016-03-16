@@ -96,11 +96,6 @@ public class MyBatisEventService implements EventService {
         return eventDao.getFilteredEventsWithRating(filter);
     }
 
-    @Override
-    public List<Event> getEventsByDate(Date eventDate){
-        return eventDao.getEventsByDate(eventDate);
-    }
-
     private boolean isAssigned(User user, Event event) {
         return getEventsByUser(user).contains(event);
     }

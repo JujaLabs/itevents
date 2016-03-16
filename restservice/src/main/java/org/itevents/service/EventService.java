@@ -26,6 +26,4 @@ public interface EventService {
     List<Event> getEventsByUser(User user);
 
     Event getFutureEvent(int eventId);
-
-    List<Event> getEventsByDate(Date eventDate);
 }
