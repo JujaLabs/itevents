@@ -299,7 +299,9 @@ public class MyBatisUserServiceTest {
     public void shouldThrowServiceExceptionIfOtpIsInvalid() throws Exception {
         String stringOtp = "otp";
 
-        doThrow(EntityNotFoundDaoException.class).when(userDao).getOtp(stringOtp);
+        doThrow(EntityNotFoundDaoException.class)
+                .when(userDao).getOtp(stringOtp);
 
+        userService.activateUserWithOtp(stringOtp);
     }
 }
