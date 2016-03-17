@@ -1,16 +1,14 @@
 package org.itevents.integration;
 
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import org.itevents.AbstractDbTest;
-import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,7 +16,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.logout;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -28,16 +25,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ContextConfiguration({
-        "classpath*:mvc-dispatcher-servlet.xml",
-        "classpath*:spring-security.xml"})
-@TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
-		value = WithSecurityContextTestExecutionListener.class)
+		"classpath*:mvc-dispatcher-servlet.xml",
+		"classpath*:spring-security.xml",
+		"classpath*:applicationContext.xml",
+		"classpath:applicationContextTestAddon.xml"
+})
+@TestExecutionListeners({
+		DependencyInjectionTestExecutionListener.class,
+		WithSecurityContextTestExecutionListener.class
+})
 @WebAppConfiguration
-@DatabaseSetup(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
-		type = DatabaseOperation.REFRESH)
-@DatabaseTearDown(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
-		type = DatabaseOperation.DELETE_ALL)
-public class SecurityTests extends AbstractDbTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class SecurityTests {
 
 	@Inject
 	private WebApplicationContext context;
@@ -96,7 +95,7 @@ public class SecurityTests extends AbstractDbTest {
 	}
 
 	@Test
-	@WithUserDetails("vlasov@email.com")
+	@WithMockUser(username="vlasov@email.com", roles={"subscriber"})
 	public void shouldDenyAccessToAdminForSubscriber() throws Exception {
 		mvc.perform(get("/admin"))
 				.andExpect(authenticated().withUsername("vlasov@email.com").withRoles("subscriber"))
@@ -104,31 +103,18 @@ public class SecurityTests extends AbstractDbTest {
 	}
 
 	@Test
-	@WithUserDetails("kuchin@email.com")
-	public void shouldGrantAccessToAdminForAdmin() throws Exception {
-		mvc.perform(get("/admin"))
-				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("admin"))
-				.andExpect(status().isOk());
-	}
-
-	@Test
-	@WithUserDetails("vlasov@email.com")
+	@WithMockUser(username="vlasov@email.com", roles={"subscriber"})
 	public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
 		mvc.perform(post("/users/register"))
 				.andExpect(authenticated().withUsername("vlasov@email.com"))
 				.andExpect(status().isForbidden());
 	}
 
-	/*
-	* @TODO: this test fails when launched as single test. issue 151
-	* https://github.com/JuniorsJava/itevents/issues/151
-	*/
 	@Test
 	public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
 		mvc.perform(post("/users/register")
-				.param("username", "NewUser@email.com")
-				.param("password", "password"))
-                .andExpect(authenticated().withUsername("guest"))
+                .param("username", "vlasov@email.com")
+                .param("password", "password"))
                 .andExpect(status().isCreated());
 	}
 

@@ -24,7 +24,8 @@
     <event id="-2" title="PHP" event_date="2115-07-20 00:00:00.0" reg_link="http://www.php.com.ua" address="Shulyavska"
            point="POINT(30.445495 50.454605)" contact="php@gmail.com" city_id="-3"/>
     <event id="-1" title="Java" event_date="2115-07-10 00:00:00.0" reg_link="http://www.java.com.ua"
-           address="Beresteyska" point="POINT(30.742017 50.458585)" contact="java@gmail.com" city_id="-1"/>
+           address="Beresteyska" point="POINT(30.742017 50.458585)" contact="java@gmail.com" city_id="-1"
+           description="Java event in Kyiv"/>
     <role id="-3" name="subscriber"/>
     <role id="-2" name="admin"/>
     <role id="-1" name="guest"/>

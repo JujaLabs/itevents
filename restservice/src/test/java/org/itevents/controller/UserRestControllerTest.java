@@ -1,6 +1,8 @@
 package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
+
+import org.itevents.service.*;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
@@ -37,6 +39,9 @@ public class UserRestControllerTest extends AbstractControllerTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private EventService eventService;
+    @Mock
+    private TokenService tokenService;
+
     @InjectMocks
     private UserRestController userRestController;
 
@@ -105,6 +110,15 @@ public class UserRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventsInJson));
+    }
+
+    @Test
+    public void shouldGenerateToken() throws Exception {
+        when(tokenService.createToken("someMail@mail.ua", "passwd")).thenReturn("someToken");
+        mockMvc.perform(post("/users/login")
+                .param("username", "someMail@mail.ua")
+                .param("password", "passwd")
+        ).andExpect(status().isOk());
     }
 
     @Test

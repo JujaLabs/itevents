@@ -5,10 +5,68 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven {
+            url "http://download.osgeo.org/webdav/geotools/"
+        }
     }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+
+    configurations {
+        springFramework
+        springSecurity
+        javaxInject
+        javaxServlet
+        jdbc
+        dao.extendsFrom jdbc
+        liquibaseCommon.extendsFrom jdbc
+        log4j
+        swagger
+        mailing
+        validating
+        liquibase
+        testing
+    }
+
+    dependencies {
+        springFramework 'org.springframework:spring-core:4.1.6.RELEASE'
+        springFramework 'org.springframework:spring-web:4.1.6.RELEASE'
+        springFramework 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+        springFramework 'org.springframework:spring-jdbc:4.1.6.RELEASE'
+        springFramework 'org.springframework:spring-tx:4.1.6.RELEASE'
+        springFramework 'org.springframework:spring-context-support:4.1.6.RELEASE'
+        springSecurity 'org.springframework.security:spring-security-core:4.0.2.RELEASE'
+        springSecurity 'org.springframework.security:spring-security-web:4.0.2.RELEASE'
+        springSecurity 'org.springframework.security:spring-security-config:4.0.2.RELEASE'
+        springSecurity 'org.springframework.security:spring-security-taglibs:4.0.2.RELEASE'
+        springSecurity 'org.springframework.security:spring-security-test:4.0.2.RELEASE'
+        springSecurity 'io.jsonwebtoken:jjwt:0.6.0'
+        javaxInject 'javax.inject:javax.inject:1'
+        javaxServlet 'javax.servlet:javax.servlet-api:3.1.0'
+        javaxServlet 'javax.servlet:jstl:1.2'
+        jdbc 'org.postgresql:postgresql:9.4-1201-jdbc41'
+        dao 'org.mybatis:mybatis:3.3.0'
+        dao 'org.mybatis:mybatis-spring:1.2.3'
+        log4j 'org.apache.logging.log4j:log4j-api:2.3'
+        log4j 'org.apache.logging.log4j:log4j-core:2.3'
+        log4j 'org.apache.logging.log4j:log4j-web:2.3'
+        log4j 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
+        swagger 'org.jvnet.ws.wadl:wadl-core:1.1.6'
+        swagger 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
+        swagger 'io.springfox:springfox-swagger2:2.1.1'
+        mailing 'com.sendgrid:sendgrid-java:2.2.2'
+        validating 'org.hibernate:hibernate-validator:5.2.2.Final'
+        validating 'javax.el:javax.el-api:3.0.0'
+        liquibaseCommon 'org.liquibase:liquibase-core:3.4.1'
+        testing 'junit:junit:4.12'
+        testing 'org.springframework:spring-test:4.1.6.RELEASE'
+        testing 'org.dbunit:dbunit:2.5.1'
+        testing 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
+        testing 'org.postgis:postgis-jdbc:1.1.6'
+        testing 'org.mockito:mockito-core:1.9.5'
+        testing 'org.skyscreamer:jsonassert:1.2.3'
+    }
 }
 
 defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'
