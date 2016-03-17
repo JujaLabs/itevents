@@ -1,5 +1,6 @@
 package org.itevents.integration;
 
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,6 @@ public class SecurityTests {
 	private WebApplicationContext context;
 	private MockMvc mvc;
 	private final String UNAUTHORISED_ERROR_AS_JSON = BuilderUtil.buildUnauthorisedErrorAsJson();
-	private final String BAD_CREDENTIALS_ERROR_AS_JSON = BuilderUtil.buildBadCredentialsErrorAsJson();
 
 	@Before
 	public void setup() {
@@ -50,31 +50,10 @@ public class SecurityTests {
 	}
 
 	@Test
-	public void shouldNotLoginWithWrongPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "wrongPassword"))
-				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized())
-				.andExpect(content().string(BAD_CREDENTIALS_ERROR_AS_JSON));
-	}
-
-	@Test
-	public void shouldLoginWithCorrectPassword() throws Exception {
-		mvc.perform(post("/users/login")
-				.param("username", "vlasov@email.com")
-				.param("password", "alex"))
-				.andExpect(authenticated().withUsername("vlasov@email.com"))
-				.andExpect(status().isOk());
-
-		mvc.perform(logout());
-	}
-
-	@Test
-	@WithUserDetails("vlasov@email.com")
-	public void shouldLogout() throws Exception {
-		mvc.perform(post("/users/logout"))
-				.andExpect(unauthenticated())
+	@WithMockUser(username="kuchin@email.com", roles={"ADMIN"})
+	public void shouldGrantAccessToAdminForAdmin() throws Exception {
+		mvc.perform(get("/admin"))
+				.andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
 				.andExpect(status().isOk());
 	}
 

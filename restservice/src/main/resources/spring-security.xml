@@ -23,11 +23,14 @@
 
         <csrf disabled="true"/>
 
+        <!--todo: return JSON error if user hasn't admin rights; created in task #130 -->
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/users/register" access="!isAuthenticated()"/>
         <intercept-url pattern="/users/activate" access="!isAuthenticated()"/>
         <intercept-url pattern="/events/*/assign" access="isAuthenticated()"/>
         <intercept-url pattern="/events/*/unassign" access="isAuthenticated()"/>
+
+        <!--todo: return JSON error if user hasn't admin rights; created in task #130 -->
         <intercept-url pattern="/users/*/events" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/users/subscribe" access="isAuthenticated()"/>
         <intercept-url pattern="/users/unsubscribe" access="isAuthenticated()"/>
@@ -38,8 +41,6 @@
     </http>
     <beans:bean id="authenticationFailureHandler"
                 class="org.itevents.service.security.JsonAuthenticationFailureHandler"/>
-    <beans:bean id="logoutSuccessHandler"
-                class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
     </authentication-manager>
