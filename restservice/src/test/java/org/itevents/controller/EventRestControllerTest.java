@@ -44,11 +44,14 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldFindEventById() throws Exception {
         Event event = BuilderUtil.buildEventJava();
+        String expectedEventInJson = new ObjectMapper().writeValueAsString(event);
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
 
-        mockMvc.perform(get("/events/" + event.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/events/" + event.getId())
+                .header("Accept", "application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedEventInJson));
     }
 
     @Test
