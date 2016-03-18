@@ -68,6 +68,7 @@
                 price CDATA #IMPLIED
                 currency_id CDATA #IMPLIED
                 city_id CDATA #IMPLIED
+                description CDATA #IMPLIED
                 >
 
         <!ELEMENT event_technology EMPTY>

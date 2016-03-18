@@ -14,4 +14,13 @@ http.port=8080
 stop.port=9080
 stop.key=stop
 
+# EventService
+event.filter.range.in.days=7
+event.count.of.events.in.email=10
+
+# JWTCryptTokenService
+jwt.key=password
+
+# UserService
+user.activation.otp.lifetime.hours = 24
 

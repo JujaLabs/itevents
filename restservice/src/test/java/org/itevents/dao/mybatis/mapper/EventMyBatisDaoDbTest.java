@@ -51,7 +51,7 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     }
 
     @Test
-    public void testFindEventById() throws Exception {
+    public void shouldFindEventById() throws Exception {
         Event expectedEvent = BuilderUtil.buildEventJava();
         Event returnedEvent = eventMyBatisDao.getEvent(expectedEvent.getId());
         assertEquals(expectedEvent, returnedEvent);
