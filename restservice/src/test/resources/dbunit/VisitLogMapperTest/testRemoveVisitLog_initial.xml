@@ -10,7 +10,7 @@
     <currency id="-1" name="USD"/>
     <event id="-7" title="Delphi" event_date="2115-07-05 00:00:00.0" reg_link="http://www.delphi.com.ua"
            address="Arsenalna" point="POINT(30.547603 50.442843)" contact="delphi@gmail.com" price="30" currency_id="-1"
-           city_id="-1"/>
+           city_id="-1" description="Java event in Kyiv"/>
     <event id="-6" title="CSharp" event_date="2115-07-09 00:00:00.0" reg_link="http://www.c#.com.ua"
            address="Khreschatyk" point="POINT(30.52239 50.447694)" contact="csharp@gmail.com" price="20"
            currency_id="-3" city_id="-3"/>
