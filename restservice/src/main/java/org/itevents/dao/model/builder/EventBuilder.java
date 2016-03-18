@@ -21,6 +21,7 @@ public class EventBuilder {
     private Currency currency;
     private City city;
     private List<Technology> technologies;
+    private String description;
 
     private EventBuilder() {
     }
@@ -89,6 +90,11 @@ public class EventBuilder {
         return this;
     }
 
+    public EventBuilder description(String description) {
+        this.description = description;
+        return this;
+    }
+
     public EventBuilder but() {
         return anEvent().id(id).title(title).eventDate(eventDate).createDate(createDate).regLink(regLink)
                 .address(address).location(location).contact(contact).price(price).currency(currency)
@@ -109,6 +115,7 @@ public class EventBuilder {
         event.setCurrency(currency);
         event.setCity(city);
         event.setTechnologies(technologies);
+        event.setDescription(description);
         return event;
     }
 }
