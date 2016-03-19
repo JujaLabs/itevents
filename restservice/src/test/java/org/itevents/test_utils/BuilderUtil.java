@@ -2,7 +2,12 @@ package org.itevents.test_utils;
 
 import org.itevents.dao.model.*;
 import org.itevents.dao.model.builder.*;
+import org.itevents.util.OneTimePassword.OneTimePassword;
+import org.itevents.util.time.Clock;
+import org.itevents.util.time.CustomDateTime;
+import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +18,13 @@ import java.util.List;
 /**
  * Created by vaa25 on 30.09.2015.
  */
+@Component
 public class BuilderUtil {
+
+    @Inject
+    private Clock clock;
+
+    private static final int OTP_LIFETIME_IN_HOURS = 24;
 
     public static City buildCityKyiv() {
         return CityBuilder.aCity()
@@ -331,6 +342,14 @@ public class BuilderUtil {
                 .build();
     }
 
+    public User buildUserGuestWithSubscriberRole() {
+        return UserBuilder.anUser()
+                .login("guest")
+                .role(buildRoleSubscriber())
+                .id(-1)
+                .build();
+    }
+
     public static User buildUserAnakin() {
         return UserBuilder.anUser()
                 .login("anakin@email.com")
@@ -556,5 +575,13 @@ public class BuilderUtil {
                 .technology(buildTechnologyJavaScript())
                 .id(-6)
                 .build();
+    }
+
+    public OneTimePassword buildOneTimePassword() {
+        OneTimePassword otp = new OneTimePassword();
+        otp.setExpirationDate(new CustomDateTime()
+                                    .withLocalDateTime(clock.getNowLocalDateTime().plusHours(OTP_LIFETIME_IN_HOURS))
+                                    .getDate());
+        return otp;
     }
 }

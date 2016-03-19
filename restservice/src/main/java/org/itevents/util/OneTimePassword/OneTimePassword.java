@@ -1,7 +1,9 @@
 package org.itevents.util.OneTimePassword;
 
+import org.itevents.util.time.Clock;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.UUID;
 
@@ -10,6 +12,9 @@ import java.util.UUID;
 
     private String password;
     private Date expirationDate;
+
+    @Inject
+    Clock clock;
 
     public OneTimePassword() {
     }
@@ -32,7 +37,7 @@ import java.util.UUID;
 
     public OneTimePassword generateOtp(long lifetimeInHours) {
         OneTimePassword otp = new OneTimePassword();
-        Date creationDate = new Date();
+        Date creationDate = clock.getNowDateTime();
         otp.setExpirationDate(new Date(creationDate.getTime() + lifetimeInHours * 60 * 60 * 1000));
         otp.setPassword(UUID.randomUUID().toString());
         return otp;

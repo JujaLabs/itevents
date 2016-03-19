@@ -9,6 +9,8 @@ import org.itevents.service.EventService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.Clock;
+import org.itevents.util.time.CustomDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +23,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class MyBatisEventServiceTest {
     private EventService eventService;
     @Mock
     private EventDao eventDao;
+    @Inject
+    private Clock clock;
 
     @Before
     public void setUp() {
@@ -130,9 +133,9 @@ public class MyBatisEventServiceTest {
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        Date unassignDate = new Date();
+        Date unassignDate = clock.getNowDateTime();
         String unassignReason = "test";
-        List events = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
         events.add(event);
 
         when(eventDao.getEventsByUser(user)).thenReturn(events);
@@ -156,17 +159,15 @@ public class MyBatisEventServiceTest {
     @Test(expected = TimeCollisionServiceException.class)
     public void shouldThrowTimeCollisionServiceExceptionWhenTryFindPastEventAsFutureEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        int yesterday = -1;
-        event.setEventDate(getDateInPast(yesterday));
+        Date yesterdayDate = new CustomDateTime()
+                .withLocalDateTime(clock.getNowLocalDateTime().minusDays(1))
+                .getDate();
+        event.setEventDate(yesterdayDate);
 
         when(eventDao.getEvent(event.getId())).thenReturn(event);
 
         eventService.getFutureEvent(event.getId());
-    }
 
-    private Date getDateInPast(int daysCount) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, daysCount);
-        return calendar.getTime();
+        verify(eventDao).getEvent(event.getId());
     }
 }

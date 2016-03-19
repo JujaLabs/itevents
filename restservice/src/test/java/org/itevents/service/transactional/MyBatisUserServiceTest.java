@@ -1,9 +1,9 @@
 package org.itevents.service.transactional;
 
-import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
@@ -15,6 +15,7 @@ import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.Clock;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,17 +31,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml",
+                                   "classpath:test-utils-context.xml"})
 public class MyBatisUserServiceTest {
-
-    public static final int LIFETIME_IN_HOURS = 24;
 
     @InjectMocks
     @Inject
@@ -57,6 +56,10 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+    @Inject
+    private Clock clock;
+    @Inject
+    private BuilderUtil builderUtil;
 
     @Before
     public void setUp() {
@@ -269,27 +272,40 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
-        User user = BuilderUtil.buildUserGuest();
-        OneTimePassword otp = new OneTimePassword().generateOtp(LIFETIME_IN_HOURS);
+        User guestUser = BuilderUtil.buildUserGuest();
+        OneTimePassword otp = builderUtil.buildOneTimePassword();
+        /* Todo
+         * Created in task #172 (https://github.com/JuniorsJava/itevents/issues/172)
+         * Make all methods of BuilderUtil non-static
+        */
+        Role subscriberRole = BuilderUtil.buildRoleSubscriber();
+        User guestUserWithSubscriberRole = builderUtil.buildUserGuestWithSubscriberRole();
 
         when(userDao.getOtp("otp")).thenReturn(otp);
-        when(userDao.getUserByOtp(otp)).thenReturn(user);
+        when(userDao.getUserByOtp(otp)).thenReturn(guestUser);
+        when(roleService.getRoleByName("subscriber")).thenReturn(subscriberRole);
 
         userService.activateUserWithOtp("otp");
 
-        verify(userDao).updateUser(user);
+        verify(userDao).getOtp("otp");
+        verify(userDao).getUserByOtp(otp);
+        verify(roleService).getRoleByName("subscriber");
+        verify(userDao).updateUser(guestUserWithSubscriberRole);
     }
 
     @Test(expected = OtpExpiredServiceException.class)
     public void shouldNotUseOtpIfExpired() throws Exception {
         User user = BuilderUtil.buildUserGuest();
         OneTimePassword oneTimePassword = new OneTimePassword();
-        oneTimePassword.setExpirationDate(new Date());
+        oneTimePassword.setExpirationDate(clock.getNowDateTime());
         String stringOtp = "otp";
 
         when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
 
         userService.activateUserWithOtp(stringOtp);
+
+        verify(userDao.getOtp(stringOtp));
+        verify(userDao.getUserByOtp(oneTimePassword));
     }
 }

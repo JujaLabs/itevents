@@ -11,6 +11,7 @@ import org.itevents.service.EventService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.util.time.Clock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
+
+    @Inject
+    private Clock clock;
 
     @Override
     public void addEvent(Event event) {
@@ -78,7 +82,7 @@ public class MyBatisEventService implements EventService {
     @Override
     public Event getFutureEvent(int eventId) {
         Event event = getEvent(eventId);
-        if (event.getEventDate().before(new Date())) {
+        if (event.getEventDate().before(clock.getNowDateTime())) {
             String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
             LOGGER.error(message);
             throw new TimeCollisionServiceException(message);

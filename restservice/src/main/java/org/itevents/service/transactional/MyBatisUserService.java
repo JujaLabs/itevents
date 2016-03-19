@@ -16,6 +16,7 @@ import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.Clock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Date;
 import java.util.List;
 
 @Service("userService")
@@ -46,6 +46,8 @@ public class MyBatisUserService implements UserService {
     private SendGridMailService mailService;
     @Inject
     private MailBuilderUtil mailBuilderUtil;
+    @Inject
+    private Clock clock;
     @Value("${user.activation.otp.lifetime.hours}")
     private int otpLifetime;
 
@@ -171,7 +173,7 @@ public class MyBatisUserService implements UserService {
         OneTimePassword oneTimePassword = userDao.getOtp(password);
         User user = getUserByOtp(oneTimePassword);
 
-        if (oneTimePassword.getExpirationDate().after(new Date()) ) {
+        if (oneTimePassword.getExpirationDate().after(clock.getNowDateTime())) {
             user.setRole(roleService.getRoleByName("subscriber"));
             userDao.updateUser(user);
         } else {
