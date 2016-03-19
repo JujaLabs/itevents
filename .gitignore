@@ -13,11 +13,12 @@ $APP_CONFIG$/
 .gradle/
 build/
 classes/
-webapps/
 
 # Logs
 logs/
 *.log
 *.gz
 
-
+# Build artifacts
+webapps/
+out/
