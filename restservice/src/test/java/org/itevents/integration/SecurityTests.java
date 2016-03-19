@@ -42,7 +42,7 @@ public class SecurityTests {
 	@Inject
 	private WebApplicationContext context;
 	private MockMvc mvc;
-	private final String UNAUTHORISED_ERROR_AS_JSON = BuilderUtil.buildUnauthorisedErrorAsJson();
+	private final String UNAUTHORISED_ERROR_AS_JSON = new BuilderUtil().buildUnauthorisedErrorAsJson();
 
 	@Before
 	public void setup() {

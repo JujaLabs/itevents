@@ -559,17 +559,10 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static String buildUnauthorisedErrorAsJson(){
+    public String buildUnauthorisedErrorAsJson(){
         JsonObject json = new JsonObject();
         json.addProperty("error", "unauthorised");
         json.addProperty("description", "You need to be authenticated to access this page");
-        return json.toString();
-    }
-
-    public static String buildBadCredentialsErrorAsJson(){
-        JsonObject json = new JsonObject();
-        json.addProperty("error", "unauthorised");
-        json.addProperty("description", "You have entered wrong username or password");
         return json.toString();
     }
 }
