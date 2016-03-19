@@ -14,10 +14,14 @@ import java.io.IOException;
 @Component
 public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    private static final String errorMassage = "UNAUTHORIZED";
+
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException authException) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getOutputStream().println("{ \"error\": \"" + errorMassage + "\" }");
     }
 
 }
