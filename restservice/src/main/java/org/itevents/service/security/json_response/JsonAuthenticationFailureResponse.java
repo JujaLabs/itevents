@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class JsonAuthenticationFailureResponse {
-    private final String ERROR_KEY_TITLE = "error";
-    private final String DEFAULT_ERROR_VALUE = "unauthorised";
-    private final String DESCRIPTION_KEY_TITLE = "description";
-    private final String DEFAULT_DESCRIPTION_VALUE = "You have to be authorised to access this page";
+    private static final String ERROR_KEY_TITLE = "error";
+    private static final String DEFAULT_ERROR_VALUE = "unauthorised";
+    private static final String DESCRIPTION_KEY_TITLE = "description";
+    private static final String DEFAULT_DESCRIPTION_VALUE = "You have to be authorised to access this page";
     private final HttpServletResponse response;
     private final AuthenticationException exception;
 
