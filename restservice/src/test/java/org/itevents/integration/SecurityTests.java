@@ -109,11 +109,12 @@ public class SecurityTests {
     }
 
     @Test
-    public void shouldGetUnauthorizedJsonIfUserIsSubscriber() throws Exception {
-        String errorMassage = "UNAUTHORIZED";
+    @WithMockUser(username = "ramax@email.com", roles = {"subscriber"})
+    public void shouldGetNotAcceptableJsonIfUserIsSubscriberFromAdmin() throws Exception {
+        String errorMassage = "FORBIDDEN";
 
-        mvc.perform(get("/users/-1/events"))
-                .andExpect(status().isUnauthorized())
+        mvc.perform(get("/admin"))
+                .andExpect(status().isForbidden())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error", is(errorMassage)));
     }

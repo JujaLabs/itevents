@@ -9,19 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * The Entry Point will not redirect to any sort of Login - it will return the 401
+ * Created by ramax on 3/20/16.
  */
 @Component
 public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private static final String errorMassage = "UNAUTHORIZED";
+    private static final String ERROR_MASSAGE = "UNAUTHORIZED";
+    private JsonHelper jsonHelper = new JsonHelper();
 
     @Override
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException authException) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getOutputStream().println("{ \"error\": \"" + errorMassage + "\" }");
+        jsonHelper.sendJson(response, HttpServletResponse.SC_UNAUTHORIZED, ERROR_MASSAGE);
     }
 
 }
