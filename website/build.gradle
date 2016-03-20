@@ -1,9 +1,0 @@
-group 'org.itevents'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-dependencies {
-    compile 'junit:junit:4.12'
-}
