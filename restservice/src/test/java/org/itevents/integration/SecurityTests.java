@@ -1,5 +1,6 @@
 package org.itevents.integration;
 
+import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +22,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ContextConfiguration({
@@ -42,6 +42,7 @@ public class SecurityTests {
 	@Inject
 	private WebApplicationContext context;
 	private MockMvc mvc;
+	private final String UNAUTHORISED_ERROR_AS_JSON = new BuilderUtil().buildUnauthorisedErrorAsJson();
 
 	@Before
 	public void setup() {
@@ -68,7 +69,8 @@ public class SecurityTests {
 	public void shouldDenyAccessToAdminForAnonymous() throws Exception {
 		mvc.perform(get("/admin"))
 				.andExpect(unauthenticated())
-				.andExpect(status().isUnauthorized());
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
 	}
 
 	@Test
@@ -93,5 +95,47 @@ public class SecurityTests {
                 .param("username", "vlasov@email.com")
                 .param("password", "password"))
                 .andExpect(status().isCreated());
+	}
+
+	@Test
+	public void shouldReturnErrorWhenAssignAnonymousUserToEvent() throws Exception {
+		mvc.perform(post("/events/-1/assign"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenUnassignAnonymousUserFromEvent() throws Exception {
+		mvc.perform(post("/events/-1/unassign"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenSubscribeAnonymousUser() throws Exception {
+		mvc.perform(post("/users/subscribe"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenUnsubscribeAnonymousUser() throws Exception {
+		mvc.perform(post("/users/unsubscribe"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenAnonymousUserTryToGetEventsOfUser() throws Exception {
+		mvc.perform(post("/users/-1/events"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
+	}
+
+	@Test
+	public void shouldReturnErrorWhenRegisterAnonymousUserToEvent() throws Exception {
+		mvc.perform(post("/users/-1/events"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(content().string(UNAUTHORISED_ERROR_AS_JSON));
 	}
 }
