@@ -6,10 +6,7 @@ import org.itevents.dao.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.itevents.service.exception.ActionAlreadyDoneServiceException;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -181,5 +178,23 @@ public class ControllerHandlerTest {
 
         mvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldExpect403WhenLoggingWithIncorrectPassword() throws Exception {
+        String invalidPassword = "invalidPassword";
+
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+
+        doThrow(WrongPasswordServiceException.class)
+                .when(userService).checkPassword(user, invalidPassword);
+
+        mvc.perform(post("/users/login")
+        .param("username", user.getLogin())
+        .param("password", invalidPassword))
+                .andExpect(status().isForbidden());
+
     }
 }
