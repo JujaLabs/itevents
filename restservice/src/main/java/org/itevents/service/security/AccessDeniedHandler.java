@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class AccessDeniedHandler extends AccessDeniedHandlerImpl {
 
-    private static final String ERROR_MASSAGE = "FORBIDDEN";
+    private static final String ERROR_MESSAGE = "FORBIDDEN";
     private JsonHelper jsonHelper = new JsonHelper();
 
     @Override
@@ -25,6 +25,6 @@ public class AccessDeniedHandler extends AccessDeniedHandlerImpl {
             AccessDeniedException reason)
             throws ServletException, IOException {
 
-        jsonHelper.sendJson(response, HttpServletResponse.SC_FORBIDDEN, ERROR_MASSAGE);
+        jsonHelper.sendJson(response, HttpServletResponse.SC_FORBIDDEN, ERROR_MESSAGE);
     }
 }

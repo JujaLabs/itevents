@@ -8,8 +8,8 @@ import java.io.PrintWriter;
  * Created by ramax on 3/20/16.
  */
 public class JsonHelper {
-    void sendJson(HttpServletResponse response, Integer statusCode, String massage) throws IOException {
-        String jsonObject = "{" + "\"error\": \"" + massage + "\"" + "}";
+    void sendJson(HttpServletResponse response, Integer statusCode, String message) throws IOException {
+        String jsonObject = "{" + "\"error\": \"" + message + "\"" + "}";
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(statusCode);

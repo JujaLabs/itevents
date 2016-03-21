@@ -100,23 +100,23 @@ public class SecurityTests {
 
     @Test
     public void shouldGetUnauthorizedJsonIfUserNotAdminFromAdmin() throws Exception {
-        String errorMassage = "UNAUTHORIZED";
+        String errorMessage = "UNAUTHORIZED";
 
         mvc.perform(get("/admin"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.error", is(errorMassage)));
+                .andExpect(jsonPath("$.error", is(errorMessage)));
     }
 
     @Test
     @WithMockUser(username = "ramax@email.com", roles = {"subscriber"})
     public void shouldGetNotAcceptableJsonIfUserIsSubscriberFromAdmin() throws Exception {
-        String errorMassage = "FORBIDDEN";
+        String errorMessage = "FORBIDDEN";
 
         mvc.perform(get("/admin"))
                 .andExpect(status().isForbidden())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.error", is(errorMassage)));
+                .andExpect(jsonPath("$.error", is(errorMessage)));
     }
 
 }
