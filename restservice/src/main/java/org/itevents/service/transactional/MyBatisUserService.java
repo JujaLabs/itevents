@@ -85,7 +85,7 @@ public class MyBatisUserService implements UserService {
     }
 
     private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
-        String confirmationUrl = "http://" + serverName + ":" + httpPort + "/users/activate/" + oneTimePassword;
+        String confirmationUrl = "http://" + serverName + ":" + httpPort + "/users/activate/";
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp, confirmationUrl);
         mailService.sendMail(email, user.getLogin());
     }

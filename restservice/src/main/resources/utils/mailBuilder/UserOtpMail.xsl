@@ -15,8 +15,7 @@
                 Dear subscriber!
                 You need to activate you account.
                 To do so, you need to follow this link:
-                <xsl:value-of select="userOtp/url"/>
-                <xsl:value-of select="userOtp/otp"/>
+                <xsl:value-of select="userOtp/url"/><!-- <xsl:value-of select="concat(userOtp/url, userOtp/otp)"/>-->
                 This link will work for 24 hours.
             </body>
         </html>
