@@ -35,7 +35,9 @@
         <intercept-url pattern="/**" access="permitAll()"/>
 
         <custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"   />
+        <access-denied-handler ref="accessDeniedHandler"/>
     </http>
+
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
