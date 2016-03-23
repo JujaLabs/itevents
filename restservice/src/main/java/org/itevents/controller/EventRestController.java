@@ -69,8 +69,7 @@ public class EventRestController {
     @ApiOperation(value = "Returns list of visitors of event")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getUsersByEvent(@PathVariable("event_id") int id) {
-        Event event = eventService.getEvent(id);
-        return userService.getUsersByEvent(event);
+        return userService.getUsersByEvent(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/register")

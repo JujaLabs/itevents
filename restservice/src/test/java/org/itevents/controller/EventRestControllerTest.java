@@ -88,7 +88,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         String expectedUsersInJson = new ObjectMapper().writeValueAsString(expectedUsers);
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getUsersByEvent(event)).thenReturn(expectedUsers);
+        when(userService.getUsersByEvent(event.getId())).thenReturn(expectedUsers);
 
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk())

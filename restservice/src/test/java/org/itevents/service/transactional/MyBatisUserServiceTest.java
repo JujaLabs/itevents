@@ -198,7 +198,7 @@ public class MyBatisUserServiceTest {
         List users = new ArrayList<>();
 
         when(userDao.getUsersByEvent(event)).thenReturn(users);
-        List returnedUsers = userService.getUsersByEvent(event);
+        List returnedUsers = userService.getUsersByEvent(event.getId());
 
         verify(userDao).getUsersByEvent(event);
         assertEquals(users, returnedUsers);
