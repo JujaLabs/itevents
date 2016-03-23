@@ -7,12 +7,9 @@ import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
-import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.itevents.util.time.DateTimeUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -76,14 +73,6 @@ public class EventRestController {
     @ApiOperation(value = "Redirects to to given event page")
     @ResponseStatus(HttpStatus.OK)
     public String redirectToEventSite(@PathVariable("event_id") int eventId) {
-        Event event = eventService.getEvent(eventId);
-        User user = userService.getAuthorizedUser();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog()
-                .event(event)
-                .user(user)
-                .date(DateTimeUtil.getNowDate())
-                .build();
-        visitLogService.addVisitLog(visitLog);
-        return event.getRegLink();
+        return eventService.redirectToEventSite(eventId);
     }
 }

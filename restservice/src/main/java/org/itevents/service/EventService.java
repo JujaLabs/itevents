@@ -25,4 +25,6 @@ public interface EventService {
     List<Event> getEventsByUser(User user);
 
     Event getFutureEvent(int eventId);
+
+    public String redirectToEventSite(int eventId);
 }

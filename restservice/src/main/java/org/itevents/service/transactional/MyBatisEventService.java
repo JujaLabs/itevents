@@ -7,8 +7,11 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -30,6 +33,8 @@ public class MyBatisEventService implements EventService {
     private EventDao eventDao;
     @Inject
     private UserService userService;
+    @Inject
+    private VisitLogService visitLogService;
 
     @Override
     public void addEvent(Event event) {
@@ -117,4 +122,15 @@ public class MyBatisEventService implements EventService {
         return getEventsByUser(user).contains(event);
     }
 
+    public String redirectToEventSite(int eventId) {
+        Event event = getEvent(eventId);
+        User user = userService.getAuthorizedUser();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(user)
+                .date(DateTimeUtil.getNowDate())
+                .build();
+        visitLogService.addVisitLog(visitLog);
+        return event.getRegLink();
+    }
 }

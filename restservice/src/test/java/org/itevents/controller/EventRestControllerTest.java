@@ -104,6 +104,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
         doNothing().when(visitLogService).addVisitLog(visitLog);
+        when(eventService.redirectToEventSite(event.getId())).thenReturn(event.getRegLink());
 
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))

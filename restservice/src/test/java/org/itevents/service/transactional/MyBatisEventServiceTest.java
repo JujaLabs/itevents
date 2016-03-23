@@ -5,8 +5,11 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
@@ -29,8 +32,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -43,6 +45,8 @@ public class MyBatisEventServiceTest {
     private EventDao eventDao;
     @Mock
     private UserService userService;
+    @Mock
+    private VisitLogService visitLogService;
 
     @Before
     public void setUp() {
@@ -181,5 +185,21 @@ public class MyBatisEventServiceTest {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, daysCount);
         return calendar.getTime();
+    }
+
+    @Test
+    public void shouldReturnLinkToEventSite() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        User userGuest = BuilderUtil.buildUserGuest();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
+        String expectedLink = event.getRegLink();
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(userGuest);
+        doNothing().when(visitLogService).addVisitLog(visitLog);
+
+        String actualLink = eventService.redirectToEventSite(event.getId());
+
+        assertEquals(expectedLink, actualLink);
     }
 }
