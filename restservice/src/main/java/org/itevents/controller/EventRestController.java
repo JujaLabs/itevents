@@ -9,7 +9,6 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,6 @@ public class EventRestController {
     private EventService eventService;
     @Inject
     private UserService userService;
-    @Inject
-    private VisitLogService visitLogService;
     @Inject
     private FilterConverter filterConverter;
 

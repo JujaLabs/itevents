@@ -26,5 +26,5 @@ public interface EventService {
 
     Event getFutureEvent(int eventId);
 
-    public String redirectToEventSite(int eventId);
+    String redirectToEventSite(int eventId);
 }

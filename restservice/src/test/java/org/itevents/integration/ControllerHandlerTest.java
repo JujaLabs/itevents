@@ -4,7 +4,6 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
@@ -45,8 +44,6 @@ public class ControllerHandlerTest {
     private EventService eventService;
     @Inject
     private UserService userService;
-    @Inject
-    private VisitLogService visitLogService;
 
     @Before
     public void setup() {
@@ -59,11 +56,8 @@ public class ControllerHandlerTest {
 
         doThrow(EntityNotFoundServiceException.class).when(eventService).assignAuthorizedUserToEvent(absentId);
 
-//        when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
-
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
@@ -123,8 +117,6 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
-
-        reset(eventService);
     }
 
     @Test
