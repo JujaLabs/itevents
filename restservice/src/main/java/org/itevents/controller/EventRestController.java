@@ -58,13 +58,11 @@ public class EventRestController {
     @ApiOperation(value = "Unassigns logged in user from event")
     @ResponseStatus(value = HttpStatus.OK)
     public void unassign(
-            @PathVariable("event_id") int eventId,
+            @PathVariable("event_id") int futureEventId,
             @Length(max = 250)
             @RequestParam("unassign_reason")
             String unassignReason ) {
-        Event event = eventService.getFutureEvent(eventId);
-        User user = userService.getAuthorizedUser();
-        eventService.unassignUserFromEvent(user, event, DateTimeUtil.getNowDate(),unassignReason);
+        eventService.unassignAuthorizedUserFromEvent(futureEventId, unassignReason);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{event_id}/visitors")

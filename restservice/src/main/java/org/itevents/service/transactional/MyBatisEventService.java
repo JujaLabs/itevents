@@ -12,6 +12,7 @@ import org.itevents.service.UserService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.util.time.DateTimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,11 +70,18 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+    public void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason) {
+        Event event = getFutureEvent(futureEventId);
+        User user = userService.getAuthorizedUser();
+        Date unassignDate = DateTimeUtil.getNowDate();
+        unassignUserFromEvent(user, event, unassignDate, unassignReason);
+    }
+
+    private void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
         if (isAssigned(user, event)) {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
         } else {
-            String message=user.getLogin() + " already unassigned from "+event.getTitle();
+            String message=user.getLogin() + " already unassigned from "+ event.getTitle();
             LOGGER.error(message);
             throw new ActionAlreadyDoneServiceException(message);
         }

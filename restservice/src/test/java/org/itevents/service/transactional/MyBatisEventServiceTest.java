@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -132,20 +134,25 @@ public class MyBatisEventServiceTest {
         verify(eventDao).assignUserToEvent(user, event);
     }
 
+    /* @TODO:
+     *https://github.com/JuniorsJava/itevents/issues/203
+     * Remove any(Date.class) and other matchers
+     */
     @Test
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        Date unassignDate = new Date();
         String unassignReason = "test";
         List events = new ArrayList<>();
         events.add(event);
 
-        when(eventDao.getEventsByUser(user)).thenReturn(events);
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(eventService.getEventsByUser(user)).thenReturn(events);
 
-        eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        eventService.unassignAuthorizedUserFromEvent(event.getId(), unassignReason);
 
-        verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        verify(eventDao).unassignUserFromEvent(eq(user), eq(event), any(Date.class), eq(unassignReason));
     }
 
     @Test

@@ -57,7 +57,7 @@ public class ControllerHandlerTest {
     @Test
     public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
         int absentId = 0;
-
+        
         when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
 
         mvc.perform(post("/events/" + absentId + "/assign"))
