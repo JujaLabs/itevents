@@ -197,6 +197,7 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         List users = new ArrayList<>();
 
+        when(eventDao.getEvent(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
         List returnedUsers = userService.getUsersByEvent(event.getId());
 
