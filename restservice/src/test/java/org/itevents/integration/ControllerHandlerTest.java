@@ -63,7 +63,6 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assignAuthorizedUserToEvent(any());
     }
 
     @Test
@@ -108,7 +107,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldNotFoundUserById() throws Exception {
+    public void shouldReturn404IfUserIsAbsent() throws Exception {
         int absentId = 0;
 
         when(userService.getUser(absentId)).thenThrow(EntityNotFoundServiceException.class);

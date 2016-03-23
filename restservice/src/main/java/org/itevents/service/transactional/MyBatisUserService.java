@@ -71,7 +71,7 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception  {
+    public void addSubscriber(String username, String password) throws Exception {
         User user = UserBuilder.anUser()
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
@@ -172,10 +172,9 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void activateUserWithOtp(String password) {
-        OneTimePassword oneTimePassword = userDao.getOtp(password);
-        User user = getUserByOtp(oneTimePassword);
+        User user = getUserByOtp(password);
 
-        if (oneTimePassword.getExpirationDate().after(new Date()) ) {
+        if (oneTimePassword.getExpirationDate().after(new Date())) {
             user.setRole(roleService.getRoleByName("subscriber"));
             userDao.updateUser(user);
         } else {
@@ -185,12 +184,14 @@ public class MyBatisUserService implements UserService {
         }
     }
 
-    private User getUserByOtp(OneTimePassword otp) {
+    private User getUserByOtp(String password) {
         try {
-            return userDao.getUserByOtp(otp);
+            OneTimePassword oneTimePassword = userDao.getOtp(password);
+            return userDao.getUserByOtp(oneTimePassword);
         } catch (EntityNotFoundDaoException e) {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
+
 }
