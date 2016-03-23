@@ -2,7 +2,6 @@ package org.itevents.integration;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
@@ -57,8 +56,10 @@ public class ControllerHandlerTest {
     @Test
     public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
         int absentId = 0;
-        
-        when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
+
+        doThrow(EntityNotFoundServiceException.class).when(eventService).assignAuthorizedUserToEvent(absentId);
+
+//        when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
 
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
@@ -69,12 +70,10 @@ public class ControllerHandlerTest {
     public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
         Event event = BuilderUtil.buildEventJava();
 
-        when(eventService.getFutureEvent(event.getId())).thenThrow(TimeCollisionServiceException.class);
+        doThrow(TimeCollisionServiceException.class).when(eventService).assignAuthorizedUserToEvent(event.getId());
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
-
-        verify(eventService, never()).assignAuthorizedUserToEvent(any());
     }
 
     @Test
@@ -93,17 +92,11 @@ public class ControllerHandlerTest {
     @Test
     public void shouldNotFoundIfEventIsAbsent() throws Exception {
         Event event = BuilderUtil.buildEventRuby();
-        User user = BuilderUtil.buildUserGuest();
 
-        when(eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(eventService.redirectToEventSite(event.getId())).thenThrow(EntityNotFoundServiceException.class);
 
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
-
-        verify(eventService).getEvent(event.getId());
-        verify(userService, never()).getUserByName(user.getLogin());
-        verify(visitLogService, never()).addVisitLog(any(VisitLog.class));
     }
 
     @Test
