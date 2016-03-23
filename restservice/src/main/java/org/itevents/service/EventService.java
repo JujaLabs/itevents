@@ -17,7 +17,7 @@ public interface EventService {
 
     List<Event> getFilteredEvents(Filter filter);
 
-    void assignUserToEvent(User user, Event event);
+    void assignAuthorizedUserToEvent(int futureEventId);
 
     List<Event> getFilteredEventsWithRating(Filter filter);
 

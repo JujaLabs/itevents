@@ -6,6 +6,7 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
@@ -38,6 +39,8 @@ public class MyBatisEventServiceTest {
     private EventService eventService;
     @Mock
     private EventDao eventDao;
+    @Mock
+    private UserService userService;
 
     @Before
     public void setUp() {
@@ -121,7 +124,10 @@ public class MyBatisEventServiceTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
 
-        eventService.assignUserToEvent(user, event);
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+
+        eventService.assignAuthorizedUserToEvent(event.getId());
 
         verify(eventDao).assignUserToEvent(user, event);
     }

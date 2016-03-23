@@ -8,6 +8,7 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -26,6 +27,8 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
+    @Inject
+    private UserService userService;
 
     @Override
     public void addEvent(Event event) {
@@ -49,13 +52,19 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void assignUserToEvent(User user, Event event) {
-        if (isAssigned(user, event)) {
-            String message=user.getLogin() + " already assigned to "+event.getTitle();
+    public void assignAuthorizedUserToEvent(int futureEventId) {
+        Event event = getFutureEvent(futureEventId);
+        User user = userService.getAuthorizedUser();
+        assignUserToEvent(user, event);
+    }
+
+    private void assignUserToEvent(User user, Event futureEvent) {
+        if (isAssigned(user, futureEvent)) {
+            String message=user.getLogin() + " already assigned to " + futureEvent.getTitle();
             LOGGER.error(message);
             throw new ActionAlreadyDoneServiceException(message);
         } else {
-            eventDao.assignUserToEvent(user, event);
+            eventDao.assignUserToEvent(user, futureEvent);
         }
     }
 

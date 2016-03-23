@@ -63,7 +63,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(eventService, never()).assignAuthorizedUserToEvent(any());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(eventService, never()).assignAuthorizedUserToEvent(any());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class ControllerHandlerTest {
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
         doThrow(ActionAlreadyDoneServiceException.class)
-            .when(eventService).assignUserToEvent(user, event);
+            .when(eventService).assignAuthorizedUserToEvent(event.getId());
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());

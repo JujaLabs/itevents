@@ -50,10 +50,8 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/assign")
     @ApiOperation(value = "Assigns logged in user to event")
     @ResponseStatus(value = HttpStatus.OK)
-    public void assign(@PathVariable("event_id") int eventId) {
-        Event event = eventService.getFutureEvent(eventId);
-        User user = userService.getAuthorizedUser();
-        eventService.assignUserToEvent(user, event);
+    public void assign(@PathVariable("event_id") int futureEventId) {
+        eventService.assignAuthorizedUserToEvent(futureEventId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{event_id}/unassign")
