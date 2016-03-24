@@ -122,6 +122,7 @@ public class MyBatisEventService implements EventService {
         return getEventsByUser(user).contains(event);
     }
 
+    @Override
     public String redirectToEventSite(int eventId) {
         Event event = getEvent(eventId);
         User user = userService.getAuthorizedUser();

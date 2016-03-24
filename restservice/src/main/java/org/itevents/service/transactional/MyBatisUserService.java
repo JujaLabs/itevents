@@ -183,10 +183,10 @@ public class MyBatisUserService implements UserService {
             if (oneTimePassword.getExpirationDate().after(new Date())) {
                 return userDao.getUserByOtp(oneTimePassword);
             } else {
-            String message = "Password expired";
-            LOGGER.error(message);
-            throw new OtpExpiredServiceException(message);
-        }
+                String message = "Password expired";
+                LOGGER.error(message);
+                throw new OtpExpiredServiceException(message);
+            }
         } catch (EntityNotFoundDaoException e) {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);

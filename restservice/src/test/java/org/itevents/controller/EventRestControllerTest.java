@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -93,6 +94,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedUsersInJson));
+
+        verify(userService).getUsersByEvent(event.getId());
     }
 
     @Test
@@ -109,5 +112,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(content().string(event.getRegLink()))
                 .andExpect(status().isOk());
+
+        verify(eventService).redirectToEventSite(event.getId());
     }
 }

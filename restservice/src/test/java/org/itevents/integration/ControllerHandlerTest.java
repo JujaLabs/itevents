@@ -58,6 +58,8 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
+
+        verify(eventService).assignAuthorizedUserToEvent(absentId);
     }
 
     @Test
@@ -68,6 +70,8 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
+
+        verify(eventService).assignAuthorizedUserToEvent(event.getId());
     }
 
     @Test
@@ -91,6 +95,8 @@ public class ControllerHandlerTest {
 
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
+
+        verify(eventService).redirectToEventSite(event.getId());
     }
 
     @Test
@@ -107,8 +113,6 @@ public class ControllerHandlerTest {
     public void shouldNotAssignUserToEventIfAssigned() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJava();
-        ArrayList<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
@@ -117,6 +121,8 @@ public class ControllerHandlerTest {
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
+
+        reset(eventService);
     }
 
     @Test
