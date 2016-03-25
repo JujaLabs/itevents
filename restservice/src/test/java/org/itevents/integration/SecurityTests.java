@@ -3,6 +3,8 @@ package org.itevents.integration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
@@ -50,10 +53,11 @@ public class SecurityTests {
     }
 
     @Test
-    @WithMockUser(username = "kuchin@email.com", roles = {"ADMIN"})
+    @WithMockUser(username = "kuchin@email.com",authorities = {"admin"})
     public void shouldGrantAccessToAdminForAdmin() throws Exception {
+        List<GrantedAuthority> autorities =  AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
         mvc.perform(get("/admin"))
-                .andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
+                .andExpect(authenticated().withUsername("kuchin@email.com").withAuthorities(autorities))
                 .andExpect(status().isOk());
     }
 
