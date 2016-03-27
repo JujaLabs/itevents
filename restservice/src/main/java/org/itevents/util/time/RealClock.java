@@ -12,7 +12,6 @@ public final class RealClock implements Clock {
         return new CustomDateTime().getDate();
     }
 
-    // we use this method to get instance of LocalDateTime class that has convenient methods for date/time manipulation
     @Override
     public LocalDateTime getNowLocalDateTime() {
         return new CustomDateTime().getLocalDateTime();
