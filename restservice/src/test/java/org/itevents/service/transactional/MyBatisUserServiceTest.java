@@ -45,7 +45,8 @@ public class MyBatisUserServiceTest {
 
     public static final int OTP_LIFETIME_IN_HOURS = 24;
     public static final String GUEST_ROLE_NAME = "guest";
-
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     @Inject
     private UserService userService;
@@ -63,9 +64,6 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -96,7 +94,7 @@ public class MyBatisUserServiceTest {
 
     @Test(expected = EntityNotFoundServiceException.class)
     public void shouldThrowServiceExceptionWhenUserNameIsAbsent() {
-        String absentName = "absentName";
+        String absentName = "absent";
 
         when(userDao.getUserByName(absentName)).thenThrow(EntityNotFoundDaoException.class);
 
@@ -104,9 +102,11 @@ public class MyBatisUserServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
+    @WithMockUser(username = "testuser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
         User expectedUser = BuilderUtil.buildUserTest();
+        String loginInLowerCase = expectedUser.getLogin().toLowerCase();
+        expectedUser.setLogin(loginInLowerCase);
 
         when(userDao.getUserByName(expectedUser.getLogin())).thenReturn(expectedUser);
 
