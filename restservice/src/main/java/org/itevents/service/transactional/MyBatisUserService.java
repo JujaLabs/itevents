@@ -99,7 +99,7 @@ public class MyBatisUserService implements UserService {
     @Override
     public User getUserByName(String name) {
         try {
-            return userDao.getUserByName(name);
+            return userDao.getUserByName(name.toLowerCase());
         } catch (EntityNotFoundDaoException e) {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
