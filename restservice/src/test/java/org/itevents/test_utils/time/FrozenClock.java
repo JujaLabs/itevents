@@ -16,7 +16,7 @@ import java.util.Date;
 
 @Primary
 @Component
-public class FrozenClock implements Clock {
+public final class FrozenClock implements Clock {
     private final DateTime frozenDateTime;
 
     public FrozenClock() {

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
-public class RealClock implements Clock {
+public final class RealClock implements Clock {
     @Override
     public Date getNowDateTime() {
         return new CustomDateTime().getDate();
