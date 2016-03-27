@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public final class CustomDateTime {
+public final class CustomDateTime implements DateTime {
     private static final String DEFAULT_FORMAT = "dd.MM.yyyy";
     private final LocalDateTime localDateTime;
     private final String format;
@@ -22,27 +22,33 @@ public final class CustomDateTime {
         this.format = format;
     }
 
+    @Override
     public LocalDateTime getLocalDateTime() {
         return this.localDateTime;
     }
 
+    @Override
     public Date getDate() {
         return Date.from(this.localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    @Override
     public CustomDateTime withLocalDateTime(LocalDateTime localDateTime) {
         return new CustomDateTime(localDateTime, this.format);
     }
 
+    @Override
     public CustomDateTime withDate(Date date) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
         return withLocalDateTime(localDateTime);
     }
 
+    @Override
     public CustomDateTime withFormat(String format) {
         return new CustomDateTime(this.localDateTime, format);
     }
 
+    @Override
     public CustomDateTime parseFromString(String dateString) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat(this.format);
         return new CustomDateTime().withDate(formatter.parse(dateString))

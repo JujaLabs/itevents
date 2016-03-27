@@ -4,6 +4,7 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.itevents.util.time.Clock;
 import org.itevents.util.time.CustomDateTime;
+import org.itevents.util.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -50,7 +51,7 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
         String formattedDateTimeString;
         if (regexDateTemplateMatcher.find()) {
             int incrementingDaysCount = Integer.parseInt(regexDateTemplateMatcher.group(1));
-            CustomDateTime incrementedDateTime = new CustomDateTime()
+            DateTime incrementedDateTime = new CustomDateTime()
                     .withLocalDateTime(clock.getNowLocalDateTime().plusDays(incrementingDaysCount))
                     .withFormat(DATE_TIME_FORMAT_FOR_DATABASE);
             formattedDateTimeString = incrementedDateTime.toString();
