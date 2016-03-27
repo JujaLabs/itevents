@@ -198,8 +198,8 @@ public class MyBatisEventServiceTest {
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
         doNothing().when(visitLogService).addVisitLog(visitLog);
 
-        String actualLink = eventService.redirectToEventSite(event.getId());
+        String returnedlLink = eventService.redirectToEventSite(event.getId());
 
-        assertEquals(expectedLink, actualLink);
+        assertEquals(expectedLink, returnedlLink);
     }
 }

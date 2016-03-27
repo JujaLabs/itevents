@@ -53,6 +53,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
                 .header("Accept", "application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventInJson));
+
+        verify(eventService).getEvent(event.getId());
     }
 
     @Test
@@ -65,6 +67,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
+
+        verify(eventService).assignAuthorizedUserToEvent(event.getId());
     }
 
     @Test
@@ -79,6 +83,8 @@ public class EventRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validUnassignReason))
                 .andExpect(status().isOk());
+
+        verify(eventService).unassignAuthorizedUserFromEvent(event.getId(), validUnassignReason);
     }
 
     @Test

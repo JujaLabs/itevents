@@ -76,7 +76,7 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason) {
-        Event event = getFutureEvent(futureEventId);
+        Event event = getEvent(futureEventId);
         User user = userService.getAuthorizedUser();
         Date unassignDate = DateTimeUtil.getNowDate();
         unassignUserFromEvent(user, event, unassignDate, unassignReason);
