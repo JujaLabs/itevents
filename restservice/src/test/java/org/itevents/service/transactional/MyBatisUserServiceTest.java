@@ -46,7 +46,8 @@ public class MyBatisUserServiceTest {
 
     public static final int OTP_LIFETIME_IN_HOURS = 24;
     public static final String GUEST_ROLE_NAME = "guest";
-
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     @Inject
     private UserService userService;
@@ -66,9 +67,6 @@ public class MyBatisUserServiceTest {
     private SendGridMailService mailService;
     @Mock
     private EventService eventService;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -211,7 +209,6 @@ public class MyBatisUserServiceTest {
         List users = new ArrayList<>();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(eventDao.getEvent(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
 
         List returnedUsers = userService.getUsersByEvent(event.getId());
