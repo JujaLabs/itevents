@@ -3,8 +3,6 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
-import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
@@ -17,7 +15,6 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,10 +57,6 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldAssignUserToEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildSubscriberTest();
-
-        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
 
         mockMvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isOk());
@@ -74,11 +67,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldUnassignUserFromEvent() throws Exception{
         Event event = BuilderUtil.buildEventJava();
-        User user = BuilderUtil.buildUserAnakin();
         String validUnassignReason = "test";
-
-        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
 
         mockMvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validUnassignReason))
@@ -94,7 +83,6 @@ public class EventRestControllerTest extends AbstractControllerTest {
         expectedUsers.add(BuilderUtil.buildUserAnakin());
         String expectedUsersInJson = new ObjectMapper().writeValueAsString(expectedUsers);
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getUsersByEvent(event.getId())).thenReturn(expectedUsers);
 
         mockMvc.perform(get("/events/" + event.getId() + "/visitors"))
@@ -107,12 +95,7 @@ public class EventRestControllerTest extends AbstractControllerTest {
     @Test
     public void shouldAddVisitLogToEventJavaWithAnonymous() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        User userGuest = BuilderUtil.buildUserGuest();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(userGuest);
-        doNothing().when(visitLogService).addVisitLog(visitLog);
         when(eventService.redirectToEventSite(event.getId())).thenReturn(event.getRegLink());
 
         mockMvc.perform(get("/events/" + event.getId() + "/register"))
