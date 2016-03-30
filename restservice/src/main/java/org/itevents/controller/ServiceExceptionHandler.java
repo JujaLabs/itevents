@@ -1,5 +1,7 @@
 package org.itevents.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import javax.validation.ConstraintViolationException;
  */
 @ControllerAdvice(annotations = RestController.class)
 public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
     public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
@@ -40,8 +44,9 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(WrongPasswordServiceException.class)
-    public ResponseEntity<String> handleWrongPasswordServiceException(WrongPasswordServiceException ex) {
+    @ExceptionHandler(AuthenticationServiceException.class)
+    public ResponseEntity<String> handleAuthenticationServiceException(AuthenticationServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

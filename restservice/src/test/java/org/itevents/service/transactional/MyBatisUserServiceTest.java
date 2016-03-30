@@ -9,10 +9,7 @@ import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -45,7 +42,8 @@ public class MyBatisUserServiceTest {
 
     public static final int OTP_LIFETIME_IN_HOURS = 24;
     public static final String GUEST_ROLE_NAME = "guest";
-
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     @Inject
     private UserService userService;
@@ -63,9 +61,6 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -255,7 +250,7 @@ public class MyBatisUserServiceTest {
         verify(passwordEncoder).matches(password, encodedPassword);
     }
 
-    @Test(expected = WrongPasswordServiceException.class)
+    @Test(expected = AuthenticationServiceException.class)
     public void shouldThrowWrongPasswordServiceExceptionIfCheckPasswordFails() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         String password = "password";

@@ -188,7 +188,7 @@ public class ControllerHandlerTest {
 
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        doThrow(WrongPasswordServiceException.class)
+        doThrow(AuthenticationServiceException.class)
                 .when(userService).checkPassword(user, invalidPassword);
 
         mvc.perform(post("/users/login")
