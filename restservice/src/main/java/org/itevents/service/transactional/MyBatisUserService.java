@@ -180,7 +180,7 @@ public class MyBatisUserService implements UserService {
                 throw new OtpExpiredServiceException(message);
             }
         } catch (EntityNotFoundDaoException e) {
-            throw new EntityNotFoundServiceException(e.getMessage(),e.getCause());
+            throw new EntityNotFoundServiceException(e.getMessage(),e);
         }
     }
 
