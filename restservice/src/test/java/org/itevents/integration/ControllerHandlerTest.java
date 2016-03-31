@@ -181,7 +181,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldExpect403WhenLoggingWithIncorrectPassword() throws Exception {
+    public void shouldExpect401WhenLoggingWithIncorrectPassword() throws Exception {
         String invalidPassword = "invalidPassword";
 
         User user = BuilderUtil.buildUserAnakin();
@@ -194,7 +194,7 @@ public class ControllerHandlerTest {
         mvc.perform(post("/users/login")
         .param("username", user.getLogin())
         .param("password", invalidPassword))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
 
     }
 }

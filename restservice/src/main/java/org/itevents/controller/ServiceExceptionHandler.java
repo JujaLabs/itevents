@@ -47,6 +47,6 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AuthenticationServiceException.class)
     public ResponseEntity<String> handleAuthenticationServiceException(AuthenticationServiceException ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
