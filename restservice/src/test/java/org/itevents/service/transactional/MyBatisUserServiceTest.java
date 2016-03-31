@@ -5,6 +5,7 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
@@ -17,8 +18,9 @@ import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
 import org.itevents.util.time.Clock;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,11 +43,16 @@ import static org.mockito.Mockito.*;
                                    "classpath:test-utils-context.xml"})
 public class MyBatisUserServiceTest {
 
+    public static final int OTP_LIFETIME_IN_HOURS = 24;
+    public static final String GUEST_ROLE_NAME = "guest";
+
     @InjectMocks
     @Inject
     private UserService userService;
     @Mock
     private UserDao userDao;
+    @Mock
+    private EventDao eventDao;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
@@ -60,6 +67,9 @@ public class MyBatisUserServiceTest {
     private Clock clock;
     @Inject
     private BuilderUtil builderUtil;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -110,50 +120,53 @@ public class MyBatisUserServiceTest {
         assertEquals(expectedUser, returnedUser);
     }
 
-    /*
-    * TODO: FIX THIS TEST
-    * This test fails for unknown reasons
-    * issue 155
-    * https://github.com/JuniorsJava/itevents/issues/155
-    */
-    @Ignore
     @Test
     public void shouldAddSubscriber() throws Exception {
-        User testUser = BuilderUtil.buildUserVlasov();
+        String testLogin = "test@example.com";
+        User testUser = UserBuilder.anUser()
+                .login(testLogin)
+                .role(BuilderUtil.buildRoleGuest())
+                .build();
+
         String password = "password";
         String encodedPassword = "encodedPassword";
+        Role guestRole = BuilderUtil.buildRoleGuest();
         OneTimePassword otp = new OneTimePassword();
-        otp.generateOtp(24);
-        String email = "email";
+        otp.generateOtp(OTP_LIFETIME_IN_HOURS);
+        String emailWithOtp = "emailWithOtp";
 
-        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
-        when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
+        when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
         doNothing().when(userDao).addUser(eq(testUser), eq(encodedPassword));
-        when(oneTimePassword.generateOtp(24)).thenReturn(otp);
-        when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp)).thenReturn(email);
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+        when(oneTimePassword.generateOtp(OTP_LIFETIME_IN_HOURS)).thenReturn(otp);
+        when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp)).thenReturn(emailWithOtp);
 
-        userService.addSubscriber(testUser.getLogin(), password);
+        userService.addSubscriber(testLogin, password);
 
-        verify(mailService).sendMail(email, testUser.getLogin());
-        verify(userDao).addUser(eq(testUser), eq(encodedPassword));
+        verify(roleService).getRoleByName(GUEST_ROLE_NAME);
+        verify(userDao).addUser(testUser, encodedPassword);
+        verify(passwordEncoder).encode(password);
+        verify(oneTimePassword).generateOtp(OTP_LIFETIME_IN_HOURS);
+        verify(userDao).setOtpToUser(testUser, otp);
+        verify(mailService).sendMail(emailWithOtp, testLogin);
+
     }
 
-    /*
-    * TODO: FIX THIS TEST
-    * This test fails for unknown reasons
-    * issue 155
-    * https://github.com/JuniorsJava/itevents/issues/155
-    */
-    @Ignore
-    @Test(expected = EntityAlreadyExistsServiceException.class)
+    @Test
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
-        User testUser = BuilderUtil.buildUserVlasov();
+        String testLogin = "test@example.com";
+        User testUser = UserBuilder.anUser()
+                .login(testLogin)
+                .role(BuilderUtil.buildRoleGuest())
+                .build();
         String password = "password";
-        String encodedPassword = "encodedPassword";
+        Role guestRole = BuilderUtil.buildRoleGuest();
 
-        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
-        when(roleService.getRoleByName("subscriber")).thenReturn(BuilderUtil.buildRoleSubscriber());
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException())).when(userDao).addUser(eq(testUser), eq(encodedPassword));
+        when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
+        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException()))
+                .when(userDao).addUser(eq(testUser), any(String.class));
+        expectedException.expect(EntityAlreadyExistsServiceException.class);
+        expectedException.expectMessage("User test@example.com already registered");
 
         userService.addSubscriber(testUser.getLogin(), password);
     }
@@ -181,7 +194,7 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldDeactivateUserSubscription() throws Exception {
-        User testSubscriber = BuilderUtil.buildTestSubscriber();
+        User testSubscriber = BuilderUtil.buildSubscriberTest();
         boolean expectedSubscribed = false;
 
         doNothing().when(userDao).updateUser(testSubscriber);
@@ -307,5 +320,15 @@ public class MyBatisUserServiceTest {
 
         verify(userDao.getOtp(stringOtp));
         verify(userDao.getUserByOtp(oneTimePassword));
+    }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionIfOtpIsInvalid() throws Exception {
+        String stringOtp = "otp";
+
+        doThrow(EntityNotFoundDaoException.class)
+                .when(userDao).getOtp(stringOtp);
+
+        userService.activateUserWithOtp(stringOtp);
     }
 }

@@ -170,16 +170,19 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void activateUserWithOtp(String password) {
-        OneTimePassword oneTimePassword = userDao.getOtp(password);
-        User user = getUserByOtp(oneTimePassword);
+        try {
+            OneTimePassword oneTimePassword = userDao.getOtp(password);
+            User user = getUserByOtp(oneTimePassword);
 
-        if (oneTimePassword.getExpirationDate().after(clock.getNowDateTime())) {
-            user.setRole(roleService.getRoleByName("subscriber"));
-            userDao.updateUser(user);
-        } else {
-            String message = "Password expired";
-            LOGGER.error(message);
-            throw new OtpExpiredServiceException(message);
+            if (oneTimePassword.getExpirationDate().after(clock.getNowDateTime()) ) {
+                user.setRole(roleService.getRoleByName("subscriber"));
+                userDao.updateUser(user);
+            } else {
+                String message = "Password expired";
+                throw new OtpExpiredServiceException(message);
+            }
+        } catch (EntityNotFoundDaoException e) {
+            throw new EntityNotFoundServiceException(e.getMessage(),e);
         }
     }
 
