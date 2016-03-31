@@ -1,5 +1,6 @@
 package org.itevents.service.transactional;
 
+import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -43,9 +44,10 @@ import static org.mockito.Mockito.*;
                                    "classpath:test-utils-context.xml"})
 public class MyBatisUserServiceTest {
 
-    public static final int OTP_LIFETIME_IN_HOURS = 24;
-    public static final String GUEST_ROLE_NAME = "guest";
-
+    private static final int OTP_LIFETIME_IN_HOURS = 24;
+    private static final String GUEST_ROLE_NAME = "guest";
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     @Inject
     private UserService userService;
@@ -67,9 +69,6 @@ public class MyBatisUserServiceTest {
     private Clock clock;
     @Inject
     private BuilderUtil builderUtil;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -131,8 +130,7 @@ public class MyBatisUserServiceTest {
         String password = "password";
         String encodedPassword = "encodedPassword";
         Role guestRole = BuilderUtil.buildRoleGuest();
-        OneTimePassword otp = new OneTimePassword();
-        otp.generateOtp(OTP_LIFETIME_IN_HOURS);
+        OneTimePassword otp =  builderUtil.buildOneTimePassword();
         String emailWithOtp = "emailWithOtp";
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
@@ -194,7 +192,7 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldDeactivateUserSubscription() throws Exception {
-        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        User testSubscriber = BuilderUtil.buildTestSubscriber();
         boolean expectedSubscribed = false;
 
         doNothing().when(userDao).updateUser(testSubscriber);
@@ -287,10 +285,6 @@ public class MyBatisUserServiceTest {
     public void shouldUseOtpAndSetRoleToSubscriber() throws Exception {
         User guestUser = BuilderUtil.buildUserGuest();
         OneTimePassword otp = builderUtil.buildOneTimePassword();
-        /* Todo
-         * Created in task #172 (https://github.com/JuniorsJava/itevents/issues/172)
-         * Make all methods of BuilderUtil non-static
-        */
         Role subscriberRole = BuilderUtil.buildRoleSubscriber();
         User guestUserWithSubscriberRole = builderUtil.buildUserGuestWithSubscriberRole();
 
