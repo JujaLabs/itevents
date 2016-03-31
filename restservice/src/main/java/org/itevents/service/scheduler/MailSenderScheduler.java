@@ -30,7 +30,11 @@ public class MailSenderScheduler {
         try {
             eventReminderService.remind();
         }catch (BuildMailException e){
-            //TODO need to send mail to Admin with information, that mail to user wasn't built and sent.
+            /*
+            * @TODO: need to send mail to Admin with information, that mail to user wasn't built and sent.
+            * issue53
+            * https://github.com/JuniorsJava/itevents/issues/53
+            */
         }
     }
 
