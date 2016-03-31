@@ -155,11 +155,13 @@ public class MyBatisUserServiceTest {
                 .role(BuilderUtil.buildRoleGuest())
                 .build();
         String password = "password";
+        String encodedPassword = "encodedPassword";
         Role guestRole = BuilderUtil.buildRoleGuest();
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
         doThrow(new EntityAlreadyExistsDaoException("message", new SQLException()))
-                .when(userDao).addUser(eq(testUser), any(String.class));
+                .when(userDao).addUser(testUser, encodedPassword);
 
         userService.addSubscriber(testUser.getLogin(), password);
     }

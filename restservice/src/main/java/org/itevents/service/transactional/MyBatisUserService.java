@@ -56,7 +56,8 @@ public class MyBatisUserService implements UserService {
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
                 .build();
-        addUser(user, passwordEncoder.encode(password));
+        String encodedPassword = passwordEncoder.encode(password);
+        addUser(user, encodedPassword);
 
         OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
         setOtpToUser(user, otp);
