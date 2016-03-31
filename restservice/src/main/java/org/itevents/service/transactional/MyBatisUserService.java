@@ -67,9 +67,7 @@ public class MyBatisUserService implements UserService {
         try {
             userDao.addUser(user, password);
         } catch (EntityAlreadyExistsDaoException e) {
-            String message = e.getMessage() + ". Error when add new user (" + user.getLogin() + ")";
-            LOGGER.error(message, e);
-            throw new EntityAlreadyExistsServiceException("User " + user.getLogin() + " already registered", e);
+            throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
         }
     }
 

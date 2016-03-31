@@ -7,9 +7,9 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
-import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -50,8 +50,8 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
             Throwable t = e;
             while (t.getCause() != null) {
                 t = t.getCause();
-                if (t instanceof PSQLException) {
-                    throw new EntityAlreadyExistsDaoException(t.getMessage());
+                if (t instanceof SQLException) {
+                    throw new EntityAlreadyExistsDaoException(t.getMessage(), t);
                 }
             }
         }
