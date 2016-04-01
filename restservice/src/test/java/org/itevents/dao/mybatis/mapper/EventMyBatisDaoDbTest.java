@@ -15,7 +15,8 @@ import org.itevents.dao.model.Technology;
 import org.itevents.dao.model.User;
 import org.itevents.dao.mybatis.sql_session_dao.EventMyBatisDao;
 import org.itevents.test_utils.BuilderUtil;
-import org.itevents.util.time.CustomDateTime;
+import org.itevents.util.time.DateTime;
+import org.itevents.util.time.DateTimeFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,6 +39,8 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     private final String TEST_PATH = PATH + "EventMapperTest/";
     @Inject
     private EventMyBatisDao eventMyBatisDao;
+    @Inject
+    private DateTimeFactory dateTimeFactory;
 
     @Test
     public void shouldFindEventById() throws Exception {
@@ -211,11 +214,8 @@ public class EventMyBatisDaoDbTest extends AbstractDbTest {
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventPhp();
-
-        Date unassignDate = new CustomDateTime()
-                .withFormat("yyyy.MM.dd")
-                .parseFromString("2115.07.20")
-                .getDate();
+        DateTime dateTime = dateTimeFactory.parseFromStringWithFormat("2115.07.20", "yyyy.MM.dd");
+        Date unassignDate = dateTime.getDate();
         String unassignReason = "test";
         eventMyBatisDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }

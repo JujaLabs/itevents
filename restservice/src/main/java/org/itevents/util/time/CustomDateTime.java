@@ -1,13 +1,11 @@
 package org.itevents.util.time;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public final class CustomDateTime implements DateTime {
+final class CustomDateTime implements DateTime {
     private static final String DEFAULT_FORMAT = "dd.MM.yyyy";
     private final LocalDateTime localDateTime;
     private final String format;
@@ -22,6 +20,11 @@ public final class CustomDateTime implements DateTime {
         this.format = format;
     }
 
+    public CustomDateTime(final LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+        this.format = DEFAULT_FORMAT;
+    }
+
     @Override
     public LocalDateTime getLocalDateTime() {
         return this.localDateTime;
@@ -32,28 +35,6 @@ public final class CustomDateTime implements DateTime {
         return Date.from(this.localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    @Override
-    public CustomDateTime withLocalDateTime(LocalDateTime localDateTime) {
-        return new CustomDateTime(localDateTime, this.format);
-    }
-
-    @Override
-    public CustomDateTime withDate(Date date) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-        return withLocalDateTime(localDateTime);
-    }
-
-    @Override
-    public CustomDateTime withFormat(String format) {
-        return new CustomDateTime(this.localDateTime, format);
-    }
-
-    @Override
-    public CustomDateTime parseFromString(String dateString) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat(this.format);
-        return new CustomDateTime().withDate(formatter.parse(dateString))
-                                   .withFormat(this.format);
-    }
 
     @Override
     public String toString(){

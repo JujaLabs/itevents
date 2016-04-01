@@ -10,7 +10,8 @@ import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.Clock;
-import org.itevents.util.time.CustomDateTime;
+import org.itevents.util.time.DateTime;
+import org.itevents.util.time.DateTimeFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -159,9 +160,8 @@ public class MyBatisEventServiceTest {
     @Test(expected = TimeCollisionServiceException.class)
     public void shouldThrowTimeCollisionServiceExceptionWhenTryFindPastEventAsFutureEvent() throws Exception {
         Event event = BuilderUtil.buildEventJava();
-        Date yesterdayDate = new CustomDateTime()
-                .withLocalDateTime(clock.getNowLocalDateTime().minusDays(1))
-                .getDate();
+        DateTime dateTime = new DateTimeFactory().withLocalDateTime(clock.getNowLocalDateTime().minusDays(1));
+        Date yesterdayDate = dateTime.getDate();
         event.setEventDate(yesterdayDate);
 
         when(eventDao.getEvent(event.getId())).thenReturn(event);

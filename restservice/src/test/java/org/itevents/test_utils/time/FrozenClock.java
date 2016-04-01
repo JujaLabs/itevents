@@ -1,9 +1,6 @@
 package org.itevents.test_utils.time;
 
-import org.itevents.util.time.Clock;
-import org.itevents.util.time.CustomDateTime;
-import org.itevents.util.time.DateTime;
-import org.itevents.util.time.RealClock;
+import org.itevents.util.time.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +14,11 @@ import java.util.Date;
 @Primary
 @Component
 public final class FrozenClock implements Clock {
+
     private final DateTime frozenDateTime;
 
     public FrozenClock() {
-        this.frozenDateTime = new CustomDateTime();
+        this.frozenDateTime = new DateTimeFactory().withoutConstructorArgs();
     }
 
     @Override
