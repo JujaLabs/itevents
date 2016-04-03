@@ -145,7 +145,6 @@ public class MyBatisUserServiceTest {
         verify(oneTimePassword).generateOtp(OTP_LIFETIME_IN_HOURS);
         verify(userDao).setOtpToUser(testUser, otp);
         verify(mailService).sendMail(emailWithOtp, testLogin);
-
     }
 
     @Test
@@ -303,5 +302,23 @@ public class MyBatisUserServiceTest {
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
 
         userService.activateUserWithOtp(stringOtp);
+    }
+
+    @Test
+    public void shouldAddLoginInLowerCase() throws Exception {
+        String loginInUperCase = "LOGIN";
+        String loginInLowerCase = loginInUperCase.toLowerCase();
+        String password = "password";
+
+        User userWithLoginInLowerCase = UserBuilder.anUser()
+                .login(loginInLowerCase)
+                .build();
+
+        String encodedPassword = "encodedPassword";
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+
+        userService.addSubscriber(loginInUperCase, password);
+
+        verify(userDao).addUser(userWithLoginInLowerCase, encodedPassword);
     }
 }
