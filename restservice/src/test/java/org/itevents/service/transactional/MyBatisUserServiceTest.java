@@ -45,8 +45,7 @@ public class MyBatisUserServiceTest {
 
     public static final int OTP_LIFETIME_IN_HOURS = 24;
     public static final String GUEST_ROLE_NAME = "guest";
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+
     @InjectMocks
     @Inject
     private UserService userService;
@@ -64,6 +63,9 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -94,7 +96,7 @@ public class MyBatisUserServiceTest {
 
     @Test(expected = EntityNotFoundServiceException.class)
     public void shouldThrowServiceExceptionWhenUserNameIsAbsent() {
-        String absentName = "absent";
+        String absentName = "absentName";
 
         when(userDao.getUserByName(absentName)).thenThrow(EntityNotFoundDaoException.class);
 
@@ -145,6 +147,7 @@ public class MyBatisUserServiceTest {
         verify(oneTimePassword).generateOtp(OTP_LIFETIME_IN_HOURS);
         verify(userDao).setOtpToUser(testUser, otp);
         verify(mailService).sendMail(emailWithOtp, testLogin);
+
     }
 
     @Test
@@ -300,6 +303,16 @@ public class MyBatisUserServiceTest {
 
         when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
+
+        userService.activateUserWithOtp(stringOtp);
+    }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionIfOtpIsInvalid() throws Exception {
+        String stringOtp = "otp";
+
+        doThrow(EntityNotFoundDaoException.class)
+                .when(userDao).getOtp(stringOtp);
 
         userService.activateUserWithOtp(stringOtp);
     }
