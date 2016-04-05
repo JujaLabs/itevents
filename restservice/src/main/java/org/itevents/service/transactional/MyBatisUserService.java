@@ -164,16 +164,21 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void activateUserWithOtp(String password) {
-        OneTimePassword oneTimePassword = userDao.getOtp(password);
-        User user = getUserByOtp(oneTimePassword);
-
-        if (oneTimePassword.getExpirationDate().after(new Date()) ) {
-            user.setRole(roleService.getRoleByName("subscriber"));
-            userDao.updateUser(user);
-        } else {
-            String message = "Password expired";
-            LOGGER.error(message);
-            throw new OtpExpiredServiceException(message);
+        try {
+            OneTimePassword oneTimePassword = userDao.getOtp(password);
+            User user = getUserByOtp(oneTimePassword);
+//            @TODO:
+//            new Date() at line 172 must be refactored, within issue 195
+//            https://github.com/JuniorsJava/itevents/pull/195
+            if (oneTimePassword.getExpirationDate().after(new Date()) ) {
+                user.setRole(roleService.getRoleByName("subscriber"));
+                userDao.updateUser(user);
+            } else {
+                String message = "Password expired";
+                throw new OtpExpiredServiceException(message);
+            }
+        } catch (EntityNotFoundDaoException e) {
+            throw new EntityNotFoundServiceException(e.getMessage(),e);
         }
     }
 
