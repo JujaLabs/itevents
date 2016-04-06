@@ -7,20 +7,21 @@ import org.junit.Test;
 /**
  * Created by vaa25 on 06.04.2016.
  */
-public class EngineTest {
+@SuppressWarnings("PMD.AvoidFinalLocalVariable")
+public final class EngineTest {
     private Engine engine;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.engine = new Engine();
     }
 
     @Test
-    public void run() throws Exception {
-        String expected = "Result is: Integrations 1, Entities: 1\n" +
-            "Sample Integration\n";
-        String returned = this.engine.run();
-        assertEquals(expected, returned);
+    public void run() throws InterruptedException {
+        final String expected =
+            "Result is: Integrations 1, Entities: 1\nSample Integration\n";
+        final String returned = this.engine.run();
+        assertEquals("Crawler fails", expected, returned);
     }
 
 }

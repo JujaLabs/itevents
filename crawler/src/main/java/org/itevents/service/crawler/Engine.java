@@ -2,6 +2,7 @@ package org.itevents.service.crawler;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.itevents.service.crawler.integration.SampleIntegration;
 import org.itevents.service.crawler.interfaces.EngineObserver;
@@ -18,7 +19,7 @@ public class Engine implements EngineObserver {
     public String run() throws InterruptedException {
         this.integrations = this.loadIntegrations();
         this.threads = new ArrayList<>(this.integrations.size());
-        this.entities = new ArrayList<>();
+        this.entities = new ArrayList<>(10);
         this.addMeInIntegrations();
         this.startIntegrations();
         this.joinAllIntegrations();
@@ -26,45 +27,45 @@ public class Engine implements EngineObserver {
     }
 
     private String work() {
-        StringBuilder stringBuilder = new StringBuilder(
+        final StringBuilder builder = new StringBuilder(
             String.format("Result is: Integrations %s, Entities: %s\n",
                 this.integrations.size(), this.entities.size()));
-        for (Integration integration : this.integrations) {
-            stringBuilder.append(integration.getIntegrationName()).append('\n');
+        for (final Integration integration : this.integrations) {
+            builder.append(integration.getIntegrationName()).append('\n');
         }
-        return stringBuilder.toString();
+        return builder.toString();
     }
 
     private void joinAllIntegrations() throws InterruptedException {
-        for (Thread thread : this.threads) {
+        for (final Thread thread : this.threads) {
             thread.join();
         }
     }
 
     private void startIntegrations() {
-        for (Integration integration : this.integrations) {
-            Thread thread = new Thread(integration);
+        for (final Integration integration : this.integrations) {
+            final Thread thread = new Thread(integration);
             thread.start();
             this.threads.add(thread);
         }
     }
 
     private void addMeInIntegrations() {
-        for (Integration integration : this.integrations) {
+        for (final Integration integration : this.integrations) {
             integration.addObserver(this);
         }
     }
 
 
     private List<Integration> loadIntegrations() {
-        List<Integration> integrations = new ArrayList<>();
-        integrations.add(new SampleIntegration());
-        return integrations;
+        return Collections.singletonList(new SampleIntegration());
     }
 
 
     @Override
-    public synchronized void handleEvent(final Collection<Entity> entities) {
-        this.entities.addAll(entities);
+    public final void handleEvent(final Collection<Entity> collection) {
+        synchronized (this) {
+            this.entities.addAll(collection);
+        }
     }
 }

@@ -1,5 +1,7 @@
-package org.itevents;
+package org.itevents.service;
 
+import static org.junit.Assert.assertNotNull;
+import javax.inject.Inject;
 import org.itevents.dao.EventDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,10 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-
-import javax.inject.Inject;
-
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by vaa25 on 10.03.2016.
@@ -27,6 +25,6 @@ public class CrawlerModuleIntegrationTest {
 
     @Test
     public void shouldSeeEventDaoFromRestservice() {
-        assertNotNull(eventDao);
+        assertNotNull("Can't attach restservice module", this.eventDao);
     }
 }

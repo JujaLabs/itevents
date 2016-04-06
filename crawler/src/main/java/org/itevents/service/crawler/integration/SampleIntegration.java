@@ -15,7 +15,7 @@ import org.itevents.service.crawler.interfaces.Integration;
 /**
  * Created by vaa25 on 20.03.2016.
  */
-public class SampleIntegration implements Integration {
+public final class SampleIntegration implements Integration {
     private static final String EXAMPLE_HTML_FILE = "example.html";
     private final int wiremockPort;
     private final WireMockServer wireMockServer;
@@ -38,10 +38,10 @@ public class SampleIntegration implements Integration {
     public void run() {
 
         this.startWireMock();
-        String html = new HttpFetcher().fetchAsString(
+        final String html = new HttpFetcher().fetchAsString(
             String.format("http://localhost:%s/example", this.wiremockPort));
-        Entity entity = new Parser(html).parse();
-        this.result = new ArrayList<>();
+        final Entity entity = new Parser(html).parse();
+        this.result = new ArrayList<>(10);
         this.result.add(entity);
         this.notifyObservers();
 
@@ -54,7 +54,7 @@ public class SampleIntegration implements Integration {
 
     private void startWireMock() {
         this.wireMockServer.start();
-        String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);
+        final String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
                 .withStatus(HttpStatus.SC_OK)
@@ -69,7 +69,7 @@ public class SampleIntegration implements Integration {
 
     @Override
     public void notifyObservers() {
-        for (EngineObserver observer : this.observers) {
+        for (final EngineObserver observer : this.observers) {
             observer.handleEvent(this.result);
         }
     }

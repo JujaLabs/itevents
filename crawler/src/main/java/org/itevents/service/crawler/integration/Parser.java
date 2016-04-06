@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
  */
 public final class Parser {
 
-    private static final String DD = ".dd";
+    private static final String TAG_DD = ".dd";
 
     private final Document document;
 
@@ -18,16 +18,16 @@ public final class Parser {
     }
 
     public Entity parse() {
-        return new Entity.EntityBuilder()
-            .title(this.getTitle())
-            .date(this.getDate())
-            .date(this.getTime())
-            .address(this.getAddress())
-            .city(this.getCity())
-            .registrationLink(this.getRegistrationLink())
-            .description(this.getDescription())
-            .price(this.getPrice())
-            .build();
+        final Entity entity = new Entity();
+        entity.setTitle(this.getTitle());
+        entity.setDate(this.getDate());
+        entity.setTime(this.getTime());
+        entity.setAddress(this.getAddress());
+        entity.setCity(this.getCity());
+        entity.setRegistrationLink(this.getRegistrationLink());
+        entity.setDescription(this.getDescription());
+        entity.setPrice(this.getPrice());
+        return entity;
     }
 
     private String getTitle() {
@@ -35,20 +35,20 @@ public final class Parser {
     }
 
     private String getDate() {
-        return this.document.select(Parser.DD).first().text();
+        return this.document.select(Parser.TAG_DD).first().text();
     }
 
     private String getTime() {
-        return this.document.select(Parser.DD).get(1).text();
+        return this.document.select(Parser.TAG_DD).get(1).text();
     }
 
     private String getAddress() {
-        final String[] split = this.document.select(Parser.DD).get(2).text().split(",");
+        final String[] split = this.document.select(Parser.TAG_DD).get(2).text().split(",");
         return String.format("%s,%s", split[1], split[2]);
     }
 
     private String getCity() {
-        return this.document.select(Parser.DD).get(0).text();
+        return this.document.select(Parser.TAG_DD).get(0).text();
     }
 
     private String getRegistrationLink() {

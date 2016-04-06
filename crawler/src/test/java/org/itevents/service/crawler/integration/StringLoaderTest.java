@@ -7,18 +7,19 @@ import org.junit.Test;
 /**
  * Created by vaa25 on 20.03.2016.
  */
-public class StringLoaderTest {
+@SuppressWarnings("PMD.AvoidFinalLocalVariable")
+public final class StringLoaderTest {
     private StringLoader stringLoader;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.stringLoader = new StringLoader();
     }
 
     @Test
-    public void testLoad() throws Exception {
-        String expectedString = "Test string";
-        String returnedString = this.stringLoader.load("file_for_test.txt");
-        assertEquals(expectedString, returnedString);
+    public void testLoad() {
+        final String expected = "Test string";
+        final String returned = this.stringLoader.load("file_for_test.txt");
+        assertEquals("can't load 'file_for_test.txt'", expected, returned);
     }
 }
