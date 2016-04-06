@@ -1,5 +1,16 @@
-package org.itevents.integration;
+package org.itevents.service.crawler.integration;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.ArrayList;
+import javax.inject.Inject;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.VisitLog;
@@ -20,14 +31,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by vaa25 on 04.01.2016.
@@ -51,31 +54,31 @@ public class ControllerHandlerTest {
 
     @Before
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
     @Test
     public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
         int absentId = 0;
 
-        when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
+        when(this.eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
 
-        mvc.perform(post("/events/" + absentId + "/assign"))
+        this.mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(this.eventService, never()).assignUserToEvent(any(), any());
     }
 
     @Test
     public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
         Event event = BuilderUtil.buildEventJava();
 
-        when(eventService.getFutureEvent(event.getId())).thenThrow(TimeCollisionServiceException.class);
+        when(this.eventService.getFutureEvent(event.getId())).thenThrow(TimeCollisionServiceException.class);
 
-        mvc.perform(post("/events/" + event.getId() + "/assign"))
+        this.mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(this.eventService, never()).assignUserToEvent(any(), any());
     }
 
     @Test
@@ -83,9 +86,9 @@ public class ControllerHandlerTest {
         String name = "SubscriberInDatabase";
         String password = "anyPassword";
 
-        doThrow(EntityAlreadyExistsServiceException.class).when(userService).addSubscriber(name, password);
+        doThrow(EntityAlreadyExistsServiceException.class).when(this.userService).addSubscriber(name, password);
 
-        mvc.perform(post("/users/register")
+        this.mvc.perform(post("/users/register")
                 .param("username", name)
                 .param("password", password))
                 .andExpect(status().is(422));
@@ -96,24 +99,24 @@ public class ControllerHandlerTest {
         Event event = BuilderUtil.buildEventRuby();
         User user = BuilderUtil.buildUserGuest();
 
-        when(eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(this.eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
+        when(this.userService.getUserByName(user.getLogin())).thenReturn(user);
 
-        mvc.perform(get("/events/" + event.getId() + "/register"))
+        this.mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService).getEvent(event.getId());
-        verify(userService, never()).getUserByName(user.getLogin());
-        verify(visitLogService, never()).addVisitLog(any(VisitLog.class));
+        verify(this.eventService).getEvent(event.getId());
+        verify(this.userService, never()).getUserByName(user.getLogin());
+        verify(this.visitLogService, never()).addVisitLog(any(VisitLog.class));
     }
 
     @Test
     public void shouldNotFoundUserById() throws Exception {
         int absentId = 0;
 
-        when(userService.getUser(absentId)).thenThrow(EntityNotFoundServiceException.class);
+        when(this.userService.getUser(absentId)).thenThrow(EntityNotFoundServiceException.class);
 
-        mvc.perform(get("/users/" + absentId))
+        this.mvc.perform(get("/users/" + absentId))
                 .andExpect(status().isNotFound());
     }
 
@@ -124,15 +127,15 @@ public class ControllerHandlerTest {
         ArrayList<Event> expectedEvents = new ArrayList<>();
         expectedEvents.add(event);
 
-        when(eventService.getFutureEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(this.eventService.getFutureEvent(event.getId())).thenReturn(event);
+        when(this.userService.getAuthorizedUser()).thenReturn(user);
         doThrow(ActionAlreadyDoneServiceException.class)
-            .when(eventService).assignUserToEvent(user, event);
+            .when(this.eventService).assignUserToEvent(user, event);
 
-        mvc.perform(post("/events/" + event.getId() + "/assign"))
+        this.mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
 
-        reset(eventService);
+        reset(this.eventService);
     }
 
     @Test
@@ -146,11 +149,11 @@ public class ControllerHandlerTest {
             invalidParameter = invalidParameter.concat("s");
         }
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+        when(this.eventService.getEvent(event.getId())).thenReturn(event);
+        when(this.userService.getAuthorizedUser()).thenReturn(user);
+        when(this.eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
-        mvc.perform(post("/events/" + event.getId() + "/unassign")
+        this.mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", invalidParameter))
                 .andExpect(status().isBadRequest());
     }
@@ -163,11 +166,11 @@ public class ControllerHandlerTest {
         expectedEvents.add(event);
         String validParameter = "";
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+        when(this.eventService.getEvent(event.getId())).thenReturn(event);
+        when(this.userService.getAuthorizedUser()).thenReturn(user);
+        when(this.eventService.getEventsByUser(user)).thenReturn(expectedEvents);
 
-        mvc.perform(post("/events/" + event.getId() + "/unassign")
+        this.mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validParameter))
                 .andExpect(status().isOk());
     }
@@ -177,9 +180,9 @@ public class ControllerHandlerTest {
         String otp = "NotValidOtp";
 
         doThrow(EntityNotFoundServiceException.class)
-            .when(userService).activateUserWithOtp(otp);
+            .when(this.userService).activateUserWithOtp(otp);
 
-        mvc.perform(get("/users/activate/"+ otp))
+        this.mvc.perform(get("/users/activate/" + otp))
                 .andExpect(status().isNotFound());
     }
 }

@@ -1,5 +1,10 @@
-package org.itevents.integration;
+package org.itevents.service.crawler.integration;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import javax.inject.Inject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.dao.model.Event;
 import org.itevents.service.EventService;
@@ -13,13 +18,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.inject.Inject;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by ramax on 3/10/16.
@@ -39,7 +37,7 @@ public class ControllerTest {
 
     @Before
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
     @Test
@@ -47,9 +45,9 @@ public class ControllerTest {
         Event event = BuilderUtil.buildEventJava();
         String expectedEventInJson = new ObjectMapper().writeValueAsString(event);
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(this.eventService.getEvent(event.getId())).thenReturn(event);
 
-        mvc.perform(get("/events/" + event.getId()))
+        this.mvc.perform(get("/events/" + event.getId()))
                 .andExpect(content().json(expectedEventInJson))
                 .andExpect(status().isOk());
     }

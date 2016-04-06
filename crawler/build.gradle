@@ -12,11 +12,13 @@ configurations {
     compile.extendsFrom configurations.springFramework
     compile.extendsFrom configurations.javaxInject
     compile.extendsFrom configurations.dao
+    compile.extendsFrom configurations.log4j
     testCompile.extendsFrom configurations.testing
 }
 
 dependencies {
     compile project(':restservice')
+    compile 'com.github.tomakehurst:wiremock:1.57'
     testCompile project(':restservice')
 }
 test.dependsOn ":restservice:liquibaseTestUpdate"

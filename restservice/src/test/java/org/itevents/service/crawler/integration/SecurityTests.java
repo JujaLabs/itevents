@@ -1,5 +1,16 @@
-package org.itevents.integration;
+package org.itevents.service.crawler.integration;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,16 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.inject.Inject;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ContextConfiguration({
@@ -46,20 +47,20 @@ public class SecurityTests {
 
     @Before
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+        this.mvc = MockMvcBuilders.webAppContextSetup(this.context).apply(springSecurity()).build();
     }
 
     @Test
-    @WithMockUser(username = "kuchin@email.com", roles = {"ADMIN"})
+    @WithMockUser(username = "kuchin@email.com", roles = "ADMIN")
     public void shouldGrantAccessToAdminForAdmin() throws Exception {
-        mvc.perform(get("/admin"))
+        this.mvc.perform(get("/admin"))
                 .andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void shouldGrantAccessToIndexForAnonymous() throws Exception {
-        mvc.perform(get("/"))
+        this.mvc.perform(get("/"))
                 .andExpect(view().name("index"))
                 .andExpect(unauthenticated())
                 .andExpect(status().isOk());
@@ -67,7 +68,7 @@ public class SecurityTests {
 
     @Test
     public void shouldDenyAccessToAdminForAnonymous() throws Exception {
-        MvcResult result = mvc.perform(get("/admin"))
+        MvcResult result = this.mvc.perform(get("/admin"))
                 .andExpect(unauthenticated())
                 .andExpect(status().isUnauthorized()).andReturn();
         String str = result.getResponse().getContentAsString();
@@ -75,24 +76,24 @@ public class SecurityTests {
     }
 
     @Test
-    @WithMockUser(username = "vlasov@email.com", roles = {"subscriber"})
+    @WithMockUser(username = "vlasov@email.com", roles = "subscriber")
     public void shouldDenyAccessToAdminForSubscriber() throws Exception {
-        mvc.perform(get("/admin"))
+        this.mvc.perform(get("/admin"))
                 .andExpect(authenticated().withUsername("vlasov@email.com").withRoles("subscriber"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(username = "vlasov@email.com", roles = {"subscriber"})
+    @WithMockUser(username = "vlasov@email.com", roles = "subscriber")
     public void shouldDenyAccessToRegisterNewSubscriberForAuthorizedSubscriber() throws Exception {
-        mvc.perform(post("/users/register"))
+        this.mvc.perform(post("/users/register"))
                 .andExpect(authenticated().withUsername("vlasov@email.com"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void shouldGrantAccessToRegisterNewSubscriberForAnonymous() throws Exception {
-        mvc.perform(post("/users/register")
+        this.mvc.perform(post("/users/register")
                 .param("username", "vlasov@email.com")
                 .param("password", "password"))
                 .andExpect(status().isCreated());
@@ -102,18 +103,18 @@ public class SecurityTests {
     public void shouldGetUnauthorizedJsonIfUserNotAdminFromAdmin() throws Exception {
         String errorMessage = "UNAUTHORIZED";
 
-        mvc.perform(get("/admin"))
+        this.mvc.perform(get("/admin"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error", is(errorMessage)));
     }
 
     @Test
-    @WithMockUser(username = "ramax@email.com", roles = {"subscriber"})
+    @WithMockUser(username = "ramax@email.com", roles = "subscriber")
     public void shouldGetNotAcceptableJsonIfUserIsSubscriberFromAdmin() throws Exception {
         String errorMessage = "FORBIDDEN";
 
-        mvc.perform(get("/admin"))
+        this.mvc.perform(get("/admin"))
                 .andExpect(status().isForbidden())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.error", is(errorMessage)));

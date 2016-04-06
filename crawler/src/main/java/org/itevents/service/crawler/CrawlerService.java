@@ -1,4 +1,4 @@
-package org.itevents.service;
+package org.itevents.service.crawler;
 
 /**
  * Created by vaa25 on 10.03.2016.
