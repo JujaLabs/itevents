@@ -1,0 +1,70 @@
+package org.itevents.service.crawler.integration;
+
+import org.itevents.service.crawler.Entity;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+/**
+ * Created by vaa25 on 06.04.2016.
+ */
+public final class Parser {
+
+    private static final String DD = ".dd";
+
+    private final Document document;
+
+    public Parser(final String html) {
+        this.document = Jsoup.parse(html);
+    }
+
+    public Entity parse() {
+        return new Entity.EntityBuilder()
+            .title(this.getTitle())
+            .date(this.getDate())
+            .date(this.getTime())
+            .address(this.getAddress())
+            .city(this.getCity())
+            .registrationLink(this.getRegistrationLink())
+            .description(this.getDescription())
+            .price(this.getPrice())
+            .build();
+    }
+
+    private String getTitle() {
+        return this.document.select(".title").text();
+    }
+
+    private String getDate() {
+        return this.document.select(Parser.DD).first().text();
+    }
+
+    private String getTime() {
+        return this.document.select(Parser.DD).get(1).text();
+    }
+
+    private String getAddress() {
+        final String[] split = this.document.select(Parser.DD).get(2).text().split(",");
+        return String.format("%s,%s", split[1], split[2]);
+    }
+
+    private String getCity() {
+        return this.document.select(Parser.DD).get(0).text();
+    }
+
+    private String getRegistrationLink() {
+        return this.document.select(":containsOwn(регистр) a")
+            .first().attr("href");
+    }
+
+    private String getDescription() {
+        return this.document.select(".b-typo").first().text();
+    }
+
+    private String getPrice() {
+        String price = this.document.select(":containsOwn(Цена)").text();
+        if (price.contains("у.е")) {
+            price = price.split("у.е")[0].replaceAll("\\D", "");
+        }
+        return price;
+    }
+}
