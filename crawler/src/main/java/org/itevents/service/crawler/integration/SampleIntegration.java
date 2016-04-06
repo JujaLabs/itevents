@@ -40,13 +40,10 @@ public class SampleIntegration implements Integration {
         this.startWireMock();
         String html = new HttpFetcher().fetchAsString(
             String.format("http://localhost:%s/example", this.wiremockPort));
-        System.out.println("--------------");
-        //do something with fetched html
         Entity entity = new Parser(html).parse();
         this.result = new ArrayList<>();
         this.result.add(entity);
         this.notifyObservers();
-        System.out.println(html);
 
         this.stopWireMock();
     }
@@ -56,17 +53,13 @@ public class SampleIntegration implements Integration {
     }
 
     private void startWireMock() {
-
-
+        this.wireMockServer.start();
         String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);
-//        System.out.println(html);
-
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
                 .withStatus(HttpStatus.SC_OK)
                 .withHeader("Content-Type", "text/plain")
                 .withBody(html)));
-        this.wireMockServer.start();
     }
 
     @Override

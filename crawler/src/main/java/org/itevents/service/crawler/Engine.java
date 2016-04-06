@@ -45,6 +45,7 @@ public class Engine implements EngineObserver {
         for (Integration integration : this.integrations) {
             Thread thread = new Thread(integration);
             thread.start();
+            this.threads.add(thread);
         }
     }
 
