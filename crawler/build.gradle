@@ -2,11 +2,50 @@ group 'org.itevents'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
 
 jar {
     archiveName = 'crawler.jar'
     destinationDir = file('../webapps')
 }
+
+repositories {
+    mavenCentral()
+}
+
+findbugs {
+    ignoreFailures = false
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+pmd {
+    ignoreFailures = false
+    ruleSetFiles = files("config/pmd/ruleset.xml")
+}
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+checkstyle {
+    ignoreFailures = false
+}
+task checkstyleHtml << {
+    ant.xslt(in: checkstyleMain.reports.xml.destination,
+      style: file('config/checkstyle/checkstyle-noframes-sorted.xsl'),
+      out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
+}
+checkstyleMain.finalizedBy checkstyleHtml
+
 
 configurations {
     compile.extendsFrom configurations.springFramework
@@ -19,6 +58,7 @@ configurations {
 dependencies {
     compile project(':restservice')
     compile 'com.github.tomakehurst:wiremock:1.57'
+    compile 'org.jsoup:jsoup:1.8.3'
     testCompile project(':restservice')
 }
 test.dependsOn ":restservice:liquibaseTestUpdate"
