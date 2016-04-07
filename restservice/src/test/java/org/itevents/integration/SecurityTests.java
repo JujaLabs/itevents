@@ -125,9 +125,10 @@ public class SecurityTests {
 
     @Test
     @WithMockUser(username = "kuchin@email.com",authorities = {"admin"})
-    public void shouldGrantAccessToUEventsAssignedToUserForAdmin() throws Exception {
+    public void shouldGrantAccessToEventsAssignedToUserForAdmin() throws Exception {
+        List<GrantedAuthority> autorities =  AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
         mvc.perform(get("/users/0/events"))
-                .andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
+                .andExpect(authenticated().withUsername("kuchin@email.com").withAuthorities(autorities))
                 .andExpect(status().isOk());
     }
 
