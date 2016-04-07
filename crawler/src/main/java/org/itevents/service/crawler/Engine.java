@@ -21,21 +21,22 @@ public class Engine implements EngineObserver {
     private List<Entity> entities;
 
     public String run() throws InterruptedException, ExecutionException {
-
-        this.integrations = this.loadIntegrations();
-        this.futures = new ArrayList<>(this.integrations.size());
-        this.entities = new ArrayList<>(10);
-        this.addMeInIntegrations();
+        integrations = this.loadIntegrations();
+        futures = new ArrayList<>(integrations.size());
+        entities = new ArrayList<>(10);
+        addMeInIntegrations();
         new IntegrationLauncher().launch();
-        return this.work();
+        return work();
     }
 
     private String work() {
         final StringBuilder builder = new StringBuilder(
-            String.format("Result is: Integrations %s, Entities: %s\n",
+            String.format("Result is: Integrations %s, Entities: %s%n",
                 integrations.size(), entities.size()));
         for (final Integration integration : integrations) {
-            builder.append(integration.getIntegrationName()).append('\n');
+            builder
+                .append(integration.getIntegrationName())
+                .append(String.format("%n"));
         }
         return builder.toString();
     }
@@ -71,7 +72,7 @@ public class Engine implements EngineObserver {
         }
 
         private void startIntegrations() {
-            for (final Integration integration : Engine.this.integrations) {
+            for (final Integration integration : integrations) {
                 futures.add(service.submit(integration));
             }
         }

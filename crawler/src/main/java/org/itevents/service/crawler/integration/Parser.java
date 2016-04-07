@@ -20,27 +20,27 @@ public final class Parser {
 
     public Entity parse() {
         final Entity entity = new Entity();
-        entity.setTitle(this.getTitle());
-        entity.setDate(this.getDate());
-        entity.setTime(this.getTime());
-        entity.setAddress(this.getAddress());
-        entity.setCity(this.getCity());
-        entity.setRegistrationLink(this.getRegistrationLink());
-        entity.setDescription(this.getDescription());
-        entity.setPrice(this.getPrice());
+        entity.setTitle(getTitle());
+        entity.setDate(getDate());
+        entity.setTime(getTime());
+        entity.setAddress(getAddress());
+        entity.setCity(getCity());
+        entity.setRegistrationLink(getRegistrationLink());
+        entity.setDescription(getDescription());
+        entity.setPrice(getPrice());
         return entity;
     }
 
     private String getTitle() {
-        return this.document.select(".title").text();
+        return document.select(".title").text();
     }
 
     private String getDate() {
-        return this.document.select(Parser.TAG_DD).first().text();
+        return document.select(Parser.TAG_DD).first().text();
     }
 
     private String getTime() {
-        return this.document.select(Parser.TAG_DD).get(1).text();
+        return document.select(Parser.TAG_DD).get(1).text();
     }
 
     private String getAddress() {
@@ -49,11 +49,11 @@ public final class Parser {
     }
 
     private String getCity() {
-        return this.document.select(Parser.TAG_DD).get(0).text();
+        return document.select(Parser.TAG_DD).get(0).text();
     }
 
     private String getRegistrationLink() {
-        return this.document.select(":containsOwn(регистр) a")
+        return document.select(":containsOwn(регистр) a")
             .first().attr("href");
     }
 
@@ -62,7 +62,7 @@ public final class Parser {
     }
 
     private String getPrice() {
-        String price = this.document.select(":containsOwn(Цена)").text();
+        String price = document.select(":containsOwn(Цена)").text();
         if (price.contains("у.е")) {
             price = price.split("у.е")[0].replaceAll("\\D", "");
         }

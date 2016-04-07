@@ -19,9 +19,9 @@ public final class EngineTest {
 
     @Test
     public void run() throws InterruptedException, ExecutionException {
-        final String expected =
-            "Result is: Integrations 1, Entities: 1\nSample Integration\n";
-        final String returned = this.engine.run();
+        final String expected = String.format(
+            "Result is: Integrations 1, Entities: 1%nSample Integration%n");
+        final String returned = engine.run();
         assertEquals("Crawler fails", expected, returned);
     }
 

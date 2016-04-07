@@ -1,4 +1,4 @@
-package org.itevents.service;
+package org.itevents.service.crawler;
 
 import static org.junit.Assert.assertNotNull;
 import javax.inject.Inject;
