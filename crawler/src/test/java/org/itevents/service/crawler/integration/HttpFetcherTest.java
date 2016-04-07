@@ -18,6 +18,7 @@ import org.junit.Test;
 /**
  * Tests for HttpFetcher.
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public final class HttpFetcherTest {
     private static final String TEST_STRING = "Test string";
     private int wiremockPort;

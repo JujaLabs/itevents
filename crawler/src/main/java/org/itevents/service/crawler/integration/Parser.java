@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 /**
  * Created by vaa25 on 06.04.2016.
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public final class Parser {
 
     private static final String TAG_DD = ".dd";

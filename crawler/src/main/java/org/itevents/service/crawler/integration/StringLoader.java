@@ -26,6 +26,7 @@ public final class StringLoader {
         }
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Path getPath(final String relative) {
         try {
             return Paths

@@ -35,23 +35,22 @@ public final class SampleIntegration implements Integration {
     }
 
     @Override
-    public void run() {
-
+    public Void call() {
         this.startWireMock();
         final String html = new HttpFetcher().fetchAsString(
             String.format("http://localhost:%s/example", this.wiremockPort));
-        final Entity entity = new Parser(html).parse();
         this.result = new ArrayList<>(10);
-        this.result.add(entity);
+        this.result.add(new Parser(html).parse());
         this.notifyObservers();
-
         this.stopWireMock();
+        return null;
     }
 
     private void stopWireMock() {
         this.wireMockServer.stop();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void startWireMock() {
         this.wireMockServer.start();
         final String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);

@@ -15,6 +15,7 @@
     <rule ref="rulesets/java/codesize.xml"/>
     <rule ref="rulesets/java/controversial.xml">
         <exclude name="AtLeastOneConstructor"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
     </rule>
     <rule ref="rulesets/java/coupling.xml"/>
     <rule ref="rulesets/java/design.xml"/>
