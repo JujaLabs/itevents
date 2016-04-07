@@ -123,4 +123,12 @@ public class SecurityTests {
                 .andExpect(jsonPath("$.error", is(errorMessage)));
     }
 
+    @Test
+    @WithMockUser(username = "kuchin@email.com", roles = {"ADMIN"})
+    public void shouldGrantAccessToUEventsAssignedToUserForAdmin() throws Exception {
+        mvc.perform(get("/users/0/events"))
+                .andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
+                .andExpect(status().isOk());
+    }
+
 }
