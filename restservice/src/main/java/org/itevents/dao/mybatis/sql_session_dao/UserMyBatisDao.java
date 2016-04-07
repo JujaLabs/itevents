@@ -42,16 +42,19 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserMapper.getAllUsers");
     }
 
+//  @TODO: refactor this within issue 207
+//  https://github.com/JuniorsJava/itevents/issues/207
     @Override
     public void addUser(User user, String password) {
         try {
             getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.addUser", new UserPassword(user, password));
         } catch (Throwable e) {
             Throwable t = e;
+            String message = "user already exist";
             while (t.getCause() != null) {
                 t = t.getCause();
                 if (t instanceof SQLException) {
-                    throw new EntityAlreadyExistsDaoException(t.getMessage(), t);
+                    throw new EntityAlreadyExistsDaoException(message, t);
                 }
             }
         }
