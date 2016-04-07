@@ -124,7 +124,7 @@ public class SecurityTests {
     }
 
     @Test
-    @WithMockUser(username = "kuchin@email.com", roles = {"ADMIN"})
+    @WithMockUser(username = "kuchin@email.com",authorities = {"admin"})
     public void shouldGrantAccessToUEventsAssignedToUserForAdmin() throws Exception {
         mvc.perform(get("/users/0/events"))
                 .andExpect(authenticated().withUsername("kuchin@email.com").withRoles("ADMIN"))
