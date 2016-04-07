@@ -33,8 +33,8 @@ public class Engine implements EngineObserver {
     private String work() {
         final StringBuilder builder = new StringBuilder(
             String.format("Result is: Integrations %s, Entities: %s\n",
-                this.integrations.size(), this.entities.size()));
-        for (final Integration integration : this.integrations) {
+                integrations.size(), entities.size()));
+        for (final Integration integration : integrations) {
             builder.append(integration.getIntegrationName()).append('\n');
         }
         return builder.toString();
@@ -45,7 +45,7 @@ public class Engine implements EngineObserver {
     }
 
     private void addMeInIntegrations() {
-        for (final Integration integration : this.integrations) {
+        for (final Integration integration : integrations) {
             integration.addObserver(this);
         }
     }
@@ -61,24 +61,24 @@ public class Engine implements EngineObserver {
         private final ExecutorService service;
 
         public IntegrationLauncher() {
-            this.service = Executors.newFixedThreadPool(Engine.this.integrations.size());
+            this.service = Executors.newFixedThreadPool(integrations.size());
         }
 
         private void launch() throws ExecutionException, InterruptedException {
             this.startIntegrations();
-            this.service.shutdown();
+            service.shutdown();
             this.joinAllIntegrations();
         }
 
         private void startIntegrations() {
             for (final Integration integration : Engine.this.integrations) {
-                Engine.this.futures.add(this.service.submit(integration));
+                futures.add(service.submit(integration));
             }
         }
 
         private void joinAllIntegrations() throws InterruptedException,
             ExecutionException {
-            for (final Future<?> future : Engine.this.futures) {
+            for (final Future<?> future : futures) {
                 future.get();
             }
         }

@@ -38,11 +38,11 @@ public final class SampleIntegration implements Integration {
     public Void call() {
         this.startWireMock();
         final String html = new HttpFetcher().fetchAsString(
-            String.format("http://localhost:%s/example", this.wiremockPort));
-        this.result = new ArrayList<>(10);
-        this.result.add(new Parser(html).parse());
-        this.notifyObservers();
-        this.stopWireMock();
+            String.format("http://localhost:%s/example", wiremockPort));
+        result = new ArrayList<>(10);
+        result.add(new Parser(html).parse());
+        notifyObservers();
+        stopWireMock();
         return null;
     }
 
@@ -52,7 +52,7 @@ public final class SampleIntegration implements Integration {
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private void startWireMock() {
-        this.wireMockServer.start();
+        wireMockServer.start();
         final String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
@@ -63,13 +63,13 @@ public final class SampleIntegration implements Integration {
 
     @Override
     public void addObserver(final EngineObserver observer) {
-        this.observers.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (final EngineObserver observer : this.observers) {
-            observer.handleEvent(this.result);
+        for (final EngineObserver observer : observers) {
+            observer.handleEvent(result);
         }
     }
 }

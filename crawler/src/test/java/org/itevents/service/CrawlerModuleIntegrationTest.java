@@ -25,6 +25,6 @@ public class CrawlerModuleIntegrationTest {
 
     @Test
     public void shouldSeeEventDaoFromRestservice() {
-        assertNotNull("Can't attach restservice module", this.eventDao);
+        assertNotNull("Can't attach restservice module", eventDao);
     }
 }

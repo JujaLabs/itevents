@@ -28,11 +28,11 @@ public final class IntegrationProperties {
     }
 
     public int getInt(final String key) {
-        return Integer.parseInt(this.get(key));
+        return Integer.parseInt(get(key));
     }
 
     public String get(final String key) {
-        return this.properties.getProperty(key);
+        return properties.getProperty(key);
     }
 
 }

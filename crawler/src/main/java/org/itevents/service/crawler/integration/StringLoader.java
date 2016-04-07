@@ -18,10 +18,10 @@ public final class StringLoader {
     public String load(final String relative) {
         try {
             return new String(
-                Files.readAllBytes(this.getPath(relative)), "UTF-8");
+                Files.readAllBytes(getPath(relative)), "UTF-8");
         } catch (final IOException exception) {
             final String message = String.format("Can't load file %s", relative);
-            StringLoader.LOGGER.error(message);
+            LOGGER.error(message);
             throw new IntegrationException(message, exception);
         }
     }
@@ -35,7 +35,7 @@ public final class StringLoader {
                 .toPath();
         } catch (final URISyntaxException exception) {
             final String message = String.format("Wrong filename %s", relative);
-            StringLoader.LOGGER.error(message);
+            LOGGER.error(message);
             throw new IntegrationException(message, exception);
         }
     }

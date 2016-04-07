@@ -26,7 +26,7 @@ public final class HttpFetcher {
                 final String message = String.format(
                     "Can't download url '%s' because of status %s", url,
                     response.getStatusString());
-                HttpFetcher.LOGGER.error(message);
+                LOGGER.error(message);
                 throw new IntegrationException(message, null);
             }
             return EntityUtils.toString(response.getEntity(),
@@ -35,7 +35,7 @@ public final class HttpFetcher {
             final String message =
                 String.format("Can't download url '%s' because of IOException %s",
                     url, exception.getMessage());
-            HttpFetcher.LOGGER.error(message);
+            LOGGER.error(message);
             throw new IntegrationException(message, exception);
         } finally {
             HttpClientUtils.closeQuietly(client);
