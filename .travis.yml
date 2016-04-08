@@ -22,7 +22,7 @@ script:
 - gradle check
 - gradle test
 
-after_failure:
+after_script:
 - test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html
 
 deploy:
