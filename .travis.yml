@@ -19,8 +19,7 @@ before_script:
 - psql -c 'create database test;' -U postgres
 
 script:
-- gradle check
-- gradle test
+- gradle
 
 after_script:
 - test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html
