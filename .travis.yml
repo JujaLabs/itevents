@@ -15,6 +15,9 @@ before_script:
 script:
 - gradle check
 - gradle test
+after_failure:
+- [ -f ./crawler/build/reports/pmd/main.html ] && cat ./crawler/build/reports/pmd/main.html
+
 deploy:
   provider: openshift
   user: $OPENSHIFT_USER
