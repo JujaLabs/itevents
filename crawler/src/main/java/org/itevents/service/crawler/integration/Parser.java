@@ -32,7 +32,7 @@ public final class Parser {
     }
 
     private String getTitle() {
-        return document.select(".title").text();
+        return document.head().select("title").text();
     }
 
     private String getDate() {
