@@ -9,6 +9,8 @@ addons:
 services:
 - postgresql
 before_install:
+- cp .travis/properties/crawler-travis.properties crawler/src/main/resources/crawler-local.properties
+- cp .travis/properties/crawler-travis.properties crawler/src/test/resources/test-crawler-local.properties
 - cp .travis/properties/travis.properties restservice/src/main/resources/local.properties
 - cp .travis/properties/test-travis.properties restservice/src/test/resources/test-local.properties
 before_script:
