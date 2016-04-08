@@ -1,7 +1,3 @@
-branches:
-  only:
-  - master
-  - #214=fix-pmd-crawler
 language: java
 jdk:
 - oraclejdk8
