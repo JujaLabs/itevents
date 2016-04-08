@@ -1,20 +1,27 @@
 language: java
+
 jdk:
 - oraclejdk8
+
 addons:
   postgresql: '9.4'
+
 services:
 - postgresql
+
 before_install:
 - cp .travis/properties/crawler-travis.properties crawler/src/main/resources/crawler-local.properties
 - cp .travis/properties/crawler-travis.properties crawler/src/test/resources/test-crawler-local.properties
 - cp .travis/properties/travis.properties restservice/src/main/resources/local.properties
 - cp .travis/properties/test-travis.properties restservice/src/test/resources/test-local.properties
+
 before_script:
 - psql -c 'create database test;' -U postgres
+
 script:
 - gradle check
 - gradle test
+
 after_failure:
 - [ -f ./crawler/build/reports/pmd/main.html ] && cat ./crawler/build/reports/pmd/main.html
 
@@ -26,12 +33,15 @@ deploy:
   app: $OPENSHIFT_APP
   on:
       branch: master
+
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
 cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+
 notifications:
   slack:
     secure: WWa3UlAri20iavGaW9NnCADsRhfK9iyTWNsTewGJiIy8pUmLqazmOTFlhzVBBwbtJOXF2GZIkt2q7vAF6w07ttGjoQttVjaU7TQjYfzO52NR/8wGiRDe8V0X0ZwF5j35H9RMNVJ3OcqSr/hzVQVZvtN8nXreJ42rzhL9PVnHHEvmMbzdEE3L3wojZ2GSLAFo0UYhKQkJbW5Xlu+6jrgoDfLRmHfyVF4rLjo71Ke7kqpHKhU05qMC9rNquR4lUizzBNrwd1yUmgTjlxcy8T4Tty0QFOpQC8ZU9/JKMp6sQYd+mgrLWyohz04LT6SqK9IuAgYVU8sgBnRizOAPqrTYE26G/z6Z+rPSwLDYraOhUvP64/s/VtnYoNxSudnPNTi46p6x6nlEzJGJoidwGrwmP1oy/LOqfsH4TbwOgblQYi2PvW0GiI3bOI19CzpAstoCwm2xCA97G8PhktUejnY2F6ZJ94uIHLOddru+3RpmWQbqCowyhmGTLm8WzMl+/Mjnde9j8hQvGKxYVGyAOn90z04az6gy92dDLWAvTDo1QDxLhIanX55LYHbiQQ51QdqQUoPuMoselvahPM3KBs/4uahH8CLjqFRYDBtNMYqL1lyGt8yyavmJ2pr4XefFOWUV4auqzuk8YMIJ6RDComlc34tdoq3Ioc7MBC1DIufyo7A=
