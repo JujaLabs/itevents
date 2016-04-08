@@ -23,7 +23,7 @@ script:
 - gradle test
 
 after_failure:
-- [ -f ./crawler/build/reports/pmd/main.html ] && cat ./crawler/build/reports/pmd/main.html
+- test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html
 
 deploy:
   provider: openshift
