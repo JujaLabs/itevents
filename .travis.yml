@@ -22,8 +22,8 @@ script:
 - gradle
 
 after_script:
-- test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html
-- find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd'
+- test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html #todo delete me
+- find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd' #todo delete me
 deploy:
   provider: openshift
   user: $OPENSHIFT_USER
@@ -48,4 +48,4 @@ notifications:
 addons:
   artifacts:
     paths:
-    - $(git ls-files -o | grep reports | grep 'findbugs\|checkstyle\|pmd' | grep .html | tr "\n" ":")
+    - $(find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd' | tr "\n" ":")
