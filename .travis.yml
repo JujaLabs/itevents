@@ -22,14 +22,13 @@ script:
 - gradle
 
 after_script:
-- test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html #todo delete me
-- find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd' #todo delete me
-- git ls-files -o
+- echo 'You can show reports here:'; .travis/reports/get-reports-links.sh
 
 addons:
   artifacts:
     paths:
-    - $(find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd' | tr "\n" ":")
+      - $(.travis/reports/get-reports.sh | tr "\n" ":")
+    target_paths: $TRAVIS_BUILD_NUMBER
 
 deploy:
   provider: openshift
