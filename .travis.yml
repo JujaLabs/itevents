@@ -24,6 +24,7 @@ script:
 after_script:
 - test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html #todo delete me
 - find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd' #todo delete me
+- git ls-files -o
 
 addons:
   artifacts:
