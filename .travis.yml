@@ -44,3 +44,9 @@ cache:
 notifications:
   slack:
     secure: WWa3UlAri20iavGaW9NnCADsRhfK9iyTWNsTewGJiIy8pUmLqazmOTFlhzVBBwbtJOXF2GZIkt2q7vAF6w07ttGjoQttVjaU7TQjYfzO52NR/8wGiRDe8V0X0ZwF5j35H9RMNVJ3OcqSr/hzVQVZvtN8nXreJ42rzhL9PVnHHEvmMbzdEE3L3wojZ2GSLAFo0UYhKQkJbW5Xlu+6jrgoDfLRmHfyVF4rLjo71Ke7kqpHKhU05qMC9rNquR4lUizzBNrwd1yUmgTjlxcy8T4Tty0QFOpQC8ZU9/JKMp6sQYd+mgrLWyohz04LT6SqK9IuAgYVU8sgBnRizOAPqrTYE26G/z6Z+rPSwLDYraOhUvP64/s/VtnYoNxSudnPNTi46p6x6nlEzJGJoidwGrwmP1oy/LOqfsH4TbwOgblQYi2PvW0GiI3bOI19CzpAstoCwm2xCA97G8PhktUejnY2F6ZJ94uIHLOddru+3RpmWQbqCowyhmGTLm8WzMl+/Mjnde9j8hQvGKxYVGyAOn90z04az6gy92dDLWAvTDo1QDxLhIanX55LYHbiQQ51QdqQUoPuMoselvahPM3KBs/4uahH8CLjqFRYDBtNMYqL1lyGt8yyavmJ2pr4XefFOWUV4auqzuk8YMIJ6RDComlc34tdoq3Ioc7MBC1DIufyo7A=
+
+addons:
+  artifacts:
+    s3_region: "eu-central-1"
+    paths:
+    - $(git ls-files -o | grep reports | grep 'findbugs\|checkstyle\|pmd' | grep .html | tr "\n" ":")
