@@ -23,7 +23,7 @@ script:
 
 after_script:
 - test -f ./crawler/build/reports/pmd/main.html && cat ./crawler/build/reports/pmd/main.html
-
+- git ls-files -o | grep reports | grep 'findbugs\|checkstyle\|pmd' | grep .html | tr "\n" ":"
 deploy:
   provider: openshift
   user: $OPENSHIFT_USER
