@@ -2,6 +2,7 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
@@ -31,7 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,8 @@ public class MyBatisUserServiceTest {
 
     public static final int OTP_LIFETIME_IN_HOURS = 24;
     public static final String GUEST_ROLE_NAME = "guest";
-
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @InjectMocks
     @Inject
     private UserService userService;
@@ -63,9 +65,6 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -148,7 +147,7 @@ public class MyBatisUserServiceTest {
 
     }
 
-    @Test
+    @Test(expected = EntityAlreadyExistsServiceException.class)
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
         String testLogin = "test@example.com";
         User testUser = UserBuilder.anUser()
@@ -156,13 +155,13 @@ public class MyBatisUserServiceTest {
                 .role(BuilderUtil.buildRoleGuest())
                 .build();
         String password = "password";
+        String encodedPassword = "encodedPassword";
         Role guestRole = BuilderUtil.buildRoleGuest();
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException()))
-                .when(userDao).addUser(eq(testUser), any(String.class));
-        expectedException.expect(EntityAlreadyExistsServiceException.class);
-        expectedException.expectMessage("User test@example.com already registered");
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+        doThrow(new EntityAlreadyExistsDaoException("message", new SQLException()))
+                .when(userDao).addUser(testUser, encodedPassword);
 
         userService.addSubscriber(testUser.getLogin(), password);
     }
@@ -301,6 +300,16 @@ public class MyBatisUserServiceTest {
 
         when(userDao.getOtp(stringOtp)).thenReturn(oneTimePassword);
         when(userDao.getUserByOtp(oneTimePassword)).thenReturn(user);
+
+        userService.activateUserWithOtp(stringOtp);
+    }
+
+    @Test(expected = EntityNotFoundServiceException.class)
+    public void shouldThrowServiceExceptionIfOtpIsInvalid() throws Exception {
+        String stringOtp = "otp";
+
+        doThrow(EntityNotFoundDaoException.class)
+                .when(userDao).getOtp(stringOtp);
 
         userService.activateUserWithOtp(stringOtp);
     }

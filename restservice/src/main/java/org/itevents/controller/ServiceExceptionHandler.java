@@ -1,5 +1,7 @@
 package org.itevents.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
@@ -18,6 +20,8 @@ import javax.validation.ConstraintViolationException;
 @ControllerAdvice(annotations = RestController.class)
 public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @ExceptionHandler(EntityNotFoundServiceException.class)
     public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -30,6 +34,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExistsServiceException.class)
     public ResponseEntity<String> handleEntityAlreadyExistsServiceException(EntityAlreadyExistsServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
