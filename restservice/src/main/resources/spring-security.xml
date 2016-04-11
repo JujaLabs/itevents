@@ -23,19 +23,21 @@
 
         <csrf disabled="true"/>
 
-        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/admin**" access="hasAuthority('admin')"/>
         <intercept-url pattern="/users/register" access="!isAuthenticated()"/>
-        <intercept-url pattern="/users/activate" access="!isAuthenticated()"/>
+        <intercept-url pattern="/users/activate" access="hasAnyAuthority"/>
         <intercept-url pattern="/events/*/assign" access="isAuthenticated()"/>
         <intercept-url pattern="/events/*/unassign" access="isAuthenticated()"/>
-        <intercept-url pattern="/users/*/events" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/users/*/events" access="hasAuthority('admin')"/>
         <intercept-url pattern="/users/subscribe" access="isAuthenticated()"/>
         <intercept-url pattern="/users/unsubscribe" access="isAuthenticated()"/>
         <intercept-url pattern="/users/me" access="isAuthenticated()"/>
         <intercept-url pattern="/**" access="permitAll()"/>
 
         <custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"   />
+        <access-denied-handler ref="accessDeniedHandler"/>
     </http>
+
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="jwtAuthenticationProvider" />
