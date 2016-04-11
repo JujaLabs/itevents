@@ -13,8 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -24,8 +23,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:converters.xml", "classpath:applicationContext.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class FilterConverterTest{
 
     @Mock
