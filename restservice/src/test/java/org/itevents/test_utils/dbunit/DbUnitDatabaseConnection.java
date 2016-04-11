@@ -27,7 +27,7 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
     }
 
     @Override
-    public IDatabaseConnection getObject() throws Exception {
+    public IDatabaseConnection getObject(){
         return databaseConnection;
     }
 

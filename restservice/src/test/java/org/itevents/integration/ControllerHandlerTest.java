@@ -10,6 +10,7 @@ import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.service.sendmail.NotificationServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -181,5 +182,17 @@ public class ControllerHandlerTest {
 
         mvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isNotFound());
+    }
+
+//    @TODO: this test is a MOCK for future implementation of issue 53 or/and issue 187
+//           and should be refactored after finishing this issues or within it
+//           https://github.com/JuniorsJava/itevents/issues/53
+//           https://github.com/JuniorsJava/itevents/issues/187
+    @Test
+    public void shouldExpect500IfNotificationServiceException() throws Exception {
+        doThrow(NotificationServiceException.class).when(userService).activateUserSubscription(any(User.class));
+
+        mvc.perform(get("/users/subscribe"))
+                .andExpect(status().isInternalServerError());
     }
 }

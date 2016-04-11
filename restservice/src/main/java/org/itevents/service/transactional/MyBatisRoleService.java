@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.RoleDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Role;
@@ -16,8 +14,6 @@ import javax.inject.Inject;
 @Transactional
 public class MyBatisRoleService implements RoleService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private RoleDao roleDao;
 
@@ -26,7 +22,6 @@ public class MyBatisRoleService implements RoleService {
         try {
             return roleDao.getRole(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

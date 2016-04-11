@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.TechnologyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Technology;
@@ -20,8 +18,6 @@ import java.util.List;
 @Transactional
 public class MyBatisTechnologyService implements TechnologyService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private TechnologyDao technologyDao;
 
@@ -30,7 +26,6 @@ public class MyBatisTechnologyService implements TechnologyService {
         try {
             return technologyDao.getTechnology(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

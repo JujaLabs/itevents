@@ -7,8 +7,8 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.search.TablesDependencyHelper;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlWriter;
+import org.dbunit.util.search.SearchException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,36 +33,10 @@ public class DbUnitTableExportUtil {
     private static final String PATH = "src/test/resources/dbunit/";
     private static IDatabaseConnection connection;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         databaseConnection();
-//        writeDtdFile();
         dependentTableExport("FilterMapperTest", "FilterMapperTest", "user_filter", "filter_technology");
-
-    }
-
-    /**
-     * Need rewrite test.dtd every time if database structure changed
-     *
-     * @throws IOException
-     * @throws DataSetException
-     * @throws SQLException
-     */
-    private static void writeDtdFile() throws IOException, DataSetException, SQLException {
-        FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream(PATH + "test.dtd"));
-    }
-
-    /**
-     * Writes dbunit xml data file filled with data from specified tables and all tables that Primary Keys are in the
-     * specified tables as Foreign Keys. Path of the file is "src/test/resources/dbunit/${testName}/". Name of the file
-     * is "${testName}_initial.xml". Use it if file will be consumed by several methods
-     *
-     * @param testName  - name of test class that consumes this file
-     * @param tableName - specified tables
-     * @throws Exception
-     */
-    private static void dependentTableExport(String testName, String tableName) throws Exception {
-        dependentTableExport(testName, testName, tableName);
     }
 
     /**
@@ -72,22 +46,26 @@ public class DbUnitTableExportUtil {
      * @param testName - name of test class that consumes this file
      * @param methodName - name of test method that consumes this file
      * @param tableName - specified tables
-     * @throws Exception
      */
-    private static void dependentTableExport(String testName, String methodName, String... tableName) throws Exception {
+    private static void dependentTableExport(String testName, String methodName, String... tableName) {
         // dependent tables database export: export table X and all tables that
         // have a PK which is a FK on X, in the right order for insertion
-        String[] depTableNames = TablesDependencyHelper.getDependentTables(connection, tableName);
-        IDataSet depDataSet = connection.createDataSet(depTableNames);
-        File directory = new File(PATH + testName);
-        directory.mkdirs();
-        FlatXmlWriter datasetWriter = new FlatXmlWriter(new FileOutputStream(PATH + testName + "/" + methodName + "_initial.xml"));
-        datasetWriter.setDocType(PATH + "test.dtd");
-        datasetWriter.write(depDataSet);
+        try {
+            String[] depTableNames = TablesDependencyHelper.getDependentTables(connection, tableName);
+            IDataSet depDataSet = connection.createDataSet(depTableNames);
+            File directory = new File(PATH + testName);
+            directory.mkdirs();
+            FlatXmlWriter datasetWriter = new FlatXmlWriter(new FileOutputStream(PATH + testName + "/" + methodName + "_initial.xml"));
+            datasetWriter.setDocType(PATH + "test.dtd");
+            datasetWriter.write(depDataSet);
+        } catch (SearchException | DataSetException | SQLException | IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
-    private static void databaseConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
+    private static void databaseConnection() {
         Properties testProps = new Properties();
+        try{
         testProps.load(new FileInputStream("src/main/resources/local.properties"));
         Class.forName(testProps.getProperty("database.driver"));
         Connection jdbcConnection = DriverManager.getConnection(
@@ -96,5 +74,8 @@ public class DbUnitTableExportUtil {
                 testProps.getProperty("database.password"));
         connection = new DatabaseConnection(jdbcConnection);
         connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgisDataTypeFactory());
+        }catch (IOException | ClassNotFoundException | SQLException | DatabaseUnitException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }

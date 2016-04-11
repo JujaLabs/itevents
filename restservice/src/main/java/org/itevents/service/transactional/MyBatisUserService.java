@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
@@ -32,8 +30,6 @@ import java.util.List;
 @Transactional
 public class MyBatisUserService implements UserService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private UserDao userDao;
     @Inject
@@ -51,7 +47,7 @@ public class MyBatisUserService implements UserService {
 
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception  {
+    public void addSubscriber(String username, String password)  {
         User user = UserBuilder.anUser()
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
@@ -72,7 +68,7 @@ public class MyBatisUserService implements UserService {
         }
     }
 
-    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
+    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) {
         String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
         mailService.sendMail(email, user.getLogin());
     }
@@ -82,7 +78,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUser(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
@@ -92,7 +87,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUserByName(name);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
@@ -148,7 +142,6 @@ public class MyBatisUserService implements UserService {
         String encodedPassword = userDao.getUserPassword(user);
         if (!passwordEncoder.matches(password, encodedPassword)) {
             String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
-            LOGGER.error(message);
             throw new WrongPasswordServiceException(message);
         }
     }
@@ -182,7 +175,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUserByOtp(otp);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

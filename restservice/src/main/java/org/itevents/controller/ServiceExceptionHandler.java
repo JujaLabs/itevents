@@ -6,6 +6,7 @@ import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.service.sendmail.NotificationServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,11 +25,13 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
     public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(TimeCollisionServiceException.class)
     public ResponseEntity<String> handleTimeCollisionServiceException(TimeCollisionServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -40,11 +43,19 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ActionAlreadyDoneServiceException.class)
     public ResponseEntity<String> handleActionAlreadyDoneServiceException(ActionAlreadyDoneServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String>  handleConstrainViolationExceptions(ConstraintViolationException ex) {
+    public ResponseEntity<String>  handleConstrainViolationException(ConstraintViolationException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotificationServiceException.class)
+    public ResponseEntity<String> handleMailServiceException(NotificationServiceException ex){
+        LOGGER.error(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

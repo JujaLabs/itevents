@@ -23,7 +23,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.text.ParseException;
 import java.util.List;
 
 @Component
@@ -33,69 +32,85 @@ public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
     private Resource emailUserOtpTemplateXslResource;
 
-    public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
-            TransformerException {
-        return buildMailFromXmlEvents(buildXmlFromEventList(events));
+    public String buildHtmlFromEventsList(List<Event> events) {
+            return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
 
-    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword)  throws Exception {
+    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword) {
         return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
     }
 
-    private String buildXmlFromEventList(List<Event> events) throws JAXBException {
+    private String buildXmlFromEventList(List<Event> events) {
         EventsXmlNodeWrapper eventsXmlNodeWrapper = new EventsXmlNodeWrapper();
         eventsXmlNodeWrapper.setEvents(events);
+        try {
+            Marshaller marshaller = JAXBContext.newInstance(EventsXmlNodeWrapper.class)
+                    .createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        Marshaller marshaller = JAXBContext.newInstance(EventsXmlNodeWrapper.class)
-                .createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-
-        StringWriter eventsInXmlStringWriter = new StringWriter();
-        marshaller.marshal(eventsXmlNodeWrapper, eventsInXmlStringWriter);
-        return eventsInXmlStringWriter.toString();
+            StringWriter eventsInXmlStringWriter = new StringWriter();
+            marshaller.marshal(eventsXmlNodeWrapper, eventsInXmlStringWriter);
+            return eventsInXmlStringWriter.toString();
+        } catch (JAXBException e) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
     }
 
-    private String buildMailFromXmlEvents(String eventsInXml) throws IOException, TransformerException {
-        Transformer transformer =
-                TransformerFactory.newInstance().newTransformer(
-                        new StreamSource(emailTemplateXslResource.getFile())
-                );
+    private String buildMailFromXmlEvents(String eventsInXml) {
+        try {
+            Transformer transformer =
+                    TransformerFactory.newInstance().newTransformer(
+                            new StreamSource(emailTemplateXslResource.getFile())
+                    );
 
-        StringWriter mailStringWriter = new StringWriter();
-        transformer.transform(
-                new StreamSource(new StringReader(eventsInXml)),
-                new StreamResult(mailStringWriter)
-        );
+            StringWriter mailStringWriter = new StringWriter();
+            transformer.transform(
+                    new StreamSource(new StringReader(eventsInXml)),
+                    new StreamResult(mailStringWriter)
+            );
+            return mailStringWriter.toString();
 
-        return mailStringWriter.toString();
+        } catch (IOException | TransformerException e) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
     }
 
-    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException, IOException {
+    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) {
+
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOneTimePassword(oneTimePassword);
+        String userOtpInString;
+        try {
+            Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            StringWriter userOtpInXmlStringWriter = new StringWriter();
+            marshaller.marshal(userOtpXmlWrapper, userOtpInXmlStringWriter);
+            userOtpInString = userOtpInXmlStringWriter.toString();
 
-        Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-
-        StringWriter userOtpInXmlStringWriter = new StringWriter();
-        marshaller.marshal(userOtpXmlWrapper, userOtpInXmlStringWriter);
-        return userOtpInXmlStringWriter.toString();
+        } catch (JAXBException e ) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
+        return userOtpInString;
     }
 
-    private String buildMailFromXmlUserOtp(String userOtpUrl)  throws IOException, TransformerException {
+    private String buildMailFromXmlUserOtp(String userOtpUrl) {
         StringReader stringReader = new StringReader(userOtpUrl);
         StringWriter mailStringWriter = new StringWriter();
-        Transformer transformer =
-                TransformerFactory.newInstance().newTransformer(
-                        new StreamSource(emailUserOtpTemplateXslResource.getFile())
-                );
-        transformer.transform(
-                new StreamSource(stringReader),
-                new StreamResult(mailStringWriter)
-        );
+        try {
+            Transformer transformer =
+                    TransformerFactory.newInstance().newTransformer(
+                            new StreamSource(emailUserOtpTemplateXslResource.getFile())
+                    );
+            transformer.transform(
+                    new StreamSource(stringReader),
+                    new StreamResult(mailStringWriter)
+            );
+        }catch (TransformerException | IOException e) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
         return mailStringWriter.toString();
     }
 

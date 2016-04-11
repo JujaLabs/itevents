@@ -20,7 +20,7 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
     private static final String DATE_TIME_FORMAT_FOR_DATABASE = "yyyy-MM-dd HH:mm:ss";
 
     @Override
-    protected void replace() throws DataSetException {
+    protected void replace() {
         List<String> dateTemplates = getDateTemplatesFromDataSet();
         for (String dateTemplate : dateTemplates) {
             // {now+5} > 18.10.15 17:23:45
@@ -28,13 +28,17 @@ public class EventDateReplacementDataSetLoader extends AbstractReplacementDataSe
         }
     }
 
-    private List<String> getDateTemplatesFromDataSet() throws DataSetException {
-        List<String> dateTemplates = new ArrayList<>();
-        ITable eventTable = this.dataSet.getTable(EVENT_TABLE_NAME);
-        for (int rowIndex = 0; rowIndex < eventTable.getRowCount(); rowIndex++) {
-            dateTemplates.add(eventTable.getValue(rowIndex, EVENT_DATE_COLUMN_NAME).toString());
+    private List<String> getDateTemplatesFromDataSet() {
+        try {
+            List<String> dateTemplates = new ArrayList<>();
+            ITable eventTable = this.dataSet.getTable(EVENT_TABLE_NAME);
+            for (int rowIndex = 0; rowIndex < eventTable.getRowCount(); rowIndex++) {
+                dateTemplates.add(eventTable.getValue(rowIndex, EVENT_DATE_COLUMN_NAME).toString());
+            }
+            return dateTemplates;
+        } catch (DataSetException e) {
+            throw new RuntimeException(e.getMessage(), e);
         }
-        return dateTemplates;
     }
 
     private String buildFormattedDateFromDateTemplate(String dateTemplate) {

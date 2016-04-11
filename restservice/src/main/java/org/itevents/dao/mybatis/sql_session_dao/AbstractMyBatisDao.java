@@ -16,7 +16,11 @@ public abstract class AbstractMyBatisDao extends SqlSessionDaoSupport {
     private SqlSessionFactoryBean sqlSessionFactoryBean;
 
     @PostConstruct
-    public void init() throws Exception {
-        setSqlSessionFactory(sqlSessionFactoryBean.getObject());
+    public void init() {
+        try {
+            setSqlSessionFactory(sqlSessionFactoryBean.getObject());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }

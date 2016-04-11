@@ -18,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -43,7 +42,7 @@ public class EventRestController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Returns events with the given parameters ")
-    public List<Event> getFilteredEvents(@ModelAttribute FilterWrapper wrapper) throws SQLException {
+    public List<Event> getFilteredEvents(@ModelAttribute FilterWrapper wrapper) {
         return eventService.getFilteredEvents(filterConverter.toFilter(wrapper));
     }
 

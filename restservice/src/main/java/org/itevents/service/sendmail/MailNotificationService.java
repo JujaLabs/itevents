@@ -1,12 +1,14 @@
 package org.itevents.service.sendmail;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
-import org.itevents.service.*;
+import org.itevents.service.EventService;
+import org.itevents.service.FilterService;
+import org.itevents.service.NotificationService;
+import org.itevents.service.UserService;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.mail.MailBuilderUtilException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,6 @@ import java.util.List;
  */
 @Service("notificationEventService")
 public class MailNotificationService implements NotificationService {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Value("${event.filter.range.in.days}")
     private Integer FILTER_RANGE_IN_DAYS;
@@ -57,9 +57,8 @@ public class MailNotificationService implements NotificationService {
     private String buildMail(List<Event> events) {
         try {
             return mailBuilderUtil.buildHtmlFromEventsList(events);
-        } catch (Exception e) {
-            LOGGER.error("Error build mail for user");
-            throw new BuildMailException("Build mail for user error:", e);
+        } catch (MailBuilderUtilException e) {
+            throw new NotificationServiceException(e.getMessage(), e);
         }
     }
 

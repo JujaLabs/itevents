@@ -2,7 +2,6 @@ package org.itevents.test_utils.dbunit.dataset_loader;
 
 import com.github.springtestdbunit.dataset.DataSetLoader;
 import com.github.springtestdbunit.dataset.FlatXmlDataSetLoader;
-import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ReplacementDataSet;
 
@@ -14,11 +13,9 @@ import java.util.Map;
  */
 public abstract class AbstractReplacementDataSetLoader implements DataSetLoader {
 
-    private Map<Object, Object> objectReplacements;
-
-    private Map<String, String> subStringReplacements;
-
     protected IDataSet dataSet;
+    private Map<Object, Object> objectReplacements;
+    private Map<String, String> subStringReplacements;
 
     public AbstractReplacementDataSetLoader() {
         objectReplacements = new HashMap<>();
@@ -33,10 +30,14 @@ public abstract class AbstractReplacementDataSetLoader implements DataSetLoader 
         subStringReplacements.put(oldValue, newValue);
     }
 
-    protected abstract void replace() throws DataSetException;
+    protected abstract void replace();
 
-    public final IDataSet loadDataSet(Class<?> testClass, String location) throws Exception {
-        this.dataSet = new FlatXmlDataSetLoader().loadDataSet(testClass, location);
+    public final IDataSet loadDataSet(Class<?> testClass, String location) {
+        try {
+            this.dataSet = new FlatXmlDataSetLoader().loadDataSet(testClass, location);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
         replace();
         return new ReplacementDataSet(this.dataSet, objectReplacements, subStringReplacements);
     }
