@@ -12,10 +12,15 @@ import org.itevents.service.exception.IntegrationException;
 /**
  * Created by vaa25 on 20.03.2016.
  */
-public final class StringLoader {
+public final class StringFromFile {
     private static final Logger LOGGER = LogManager.getLogger();
+    private final String value;
 
-    public String load(final String relative) {
+    public StringFromFile(final String relative) {
+        value = load(relative);
+    }
+
+    private String load(final String relative) {
         try {
             return new String(
                 Files.readAllBytes(getPath(relative)), "UTF-8");
@@ -38,5 +43,9 @@ public final class StringLoader {
             LOGGER.error(message);
             throw new IntegrationException(message, exception);
         }
+    }
+
+    public String value() {
+        return this.value;
     }
 }
