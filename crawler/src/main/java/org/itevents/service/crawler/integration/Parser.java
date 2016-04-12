@@ -58,7 +58,7 @@ public final class Parser {
     }
 
     private String getDescription() {
-        return this.document.select(".b-typo").first().text();
+        return document.select(".b-typo").first().text();
     }
 
     private String getPrice() {

@@ -18,14 +18,14 @@ public class ResponseWrapper {
     }
 
     public boolean isOk() {
-        return this.statusLine.getStatusCode() == HttpStatus.SC_OK;
+        return statusLine.getStatusCode() == HttpStatus.SC_OK;
     }
 
     public String getStatusString() {
-        return this.statusLine.toString();
+        return statusLine.toString();
     }
 
     public HttpEntity getEntity() {
-        return this.response.getEntity();
+        return response.getEntity();
     }
 }

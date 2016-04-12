@@ -14,7 +14,7 @@ public final class EngineTest {
 
     @Before
     public void setUp() {
-        this.engine = new Engine();
+        engine = new Engine();
     }
 
     @Test

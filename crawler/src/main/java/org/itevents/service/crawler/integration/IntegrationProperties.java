@@ -19,7 +19,7 @@ public final class IntegrationProperties {
         this.properties = new Properties();
         try (InputStreamReader reader = new InputStreamReader(
             ClassLoader.getSystemResourceAsStream(filename), "UTF-8")) {
-            this.properties.load(reader);
+            properties.load(reader);
         } catch (final IOException exception) {
             final String message = String.format("%s not found", filename);
             IntegrationProperties.LOGGER.error(message);

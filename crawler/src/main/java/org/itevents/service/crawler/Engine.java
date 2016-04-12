@@ -21,7 +21,7 @@ public class Engine implements EngineObserver {
     private List<Entity> entities;
 
     public String run() throws InterruptedException, ExecutionException {
-        integrations = this.loadIntegrations();
+        integrations = loadIntegrations();
         futures = new ArrayList<>(integrations.size());
         entities = new ArrayList<>(10);
         addMeInIntegrations();
@@ -54,7 +54,7 @@ public class Engine implements EngineObserver {
     @Override
     public final void handleEvent(final Collection<Entity> collection) {
         synchronized (this) {
-            this.entities.addAll(collection);
+            entities.addAll(collection);
         }
     }
 
@@ -62,13 +62,13 @@ public class Engine implements EngineObserver {
         private final ExecutorService service;
 
         public IntegrationLauncher() {
-            this.service = Executors.newFixedThreadPool(integrations.size());
+            service = Executors.newFixedThreadPool(integrations.size());
         }
 
         private void launch() throws ExecutionException, InterruptedException {
-            this.startIntegrations();
+            startIntegrations();
             service.shutdown();
-            this.joinAllIntegrations();
+            joinAllIntegrations();
         }
 
         private void startIntegrations() {

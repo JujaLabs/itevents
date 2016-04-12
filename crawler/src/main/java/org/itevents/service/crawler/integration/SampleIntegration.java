@@ -23,10 +23,10 @@ public final class SampleIntegration implements Integration {
     private List<Entity> result;
 
     public SampleIntegration() {
-        this.wiremockPort = new IntegrationProperties("crawler-local.properties")
+        wiremockPort = new IntegrationProperties("crawler-local.properties")
             .getInt("wiremock.port");
-        this.observers = new ArrayList<>();
-        this.wireMockServer = new WireMockServer(this.wiremockPort);
+        observers = new ArrayList<>();
+        wireMockServer = new WireMockServer(wiremockPort);
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class SampleIntegration implements Integration {
 
     @Override
     public Void call() {
-        this.startWireMock();
+        startWireMock();
         final String html = new HttpFetcher().fetchAsString(
             String.format("http://localhost:%s/example", wiremockPort));
         result = new ArrayList<>(10);
@@ -47,13 +47,14 @@ public final class SampleIntegration implements Integration {
     }
 
     private void stopWireMock() {
-        this.wireMockServer.stop();
+        wireMockServer.stop();
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private void startWireMock() {
         wireMockServer.start();
-        final String html = new StringFromFile(SampleIntegration.EXAMPLE_HTML_FILE).getValue();
+        final String html =
+            new StringFromFile(SampleIntegration.EXAMPLE_HTML_FILE).getValue();
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
                 .withStatus(HttpStatus.SC_OK)
