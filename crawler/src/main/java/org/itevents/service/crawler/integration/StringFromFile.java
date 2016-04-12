@@ -45,7 +45,7 @@ public final class StringFromFile {
         }
     }
 
-    public String value() {
+    public String getValue() {
         return this.value;
     }
 }

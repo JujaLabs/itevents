@@ -53,7 +53,7 @@ public final class SampleIntegration implements Integration {
     @SuppressWarnings("PMD.LawOfDemeter")
     private void startWireMock() {
         wireMockServer.start();
-        final String html = new StringFromFile(SampleIntegration.EXAMPLE_HTML_FILE).value();
+        final String html = new StringFromFile(SampleIntegration.EXAMPLE_HTML_FILE).getValue();
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
                 .withStatus(HttpStatus.SC_OK)

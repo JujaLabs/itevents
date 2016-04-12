@@ -19,7 +19,7 @@ public final class StringFromFileTest {
     @Test
     public void testLoad() {
         final String expected = "Test string";
-        final String returned = this.stringFromFile.value();
+        final String returned = this.stringFromFile.getValue();
         assertEquals("can't load 'file_for_test.txt'", expected, returned);
     }
 }

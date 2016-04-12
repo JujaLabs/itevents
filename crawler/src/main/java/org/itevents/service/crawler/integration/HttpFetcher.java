@@ -20,17 +20,7 @@ public final class HttpFetcher {
     public String fetchAsString(final String url) {
         final HttpClient client = HttpClients.createDefault();
         try {
-            final ResponseWrapper response = new ResponseWrapper(
-                client.execute(new HttpGet(url)));
-            if (!response.isOk()) {
-                final String message = String.format(
-                    "Can't download url '%s' because of status %s", url,
-                    response.getStatusString());
-                LOGGER.error(message);
-                throw new IntegrationException(message, null);
-            }
-            return EntityUtils.toString(response.getEntity(),
-                Charset.defaultCharset());
+            return getStringFromWeb(url, client);
         } catch (final IOException exception) {
             final String message =
                 String.format("Can't download url '%s' because of IOException %s",
@@ -40,6 +30,20 @@ public final class HttpFetcher {
         } finally {
             HttpClientUtils.closeQuietly(client);
         }
+    }
+
+    private String getStringFromWeb(final String url, final HttpClient client) throws IOException {
+        final ResponseWrapper response = new ResponseWrapper(
+            client.execute(new HttpGet(url)));
+        if (!response.isOk()) {
+            final String message = String.format(
+                "Can't download url '%s' because of status %s", url,
+                response.getStatusString());
+            LOGGER.error(message);
+            throw new IntegrationException(message, null);
+        }
+        return EntityUtils.toString(response.getEntity(),
+            Charset.defaultCharset());
     }
 
 }
