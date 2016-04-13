@@ -2,6 +2,7 @@ package org.itevents.service.transactional;
 
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
@@ -31,7 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,7 +149,7 @@ public class MyBatisUserServiceTest {
 
     }
 
-    @Test
+    @Test(expected = EntityAlreadyExistsServiceException.class)
     public void shouldThrowEntityAlreadyExistsServiceExceptionWhenAddExistingSubscriber() throws Exception {
         String testLogin = "test@example.com";
         User testUser = UserBuilder.anUser()
@@ -156,13 +157,13 @@ public class MyBatisUserServiceTest {
                 .role(BuilderUtil.buildRoleGuest())
                 .build();
         String password = "password";
+        String encodedPassword = "encodedPassword";
         Role guestRole = BuilderUtil.buildRoleGuest();
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
-        doThrow(new RuntimeException(new SQLIntegrityConstraintViolationException()))
-                .when(userDao).addUser(eq(testUser), any(String.class));
-        expectedException.expect(EntityAlreadyExistsServiceException.class);
-        expectedException.expectMessage("User test@example.com already registered");
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+        doThrow(new EntityAlreadyExistsDaoException("message", new SQLException()))
+                .when(userDao).addUser(testUser, encodedPassword);
 
         userService.addSubscriber(testUser.getLogin(), password);
     }
