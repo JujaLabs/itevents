@@ -2,7 +2,10 @@ package org.itevents.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.service.exception.*;
+import org.itevents.service.exception.ActionAlreadyDoneServiceException;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.TimeCollisionServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,6 +34,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExistsServiceException.class)
     public ResponseEntity<String> handleEntityAlreadyExistsServiceException(EntityAlreadyExistsServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

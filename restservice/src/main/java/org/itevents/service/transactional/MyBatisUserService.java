@@ -3,6 +3,7 @@ package org.itevents.service.transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -47,34 +47,26 @@ public class MyBatisUserService implements UserService {
     private int otpLifetime;
 
 
-    private void addUser(User user, String password) {
-        try {
-            userDao.addUser(user, password);
-        } catch (Throwable e) {
-            Throwable t = e;
-            while (t.getCause() != null) {
-                t = t.getCause();
-                if (t instanceof SQLIntegrityConstraintViolationException) {
-                    throw new EntityAlreadyExistsServiceException("User " + user.getLogin() + " already registered", e);
-                }
-            }
-            String message = e.getMessage() + ". Error when add new user (" + user.getLogin() + ")";
-            LOGGER.error(message, e);
-            throw new RuntimeException(message, e);
-        }
-    }
-
     @Override
     public void addSubscriber(String username, String password) throws Exception  {
         User user = UserBuilder.anUser()
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
                 .build();
-        addUser(user, passwordEncoder.encode(password));
+        String encodedPassword = passwordEncoder.encode(password);
+        addUser(user, encodedPassword);
 
         OneTimePassword otp = oneTimePassword.generateOtp(otpLifetime);
         setOtpToUser(user, otp);
         sendActivationEmailToUserLogin(user, otp);
+    }
+
+    private void addUser(User user, String password) {
+        try {
+            userDao.addUser(user, password);
+        } catch (EntityAlreadyExistsDaoException e) {
+            throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
+        }
     }
 
     private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
