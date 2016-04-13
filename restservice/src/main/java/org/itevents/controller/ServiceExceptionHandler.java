@@ -2,16 +2,14 @@ package org.itevents.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.service.exception.ActionAlreadyDoneServiceException;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import javax.validation.ConstraintViolationException;
 
 /**
