@@ -46,10 +46,16 @@ public class UserRestControllerIntegrationTest {
     @Test
     public void shouldExpect422IfLoginAlreadyExists() throws Exception {
         String existingLogin = "anakin@email.com";
+        String existingLoginInUpperCase = existingLogin.toUpperCase();
         String anyPassword = "randomString";
 
         mvc.perform(post("/users/register")
                 .param("username", existingLogin)
+                .param("password", anyPassword))
+                .andExpect(status().isUnprocessableEntity());
+
+        mvc.perform(post("/users/register")
+                .param("username", existingLoginInUpperCase)
                 .param("password", anyPassword))
                 .andExpect(status().isUnprocessableEntity());
     }
