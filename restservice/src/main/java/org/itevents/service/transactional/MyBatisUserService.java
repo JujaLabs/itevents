@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +66,7 @@ public class MyBatisUserService implements UserService {
 
     private void addUser(User user, String password) {
         try {
+            user.setLogin(user.getLogin().toLowerCase());
             userDao.addUser(user, password);
         } catch (EntityAlreadyExistsDaoException e) {
             throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
