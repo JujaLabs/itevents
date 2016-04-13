@@ -18,6 +18,7 @@ import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.Clock;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
