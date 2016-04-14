@@ -52,8 +52,9 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public void addSubscriber(String username, String password) throws Exception  {
+        String loginInLowerCase = username.toLowerCase();
         User user = UserBuilder.anUser()
-                .login(username)
+                .login(loginInLowerCase)
                 .role(roleService.getRoleByName("guest"))
                 .build();
         String encodedPassword = passwordEncoder.encode(password);
@@ -66,7 +67,6 @@ public class MyBatisUserService implements UserService {
 
     private void addUser(User user, String password) {
         try {
-            user.setLogin(user.getLogin().toLowerCase());
             userDao.addUser(user, password);
         } catch (EntityAlreadyExistsDaoException e) {
             throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
