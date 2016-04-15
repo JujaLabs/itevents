@@ -9,6 +9,9 @@ database.password=DB_PASSWORD
 # Liquibase
 changelog.file=src\\test\\resources\\liquibase\\db.changelog-create.xml
 
+# SendGrid
+sendgrid.api.key=SEND_GRID_TOKEN
+
 # EventService
 event.filter.range.in.days=7
 event.count.of.events.in.email=10

@@ -318,8 +318,8 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldAddLoginInLowerCase() throws Exception {
-        String loginInUperCase = "LOGIN";
-        String loginInLowerCase = loginInUperCase.toLowerCase();
+        String loginInUpperCase = "LOGIN";
+        String loginInLowerCase = loginInUpperCase.toLowerCase();
         String password = "password";
 
         User userWithLoginInLowerCase = UserBuilder.anUser()
@@ -329,7 +329,7 @@ public class MyBatisUserServiceTest {
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
 
-        userService.addSubscriber(loginInUperCase, password);
+        userService.addSubscriber(loginInUpperCase, password);
 
         verify(userDao).addUser(userWithLoginInLowerCase, encodedPassword);
     }

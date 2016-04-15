@@ -44,7 +44,7 @@ public class UserRestControllerIntegrationTest {
     }
 
     @Test
-    public void shouldExpect422IfRegisteringExistingLoginWithUpperCase() throws Exception {
+    public void shouldExpectUnprocessableEntityStatusCodeIfRegisterUserWithUpperCasedExistingLogin() throws Exception {
         String existingLogin = "ANAKIN@email.com";
         String anyPassword = "randomString";
 
