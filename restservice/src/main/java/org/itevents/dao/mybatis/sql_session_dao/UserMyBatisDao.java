@@ -2,6 +2,7 @@ package org.itevents.dao.mybatis.sql_session_dao;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.DaoException;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -55,7 +56,7 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
                 String message = "user already exists";
                 throw new EntityAlreadyExistsDaoException(message, t);
             } else
-                throw new RuntimeException(e.getMessage(), e);
+                throw new DaoException(e.getMessage(), e);
         }
     }
 

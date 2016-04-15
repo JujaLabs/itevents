@@ -1,6 +1,7 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
+import org.itevents.dao.exception.DaoException;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -62,6 +63,8 @@ public class MyBatisUserService implements UserService {
             userDao.addUser(user, password);
         } catch (EntityAlreadyExistsDaoException e) {
             throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
+        }catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 

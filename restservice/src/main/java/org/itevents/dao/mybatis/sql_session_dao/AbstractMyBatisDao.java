@@ -1,5 +1,6 @@
 package org.itevents.dao.mybatis.sql_session_dao;
 
+import org.itevents.dao.exception.DaoException;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public abstract class AbstractMyBatisDao extends SqlSessionDaoSupport {
         try {
             setSqlSessionFactory(sqlSessionFactoryBean.getObject());
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new DaoException(e.getMessage(), e);
         }
     }
 }

@@ -7,6 +7,7 @@ import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.*;
+import org.itevents.service.sendmail.NotificationServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -170,7 +171,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldExpect404IfOtpNotValid() throws Exception {
+    public void shouldExpectNotFoundIfOtpNotValid() throws Exception {
         String otp = "NotValidOtp";
 
         doThrow(EntityNotFoundServiceException.class)
@@ -181,7 +182,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldExpect401WhenLoggingWithIncorrectPassword() throws Exception {
+    public void shouldExpectUnauthorizedWhenLoggingWithIncorrectPassword() throws Exception {
         String invalidPassword = "invalidPassword";
 
         User user = BuilderUtil.buildUserAnakin();
@@ -203,8 +204,11 @@ public class ControllerHandlerTest {
 //           https://github.com/JuniorsJava/itevents/issues/53
 //           https://github.com/JuniorsJava/itevents/issues/187
     @Test
-    public void shouldExpect500IfNotificationServiceException() throws Exception {
-        doThrow(NotificationServiceException.class).when(userService).activateUserSubscription(any(User.class));
+    public void shouldExpectInternalServerErrorIfNotificationServiceException() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doThrow(NotificationServiceException.class).when(userService).activateUserSubscription(user);
 
         mvc.perform(get("/users/subscribe"))
                 .andExpect(status().isInternalServerError());
