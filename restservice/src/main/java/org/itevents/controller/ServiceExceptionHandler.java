@@ -1,15 +1,15 @@
 package org.itevents.controller;
 
-import org.itevents.service.exception.ActionAlreadyDoneServiceException;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.TimeCollisionServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.itevents.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import javax.validation.ConstraintViolationException;
 
 /**
@@ -17,6 +17,8 @@ import javax.validation.ConstraintViolationException;
  */
 @ControllerAdvice(annotations = RestController.class)
 public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
     public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
@@ -30,6 +32,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExistsServiceException.class)
     public ResponseEntity<String> handleEntityAlreadyExistsServiceException(EntityAlreadyExistsServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -41,5 +44,11 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String>  handleConstrainViolationExceptions(ConstraintViolationException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationServiceException.class)
+    public ResponseEntity<String> handleAuthenticationServiceException(AuthenticationServiceException ex) {
+        LOGGER.error(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
