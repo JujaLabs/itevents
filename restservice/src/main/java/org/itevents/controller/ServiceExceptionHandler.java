@@ -2,7 +2,6 @@ package org.itevents.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.dao.exception.DaoException;
 import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.NotificationServiceException;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
 /**
@@ -65,8 +63,8 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(DaoException.class)
-    public ResponseEntity<String> handleServiceException(ServletException ex){
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<String> handleServiceException(ServiceException ex){
         LOGGER.error(ex.getMessage());
         String message = "something went wrong, try again later";
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);

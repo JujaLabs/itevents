@@ -213,4 +213,15 @@ public class ControllerHandlerTest {
         mvc.perform(get("/users/subscribe"))
                 .andExpect(status().isInternalServerError());
     }
+
+    @Test
+    public void shouldExpectInternalServerErrorIfServiceException() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doThrow(ServiceException.class).when(userService).activateUserSubscription(user);
+
+        mvc.perform(get("/users/subscribe"))
+                .andExpect(status().isInternalServerError());
+    }
 }
