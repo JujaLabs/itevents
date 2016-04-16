@@ -5,8 +5,6 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
-import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
@@ -32,7 +30,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -191,12 +190,10 @@ public class MyBatisEventServiceTest {
     public void shouldReturnLinkToEventSite() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         User userGuest = BuilderUtil.buildUserGuest();
-        VisitLog visitLog = VisitLogBuilder.aVisitLog().event(event).user(userGuest).build();
         String expectedLink = event.getRegLink();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
-        doNothing().when(visitLogService).addVisitLog(visitLog);
 
         String returnedlLink = eventService.redirectToEventSite(event.getId());
 
