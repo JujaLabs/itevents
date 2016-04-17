@@ -8,12 +8,10 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
@@ -34,6 +32,8 @@ public class MyBatisUserService implements UserService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @Inject
+    private EventService eventService;
     @Inject
     private UserDao userDao;
     @Inject
@@ -129,7 +129,8 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public List<User> getUsersByEvent(Event event) {
+    public List<User> getUsersByEvent(int eventId) {
+        Event event = eventService.getEvent(eventId);
         return userDao.getUsersByEvent(event);
     }
 
@@ -148,9 +149,8 @@ public class MyBatisUserService implements UserService {
     public void checkPassword(User user, String password) {
         String encodedPassword = userDao.getUserPassword(user);
         if (!passwordEncoder.matches(password, encodedPassword)) {
-            String message = "Wrong password '" + password + "' for user '" + user.getLogin() + "'";
-            LOGGER.error(message);
-            throw new WrongPasswordServiceException(message);
+            String message = "Wrong login or password";
+            throw new AuthenticationServiceException(message);
         }
     }
 
