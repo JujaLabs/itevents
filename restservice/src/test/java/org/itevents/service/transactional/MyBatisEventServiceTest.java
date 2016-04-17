@@ -7,11 +7,7 @@ import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.VisitLog;
 import org.itevents.dao.model.builder.VisitLogBuilder;
-import org.itevents.dao.model.VisitLog;
-import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
-import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
@@ -20,10 +16,7 @@ import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.Clock;
 import org.itevents.util.time.DateTime;
 import org.itevents.util.time.DateTimeFactory;
-import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,13 +34,12 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/applicationContext.xml"})
+@ContextConfiguration(locations = { "classpath:applicationContext.xml",
+                                    "classpath:test-utils-context.xml"})
 public class MyBatisEventServiceTest {
 
     @InjectMocks
@@ -59,10 +51,8 @@ public class MyBatisEventServiceTest {
     private UserService userService;
     @Mock
     private VisitLogService visitLogService;
-    @Mock
-    private UserService userService;
-    @Mock
-    private VisitLogService visitLogService;
+    @Inject
+    private Clock clock;
 
     @Before
     public void setUp() {
@@ -162,15 +152,12 @@ public class MyBatisEventServiceTest {
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJs();
-        Date unassignDate = clock.getNowDateTime();
         String unassignReason = "test";
         List<Event> events = new ArrayList<>();
         events.add(event);
 
         when(eventDao.getEvent(event.getId())).thenReturn(event);
-        when(eventDao.getEvent(event.getId())).thenReturn(event);
         when(eventDao.getEventsByUser(user)).thenReturn(events);
-        when(userService.getAuthorizedUser()).thenReturn(user);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         eventService.unassignAuthorizedUserFromEvent(event.getId(), unassignReason);
@@ -203,16 +190,14 @@ public class MyBatisEventServiceTest {
         verify(eventDao).getEvent(event.getId());
     }
 
-//    @TODO: refactor DateTimeUtil.getNowDate() after or within issue https://github.com/JuniorsJava/itevents/issues/172
     @Test
-    @Ignore
     public void shouldReturnLinkToEventSiteAndAddVisitLog() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         User userGuest = BuilderUtil.buildUserGuest();
         VisitLog visitLog = VisitLogBuilder.aVisitLog()
                 .event(event)
                 .user(userGuest)
-                .date(DateTimeUtil.getNowDate())
+                .date(clock.getNowDateTime())
                 .build();
         String expectedLink = event.getRegLink();
 

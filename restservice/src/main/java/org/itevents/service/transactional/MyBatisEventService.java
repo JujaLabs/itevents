@@ -35,6 +35,8 @@ public class MyBatisEventService implements EventService {
     private UserService userService;
     @Inject
     private VisitLogService visitLogService;
+    @Inject
+    private Clock clock;
 
     @Override
     public void addEvent(Event event) {
@@ -78,7 +80,7 @@ public class MyBatisEventService implements EventService {
     public void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason) {
         Event event = getEvent(futureEventId);
         User user = userService.getAuthorizedUser();
-        Date unassignDate = DateTimeUtil.getNowDate();
+        Date unassignDate = clock.getNowDateTime();
         unassignUserFromEvent(user, event, unassignDate, unassignReason);
     }
 
@@ -129,7 +131,7 @@ public class MyBatisEventService implements EventService {
         VisitLog visitLog = VisitLogBuilder.aVisitLog()
                 .event(event)
                 .user(user)
-                .date(DateTimeUtil.getNowDate())
+                .date(clock.getNowDateTime())
                 .build();
         visitLogService.addVisitLog(visitLog);
         return event.getRegLink();
