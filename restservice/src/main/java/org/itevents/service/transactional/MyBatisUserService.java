@@ -8,6 +8,7 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.*;
@@ -32,6 +33,8 @@ public class MyBatisUserService implements UserService {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
+    private EventService eventService;
+    @Inject
     private UserDao userDao;
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -50,7 +53,7 @@ public class MyBatisUserService implements UserService {
 
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception  {
+    public void addSubscriber(String username, String password) throws Exception {
         User user = UserBuilder.anUser()
                 .login(username)
                 .role(roleService.getRoleByName("guest"))
@@ -127,7 +130,8 @@ public class MyBatisUserService implements UserService {
     }
 
     @Override
-    public List<User> getUsersByEvent(Event event) {
+    public List<User> getUsersByEvent(int eventId) {
+        Event event = eventService.getEvent(eventId);
         return userDao.getUsersByEvent(event);
     }
 

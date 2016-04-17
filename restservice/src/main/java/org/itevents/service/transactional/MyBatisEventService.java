@@ -7,7 +7,11 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -27,9 +31,10 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
-
     @Inject
-    private Clock clock;
+    private UserService userService;
+    @Inject
+    private VisitLogService visitLogService;
 
     @Override
     public void addEvent(Event event) {
@@ -53,22 +58,35 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public void assignUserToEvent(User user, Event event) {
-        if (isAssigned(user, event)) {
-            String message=user.getLogin() + " already assigned to "+event.getTitle();
+    public void assignAuthorizedUserToEvent(int futureEventId) {
+        Event event = getFutureEvent(futureEventId);
+        User user = userService.getAuthorizedUser();
+        assignUserToEvent(user, event);
+    }
+
+    private void assignUserToEvent(User user, Event futureEvent) {
+        if (isAssigned(user, futureEvent)) {
+            String message=user.getLogin() + " already assigned to " + futureEvent.getTitle();
             LOGGER.error(message);
             throw new ActionAlreadyDoneServiceException(message);
         } else {
-            eventDao.assignUserToEvent(user, event);
+            eventDao.assignUserToEvent(user, futureEvent);
         }
     }
 
     @Override
-    public void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
+    public void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason) {
+        Event event = getEvent(futureEventId);
+        User user = userService.getAuthorizedUser();
+        Date unassignDate = DateTimeUtil.getNowDate();
+        unassignUserFromEvent(user, event, unassignDate, unassignReason);
+    }
+
+    private void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason) {
         if (isAssigned(user, event)) {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
         } else {
-            String message=user.getLogin() + " already unassigned from "+event.getTitle();
+            String message=user.getLogin() + " already unassigned from " + event.getTitle();
             LOGGER.error(message);
             throw new ActionAlreadyDoneServiceException(message);
         }
@@ -104,4 +122,16 @@ public class MyBatisEventService implements EventService {
         return getEventsByUser(user).contains(event);
     }
 
+    @Override
+    public String redirectToEventSite(int eventId) {
+        Event event = getEvent(eventId);
+        User user = userService.getAuthorizedUser();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(user)
+                .date(DateTimeUtil.getNowDate())
+                .build();
+        visitLogService.addVisitLog(visitLog);
+        return event.getRegLink();
+    }
 }

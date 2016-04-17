@@ -8,6 +8,7 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.*;
@@ -63,6 +64,8 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+    @Mock
+    private EventService eventService;
     @Inject
     private Clock clock;
     @Inject
@@ -208,8 +211,10 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         List users = new ArrayList<>();
 
+        when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
-        List returnedUsers = userService.getUsersByEvent(event);
+
+        List<User> returnedUsers = userService.getUsersByEvent(event.getId());
 
         verify(userDao).getUsersByEvent(event);
         assertEquals(users, returnedUsers);

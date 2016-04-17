@@ -5,14 +5,25 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
+import org.itevents.service.UserService;
+import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.time.Clock;
 import org.itevents.util.time.DateTime;
 import org.itevents.util.time.DateTimeFactory;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,6 +39,10 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,8 +55,14 @@ public class MyBatisEventServiceTest {
     private EventService eventService;
     @Mock
     private EventDao eventDao;
-    @Inject
-    private Clock clock;
+    @Mock
+    private UserService userService;
+    @Mock
+    private VisitLogService visitLogService;
+    @Mock
+    private UserService userService;
+    @Mock
+    private VisitLogService visitLogService;
 
     @Before
     public void setUp() {
@@ -125,11 +146,18 @@ public class MyBatisEventServiceTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
 
-        eventService.assignUserToEvent(user, event);
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+
+        eventService.assignAuthorizedUserToEvent(event.getId());
 
         verify(eventDao).assignUserToEvent(user, event);
     }
 
+    /* @TODO:
+     *https://github.com/JuniorsJava/itevents/issues/203
+     * Remove any(Date.class) and other matchers
+     */
     @Test
     public void shouldUnassignUserFromEvent() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
@@ -139,11 +167,15 @@ public class MyBatisEventServiceTest {
         List<Event> events = new ArrayList<>();
         events.add(event);
 
+        when(eventDao.getEvent(event.getId())).thenReturn(event);
+        when(eventDao.getEvent(event.getId())).thenReturn(event);
         when(eventDao.getEventsByUser(user)).thenReturn(events);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(userService.getAuthorizedUser()).thenReturn(user);
 
-        eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        eventService.unassignAuthorizedUserFromEvent(event.getId(), unassignReason);
 
-        verify(eventDao).unassignUserFromEvent(user, event, unassignDate, unassignReason);
+        verify(eventDao).unassignUserFromEvent(eq(user), eq(event), any(Date.class), eq(unassignReason));
     }
 
     @Test
@@ -169,5 +201,27 @@ public class MyBatisEventServiceTest {
         eventService.getFutureEvent(event.getId());
 
         verify(eventDao).getEvent(event.getId());
+    }
+
+//    @TODO: refactor DateTimeUtil.getNowDate() after or within issue https://github.com/JuniorsJava/itevents/issues/172
+    @Test
+    @Ignore
+    public void shouldReturnLinkToEventSiteAndAddVisitLog() throws Exception {
+        Event event = BuilderUtil.buildEventJava();
+        User userGuest = BuilderUtil.buildUserGuest();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(userGuest)
+                .date(DateTimeUtil.getNowDate())
+                .build();
+        String expectedLink = event.getRegLink();
+
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(userService.getAuthorizedUser()).thenReturn(userGuest);
+
+        String returnedLink = eventService.redirectToEventSite(event.getId());
+
+        assertEquals(expectedLink, returnedLink);
+        verify(visitLogService).addVisitLog(visitLog);
     }
 }
