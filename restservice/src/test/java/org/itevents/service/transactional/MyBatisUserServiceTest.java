@@ -128,12 +128,11 @@ public class MyBatisUserServiceTest {
         String password = "password";
         String encodedPassword = "encodedPassword";
         Role guestRole = BuilderUtil.buildRoleGuest();
-        OneTimePassword otp = new OneTimePassword();
-        otp.generateOtp(OTP_LIFETIME_IN_HOURS);
+        OneTimePassword otp = oneTimePassword.generateOtp(OTP_LIFETIME_IN_HOURS);
+        reset(oneTimePassword);
         String emailWithOtp = "emailWithOtp";
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
-        doNothing().when(userDao).addUser(eq(testUser), eq(encodedPassword));
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
         when(oneTimePassword.generateOtp(OTP_LIFETIME_IN_HOURS)).thenReturn(otp);
         when(mailBuilderUtil.buildHtmlFromUserOtp(testUser, otp)).thenReturn(emailWithOtp);
@@ -145,6 +144,7 @@ public class MyBatisUserServiceTest {
         verify(passwordEncoder).encode(password);
         verify(oneTimePassword).generateOtp(OTP_LIFETIME_IN_HOURS);
         verify(userDao).setOtpToUser(testUser, otp);
+        verify(mailBuilderUtil).buildHtmlFromUserOtp(testUser, otp);
         verify(mailService).sendMail(emailWithOtp, testLogin);
 
     }
