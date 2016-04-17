@@ -1,6 +1,5 @@
 package org.itevents.service;
 
-import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public interface UserService {
 
     List<User> getSubscribedUsers();
 
-    List<User> getUsersByEvent(Event event);
+    List<User> getUsersByEvent(int eventId);
 
     void setAndEncodeUserPassword(User user, String password);
 
