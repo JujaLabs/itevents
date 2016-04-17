@@ -5,13 +5,17 @@ import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
+import org.itevents.dao.model.VisitLog;
+import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -186,17 +190,25 @@ public class MyBatisEventServiceTest {
         return calendar.getTime();
     }
 
+//    @TODO: refactor DateTimeUtil.getNowDate() after or within issue https://github.com/JuniorsJava/itevents/issues/172
     @Test
-    public void shouldReturnLinkToEventSite() throws Exception {
+    @Ignore
+    public void shouldReturnLinkToEventSiteAndAddVisitLog() throws Exception {
         Event event = BuilderUtil.buildEventJava();
         User userGuest = BuilderUtil.buildUserGuest();
+        VisitLog visitLog = VisitLogBuilder.aVisitLog()
+                .event(event)
+                .user(userGuest)
+                .date(DateTimeUtil.getNowDate())
+                .build();
         String expectedLink = event.getRegLink();
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
 
-        String returnedlLink = eventService.redirectToEventSite(event.getId());
+        String returnedLink = eventService.redirectToEventSite(event.getId());
 
-        assertEquals(expectedLink, returnedlLink);
+        assertEquals(expectedLink, returnedLink);
+        verify(visitLogService).addVisitLog(visitLog);
     }
 }
