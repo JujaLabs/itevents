@@ -2,7 +2,12 @@ package org.itevents.service.crawler;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.itevents.service.crawler.integration.SampleIntegration;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
@@ -12,59 +17,72 @@ import org.itevents.service.crawler.interfaces.Integration;
  */
 public class Engine implements EngineObserver {
     private List<Integration> integrations;
-    private List<Thread> threads;
+    private List<Future<?>> futures;
     private List<Entity> entities;
 
-    public String run() throws InterruptedException {
-        this.integrations = this.loadIntegrations();
-        this.threads = new ArrayList<>(this.integrations.size());
-        this.entities = new ArrayList<>();
-        this.addMeInIntegrations();
-        this.startIntegrations();
-        this.joinAllIntegrations();
-        return this.work();
+    public String run() throws InterruptedException, ExecutionException {
+        integrations = loadIntegrations();
+        futures = new ArrayList<>(integrations.size());
+        entities = new ArrayList<>(10);
+        addMeInIntegrations();
+        new IntegrationLauncher().launch();
+        return work();
     }
 
     private String work() {
-        StringBuilder stringBuilder = new StringBuilder(
-            String.format("Result is: Integrations %s, Entities: %s\n",
-                this.integrations.size(), this.entities.size()));
-        for (Integration integration : this.integrations) {
-            stringBuilder.append(integration.getIntegrationName()).append('\n');
+        final StringBuilder builder = new StringBuilder(
+            String.format("Result is: Integrations %s, Entities: %s%n",
+                integrations.size(), entities.size()));
+        for (final Integration integration : integrations) {
+            builder
+                .append(integration.getIntegrationName())
+                .append(String.format("%n"));
         }
-        return stringBuilder.toString();
+        return builder.toString();
     }
 
-    private void joinAllIntegrations() throws InterruptedException {
-        for (Thread thread : this.threads) {
-            thread.join();
-        }
-    }
-
-    private void startIntegrations() {
-        for (Integration integration : this.integrations) {
-            Thread thread = new Thread(integration);
-            thread.start();
-            this.threads.add(thread);
-        }
+    private List<Integration> loadIntegrations() {
+        return Collections.singletonList(new SampleIntegration());
     }
 
     private void addMeInIntegrations() {
-        for (Integration integration : this.integrations) {
+        for (final Integration integration : integrations) {
             integration.addObserver(this);
         }
     }
 
-
-    private List<Integration> loadIntegrations() {
-        List<Integration> integrations = new ArrayList<>();
-        integrations.add(new SampleIntegration());
-        return integrations;
+    @Override
+    public final void handleEvent(final Collection<Entity> collection) {
+        synchronized (this) {
+            entities.addAll(collection);
+        }
     }
 
+    class IntegrationLauncher {
+        private final ExecutorService service;
 
-    @Override
-    public synchronized void handleEvent(final Collection<Entity> entities) {
-        this.entities.addAll(entities);
+        public IntegrationLauncher() {
+            service = Executors.newFixedThreadPool(integrations.size());
+        }
+
+        private void launch() throws ExecutionException, InterruptedException {
+            startIntegrations();
+            service.shutdown();
+            joinAllIntegrations();
+        }
+
+        private void startIntegrations() {
+            for (final Integration integration : integrations) {
+                futures.add(service.submit(integration));
+            }
+        }
+
+        private void joinAllIntegrations() throws InterruptedException,
+            ExecutionException {
+            for (final Future<?> future : futures) {
+                future.get();
+            }
+        }
+
     }
 }

@@ -15,7 +15,7 @@ import org.itevents.service.crawler.interfaces.Integration;
 /**
  * Created by vaa25 on 20.03.2016.
  */
-public class SampleIntegration implements Integration {
+public final class SampleIntegration implements Integration {
     private static final String EXAMPLE_HTML_FILE = "example.html";
     private final int wiremockPort;
     private final WireMockServer wireMockServer;
@@ -23,10 +23,10 @@ public class SampleIntegration implements Integration {
     private List<Entity> result;
 
     public SampleIntegration() {
-        this.wiremockPort = new IntegrationProperties("crawler-local.properties")
+        wiremockPort = new IntegrationProperties("crawler-local.properties")
             .getInt("wiremock.port");
-        this.observers = new ArrayList<>();
-        this.wireMockServer = new WireMockServer(this.wiremockPort);
+        observers = new ArrayList<>();
+        wireMockServer = new WireMockServer(wiremockPort);
     }
 
     @Override
@@ -35,26 +35,26 @@ public class SampleIntegration implements Integration {
     }
 
     @Override
-    public void run() {
-
-        this.startWireMock();
-        String html = new HttpFetcher().fetchAsString(
-            String.format("http://localhost:%s/example", this.wiremockPort));
-        Entity entity = new Parser(html).parse();
-        this.result = new ArrayList<>();
-        this.result.add(entity);
-        this.notifyObservers();
-
-        this.stopWireMock();
+    public Void call() {
+        startWireMock();
+        final String html = new HttpFetcher().fetchAsString(
+            String.format("http://localhost:%s/example", wiremockPort));
+        result = new ArrayList<>(10);
+        result.add(new Parser(html).parse());
+        notifyObservers();
+        stopWireMock();
+        return null;
     }
 
     private void stopWireMock() {
-        this.wireMockServer.stop();
+        wireMockServer.stop();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void startWireMock() {
-        this.wireMockServer.start();
-        String html = new StringLoader().load(SampleIntegration.EXAMPLE_HTML_FILE);
+        wireMockServer.start();
+        final String html =
+            new StringFromFile(SampleIntegration.EXAMPLE_HTML_FILE).getValue();
         stubFor(get(urlEqualTo("/example")).willReturn(
             aResponse()
                 .withStatus(HttpStatus.SC_OK)
@@ -64,13 +64,13 @@ public class SampleIntegration implements Integration {
 
     @Override
     public void addObserver(final EngineObserver observer) {
-        this.observers.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (EngineObserver observer : this.observers) {
-            observer.handleEvent(this.result);
+        for (final EngineObserver observer : observers) {
+            observer.handleEvent(result);
         }
     }
 }
