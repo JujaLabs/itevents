@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,6 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testSubscriber", password = "testSubscriberPassword", authorities = "subscriber")
     public void shouldAddFilterForSubscription() throws Exception {
         User user = BuilderUtil.buildSubscriberTest();
 
@@ -139,5 +137,18 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldGetAuthorizedUser() throws Exception {
+        User userAnakin = BuilderUtil.buildUserAnakin();
+        String userAnakinInJson = new ObjectMapper().writeValueAsString(userAnakin);
+        when(userService.getAuthorizedUser()).thenReturn(userAnakin);
+
+        mockMvc.perform(get("/users/me"))
+                .andExpect(status().isOk())
+        .andExpect(content().json(userAnakinInJson));
+
+        verify(userService).getAuthorizedUser();
     }
 }
