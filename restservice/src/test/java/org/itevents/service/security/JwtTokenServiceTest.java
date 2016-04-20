@@ -1,5 +1,6 @@
 package org.itevents.service.security;
 
+import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.User;
 import org.itevents.service.CryptTokenService;
 import org.itevents.service.UserService;
@@ -30,18 +31,20 @@ public class JwtTokenServiceTest {
     private JwtTokenService tokenService;
 
     @Test
-    public void shouldCreateToken() throws Exception {
+    public void shouldCreateTokenWrapper() throws Exception {
 
         User user = BuilderUtil.buildUserGuest();
-        String password = "SomePassword";
-        String generateToken = "SomeGeneratedToken";
+        String password = "password";
+        String token = "token";
+        TokenWrapper expectedTokenWrapper = new TokenWrapper(token);
         Token jsonToken = new Token(user.getLogin(), user.getRole().getName());
+
         when(userService.getUserByName(user.getLogin())).thenReturn(user);
-        when(cryptTokenService.encrypt(jsonToken)).thenReturn(generateToken);
+        when(cryptTokenService.encrypt(jsonToken)).thenReturn(token);
 
-        String token = tokenService.createToken(user.getLogin(), password);
+        TokenWrapper returnedTokenWrapper = tokenService.createTokenWrapper(user.getLogin(), password);
 
-        assertEquals(token, generateToken);
+        assertEquals(returnedTokenWrapper, expectedTokenWrapper);
         verify(userService).checkPassword(user, password);
     }
 }

@@ -363,7 +363,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static User buildSubscriberTest() {
+    public static User buildTestSubscriber() {
         return UserBuilder.anUser()
                 .login("testSubscriber")
                 .role(buildRoleSubscriber())

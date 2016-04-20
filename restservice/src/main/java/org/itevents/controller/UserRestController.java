@@ -4,13 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.service.*;
-import org.itevents.util.time.DateTimeUtil;
 import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.Event;
-import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
@@ -43,8 +40,7 @@ public class UserRestController {
     @ResponseStatus(value = HttpStatus.OK)
     public TokenWrapper login(@ModelAttribute("username") String username,
                               @ModelAttribute("password") String password) {
-        String token = tokenService.createToken(username, password);
-        return new TokenWrapper(token);
+        return tokenService.createTokenWrapper(username, password);
     }
 
     @ApiImplicitParams({
@@ -75,12 +71,8 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/subscribe")
     @ApiOperation(value = "Activates authorized user's e-mail subscription with filter")
     @ResponseStatus(value = HttpStatus.OK)
-    public void activateSubscription(@ModelAttribute FilterWrapper wrapper) {
-        Filter filter = new FilterConverter().toFilter(wrapper);
-        filter.setCreateDate(DateTimeUtil.getNowDate());
-        User user = userService.getAuthorizedUser();
-        filterService.addFilter(user, filter);
-        userService.activateUserSubscription(user);
+    public void activateSubscription(@ModelAttribute FilterWrapper filterWrapper) {
+        userService.activateUserSubscription(filterWrapper);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/unsubscribe")

@@ -2,12 +2,14 @@ package org.itevents.service.transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
@@ -46,6 +48,8 @@ public class MyBatisUserService implements UserService {
     private SendGridMailService mailService;
     @Inject
     private MailBuilderUtil mailBuilderUtil;
+    @Inject
+    private FilterService filterService;
     @Value("${user.activation.otp.lifetime.hours}")
     private int otpLifetime;
 
@@ -105,9 +109,9 @@ public class MyBatisUserService implements UserService {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public void activateUserSubscription(User user) {
-        user.setSubscribed(true);
-        userDao.updateUser(user);
+    public void activateUserSubscription(FilterWrapper filterWrapper) {
+        //user.setSubscribed(true);
+        //userDao.updateUser(user);
     }
 
     @Override

@@ -1,13 +1,17 @@
 package org.itevents.service.transactional;
 
+import org.itevents.controller.converter.FilterConverter;
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.FilterService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityAlreadyExistsServiceException;
@@ -65,6 +69,8 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+    @Mock
+    private FilterService filterService;
 
     @Before
     public void setUp() {
@@ -175,21 +181,36 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldActivateUserSubscription() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
-        boolean expectedSubscribed = true;
+        FilterWrapper filterWrapper = new FilterWrapper();
+        filterWrapper.setCityId(-1);
+        filterWrapper.setFree(true);
+        filterWrapper.setTechnologiesNames(new String[]{"Java"});
 
-        doNothing().when(userDao).updateUser(testUser);
+        Filter filter = new FilterConverter().toFilter(filterWrapper);
 
-        userService.activateUserSubscription(testUser);
-        boolean returnedSubscribed = testUser.isSubscribed();
+        User user = BuilderUtil.buildUserAnakin();
+//        Filter filter = new FilterConverter().toFilter(wrapper);
+//        filter.setCreateDate(DateTimeUtil.getNowDate());
+//        User user = userService.getAuthorizedUser();
+//        filterService.addFilter(user, filter);
+//        userService.activateUserSubscription(user);
 
-        verify(userDao).updateUser(testUser);
-        assertEquals(expectedSubscribed, returnedSubscribed);
+        when(userService.getAuthorizedUser()).thenReturn(user);
+
+//        User testUser = BuilderUtil.buildUserTest();
+//        boolean expectedSubscribed = true;
+//
+//        userService.activateUserSubscription(filterWrapper);
+//        boolean returnedSubscribed = testUser.isSubscribed();
+
+        verify(filterService).addFilter(user, filter);
+        verify(userDao).updateUser(user);
+        //assertEquals(expectedSubscribed, returnedSubscribed);
     }
 
     @Test
     public void shouldDeactivateUserSubscription() throws Exception {
-        User testSubscriber = BuilderUtil.buildSubscriberTest();
+        User testSubscriber = BuilderUtil.buildTestSubscriber();
         boolean expectedSubscribed = false;
 
         doNothing().when(userDao).updateUser(testSubscriber);

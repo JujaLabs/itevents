@@ -1,5 +1,6 @@
 package org.itevents.service.security;
 
+import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.dao.model.User;
 import org.itevents.service.CryptTokenService;
 import org.itevents.service.TokenService;
@@ -21,11 +22,11 @@ public class JwtTokenService implements TokenService {
     private CryptTokenService cryptTokenService;
 
     @Override
-    public String createToken(String username, String password) {
+    public TokenWrapper createTokenWrapper(String username, String password) {
         User user = userService.getUserByName(username);
         userService.checkPassword(user, password);
 
         Token token = new Token(username, user.getRole().getName());
-        return cryptTokenService.encrypt(token);
+        return new TokenWrapper(cryptTokenService.encrypt(token));
     }
 }

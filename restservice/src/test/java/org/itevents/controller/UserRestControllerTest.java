@@ -2,9 +2,10 @@ package org.itevents.controller;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import org.itevents.controller.wrapper.FilterWrapper;
+import org.itevents.controller.wrapper.TokenWrapper;
 import org.itevents.service.*;
 import org.itevents.dao.model.Event;
-import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.FilterService;
@@ -66,24 +67,24 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void shouldAddFilterForSubscription() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
+    public void shouldActivateSubscription() throws Exception {
+        FilterWrapper filterWrapper = new FilterWrapper();
+        filterWrapper.setCityId(-1);
+        filterWrapper.setFree(true);
+        filterWrapper.setTechnologiesNames(new String[]{"Java"});
 
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        doNothing().when(filterService).addFilter(eq(user), any(Filter.class));
-        doNothing().when(userService).activateUserSubscription(user);
-
-        mockMvc.perform(get("/users/subscribe"))
+        mockMvc.perform(get("/users/subscribe")
+                    .param("cityId", "-1")
+                    .param("free", "true")
+                    .param("technologiesNames", "Java"))
                 .andExpect(status().isOk());
 
-        verify(userService).getAuthorizedUser();
-        verify(userService).activateUserSubscription(user);
-        verify(filterService).addFilter(eq(user), any(Filter.class));
+        verify(userService).activateUserSubscription(filterWrapper);
     }
 
     @Test
     public void shouldDeactivateSubscription() throws Exception {
-        User user = BuilderUtil.buildSubscriberTest();
+        User user = BuilderUtil.buildTestSubscriber();
 
         when(userService.getAuthorizedUser()).thenReturn(user);
         doNothing().when(userService).deactivateUserSubscription(user);
@@ -112,11 +113,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void shouldGenerateToken() throws Exception {
-        when(tokenService.createToken("someMail@mail.ua", "passwd")).thenReturn("someToken");
+        TokenWrapper expectedTokenWrapper = new TokenWrapper("token");
+        when(tokenService.createTokenWrapper("user@email.com", "password")).thenReturn(expectedTokenWrapper);
         mockMvc.perform(post("/users/login")
-                .param("username", "someMail@mail.ua")
-                .param("password", "passwd")
-        ).andExpect(status().isOk());
+                .param("username", "user@email.com")
+                .param("password", "password"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("{\"token\":\"token\"}"));
     }
 
     @Test

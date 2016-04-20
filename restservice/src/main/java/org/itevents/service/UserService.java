@@ -1,5 +1,6 @@
 package org.itevents.service;
 
+import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -18,7 +19,7 @@ public interface UserService {
 
     User getAuthorizedUser();
 
-    void activateUserSubscription(User user);
+    void activateUserSubscription(FilterWrapper filterWrapper);
 
     void deactivateUserSubscription(User user);
 
