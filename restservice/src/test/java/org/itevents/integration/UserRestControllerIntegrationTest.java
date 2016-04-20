@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,8 +24,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:mvc-dispatcher-servlet.xml",
-                        "classpath:spring-securityTestAddon.xml",
-                        "classpath:applicationContextIntegrationTestAddon.xml"})
+                        "classpath:spring-security.xml",
+                        "classpath:applicationContext.xml"})
+@TestPropertySource("classpath:test-local.properties")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",
