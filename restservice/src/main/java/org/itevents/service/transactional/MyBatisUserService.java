@@ -1,7 +1,6 @@
 package org.itevents.service.transactional;
 
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.DaoException;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -10,7 +9,10 @@ import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.*;
+import org.itevents.service.exception.AuthenticationServiceException;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.OtpExpiredServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
@@ -66,8 +68,6 @@ public class MyBatisUserService implements UserService {
             userDao.addUser(user, password);
         } catch (EntityAlreadyExistsDaoException e) {
             throw new EntityAlreadyExistsServiceException(e.getMessage(), e);
-        }catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
         }
     }
 

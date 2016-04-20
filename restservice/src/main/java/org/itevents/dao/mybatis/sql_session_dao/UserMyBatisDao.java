@@ -1,17 +1,15 @@
 package org.itevents.dao.mybatis.sql_session_dao;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.itevents.dao.UserDao;
-import org.itevents.dao.exception.DaoException;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -44,19 +42,13 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.UserMapper.getAllUsers");
     }
 
-//  @TODO: refactor this within issue 207
-//  https://github.com/JuniorsJava/itevents/issues/207
     @Override
     public void addUser(User user, String password) {
         try {
             getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.addUser", new UserPassword(user, password));
-        } catch (Exception e) {
-            Throwable t = ExceptionUtils.getRootCause(e);
-            if (t instanceof SQLException) {
+        } catch (DuplicateKeyException e) {
                 String message = "user already exists";
-                throw new EntityAlreadyExistsDaoException(message, t);
-            } else
-                throw new DaoException(e.getMessage(), e);
+                throw new EntityAlreadyExistsDaoException(message, e);
         }
     }
 
