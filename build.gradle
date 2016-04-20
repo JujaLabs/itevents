@@ -59,7 +59,6 @@ subprojects {
         validating 'org.hibernate:hibernate-validator:5.2.2.Final'
         validating 'javax.el:javax.el-api:3.0.0'
         liquibaseCommon 'org.liquibase:liquibase-core:3.4.1'
-        'org.apache.commons:commons-lang3:3.4'
         testing 'junit:junit:4.12'
         testing 'org.springframework:spring-test:4.1.6.RELEASE'
         testing 'org.dbunit:dbunit:2.5.1'
