@@ -1,5 +1,6 @@
 package org.itevents.service.crawler.interfaces;
 
+import java.util.Collection;
 import java.util.concurrent.Callable;
 
 /**
@@ -7,4 +8,6 @@ import java.util.concurrent.Callable;
  */
 public interface Integration extends IntegrationObservable, Callable<Void> {
     String getIntegrationName();
+
+    void setParsed(Collection<String> urls);
 }

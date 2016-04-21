@@ -1,5 +1,6 @@
 package org.itevents.service.crawler;
 
+import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.concurrent.Future;
 import org.itevents.service.crawler.integration.SampleIntegration;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
+import org.itevents.service.crawler.interfaces.IntegrationEvent;
 
 /**
  * Created by vaa25 on 06.04.2016.
@@ -18,15 +20,28 @@ import org.itevents.service.crawler.interfaces.Integration;
 public class Engine implements EngineObserver {
     private List<Integration> integrations;
     private List<Future<?>> futures;
-    private List<Entity> entities;
+    private List<IntegrationEvent> entities;
 
     public String run() throws InterruptedException, ExecutionException {
         integrations = loadIntegrations();
+        setParsedUrlsInIntegrations();
         futures = new ArrayList<>(integrations.size());
         entities = new ArrayList<>(10);
         addMeInIntegrations();
         new IntegrationLauncher().launch();
         return work();
+    }
+
+    private void setParsedUrlsInIntegrations() {
+        for (Integration integration : integrations) {
+            integration.setParsed(
+                getParsedUrlsForFutureEventsFromDatabase(
+                    integration.getIntegrationName()));
+        }
+    }
+
+    private List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
+        return asList("http://some.url.com/event");
     }
 
     private String work() {
@@ -52,9 +67,9 @@ public class Engine implements EngineObserver {
     }
 
     @Override
-    public final void handleEvent(final Collection<Entity> collection) {
+    public final void handleNewIntegrationEvents(final Collection<IntegrationEvent> integrationEvents) {
         synchronized (this) {
-            entities.addAll(collection);
+            entities.addAll(integrationEvents);
         }
     }
 

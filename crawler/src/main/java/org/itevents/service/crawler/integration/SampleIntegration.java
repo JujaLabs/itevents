@@ -6,11 +6,12 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.apache.http.HttpStatus;
-import org.itevents.service.crawler.Entity;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
+import org.itevents.service.crawler.interfaces.IntegrationEvent;
 
 /**
  * Created by vaa25 on 20.03.2016.
@@ -20,7 +21,8 @@ public final class SampleIntegration implements Integration {
     private final int wiremockPort;
     private final WireMockServer wireMockServer;
     private final List<EngineObserver> observers;
-    private List<Entity> result;
+    private List<IntegrationEvent> result;
+    private Collection<String> parsed;
 
     public SampleIntegration() {
         wiremockPort = new IntegrationProperties("crawler-local.properties")
@@ -35,14 +37,21 @@ public final class SampleIntegration implements Integration {
     }
 
     @Override
+    public void setParsed(final Collection<String> urls) {
+        this.parsed = urls;
+    }
+
+    @Override
     public Void call() {
-        startWireMock();
-        final String html = new HttpFetcher().fetchAsString(
-            String.format("http://localhost:%s/example", wiremockPort));
-        result = new ArrayList<>(10);
-        result.add(new Parser(html).parse());
-        notifyObservers();
-        stopWireMock();
+        String url = String.format("http://localhost:%s/example", wiremockPort);
+        if (!parsed.contains(url)) {
+            startWireMock();
+            final String html = new HttpFetcher().fetchAsString(url);
+            result = new ArrayList<>(10);
+            result.add(new Parser(html).parse());
+            notifyObservers();
+            stopWireMock();
+        }
         return null;
     }
 
@@ -70,7 +79,7 @@ public final class SampleIntegration implements Integration {
     @Override
     public void notifyObservers() {
         for (final EngineObserver observer : observers) {
-            observer.handleEvent(result);
+            observer.handleNewIntegrationEvents(result);
         }
     }
 }
