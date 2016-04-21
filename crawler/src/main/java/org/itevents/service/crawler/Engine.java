@@ -33,13 +33,14 @@ public class Engine implements EngineObserver {
     }
 
     private void setParsedUrlsInIntegrations() {
-        for (Integration integration : integrations) {
+        for (final Integration integration : integrations) {
             integration.setParsed(
                 getParsedUrlsForFutureEventsFromDatabase(
                     integration.getIntegrationName()));
         }
     }
 
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     private List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
         return asList("http://some.url.com/event");
     }

@@ -43,7 +43,7 @@ public final class SampleIntegration implements Integration {
 
     @Override
     public Void call() {
-        String url = String.format("http://localhost:%s/example", wiremockPort);
+        final String url = String.format("http://localhost:%s/example", wiremockPort);
         if (!parsed.contains(url)) {
             startWireMock();
             final String html = new HttpFetcher().fetchAsString(url);
