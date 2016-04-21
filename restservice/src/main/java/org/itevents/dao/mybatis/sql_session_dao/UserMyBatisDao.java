@@ -47,8 +47,8 @@ public class UserMyBatisDao extends AbstractMyBatisDao implements UserDao {
         try {
             getSqlSession().insert("org.itevents.dao.mybatis.mapper.UserMapper.addUser", new UserPassword(user, password));
         } catch (DuplicateKeyException e) {
-                String message = "user already exists";
-                throw new EntityAlreadyExistsDaoException(message, e);
+            String message = "user already exists";
+            throw new EntityAlreadyExistsDaoException(message, e);
         }
     }
 
