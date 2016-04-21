@@ -31,7 +31,7 @@ public interface UserService {
 
     List<User> getSubscribedUsers();
 
-    List<User> getUsersByEvent(Event event);
+    List<User> getUsersByEvent(int eventId);
 
     void setAndEncodeUserPassword(User user, String password);
 

@@ -86,10 +86,10 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
             type = DatabaseOperation.DELETE_ALL)
     public void shouldReturnUsersByEvent() throws Exception {
         User user = BuilderUtil.buildUserKuchin();
-        List expectedUsers = new ArrayList<>();
+        List<User> expectedUsers = new ArrayList<>();
         expectedUsers.add(user);
         Event event = BuilderUtil.buildEventPhp();
-        List returnedUsers = userMyBatisDao.getUsersByEvent(event);
+        List<User> returnedUsers = userMyBatisDao.getUsersByEvent(event);
         assertEquals(expectedUsers,returnedUsers);
     }
 

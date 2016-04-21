@@ -12,12 +12,10 @@ import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.FilterService;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -75,6 +73,8 @@ public class MyBatisUserServiceTest {
     private FilterService filterService;
     @Mock
     private FilterConverter filterConverter;
+    @Mock
+    private EventService eventService;
 
     @Before
     public void setUp() {
@@ -227,8 +227,10 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         List users = new ArrayList<>();
 
+        when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
-        List returnedUsers = userService.getUsersByEvent(event);
+
+        List returnedUsers = userService.getUsersByEvent(event.getId());
 
         verify(userDao).getUsersByEvent(event);
         assertEquals(users, returnedUsers);
@@ -275,7 +277,7 @@ public class MyBatisUserServiceTest {
         verify(passwordEncoder).matches(password, encodedPassword);
     }
 
-    @Test(expected = WrongPasswordServiceException.class)
+    @Test(expected = AuthenticationServiceException.class)
     public void shouldThrowWrongPasswordServiceExceptionIfCheckPasswordFails() throws Exception {
         User testUser = BuilderUtil.buildTestUser();
         String password = "password";

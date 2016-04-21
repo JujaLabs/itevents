@@ -2,14 +2,10 @@ package org.itevents.integration;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
-import org.itevents.service.exception.ActionAlreadyDoneServiceException;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.TimeCollisionServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,8 +42,6 @@ public class ControllerHandlerTest {
     private EventService eventService;
     @Inject
     private UserService userService;
-    @Inject
-    private VisitLogService visitLogService;
 
     @Before
     public void setup() {
@@ -58,24 +52,24 @@ public class ControllerHandlerTest {
     public void shouldNotAssignUserToEventIfEventIsAbsent() throws Exception {
         int absentId = 0;
 
-        when(eventService.getFutureEvent(absentId)).thenThrow(EntityNotFoundServiceException.class);
+        doThrow(EntityNotFoundServiceException.class).when(eventService).assignAuthorizedUserToEvent(absentId);
 
         mvc.perform(post("/events/" + absentId + "/assign"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(eventService).assignAuthorizedUserToEvent(absentId);
     }
 
     @Test
     public void shouldNotAssignUserToEventIfEventDateIsPassed() throws Exception {
         Event event = BuilderUtil.buildEventJava();
 
-        when(eventService.getFutureEvent(event.getId())).thenThrow(TimeCollisionServiceException.class);
+        doThrow(TimeCollisionServiceException.class).when(eventService).assignAuthorizedUserToEvent(event.getId());
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isBadRequest());
 
-        verify(eventService, never()).assignUserToEvent(any(), any());
+        verify(eventService).assignAuthorizedUserToEvent(event.getId());
     }
 
     @Test
@@ -94,21 +88,17 @@ public class ControllerHandlerTest {
     @Test
     public void shouldNotFoundIfEventIsAbsent() throws Exception {
         Event event = BuilderUtil.buildEventRuby();
-        User user = BuilderUtil.buildUserGuest();
 
-        when(eventService.getEvent(event.getId())).thenThrow(EntityNotFoundServiceException.class);
-        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+        when(eventService.redirectToEventSite(event.getId())).thenThrow(EntityNotFoundServiceException.class);
 
         mvc.perform(get("/events/" + event.getId() + "/register"))
                 .andExpect(status().isNotFound());
 
-        verify(eventService).getEvent(event.getId());
-        verify(userService, never()).getUserByName(user.getLogin());
-        verify(visitLogService, never()).addVisitLog(any(VisitLog.class));
+        verify(eventService).redirectToEventSite(event.getId());
     }
 
     @Test
-    public void shouldNotFoundUserById() throws Exception {
+    public void shouldReturn404IfUserIsAbsent() throws Exception {
         int absentId = 0;
 
         when(userService.getUser(absentId)).thenThrow(EntityNotFoundServiceException.class);
@@ -121,13 +111,11 @@ public class ControllerHandlerTest {
     public void shouldNotAssignUserToEventIfAssigned() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventJava();
-        ArrayList<Event> expectedEvents = new ArrayList<>();
-        expectedEvents.add(event);
 
         when(eventService.getFutureEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
         doThrow(ActionAlreadyDoneServiceException.class)
-            .when(eventService).assignUserToEvent(user, event);
+            .when(eventService).assignAuthorizedUserToEvent(event.getId());
 
         mvc.perform(post("/events/" + event.getId() + "/assign"))
                 .andExpect(status().isConflict());
@@ -181,5 +169,23 @@ public class ControllerHandlerTest {
 
         mvc.perform(get("/users/activate/"+ otp))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldExpect401WhenLoggingWithIncorrectPassword() throws Exception {
+        String invalidPassword = "invalidPassword";
+
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getUserByName(user.getLogin())).thenReturn(user);
+
+        doThrow(AuthenticationServiceException.class)
+                .when(userService).checkPassword(user, invalidPassword);
+
+        mvc.perform(post("/users/login")
+        .param("username", user.getLogin())
+        .param("password", invalidPassword))
+                .andExpect(status().isUnauthorized());
+
     }
 }

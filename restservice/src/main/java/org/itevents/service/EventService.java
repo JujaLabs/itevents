@@ -4,7 +4,6 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 
-import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -17,13 +16,15 @@ public interface EventService {
 
     List<Event> getFilteredEvents(Filter filter);
 
-    void assignUserToEvent(User user, Event event);
+    void assignAuthorizedUserToEvent(int futureEventId);
 
     List<Event> getFilteredEventsWithRating(Filter filter);
 
-    void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
+    void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason);
 
     List<Event> getEventsByUser(int userId);
 
     Event getFutureEvent(int eventId);
+
+    String redirectToEventSite(int eventId);
 }

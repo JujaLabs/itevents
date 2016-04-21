@@ -33,7 +33,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "username", value = "User's name", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
-    @RequestMapping(method = RequestMethod.POST, value = "login")
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
     @ApiOperation(value = "Generate authorization token")
     @ResponseStatus(value = HttpStatus.OK)
     public TokenWrapper login(@ModelAttribute("username") String username,
