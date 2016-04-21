@@ -107,15 +107,17 @@ public class MyBatisUserServiceTest {
     public void shouldThrowServiceExceptionWhenUserNameIsAbsent() {
         String absentName = "absentName";
 
-        when(userDao.getUserByName(absentName)).thenThrow(EntityNotFoundDaoException.class);
+        when(userDao.getUserByName(absentName.toLowerCase())).thenThrow(EntityNotFoundDaoException.class);
 
         userService.getUserByName(absentName);
     }
 
     @Test
-    @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
+    @WithMockUser(username = "testuser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
-        User expectedUser = BuilderUtil.buildTestUser();
+        User expectedUser = BuilderUtil.buildUserTest();
+        String loginInLowerCase = expectedUser.getLogin().toLowerCase();
+        expectedUser.setLogin(loginInLowerCase);
 
         when(userDao.getUserByName(expectedUser.getLogin())).thenReturn(expectedUser);
 
@@ -335,5 +337,23 @@ public class MyBatisUserServiceTest {
                 .when(userDao).getOtp(stringOtp);
 
         userService.activateUserWithOtp(stringOtp);
+    }
+
+    @Test
+    public void shouldAddLoginInLowerCase() throws Exception {
+        String loginInUpperCase = "LOGIN";
+        String loginInLowerCase = loginInUpperCase.toLowerCase();
+        String password = "password";
+
+        User userWithLoginInLowerCase = UserBuilder.anUser()
+                .login(loginInLowerCase)
+                .build();
+
+        String encodedPassword = "encodedPassword";
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+
+        userService.addSubscriber(loginInUpperCase, password);
+
+        verify(userDao).addUser(userWithLoginInLowerCase, encodedPassword);
     }
 }

@@ -8,3 +8,9 @@ database.password=DB_PASSWORD
 
 # Liquibase
 changelog.file=src\\test\\resources\\liquibase\\db.changelog-create.xml
+
+# JWTCryptTokenService
+jwt.key=password
+
+# UserService
+user.activation.otp.lifetime.hours = 24
