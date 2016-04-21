@@ -1,0 +1,9 @@
+group 'org.itevents'
+version '1.0-SNAPSHOT'
+
+jar {
+  archiveName = 'interfaces.jar'
+  destinationDir = file('../webapps')
+}
+
+

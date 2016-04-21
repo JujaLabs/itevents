@@ -67,6 +67,7 @@ if (!crawlerLocalPropertiesFile.exists()) {
 
 dependencies {
     compile project(':restservice')
+    compile project(':interfaces')
     compile 'com.github.tomakehurst:wiremock:1.57'
     compile 'org.jsoup:jsoup:1.8.3'
     testCompile project(':restservice')
