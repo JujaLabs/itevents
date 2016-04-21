@@ -36,10 +36,6 @@ public class MyBatisEventService implements EventService {
     private UserService userService;
     @Inject
     private VisitLogService visitLogService;
-
-    @Inject
-    private UserService userService;
-
     @Override
     public void addEvent(Event event) {
         eventDao.addEvent(event);

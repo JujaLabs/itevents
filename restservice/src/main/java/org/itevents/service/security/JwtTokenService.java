@@ -24,7 +24,7 @@ public class JwtTokenService implements TokenService {
     private CryptTokenService cryptTokenService;
 
     @Override
-    public String createToken(String username, String password) {
+    public TokenWrapper createTokenWrapper(String username, String password) {
         try {
             User user = userService.getUserByName(username);
             userService.checkPassword(user, password);

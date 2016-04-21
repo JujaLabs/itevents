@@ -155,8 +155,8 @@ public class MyBatisEventServiceTest {
         List<Event> events = new ArrayList<>();
         events.add(event);
 
-        when(eventDao.getEvent(event.getId())).thenReturn(event);
-        when(eventDao.getEventsByUser(user.getId())).thenReturn(events);
+        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventsByUser(event.getId())).thenReturn(events);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         eventService.unassignAuthorizedUserFromEvent(event.getId(), unassignReason);
