@@ -355,7 +355,7 @@ public class BuilderUtil {
                 .build();
     }
 
-    public static User buildUserTest() {
+    public static User buildTestUser() {
         return UserBuilder.anUser()
                 .login("testUser")
                 .role(buildRoleGuest())

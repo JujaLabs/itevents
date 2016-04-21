@@ -23,7 +23,7 @@ public interface EventService {
 
     void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
-    List<Event> getEventsByUser(User user);
+    List<Event> getEventsByUser(int userId);
 
     Event getFutureEvent(int eventId);
 }

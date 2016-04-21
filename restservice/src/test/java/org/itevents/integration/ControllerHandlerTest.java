@@ -148,7 +148,7 @@ public class ControllerHandlerTest {
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
 
         mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", invalidParameter))
@@ -165,7 +165,7 @@ public class ControllerHandlerTest {
 
         when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
+        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
 
         mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validParameter))

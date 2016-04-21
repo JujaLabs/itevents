@@ -84,16 +84,10 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void shouldDeactivateSubscription() throws Exception {
-        User user = BuilderUtil.buildTestSubscriber();
-
-        when(userService.getAuthorizedUser()).thenReturn(user);
-        doNothing().when(userService).deactivateUserSubscription(user);
-
         mockMvc.perform(get("/users/unsubscribe"))
                 .andExpect(status().isOk());
 
-        verify(userService).getAuthorizedUser();
-        verify(userService).deactivateUserSubscription(user);
+        verify(userService).deactivateUserSubscription();
     }
 
     @Test
@@ -103,8 +97,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         expectedEvents.add(BuilderUtil.buildEventJs());
         String expectedEventsInJson = new ObjectMapper().writeValueAsString(expectedEvents);
 
-        when(eventService.getEventsByUser(user)).thenReturn(expectedEvents);
-        when(userService.getUser(user.getId())).thenReturn(user);
+        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())

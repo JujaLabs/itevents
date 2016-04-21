@@ -59,7 +59,7 @@ public class UserMyBatisDaoDbTest extends AbstractDbTest {
     @ExpectedDatabase(value = TEST_PATH + "testAddUser_expected.xml",
             assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAddUser() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
+        User testUser = BuilderUtil.buildTestUser();
         String password = "testUserPassword";
         userMyBatisDao.addUser(testUser, password);
     }

@@ -27,8 +27,6 @@ public class UserRestController {
     @Inject
     private EventService eventService;
     @Inject
-    private FilterService filterService;
-    @Inject
     private TokenService tokenService;
 
     @ApiImplicitParams({
@@ -79,15 +77,13 @@ public class UserRestController {
     @ApiOperation(value = "Deactivates authorized user's e-mail subscription")
     @ResponseStatus(value = HttpStatus.OK)
     public void deactivateSubscription() {
-        User user = userService.getAuthorizedUser();
-        userService.deactivateUserSubscription(user);
+        userService.deactivateUserSubscription();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
     @ApiOperation(value = "Returns list of events, to which user is assigned")
     public List<Event> getEventsByUser(@PathVariable("user_id") int userId) {
-        User user = userService.getUser(userId);
-        return eventService.getEventsByUser(user);
+        return eventService.getEventsByUser(userId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/activate/{otp}")

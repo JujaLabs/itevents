@@ -6,6 +6,7 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
 import org.itevents.test_utils.BuilderUtil;
@@ -38,6 +39,8 @@ public class MyBatisEventServiceTest {
     private EventService eventService;
     @Mock
     private EventDao eventDao;
+    @Mock
+    private UserService userService;
 
     @Before
     public void setUp() {
@@ -111,7 +114,9 @@ public class MyBatisEventServiceTest {
     public void shouldReturnEventsByUser() throws Exception {
         User user = BuilderUtil.buildUserAnakin();
 
-        eventService.getEventsByUser(user);
+        when(userService.getUser(user.getId())).thenReturn(user);
+
+        eventService.getEventsByUser(user.getId());
 
         verify(eventDao).getEventsByUser(user);
     }
@@ -132,10 +137,10 @@ public class MyBatisEventServiceTest {
         Event event = BuilderUtil.buildEventJs();
         Date unassignDate = new Date();
         String unassignReason = "test";
-        List events = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
         events.add(event);
 
-        when(eventDao.getEventsByUser(user)).thenReturn(events);
+        when(eventService.getEventsByUser(user.getId())).thenReturn(events);
 
         eventService.unassignUserFromEvent(user, event, unassignDate, unassignReason);
 

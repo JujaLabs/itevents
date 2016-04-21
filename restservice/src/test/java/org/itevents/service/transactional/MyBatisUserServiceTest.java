@@ -22,7 +22,9 @@ import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -71,6 +73,8 @@ public class MyBatisUserServiceTest {
     private SendGridMailService mailService;
     @Mock
     private FilterService filterService;
+    @Mock
+    private FilterConverter filterConverter;
 
     @Before
     public void setUp() {
@@ -111,7 +115,7 @@ public class MyBatisUserServiceTest {
     @Test
     @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
-        User expectedUser = BuilderUtil.buildUserTest();
+        User expectedUser = BuilderUtil.buildTestUser();
 
         when(userDao.getUserByName(expectedUser.getLogin())).thenReturn(expectedUser);
 
@@ -179,47 +183,43 @@ public class MyBatisUserServiceTest {
         verify(userDao).getAllUsers();
     }
 
+    //TODO will be fixed after merge https://github.com/JuniorsJava/itevents/pull/195
+    @Ignore
     @Test
+    @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
     public void shouldActivateUserSubscription() throws Exception {
         FilterWrapper filterWrapper = new FilterWrapper();
-        filterWrapper.setCityId(-1);
-        filterWrapper.setFree(true);
         filterWrapper.setTechnologiesNames(new String[]{"Java"});
 
-        Filter filter = new FilterConverter().toFilter(filterWrapper);
+        Filter filter = BuilderUtil.builderFilterJava();
+        Filter filterWithCreationTime = BuilderUtil.builderFilterJava();
+        filterWithCreationTime.setCreateDate(DateTimeUtil.getNowDate());
 
-        User user = BuilderUtil.buildUserAnakin();
-//        Filter filter = new FilterConverter().toFilter(wrapper);
-//        filter.setCreateDate(DateTimeUtil.getNowDate());
-//        User user = userService.getAuthorizedUser();
-//        filterService.addFilter(user, filter);
-//        userService.activateUserSubscription(user);
+        User authorizedUser = BuilderUtil.buildTestUser();
+        User authorizedSubscribedUser = BuilderUtil.buildTestUser();
+        authorizedSubscribedUser.setSubscribed(true);
 
-        when(userService.getAuthorizedUser()).thenReturn(user);
+        when(filterConverter.toFilter(filterWrapper)).thenReturn(filter);
+        when(userService.getAuthorizedUser()).thenReturn(authorizedUser);
 
-//        User testUser = BuilderUtil.buildUserTest();
-//        boolean expectedSubscribed = true;
-//
-//        userService.activateUserSubscription(filterWrapper);
-//        boolean returnedSubscribed = testUser.isSubscribed();
+        userService.activateUserSubscription(filterWrapper);
 
-        verify(filterService).addFilter(user, filter);
-        verify(userDao).updateUser(user);
-        //assertEquals(expectedSubscribed, returnedSubscribed);
+        verify(filterService).addFilter(authorizedUser, filterWithCreationTime);
+        verify(userDao).updateUser(authorizedSubscribedUser);
     }
 
     @Test
+    @WithMockUser(username = "testUser")
     public void shouldDeactivateUserSubscription() throws Exception {
         User testSubscriber = BuilderUtil.buildTestSubscriber();
-        boolean expectedSubscribed = false;
+        User unsubscribedTestUser = BuilderUtil.buildTestSubscriber();
+        unsubscribedTestUser.setSubscribed(false);
 
-        doNothing().when(userDao).updateUser(testSubscriber);
+        when(userService.getAuthorizedUser()).thenReturn(testSubscriber);
 
-        userService.deactivateUserSubscription(testSubscriber);
-        boolean returnedSubscribed = testSubscriber.isSubscribed();
+        userService.deactivateUserSubscription();
 
-        verify(userDao).updateUser(testSubscriber);
-        assertEquals(expectedSubscribed, returnedSubscribed);
+        verify(userDao).updateUser(unsubscribedTestUser);
     }
 
     @Test
@@ -262,7 +262,7 @@ public class MyBatisUserServiceTest {
 
     @Test
     public void shouldDoNothingIfCheckPasswordByUserSuccess() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
+        User testUser = BuilderUtil.buildTestUser();
         String password = "password";
         String encodedPassword = "encodedPassword";
 
@@ -277,7 +277,7 @@ public class MyBatisUserServiceTest {
 
     @Test(expected = WrongPasswordServiceException.class)
     public void shouldThrowWrongPasswordServiceExceptionIfCheckPasswordFails() throws Exception {
-        User testUser = BuilderUtil.buildUserTest();
+        User testUser = BuilderUtil.buildTestUser();
         String password = "password";
         String encodedPassword = null;
 

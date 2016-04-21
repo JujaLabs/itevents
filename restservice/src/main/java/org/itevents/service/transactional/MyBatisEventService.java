@@ -8,6 +8,7 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
+import org.itevents.service.UserService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
 import org.itevents.service.exception.TimeCollisionServiceException;
@@ -26,6 +27,9 @@ public class MyBatisEventService implements EventService {
 
     @Inject
     private EventDao eventDao;
+
+    @Inject
+    private UserService userService;
 
     @Override
     public void addEvent(Event event) {
@@ -71,7 +75,8 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByUser(User user) {
+    public List<Event> getEventsByUser(int userId) {
+        User user = userService.getUser(userId);
         return eventDao.getEventsByUser(user);
     }
 
@@ -97,7 +102,7 @@ public class MyBatisEventService implements EventService {
     }
 
     private boolean isAssigned(User user, Event event) {
-        return getEventsByUser(user).contains(event);
+        return getEventsByUser(user.getId()).contains(event);
     }
 
 }

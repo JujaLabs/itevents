@@ -2,11 +2,13 @@ package org.itevents.service.transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itevents.controller.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
+import org.itevents.dao.model.Filter;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.FilterService;
@@ -19,6 +21,7 @@ import org.itevents.service.exception.WrongPasswordServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,6 +53,8 @@ public class MyBatisUserService implements UserService {
     private MailBuilderUtil mailBuilderUtil;
     @Inject
     private FilterService filterService;
+    @Inject
+    private FilterConverter filterConverter;
     @Value("${user.activation.otp.lifetime.hours}")
     private int otpLifetime;
 
@@ -110,13 +115,18 @@ public class MyBatisUserService implements UserService {
     @Override
     @PreAuthorize("isAuthenticated()")
     public void activateUserSubscription(FilterWrapper filterWrapper) {
-        //user.setSubscribed(true);
-        //userDao.updateUser(user);
+        Filter filter = filterConverter.toFilter(filterWrapper);
+        filter.setCreateDate(DateTimeUtil.getNowDate());
+        User user = this.getAuthorizedUser();
+        user.setSubscribed(true);
+        filterService.addFilter(user, filter);
+        userDao.updateUser(user);
     }
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public void deactivateUserSubscription(User user) {
+    public void deactivateUserSubscription() {
+        User user = this.getAuthorizedUser();
         user.setSubscribed(false);
         userDao.updateUser(user);
     }

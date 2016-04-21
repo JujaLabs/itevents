@@ -21,7 +21,7 @@ public interface UserService {
 
     void activateUserSubscription(FilterWrapper filterWrapper);
 
-    void deactivateUserSubscription(User user);
+    void deactivateUserSubscription();
 
     List<User> getAllUsers();
 
