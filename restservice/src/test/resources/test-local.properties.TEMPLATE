@@ -9,9 +9,6 @@ database.password=DB_PASSWORD
 # Liquibase
 changelog.file=src\\test\\resources\\liquibase\\db.changelog-create.xml
 
-# SendGrid
-sendgrid.api.key=SEND_GRID_TOKEN
-
 # JWTCryptTokenService
 jwt.key=password
 
