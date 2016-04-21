@@ -115,7 +115,7 @@ public class MyBatisUserServiceTest {
     @Test
     @WithMockUser(username = "testuser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
-        User expectedUser = BuilderUtil.buildUserTest();
+        User expectedUser = BuilderUtil.buildTestUser();
         String loginInLowerCase = expectedUser.getLogin().toLowerCase();
         expectedUser.setLogin(loginInLowerCase);
 
