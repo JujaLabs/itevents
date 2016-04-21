@@ -51,9 +51,10 @@ public class MyBatisUserService implements UserService {
 
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception {
+    public void addSubscriber(String username, String password) throws Exception  {
+        String loginInLowerCase = username.toLowerCase();
         User user = UserBuilder.anUser()
-                .login(username)
+                .login(loginInLowerCase)
                 .role(roleService.getRoleByName("guest"))
                 .build();
         String encodedPassword = passwordEncoder.encode(password);
@@ -90,7 +91,7 @@ public class MyBatisUserService implements UserService {
     @Override
     public User getUserByName(String name) {
         try {
-            return userDao.getUserByName(name);
+            return userDao.getUserByName(name.toLowerCase());
         } catch (EntityNotFoundDaoException e) {
             LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
