@@ -26,6 +26,7 @@ tasks.withType(FindBugs) {
 }
 
 pmd {
+    toolVersion = '5.4.1'
     ignoreFailures = false
     ruleSetFiles = files("config/pmd/ruleset.xml")
 }
@@ -55,8 +56,18 @@ configurations {
     testCompile.extendsFrom configurations.testing
 }
 
+def testCrawlerLocalPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/test/resources/test-crawler-local.properties")
+if (!testCrawlerLocalPropertiesFile.exists()) {
+    throw new FileNotFoundException(testCrawlerLocalPropertiesFile.getCanonicalPath() + " not found")
+}
+def crawlerLocalPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/crawler-local.properties")
+if (!crawlerLocalPropertiesFile.exists()) {
+    throw new FileNotFoundException(crawlerLocalPropertiesFile.getCanonicalPath() + " not found")
+}
+
 dependencies {
     compile project(':restservice')
+    compile project(':interfaces')
     compile 'com.github.tomakehurst:wiremock:1.57'
     compile 'org.jsoup:jsoup:1.8.3'
     testCompile project(':restservice')

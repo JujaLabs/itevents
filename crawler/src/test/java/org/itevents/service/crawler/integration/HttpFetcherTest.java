@@ -1,61 +1,85 @@
 package org.itevents.service.crawler.integration;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import org.apache.http.HttpStatus;
+import org.itevents.service.exception.IntegrationException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Tests for HttpFetcher.
  */
-public class HttpFetcherTest {
+@SuppressWarnings("PMD.LawOfDemeter")
+public final class HttpFetcherTest {
     private static final String TEST_STRING = "Test string";
-    private final int wiremockPort;
-
-    private WireMockServer wireMockServer;
-    private HttpFetcher httpFetcher;
-
-    public HttpFetcherTest() {
-        this.wiremockPort = new IntegrationProperties("test-crawler-local.properties").getInt("wiremock.port");
-    }
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    private int wiremockPort;
+    private WireMockServer server;
+    private HttpFetcher fetcher;
 
     @Before
     public void init() {
-        WireMockConfiguration config = wireMockConfig().port(this.wiremockPort);
-        this.wireMockServer = new WireMockServer(config);
-        this.wireMockServer.start();
-        WireMock.configureFor(this.wireMockServer.port());
+        wiremockPort =
+            new IntegrationProperties("test-crawler-local.properties")
+                .getInt("wiremock.port");
+        final WireMockConfiguration config = WireMockConfiguration
+            .wireMockConfig()
+            .port(wiremockPort);
+        server = new WireMockServer(config);
+        server.start();
+        WireMock.configureFor(server.port());
 
-        this.httpFetcher = new HttpFetcher();
+        fetcher = new HttpFetcher();
 
-        stubFor(get(urlEqualTo("/hoge.txt")).willReturn(
-            aResponse().withStatus(200).withHeader("Content-Type", "text/plain").withBody(HttpFetcherTest.TEST_STRING)));
+        WireMock.stubFor(WireMock.get(WireMock.urlEqualTo("/hoge.txt")).willReturn(
+            WireMock.aResponse()
+                .withStatus(HttpStatus.SC_OK)
+                .withHeader("Content-Type", "text/plain")
+                .withBody(HttpFetcherTest.TEST_STRING)));
     }
 
     @After
     public void tearDown() {
-        this.wireMockServer.stop();
+        server.stop();
     }
 
     @Test
-    public void ok() throws Exception {
-        String actual = this.httpFetcher.fetchAsString("http://localhost:" + this.wiremockPort + "/hoge.txt");
-        String expected = HttpFetcherTest.TEST_STRING;
-        assertThat(actual, is(expected));
+    public void shouldFetchUrl() {
+        final String expected = HttpFetcherTest.TEST_STRING;
+        final String query = String.format("http://localhost:%d/hoge.txt",
+            wiremockPort);
+        final String actual = fetcher.fetchAsString(query);
+        Assert.assertEquals("Can't fetch url", expected, actual);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void notFound() throws Exception {
-        this.httpFetcher.fetchAsString("http://localhost:" + this.wiremockPort + "/NOT_FOUND");
+    @Test
+    public void shouldThrowIntegrationExceptionWhenTryToConnectToFaultLink() {
+        final String query = String.format("http://localhost:%d/NOT_FOUND",
+            wiremockPort);
+        final String message = String.format("Can't download url " +
+            "'%s' because of status HTTP/1.1 404 Not Found", query);
+        thrown.expectMessage(message);
+        thrown.expect(IntegrationException.class);
+        fetcher.fetchAsString(query);
+    }
+
+    @Test
+    public void shouldThrowIntegrationIoExceptionWhenSomethingWrong() {
+        server.stop();
+        final String query = String.format("http://localhost:%d/hoge.txt",
+            wiremockPort);
+        final String message = String.format("Can't download url " +
+            "'%s' because of IOException", query);
+        thrown.expectMessage(message);
+        thrown.expect(IntegrationException.class);
+        fetcher.fetchAsString(query);
     }
 
 }
