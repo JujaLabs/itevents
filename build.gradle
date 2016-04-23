@@ -70,4 +70,4 @@ subprojects {
     }
 }
 
-defaultTasks 'clean', 'assemble', 'check', 'liquibaseUpdate', 'test'
+defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'

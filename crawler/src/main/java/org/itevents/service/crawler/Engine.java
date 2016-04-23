@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 import org.itevents.service.crawler.integration.SampleIntegration;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
-import org.itevents.service.crawler.interfaces.IntegrationEvent;
+import org.itevents.service.crawler.interfaces.IntegrationEventData;
 
 /**
  * Created by vaa25 on 06.04.2016.
@@ -20,7 +20,7 @@ import org.itevents.service.crawler.interfaces.IntegrationEvent;
 public class Engine implements EngineObserver {
     private List<Integration> integrations;
     private List<Future<?>> futures;
-    private List<IntegrationEvent> entities;
+    private List<IntegrationEventData> entities;
 
     public String run() throws InterruptedException, ExecutionException {
         integrations = loadIntegrations();
@@ -42,6 +42,7 @@ public class Engine implements EngineObserver {
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     private List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
+        // TODO: 22.04.2016 replace with real service
         return asList("http://some.url.com/event");
     }
 
@@ -68,9 +69,9 @@ public class Engine implements EngineObserver {
     }
 
     @Override
-    public final void handleNewIntegrationEvents(final Collection<IntegrationEvent> integrationEvents) {
+    public final void handleNewIntegrationEvents(final Collection<IntegrationEventData> integrationEventDatas) {
         synchronized (this) {
-            entities.addAll(integrationEvents);
+            entities.addAll(integrationEventDatas);
         }
     }
 

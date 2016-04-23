@@ -1,12 +1,12 @@
 package org.itevents.service.crawler.integration;
 
-import org.itevents.service.crawler.interfaces.IntegrationEvent;
+import org.itevents.service.crawler.interfaces.IntegrationEventData;
 
 /**
  * Created by vaa25 on 06.04.2016.
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class SampleIntegrationEvent implements IntegrationEvent {
+public class SampleIntegrationEventData implements IntegrationEventData {
     private String title;
     private String date;
     private String time;

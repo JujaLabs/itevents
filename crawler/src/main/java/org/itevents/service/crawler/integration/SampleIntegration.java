@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
-import org.itevents.service.crawler.interfaces.IntegrationEvent;
+import org.itevents.service.crawler.interfaces.IntegrationEventData;
 
 /**
  * Created by vaa25 on 20.03.2016.
@@ -21,7 +21,7 @@ public final class SampleIntegration implements Integration {
     private final int wiremockPort;
     private final WireMockServer wireMockServer;
     private final List<EngineObserver> observers;
-    private List<IntegrationEvent> result;
+    private List<IntegrationEventData> result;
     private Collection<String> parsed;
 
     public SampleIntegration() {

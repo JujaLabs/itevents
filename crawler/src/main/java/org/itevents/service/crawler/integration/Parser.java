@@ -1,6 +1,6 @@
 package org.itevents.service.crawler.integration;
 
-import org.itevents.service.crawler.interfaces.IntegrationEvent;
+import org.itevents.service.crawler.interfaces.IntegrationEventData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -18,17 +18,17 @@ public final class Parser {
         this.document = Jsoup.parse(html);
     }
 
-    public IntegrationEvent parse() {
-        final IntegrationEvent integrationEvent = new SampleIntegrationEvent();
-        integrationEvent.setTitle(getTitle());
-        integrationEvent.setDate(getDate());
-        integrationEvent.setTime(getTime());
-        integrationEvent.setAddress(getAddress());
-        integrationEvent.setCity(getCity());
-        integrationEvent.setRegistrationLink(getRegistrationLink());
-        integrationEvent.setDescription(getDescription());
-        integrationEvent.setPrice(getPrice());
-        return integrationEvent;
+    public IntegrationEventData parse() {
+        final IntegrationEventData integrationEventData = new SampleIntegrationEventData();
+        integrationEventData.setTitle(getTitle());
+        integrationEventData.setDate(getDate());
+        integrationEventData.setTime(getTime());
+        integrationEventData.setAddress(getAddress());
+        integrationEventData.setCity(getCity());
+        integrationEventData.setRegistrationLink(getRegistrationLink());
+        integrationEventData.setDescription(getDescription());
+        integrationEventData.setPrice(getPrice());
+        return integrationEventData;
     }
 
     private String getTitle() {

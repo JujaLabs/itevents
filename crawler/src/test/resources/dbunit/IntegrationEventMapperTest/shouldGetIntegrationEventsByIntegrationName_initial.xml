@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--<!DOCTYPE dataset SYSTEM "src/test/resources/dbunit/test.dtd">-->
+<dataset>
+    <city id="-1" name="Kyiv" point="POINT(30.523 50.4505)"/>
+    <event id="-1" title="Java" event_date="2115-07-10 00:00:00.0"
+           reg_link="http://www.java.com.ua"
+           address="Beresteyska"
+           point="POINT(30.742017 50.458585)" contact="java@gmail.com"
+           city_id="-1" description="Java event in Kyiv"/>
+    <technology id="-1" name="Java"/>
+    <technology id="-4" name="Liquibase"/>
+    <technology id="-8" name="Spring"/>
+    <technology id="-9" name="MyBatis"/>
+    <event_technology event_id="-1" technology_id="-1"/>
+    <event_technology event_id="-1" technology_id="-4"/>
+    <event_technology event_id="-1" technology_id="-8"/>
+    <event_technology event_id="-1" technology_id="-9"/>
+    <crawler id="-1" integration_name="SampleIntegration"
+             integration_event_url="www" event_id="-1"/>
+</dataset>
