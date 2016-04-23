@@ -1,4 +1,4 @@
-package org.itevents.dao.mybatis.sql_session_dao;
+package org.itevents.dao.mybatis.session;
 
 import static org.junit.Assert.assertEquals;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
@@ -12,7 +12,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.itevents.dao.model.IntegrationEvent;
-import org.itevents.test_utils.BuilderUtil;
+import org.itevents.utils.BuilderUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -27,16 +27,20 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
  * Created by vaa25 on 22.04.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:applicationContext.xml",
+@ContextConfiguration({"classpath:crawlerApplicationContext.xml",
     "classpath:dbUnitDatabaseConnection.xml"})
 @TestPropertySource("classpath:test-crawler-local.properties")
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionDbUnitTestExecutionListener.class})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+    TransactionDbUnitTestExecutionListener.class})
+@SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class IntegrationEventMyBatisDaoTest extends SqlSessionDaoSupport {
+    private static final String PATH =
+        "file:src/test/resources/dbunit/IntegrationEventMapperTest/";
     @Inject
     private SqlSessionFactoryBean sqlSessionFactoryBean;
 
     @Inject
-    private IntegrationEventMyBatisDao integrationEventMyBatisDao;
+    private IntegrationEventMyBatisDao integrationEventDao;
 
     @PostConstruct
     public void init() throws Exception {
@@ -44,38 +48,46 @@ public class IntegrationEventMyBatisDaoTest extends SqlSessionDaoSupport {
     }
 
     @Test
-    @DatabaseSetup(value = "file:src/test/resources/dbunit/IntegrationEventMapperTest/shouldAddIntegrationEvent_initial.xml",
+    @DatabaseSetup(value = PATH + "shouldAddIntegrationEvent_initial.xml",
         type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = "file:src/test/resources/dbunit/IntegrationEventMapperTest/shouldAddIntegrationEvent_expected.xml",
+    @DatabaseTearDown(value = PATH + "shouldAddIntegrationEvent_expected.xml",
         type = DatabaseOperation.DELETE_ALL)
-    @ExpectedDatabase(value = "file:src/test/resources/dbunit/IntegrationEventMapperTest/shouldAddIntegrationEvent_expected.xml",
+    @ExpectedDatabase(value = PATH + "shouldAddIntegrationEvent_expected.xml",
         assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAddIntegrationEvent() throws Exception {
-        IntegrationEvent integrationEvent = new IntegrationEvent();
+        final IntegrationEvent integrationEvent = new IntegrationEvent();
         integrationEvent.setId(-1);
         integrationEvent.setIntegrationName("SampleIntegration");
         integrationEvent.setIntegrationEventUrl("www");
         integrationEvent.setEvent(BuilderUtil.buildEventJava());
-        integrationEventMyBatisDao.addIntegrationEvent(integrationEvent);
+
+        final int added = integrationEventDao
+            .addIntegrationEvent(integrationEvent);
+
+        assertEquals("addIntegrationEvent fails", 1, added);
     }
 
     @Test
-    @DatabaseSetup(value = "file:src/test/resources/dbunit/IntegrationEventMapperTest/shouldGetIntegrationEventsByIntegrationName_initial.xml",
+    @DatabaseSetup(value = PATH + "shouldGetIntegrationEventsByIntegrationName_initial.xml",
         type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = "file:src/test/resources/dbunit/IntegrationEventMapperTest/shouldGetIntegrationEventsByIntegrationName_initial.xml",
+    @DatabaseTearDown(value = PATH + "shouldGetIntegrationEventsByIntegrationName_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
     public void shouldGetIntegrationEventsByIntegrationName() throws Exception {
-        String integrationName = "SampleIntegration";
-        IntegrationEvent integrationEvent = new IntegrationEvent();
+        final IntegrationEvent integrationEvent = new IntegrationEvent();
         integrationEvent.setId(-1);
+        final String integrationName = "SampleIntegration";
         integrationEvent.setIntegrationName(integrationName);
         integrationEvent.setIntegrationEventUrl("www");
         integrationEvent.setEvent(BuilderUtil.buildEventJava());
-        List<IntegrationEvent> expectedList = new ArrayList<>();
+        final List<IntegrationEvent> expectedList = new ArrayList<>();
         expectedList.add(integrationEvent);
 
-        List<IntegrationEvent> returnedList = integrationEventMyBatisDao.getIntegrationEventsByIntegrationName(integrationName);
-        assertEquals(expectedList, returnedList);
-    }
+        final List<IntegrationEvent> returnedList =
+            integrationEventDao
+                .getIntegrationEventsByIntegrationName(integrationName);
 
+        assertEquals("IntegrationEventMyBatisDao." +
+                "getIntegrationEventsByIntegrationName() fails",
+            expectedList, returnedList);
+    }
 }

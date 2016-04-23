@@ -1,4 +1,4 @@
-package org.itevents.test_utils.dbunit;
+package org.itevents.utils.dbunit;
 
 
 import java.sql.SQLException;
@@ -10,7 +10,12 @@ import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.springframework.beans.factory.FactoryBean;
 
-public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection> {
+/**
+ * dbUnit/postgis bridge.
+ */
+@SuppressWarnings("PMD")
+public class DbUnitDatabaseConnection
+    implements FactoryBean<IDatabaseConnection> {
 
     @Inject
     private DataSource dataSource;
@@ -28,11 +33,12 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
     private void initDatabaseConnection() {
         try {
             databaseConnection = new DatabaseDataSourceConnection(dataSource);
-            databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgisDataTypeFactory());
+            databaseConnection.getConfig().setProperty(
+                DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
+                new PostgisDataTypeFactory());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -49,5 +55,4 @@ public class DbUnitDatabaseConnection implements FactoryBean<IDatabaseConnection
     public boolean isSingleton() {
         return true;
     }
-
 }

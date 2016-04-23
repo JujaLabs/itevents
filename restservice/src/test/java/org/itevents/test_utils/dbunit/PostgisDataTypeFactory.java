@@ -11,7 +11,8 @@ import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 public class PostgisDataTypeFactory extends PostgresqlDataTypeFactory {
 
     @Override
-    public DataType createDataType(int sqlType, String sqlTypeName) throws DataTypeException {
+    public DataType createDataType(final int sqlType, final String sqlTypeName)
+        throws DataTypeException {
         DataType result = super.createDataType(sqlType, sqlTypeName);
         if (result instanceof GeometryType) {
             result = new PostgisGeometryType();

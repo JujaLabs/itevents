@@ -42,25 +42,33 @@ public class IntegrationEvent {
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public int hashCode() {
-        int result = integrationName != null ? integrationName.hashCode() : 0;
-        result = 31 * result + (integrationEventUrl != null ? integrationEventUrl.hashCode() : 0);
-        result = 31 * result + (event != null ? event.hashCode() : 0);
+        int result = integrationName.hashCode();
+        result = 31 * result + integrationEventUrl.hashCode();
+        result = 31 * result + event.hashCode();
         return result;
     }
 
     @Override
+    @SuppressWarnings("PMD")
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         final IntegrationEvent that = (IntegrationEvent) o;
 
-        if (integrationName != null ? !integrationName.equals(that.integrationName) : that.integrationName != null)
+        if (!integrationName.equals(that.integrationName)) {
             return false;
-        if (integrationEventUrl != null ? !integrationEventUrl.equals(that.integrationEventUrl) : that.integrationEventUrl != null)
+        }
+        if (!integrationEventUrl.equals(that.integrationEventUrl)) {
             return false;
-        return event != null ? event.equals(that.event) : that.event == null;
+        }
+        return event.equals(that.event);
 
     }
 }

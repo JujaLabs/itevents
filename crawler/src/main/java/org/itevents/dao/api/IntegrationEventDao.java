@@ -1,4 +1,4 @@
-package org.itevents.dao;
+package org.itevents.dao.api;
 
 import java.util.List;
 import org.itevents.dao.model.IntegrationEvent;
@@ -10,5 +10,5 @@ public interface IntegrationEventDao {
 
     List<IntegrationEvent> getIntegrationEventsByIntegrationName(String integrationName);
 
-    void addIntegrationEvent(IntegrationEvent integrationEvent);
+    int addIntegrationEvent(IntegrationEvent integrationEvent);
 }

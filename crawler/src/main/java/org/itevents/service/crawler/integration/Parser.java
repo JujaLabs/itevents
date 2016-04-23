@@ -19,7 +19,8 @@ public final class Parser {
     }
 
     public IntegrationEventData parse() {
-        final IntegrationEventData integrationEventData = new SampleIntegrationEventData();
+        final IntegrationEventData integrationEventData =
+            new SampleIntegrationEventData();
         integrationEventData.setTitle(getTitle());
         integrationEventData.setDate(getDate());
         integrationEventData.setTime(getTime());
@@ -44,7 +45,8 @@ public final class Parser {
     }
 
     private String getAddress() {
-        final String[] split = this.document.select(Parser.TAG_DD).get(2).text().split(",");
+        final String[] split =
+            document.select(Parser.TAG_DD).get(2).text().split(",");
         return String.format("%s,%s", split[1], split[2]);
     }
 

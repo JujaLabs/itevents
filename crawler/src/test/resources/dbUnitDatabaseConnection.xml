@@ -5,6 +5,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="dbUnitDatabaseConnection"
-          class="org.itevents.test_utils.dbunit.DbUnitDatabaseConnection"/>
+          class="org.itevents.utils.dbunit.DbUnitDatabaseConnection"/>
 
 </beans>

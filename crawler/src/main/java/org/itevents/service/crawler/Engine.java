@@ -42,7 +42,7 @@ public class Engine implements EngineObserver {
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
     private List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
-        // TODO: 22.04.2016 replace with real service
+        // TODO(vaa25): 22.04.2016 replace with real service
         return asList("http://some.url.com/event");
     }
 

@@ -1,4 +1,4 @@
-package org.itevents.test_utils.dbunit;
+package org.itevents.utils.dbunit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,9 @@ import org.postgis.binary.BinaryParser;
 public class PostgisGeometryType extends GeometryType {
 
     @Override
-    public Object getSqlValue(int column, ResultSet resultSet) throws SQLException, TypeCastException {
-        return new BinaryParser().parse((String) super.getSqlValue(column, resultSet));
+    public Object getSqlValue(final int column, final ResultSet resultSet)
+        throws SQLException, TypeCastException {
+        return new BinaryParser()
+            .parse((String) super.getSqlValue(column, resultSet));
     }
 }
