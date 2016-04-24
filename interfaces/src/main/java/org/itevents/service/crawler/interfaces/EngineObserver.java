@@ -7,5 +7,5 @@ import java.util.Collection;
  */
 public interface EngineObserver {
 
-    void handleNewIntegrationEvents(Collection<IntegrationEvent> integrationEvents);
+    void handleNewIntegrationEvents(Collection<IntegrationEventData> integrationEventDatas);
 }

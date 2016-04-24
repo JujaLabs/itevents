@@ -3,7 +3,7 @@ package org.itevents.service.crawler.interfaces;
 /**
  * Created by vaa25 on 21.04.2016.
  */
-public interface IntegrationEvent {
+public interface IntegrationEventData {
     String getUrl();
 
     void setUrl(String url);
