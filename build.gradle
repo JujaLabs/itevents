@@ -1,6 +1,44 @@
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'pmd'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+
+    findbugs {
+        toolVersion = '3.0.1'
+        ignoreFailures = false
+        excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+    }
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    pmd {
+        toolVersion = '5.4.1'
+        ignoreFailures = false
+        ruleSetFiles = files("$rootProject.projectDir/config/pmd/ruleset.xml")
+    }
+    tasks.withType(Pmd) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    checkstyle {
+        ignoreFailures = false
+        configFile = file("$rootProject.projectDir/config/checkstyle/checkstyle.xml")
+    }
+//    task checkstyleHtml << {
+//        ant.xslt(in: checkstyleMain.reports.xml.destination,
+//          style: file('$rootProject.projectDir/config/checkstyle/checkstyle-noframes-sorted.xsl'),
+//          out: new File(checkstyleMain.reports.xml.destination.parent, 'main.html'))
+//    }
+//    checkstyleMain.finalizedBy checkstyleHtml
 
     repositories {
         mavenCentral()
@@ -70,4 +108,4 @@ subprojects {
     }
 }
 
-defaultTasks 'clean', 'assemble', 'liquibaseUpdate', 'test'
+defaultTasks 'clean', 'assemble', 'check', 'liquibaseUpdate', 'test'
