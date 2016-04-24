@@ -16,7 +16,9 @@ repositories {
 }
 
 findbugs {
+    toolVersion = '3.0.1'
     ignoreFailures = false
+    excludeFilter = file("config/findbugs/excludeFilter.xml")
 }
 tasks.withType(FindBugs) {
     reports {
