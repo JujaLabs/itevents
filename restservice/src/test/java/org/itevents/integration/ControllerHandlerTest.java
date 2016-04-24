@@ -4,7 +4,6 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.*;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
@@ -134,9 +133,9 @@ public class ControllerHandlerTest {
             invalidParameter = invalidParameter.concat("s");
         }
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
+        when(eventService.getEventsByUserId(user.getId())).thenReturn(expectedEvents);
 
         mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", invalidParameter))
@@ -151,9 +150,9 @@ public class ControllerHandlerTest {
         expectedEvents.add(event);
         String validParameter = "";
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
-        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
+        when(eventService.getEventsByUserId(user.getId())).thenReturn(expectedEvents);
 
         mvc.perform(post("/events/" + event.getId() + "/unassign")
                 .param("unassign_reason", validParameter))

@@ -2,7 +2,6 @@ package org.itevents.service;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Filter;
-import org.itevents.dao.model.User;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public interface EventService {
 
     void addEvent(Event event);
 
-    Event getEvent(int eventId);
+    Event getEventById(int eventId);
 
     List<Event> getAllEvents();
 
@@ -22,7 +21,7 @@ public interface EventService {
 
     void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason);
 
-    List<Event> getEventsByUser(int userId);
+    List<Event> getEventsByUserId(int userId);
 
     Event getFutureEvent(int eventId);
 

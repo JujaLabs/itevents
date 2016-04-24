@@ -1,6 +1,6 @@
 package org.itevents.service;
 
-import org.itevents.controller.wrapper.TokenWrapper;
+import org.itevents.service.wrapper.TokenWrapper;
 
 /**
  * Created by ramax on 1/30/16.

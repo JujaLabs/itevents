@@ -47,7 +47,7 @@ public class ControllerTest {
         Event event = BuilderUtil.buildEventJava();
         String expectedEventInJson = new ObjectMapper().writeValueAsString(event);
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
 
         mvc.perform(get("/events/" + event.getId()))
                 .andExpect(content().json(expectedEventInJson))

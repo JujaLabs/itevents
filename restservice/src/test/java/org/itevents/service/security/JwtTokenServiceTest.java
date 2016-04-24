@@ -1,6 +1,6 @@
 package org.itevents.service.security;
 
-import org.itevents.controller.wrapper.TokenWrapper;
+import org.itevents.service.wrapper.TokenWrapper;
 import org.itevents.dao.model.User;
 import org.itevents.service.CryptTokenService;
 import org.itevents.service.UserService;

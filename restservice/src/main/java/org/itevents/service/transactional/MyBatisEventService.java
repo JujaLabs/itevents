@@ -11,7 +11,6 @@ import org.itevents.dao.model.VisitLog;
 import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.ActionAlreadyDoneServiceException;
 import org.itevents.service.exception.EntityNotFoundServiceException;
@@ -43,7 +42,7 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public Event getEvent(int id) {
+    public Event getEventById(int id) {
         try {
             return eventDao.getEvent(id);
         } catch (EntityNotFoundDaoException e) {
@@ -76,7 +75,7 @@ public class MyBatisEventService implements EventService {
 
     @Override
     public void unassignAuthorizedUserFromEvent(int futureEventId, String unassignReason) {
-        Event event = getEvent(futureEventId);
+        Event event = getEventById(futureEventId);
         User user = userService.getAuthorizedUser();
         Date unassignDate = DateTimeUtil.getNowDate();
         unassignUserFromEvent(user, event, unassignDate, unassignReason);
@@ -93,14 +92,14 @@ public class MyBatisEventService implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByUser(int userId) {
+    public List<Event> getEventsByUserId(int userId) {
         User user = userService.getUser(userId);
         return eventDao.getEventsByUser(user);
     }
 
     @Override
     public Event getFutureEvent(int eventId) {
-        Event event = getEvent(eventId);
+        Event event = getEventById(eventId);
         if (event.getEventDate().before(new Date())) {
             String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
             LOGGER.error(message);
@@ -120,12 +119,12 @@ public class MyBatisEventService implements EventService {
     }
 
     private boolean isAssigned(User user, Event event) {
-        return getEventsByUser(user.getId()).contains(event);
+        return getEventsByUserId(user.getId()).contains(event);
     }
 
     @Override
     public String redirectToEventSite(int eventId) {
-        Event event = getEvent(eventId);
+        Event event = getEventById(eventId);
         User user = userService.getAuthorizedUser();
         VisitLog visitLog = VisitLogBuilder.aVisitLog()
                 .event(event)

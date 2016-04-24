@@ -1,7 +1,6 @@
 package org.itevents.service;
 
 import org.itevents.controller.wrapper.FilterWrapper;
-import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.springframework.stereotype.Service;

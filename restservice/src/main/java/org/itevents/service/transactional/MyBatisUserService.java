@@ -2,7 +2,7 @@ package org.itevents.service.transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itevents.controller.converter.FilterConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
@@ -144,7 +144,7 @@ public class MyBatisUserService implements UserService {
 
     @Override
     public List<User> getUsersByEvent(int eventId) {
-        Event event = eventService.getEvent(eventId);
+        Event event = eventService.getEventById(eventId);
         return userDao.getUsersByEvent(event);
     }
 

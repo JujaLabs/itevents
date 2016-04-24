@@ -60,7 +60,7 @@ public class MyBatisEventServiceTest {
     public void shouldFindEventById() {
         int ID_1 = 1;
 
-        eventService.getEvent(ID_1);
+        eventService.getEventById(ID_1);
 
         verify(eventDao).getEvent(ID_1);
     }
@@ -71,7 +71,7 @@ public class MyBatisEventServiceTest {
 
         when(eventDao.getEvent(absentId)).thenThrow(EntityNotFoundDaoException.class);
 
-        eventService.getEvent(absentId);
+        eventService.getEventById(absentId);
     }
 
 
@@ -125,7 +125,7 @@ public class MyBatisEventServiceTest {
 
         when(userService.getUser(user.getId())).thenReturn(user);
 
-        eventService.getEventsByUser(user.getId());
+        eventService.getEventsByUserId(user.getId());
 
         verify(eventDao).getEventsByUser(user);
     }
@@ -135,7 +135,7 @@ public class MyBatisEventServiceTest {
         User user = BuilderUtil.buildUserAnakin();
         Event event = BuilderUtil.buildEventRuby();
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventDao.getEvent(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         eventService.assignAuthorizedUserToEvent(event.getId());
@@ -155,8 +155,8 @@ public class MyBatisEventServiceTest {
         List<Event> events = new ArrayList<>();
         events.add(event);
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
-        when(eventService.getEventsByUser(event.getId())).thenReturn(events);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
+        when(eventService.getEventsByUserId(user.getId())).thenReturn(events);
         when(userService.getAuthorizedUser()).thenReturn(user);
 
         eventService.unassignAuthorizedUserFromEvent(event.getId(), unassignReason);
@@ -205,7 +205,7 @@ public class MyBatisEventServiceTest {
                 .build();
         String expectedLink = event.getRegLink();
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
         when(userService.getAuthorizedUser()).thenReturn(userGuest);
 
         String returnedLink = eventService.redirectToEventSite(event.getId());

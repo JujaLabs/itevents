@@ -1,4 +1,4 @@
-package org.itevents.controller.converter;
+package org.itevents.service.converter;
 
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Filter;

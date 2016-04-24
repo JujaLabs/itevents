@@ -3,7 +3,7 @@ package org.itevents.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.hibernate.validator.constraints.Length;
-import org.itevents.controller.converter.FilterConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
@@ -32,7 +32,7 @@ public class EventRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ApiOperation(value = "Returns one event with the given id")
     public Event getEventById(@PathVariable("id") int id) {
-        return eventService.getEvent(id);
+        return eventService.getEventById(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)

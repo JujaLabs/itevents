@@ -3,14 +3,10 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import org.itevents.controller.wrapper.FilterWrapper;
-import org.itevents.controller.wrapper.TokenWrapper;
+import org.itevents.service.wrapper.TokenWrapper;
 import org.itevents.service.*;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.service.EventService;
-import org.itevents.service.FilterService;
-import org.itevents.service.RoleService;
-import org.itevents.service.UserService;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +93,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
         expectedEvents.add(BuilderUtil.buildEventJs());
         String expectedEventsInJson = new ObjectMapper().writeValueAsString(expectedEvents);
 
-        when(eventService.getEventsByUser(user.getId())).thenReturn(expectedEvents);
+        when(eventService.getEventsByUserId(user.getId())).thenReturn(expectedEvents);
 
         mockMvc.perform(get("/users/" + user.getId() + "/events"))
                 .andExpect(status().isOk())

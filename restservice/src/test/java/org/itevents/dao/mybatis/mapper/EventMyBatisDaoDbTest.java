@@ -6,7 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import org.itevents.AbstractDbTest;
-import org.itevents.controller.converter.FilterConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;

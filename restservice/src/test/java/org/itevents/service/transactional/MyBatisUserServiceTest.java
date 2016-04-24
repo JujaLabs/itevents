@@ -1,6 +1,6 @@
 package org.itevents.service.transactional;
 
-import org.itevents.controller.converter.FilterConverter;
+import org.itevents.service.converter.FilterConverter;
 import org.itevents.controller.wrapper.FilterWrapper;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.UserDao;
@@ -229,7 +229,7 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         List users = new ArrayList<>();
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
 
         List returnedUsers = userService.getUsersByEvent(event.getId());

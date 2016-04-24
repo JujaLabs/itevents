@@ -5,12 +5,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.itevents.controller.wrapper.FilterWrapper;
-import org.itevents.service.*;
-import org.itevents.controller.wrapper.TokenWrapper;
+import org.itevents.service.wrapper.TokenWrapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
-import org.itevents.service.FilterService;
+import org.itevents.service.TokenService;
 import org.itevents.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -83,7 +82,7 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/{user_id}/events")
     @ApiOperation(value = "Returns list of events, to which user is assigned")
     public List<Event> getEventsByUser(@PathVariable("user_id") int userId) {
-        return eventService.getEventsByUser(userId);
+        return eventService.getEventsByUserId(userId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/activate/{otp}")

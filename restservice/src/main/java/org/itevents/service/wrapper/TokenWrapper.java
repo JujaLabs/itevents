@@ -1,4 +1,4 @@
-package org.itevents.controller.wrapper;
+package org.itevents.service.wrapper;
 
 /**
  * Created by ramax on 1/16/16.
@@ -8,9 +8,6 @@ public class TokenWrapper {
 
     public TokenWrapper(String token) {
         this.token = token;
-    }
-
-    public TokenWrapper() {
     }
 
     public String getToken() {

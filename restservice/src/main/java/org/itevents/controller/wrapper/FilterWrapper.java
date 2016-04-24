@@ -109,7 +109,6 @@ public class FilterWrapper {
         if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
         if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
         if (radius != null ? !radius.equals(that.radius) : that.radius != null) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
         return Arrays.equals(techTag, that.techTag);
 
     }

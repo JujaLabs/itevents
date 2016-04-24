@@ -3,8 +3,6 @@ package org.itevents.controller;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
-import org.itevents.dao.model.VisitLog;
-import org.itevents.dao.model.builder.VisitLogBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
 import org.itevents.service.VisitLogService;
@@ -46,14 +44,14 @@ public class EventRestControllerTest extends AbstractControllerTest {
         Event event = BuilderUtil.buildEventJava();
         String expectedEventInJson = new ObjectMapper().writeValueAsString(event);
 
-        when(eventService.getEvent(event.getId())).thenReturn(event);
+        when(eventService.getEventById(event.getId())).thenReturn(event);
 
         mockMvc.perform(get("/events/" + event.getId())
                 .header("Accept", "application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedEventInJson));
 
-        verify(eventService).getEvent(event.getId());
+        verify(eventService).getEventById(event.getId());
     }
 
     @Test

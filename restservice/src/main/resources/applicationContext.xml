@@ -14,7 +14,7 @@
     <context:component-scan base-package="org.itevents.service.transactional"/>
     <context:component-scan base-package="org.itevents.service.sendmail"/>
     <context:component-scan base-package="org.itevents.util"/>
-    <context:component-scan base-package="org.itevents.controller.converter"/>
+    <context:component-scan base-package="org.itevents.service.converter"/>
     <context:component-scan base-package="org.itevents.dao.mybatis.sql_session_dao"/>
     <context:property-placeholder  location="classpath:global.properties, classpath:local.properties"/>
 
