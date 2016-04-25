@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration({ "classpath:mvc-dispatcher-servlet.xml",
                         "classpath:spring-security.xml",
                         "classpath:applicationContext.xml"})
-@TestPropertySource("classpath:test-local.properties")
+@TestPropertySource({"classpath:default.properties", "classpath:test-local.properties"})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "file:src/test/resources/dbunit/UserMapperTest/UserMapperTest_initial.xml",

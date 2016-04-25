@@ -9,6 +9,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "classpath*:applicationContext.xml",
         "classpath:applicationContextTestAddon.xml"
 })
+@TestPropertySource({"classpath:default.properties", "classpath:test-local.properties"})
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         WithSecurityContextTestExecutionListener.class
