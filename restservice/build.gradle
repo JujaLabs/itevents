@@ -33,7 +33,7 @@ test {
 Properties properties = new Properties()
 
 
-def defaultPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/global.properties")
+def defaultPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/default.properties")
 def localPropertiesFile = new File(projectDir.toString().replace('\\', '/') + "/src/main/resources/local.properties")
 
 properties.load(new FileInputStream(defaultPropertiesFile))
