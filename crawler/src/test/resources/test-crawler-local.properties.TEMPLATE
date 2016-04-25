@@ -1,1 +1,13 @@
+# Create copy of this file in same directory with name "test-crawler-local.properties" and update value of properties
+
+# Wiremock
 wiremock.port=8080
+
+# Database
+database.driver=org.postgresql.Driver
+database.url=jdbc:postgresql://HOST:PORT/TEST_DATABASE_NAME
+database.username=DB_USERNAME
+database.password=DB_PASSWORD
+
+# Liquibase
+changelog.file=src\\test\\resources\\liquibase\\db.changelog-create.xml
