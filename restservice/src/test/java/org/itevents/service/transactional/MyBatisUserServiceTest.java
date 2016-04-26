@@ -8,12 +8,10 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.Role;
 import org.itevents.dao.model.User;
 import org.itevents.dao.model.builder.UserBuilder;
+import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceException;
-import org.itevents.service.exception.WrongPasswordServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -65,6 +63,8 @@ public class MyBatisUserServiceTest {
     private MailBuilderUtil mailBuilderUtil;
     @Mock
     private SendGridMailService mailService;
+    @Mock
+    private EventService eventService;
 
     @Before
     public void setUp() {
@@ -97,15 +97,17 @@ public class MyBatisUserServiceTest {
     public void shouldThrowServiceExceptionWhenUserNameIsAbsent() {
         String absentName = "absentName";
 
-        when(userDao.getUserByName(absentName)).thenThrow(EntityNotFoundDaoException.class);
+        when(userDao.getUserByName(absentName.toLowerCase())).thenThrow(EntityNotFoundDaoException.class);
 
         userService.getUserByName(absentName);
     }
 
     @Test
-    @WithMockUser(username = "testUser", password = "testUserPassword", authorities = "guest")
+    @WithMockUser(username = "testuser", password = "testUserPassword", authorities = "guest")
     public void shouldFindAuthorizedUser() {
         User expectedUser = BuilderUtil.buildUserTest();
+        String loginInLowerCase = expectedUser.getLogin().toLowerCase();
+        expectedUser.setLogin(loginInLowerCase);
 
         when(userDao.getUserByName(expectedUser.getLogin())).thenReturn(expectedUser);
 
@@ -206,8 +208,10 @@ public class MyBatisUserServiceTest {
         Event event = BuilderUtil.buildEventJs();
         List users = new ArrayList<>();
 
+        when(eventService.getEvent(event.getId())).thenReturn(event);
         when(userDao.getUsersByEvent(event)).thenReturn(users);
-        List returnedUsers = userService.getUsersByEvent(event);
+
+        List returnedUsers = userService.getUsersByEvent(event.getId());
 
         verify(userDao).getUsersByEvent(event);
         assertEquals(users, returnedUsers);
@@ -254,7 +258,7 @@ public class MyBatisUserServiceTest {
         verify(passwordEncoder).matches(password, encodedPassword);
     }
 
-    @Test(expected = WrongPasswordServiceException.class)
+    @Test(expected = AuthenticationServiceException.class)
     public void shouldThrowWrongPasswordServiceExceptionIfCheckPasswordFails() throws Exception {
         User testUser = BuilderUtil.buildUserTest();
         String password = "password";
@@ -312,5 +316,23 @@ public class MyBatisUserServiceTest {
                 .when(userDao).getOtp(stringOtp);
 
         userService.activateUserWithOtp(stringOtp);
+    }
+
+    @Test
+    public void shouldAddLoginInLowerCase() throws Exception {
+        String loginInUpperCase = "LOGIN";
+        String loginInLowerCase = loginInUpperCase.toLowerCase();
+        String password = "password";
+
+        User userWithLoginInLowerCase = UserBuilder.anUser()
+                .login(loginInLowerCase)
+                .build();
+
+        String encodedPassword = "encodedPassword";
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+
+        userService.addSubscriber(loginInUpperCase, password);
+
+        verify(userDao).addUser(userWithLoginInLowerCase, encodedPassword);
     }
 }

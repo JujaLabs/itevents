@@ -26,9 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:applicationContext.xml",
-        "classpath:applicationContextTestAddon.xml",
-        "classpath:mvc-dispatcher-servlet.xml",
-        "classpath:spring-security.xml"})
+                        "classpath:applicationContextTestAddon.xml",
+                        "classpath:mvc-dispatcher-servlet.xml",
+                        "classpath:spring-security.xml"})
 @WebAppConfiguration
 public class ControllerTest {
     @Inject
