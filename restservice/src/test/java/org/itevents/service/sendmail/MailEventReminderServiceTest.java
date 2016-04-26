@@ -5,6 +5,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.test_utils.BuilderUtil;
+import org.itevents.util.time.DateTimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,20 +51,19 @@ public class MailEventReminderServiceTest {
     @Test
     public void shouldGetUsersByEventDateAndSendMail() throws Exception {
 
-        List<Event> events = new ArrayList<Event>();
-        events.add(BuilderUtil.buildEventJava());
+        List<Event> events = new ArrayList<>();
+        Event eventJava = BuilderUtil.buildEventJava();
+        events.add(eventJava);
         when(eventDao.getEventsByDate(any(Date.class))).thenReturn(events);
 
-        List<User> user = new ArrayList<User>();
-        user.add(BuilderUtil.buildSubscriberTest());
-        when(userDao.getUsersByEvent(any(Event.class))).thenReturn(user);
-
-        doNothing().when(mailService).sendMail(anyString(), anyString());
-
+        List<User> users = new ArrayList<>();
+        User user = BuilderUtil.buildSubscriberTest();
+        users.add(user);
+        when(userDao.getUsersByEvent(any(Event.class))).thenReturn(users);
         mailReminderAboutEventService.remind();
 
         verify(eventDao).getEventsByDate(any(Date.class));
-        verify(userDao, times(events.size())).getUsersByEvent(any((Event.class)));
-        verify(mailService, times(user.size())).sendMail(anyString(), anyString());
+        verify(userDao, times(events.size())).getUsersByEvent(eventJava);
+        verify(mailService, times(users.size())).sendMail(anyString(),eq(user.getLogin()));
     }
 }

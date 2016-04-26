@@ -1,5 +1,7 @@
 package org.itevents.service.scheduler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itevents.service.NotificationService;
 import org.itevents.service.sendmail.BuildMailException;
 import org.itevents.service.sendmail.EventReminderService;
@@ -13,6 +15,8 @@ import javax.inject.Inject;
  */
 @Component
 public class MailSenderScheduler {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private NotificationService notificationService;
@@ -30,6 +34,7 @@ public class MailSenderScheduler {
         try {
             eventReminderService.remind();
         }catch (BuildMailException e){
+            LOGGER.error("Reminder about events error: ", e);
             /*
             * @TODO: need to send mail to Admin with information, that mail to user wasn't built and sent.
             * issue53
