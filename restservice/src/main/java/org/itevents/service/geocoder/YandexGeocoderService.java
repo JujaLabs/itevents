@@ -6,6 +6,8 @@ import com.yandex.geocoder.api.geocoding.GeocoderResponse;
 import com.yandex.geocoder.api.geocoding.LatLng;
 import org.itevents.dao.model.Location;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -15,12 +17,14 @@ import java.io.IOException;
 @Service
 public class YandexGeocoderService implements AddressLocationService {
 
+    @Inject
+    private Geocoder geocoder;
+
     @Override
     public Location getLocationByAddress(String address) {
 
         Location resultLocation = null;
         GeocoderRequest request = new GeocoderRequest.Builder(address).get();
-        Geocoder geocoder = new Geocoder();
         try {
             GeocoderResponse response = geocoder.geocode(request);
             LatLng latLng = response.getMostAccurateResult().getPoint().toLatLng();
