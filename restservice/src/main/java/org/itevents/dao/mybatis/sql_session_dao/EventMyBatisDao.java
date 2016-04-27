@@ -76,6 +76,11 @@ public class EventMyBatisDao extends AbstractMyBatisDao implements EventDao {
         return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapper.getEventsByUser", user);
     }
 
+    @Override
+    public List<Event> getEventsByDate(Date eventDate) {
+        return getSqlSession().selectList("org.itevents.dao.mybatis.mapper.EventMapper.getEventsByDate", eventDate);
+    }
+
     private class AssignData {
         private User user;
         private Event event;

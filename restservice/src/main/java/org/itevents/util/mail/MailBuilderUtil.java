@@ -23,7 +23,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.text.ParseException;
 import java.util.List;
 
 @Component
@@ -33,7 +32,7 @@ public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
     private Resource emailUserOtpTemplateXslResource;
 
-    public String buildHtmlFromEventsList(List<Event> events) throws ParseException, JAXBException, IOException,
+    public String buildHtmlFromEventsList(List<Event> events) throws JAXBException, IOException,
             TransformerException {
         return buildMailFromXmlEvents(buildXmlFromEventList(events));
     }
