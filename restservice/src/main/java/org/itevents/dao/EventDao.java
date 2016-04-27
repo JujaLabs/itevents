@@ -30,4 +30,6 @@ public interface EventDao {
     void unassignUserFromEvent(User user, Event event, Date unassignDate, String unassignReason);
 
     List<Event> getEventsByUser(User user);
+
+    List<Event> getEventsByDate(Date eventDate);
 }

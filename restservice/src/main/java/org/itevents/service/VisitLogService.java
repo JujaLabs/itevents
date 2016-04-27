@@ -2,7 +2,6 @@ package org.itevents.service;
 
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.VisitLog;
-
 import java.util.List;
 
 public interface VisitLogService {

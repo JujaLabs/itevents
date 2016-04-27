@@ -14,6 +14,9 @@ http.port=8080
 stop.port=9080
 stop.key=stop
 
+# MailEventReminderService
+days.till.event.to.remind=1
+
 # EventService
 event.filter.range.in.days=7
 event.count.of.events.in.email=10
