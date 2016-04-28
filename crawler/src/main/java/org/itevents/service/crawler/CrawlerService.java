@@ -8,13 +8,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import javax.inject.Inject;
 import org.itevents.service.crawler.integration.SampleIntegration;
 import org.itevents.service.crawler.interfaces.EngineObserver;
 import org.itevents.service.crawler.interfaces.Integration;
 import org.itevents.service.crawler.interfaces.IntegrationEventData;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 /**
  * Created by vaa25 on 06.04.2016.
