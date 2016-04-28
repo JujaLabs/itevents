@@ -16,10 +16,10 @@ public class IntegrationEventMyBatisService implements IntegrationEventService {
     @Inject
     private IntegrationEventDao integrationEventDao;
     @Override
-    public List<String> getParsedUrlsForFutureEventsFromDatabase(String integrationName) {
-        List<IntegrationEvent> integrationEvents = integrationEventDao.getIntegrationEventsByIntegrationName(integrationName);
-        List<String>result=new ArrayList<>(integrationEvents.size());
-        for (IntegrationEvent integrationEvent : integrationEvents) {
+    public List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
+        final List<IntegrationEvent> integrationEvents = integrationEventDao.getIntegrationEventsByIntegrationName(integrationName);
+        final List<String>result=new ArrayList<>();
+        for (final IntegrationEvent integrationEvent : integrationEvents) {
             result.add(integrationEvent.getIntegrationEventUrl());
         }
         return result;
