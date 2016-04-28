@@ -1,7 +1,8 @@
 package org.itevents.service.crawler;
 
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.itevents.dao.api.IntegrationEventDao;
 import org.itevents.dao.model.IntegrationEvent;
@@ -18,6 +19,10 @@ public class IntegrationEventMyBatisService implements IntegrationEventService {
     public List<String> getParsedUrlsForFutureEventsFromDatabase(final String integrationName) {
         final List<IntegrationEvent> integrationEvents =
                 integrationEventDao.getIntegrationEventsByIntegrationName(integrationName);
-        return integrationEvents.stream().map(IntegrationEvent::getIntegrationEventUrl).collect(Collectors.toList());
+        final List<String> result = new ArrayList<>();
+        for (final IntegrationEvent integrationEvent : integrationEvents) {
+            result.add(integrationEvent.getIntegrationEventUrl());
+        }
+        return result;
     }
 }
