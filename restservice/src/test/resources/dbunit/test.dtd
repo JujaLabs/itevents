@@ -1,155 +1,167 @@
 <!ELEMENT dataset (
-        city*,
-        currency*,
-        databasechangelog*,
-        databasechangeloglock*,
-        event*,
-        event_technology*,
-        filter*,
-        filter_technology*,
-        one_time_password*,
-        role*,
-        spatial_ref_sys*,
-        technology*,
-        user_event*,
-        user_filter*,
-        user_profile*,
-        visit_log*)>
+    city*,
+    crawler*,
+    currency*,
+    databasechangelog*,
+    databasechangeloglock*,
+    event*,
+    event_technology*,
+    filter*,
+    filter_technology*,
+    one_time_password*,
+    role*,
+    spatial_ref_sys*,
+    technology*,
+    user_event*,
+    user_filter*,
+    user_profile*,
+    visit_log*)>
 
-        <!ELEMENT city EMPTY>
-        <!ATTLIST city
-                id CDATA #IMPLIED
-                name CDATA #REQUIRED
-                details CDATA #IMPLIED
-                point CDATA #REQUIRED
-                >
+    <!ELEMENT city EMPTY>
+    <!ATTLIST city
+        id CDATA #IMPLIED
+        name CDATA #REQUIRED
+        details CDATA #IMPLIED
+        point CDATA #REQUIRED
+        >
 
-        <!ELEMENT currency EMPTY>
-        <!ATTLIST currency
-                id CDATA #IMPLIED
-                name CDATA #REQUIRED
-                >
+    <!ELEMENT crawler EMPTY>
+    <!ATTLIST crawler
+        id CDATA #IMPLIED
+        integration_name CDATA #REQUIRED
+        integration_event_url CDATA #REQUIRED
+        event_id CDATA #IMPLIED
+        >
 
-        <!ELEMENT databasechangelog EMPTY>
-        <!ATTLIST databasechangelog
-                id CDATA #REQUIRED
-                author CDATA #REQUIRED
-                filename CDATA #REQUIRED
-                dateexecuted CDATA #REQUIRED
-                orderexecuted CDATA #REQUIRED
-                exectype CDATA #REQUIRED
-                md5sum CDATA #IMPLIED
-                description CDATA #IMPLIED
-                comments CDATA #IMPLIED
-                tag CDATA #IMPLIED
-                liquibase CDATA #IMPLIED
-                contexts CDATA #IMPLIED
-                labels CDATA #IMPLIED
-                >
+    <!ELEMENT currency EMPTY>
+    <!ATTLIST currency
+        id CDATA #IMPLIED
+        name CDATA #REQUIRED
+        >
 
-        <!ELEMENT databasechangeloglock EMPTY>
-        <!ATTLIST databasechangeloglock
-                id CDATA #REQUIRED
-                locked CDATA #REQUIRED
-                lockgranted CDATA #IMPLIED
-                lockedby CDATA #IMPLIED
-                >
+    <!ELEMENT databasechangelog EMPTY>
+    <!ATTLIST databasechangelog
+        id CDATA #REQUIRED
+        author CDATA #REQUIRED
+        filename CDATA #REQUIRED
+        dateexecuted CDATA #REQUIRED
+        orderexecuted CDATA #REQUIRED
+        exectype CDATA #REQUIRED
+        md5sum CDATA #IMPLIED
+        description CDATA #IMPLIED
+        comments CDATA #IMPLIED
+        tag CDATA #IMPLIED
+        liquibase CDATA #IMPLIED
+        contexts CDATA #IMPLIED
+        labels CDATA #IMPLIED
+        >
 
-        <!ELEMENT event EMPTY>
-        <!ATTLIST event
-                id CDATA #IMPLIED
-                title CDATA #REQUIRED
-                event_date CDATA #REQUIRED
-                create_date CDATA #IMPLIED
-                reg_link CDATA #IMPLIED
-                address CDATA #IMPLIED
-                point CDATA #IMPLIED
-                contact CDATA #IMPLIED
-                price CDATA #IMPLIED
-                currency_id CDATA #IMPLIED
-                city_id CDATA #IMPLIED
-                description CDATA #IMPLIED
-                >
+    <!ELEMENT databasechangeloglock EMPTY>
+    <!ATTLIST databasechangeloglock
+        id CDATA #REQUIRED
+        locked CDATA #REQUIRED
+        lockgranted CDATA #IMPLIED
+        lockedby CDATA #IMPLIED
+        >
 
-        <!ELEMENT event_technology EMPTY>
-        <!ATTLIST event_technology
-                event_id CDATA #REQUIRED
-                technology_id CDATA #REQUIRED
-                >
+    <!ELEMENT event EMPTY>
+    <!ATTLIST event
+        id CDATA #IMPLIED
+        title CDATA #REQUIRED
+        event_date CDATA #REQUIRED
+        create_date CDATA #IMPLIED
+        reg_link CDATA #IMPLIED
+        address CDATA #IMPLIED
+        point CDATA #IMPLIED
+        contact CDATA #IMPLIED
+        price CDATA #IMPLIED
+        currency_id CDATA #IMPLIED
+        city_id CDATA #IMPLIED
+        description CDATA #IMPLIED
+        >
 
-        <!ELEMENT filter EMPTY>
-        <!ATTLIST filter
-                id CDATA #IMPLIED
-                row_limit CDATA #IMPLIED
-                create_date CDATA #REQUIRED
-                city_id CDATA #IMPLIED
-                free CDATA #IMPLIED
-                longitude CDATA #IMPLIED
-                latitude CDATA #IMPLIED
-                radius CDATA #IMPLIED
-                >
+    <!ELEMENT event_technology EMPTY>
+    <!ATTLIST event_technology
+        event_id CDATA #REQUIRED
+        technology_id CDATA #REQUIRED
+        >
 
-        <!ELEMENT filter_technology EMPTY>
-        <!ATTLIST filter_technology
-                filter_id CDATA #REQUIRED
-                technology_id CDATA #REQUIRED
-                >
-        <!ELEMENT one_time_password EMPTY>
-        <!ATTLIST one_time_password
-                user_id CDATA #REQUIRED
-                password CDATA #REQUIRED
-                expiration_date CDATA #IMPLIED
-                >
+    <!ELEMENT filter EMPTY>
+    <!ATTLIST filter
+        id CDATA #IMPLIED
+        row_limit CDATA #IMPLIED
+        create_date CDATA #REQUIRED
+        city_id CDATA #IMPLIED
+        free CDATA #IMPLIED
+        longitude CDATA #IMPLIED
+        latitude CDATA #IMPLIED
+        radius CDATA #IMPLIED
+        >
 
-        <!ELEMENT role EMPTY>
-        <!ATTLIST role
-                id CDATA #IMPLIED
-                name CDATA #IMPLIED
-                >
+    <!ELEMENT filter_technology EMPTY>
+    <!ATTLIST filter_technology
+        filter_id CDATA #REQUIRED
+        technology_id CDATA #REQUIRED
+        >
 
-        <!ELEMENT spatial_ref_sys EMPTY>
-        <!ATTLIST spatial_ref_sys
-                srid CDATA #REQUIRED
-                auth_name CDATA #IMPLIED
-                auth_srid CDATA #IMPLIED
-                srtext CDATA #IMPLIED
-                proj4text CDATA #IMPLIED
-                >
+    <!ELEMENT one_time_password EMPTY>
+    <!ATTLIST one_time_password
+        user_id CDATA #IMPLIED
+        password CDATA #REQUIRED
+        expiration_date CDATA #IMPLIED
+        >
 
-        <!ELEMENT technology EMPTY>
-        <!ATTLIST technology
-                id CDATA #IMPLIED
-                name CDATA #REQUIRED
-                >
-        <!ELEMENT user_event EMPTY>
-        <!ATTLIST user_event
-                user_id CDATA #REQUIRED
-                event_id CDATA #REQUIRED
-                deleted_date CDATA #IMPLIED
-                deleted_reason CDATA #IMPLIED
-                id CDATA #IMPLIED
-                >
+    <!ELEMENT role EMPTY>
+    <!ATTLIST role
+        id CDATA #IMPLIED
+        name CDATA #IMPLIED
+        >
 
-        <!ELEMENT user_filter EMPTY>
-        <!ATTLIST user_filter
-                user_id CDATA #REQUIRED
-                filter_id CDATA #REQUIRED
-                >
+    <!ELEMENT spatial_ref_sys EMPTY>
+    <!ATTLIST spatial_ref_sys
+        srid CDATA #REQUIRED
+        auth_name CDATA #IMPLIED
+        auth_srid CDATA #IMPLIED
+        srtext CDATA #IMPLIED
+        proj4text CDATA #IMPLIED
+        >
 
-        <!ELEMENT user_profile EMPTY>
-        <!ATTLIST user_profile
-                id CDATA #IMPLIED
-                login CDATA #REQUIRED
-                password CDATA #REQUIRED
-                role_id CDATA #REQUIRED
-                subscribed CDATA #IMPLIED
-                >
+    <!ELEMENT technology EMPTY>
+    <!ATTLIST technology
+        id CDATA #IMPLIED
+        name CDATA #REQUIRED
+        >
 
-        <!ELEMENT visit_log EMPTY>
-        <!ATTLIST visit_log
-                id CDATA #IMPLIED
-                event_id CDATA #REQUIRED
-                date CDATA #REQUIRED
-                user_id CDATA #REQUIRED
-                >
+    <!ELEMENT user_event EMPTY>
+    <!ATTLIST user_event
+        user_id CDATA #REQUIRED
+        event_id CDATA #REQUIRED
+        created_date CDATA #IMPLIED
+        deleted_date CDATA #IMPLIED
+        deleted_reason CDATA #IMPLIED
+        id CDATA #IMPLIED
+        >
+
+    <!ELEMENT user_filter EMPTY>
+    <!ATTLIST user_filter
+        user_id CDATA #REQUIRED
+        filter_id CDATA #REQUIRED
+        >
+
+    <!ELEMENT user_profile EMPTY>
+    <!ATTLIST user_profile
+        id CDATA #IMPLIED
+        login CDATA #REQUIRED
+        password CDATA #REQUIRED
+        role_id CDATA #REQUIRED
+        subscribed CDATA #IMPLIED
+        >
+
+    <!ELEMENT visit_log EMPTY>
+    <!ATTLIST visit_log
+        id CDATA #IMPLIED
+        event_id CDATA #REQUIRED
+        date CDATA #REQUIRED
+        user_id CDATA #REQUIRED
+        >
 

@@ -47,7 +47,7 @@ public final class Parser {
     private String getAddress() {
         final String[] split =
             document.select(Parser.TAG_DD).get(2).text().split(",");
-        return String.format("%s,%s", split[1], split[2]);
+        return String.format("%s, %s", split[1].trim(), split[2].trim());
     }
 
     private String getCity() {
@@ -66,7 +66,7 @@ public final class Parser {
     private String getPrice() {
         String price = document.select(":containsOwn(Цена)").text();
         if (price.contains("у.е")) {
-            price = price.split("у.е")[0].replaceAll("\\D", "");
+            price = String.format("%s у.е.", price.split("у.е")[0].replaceAll("\\D", ""));
         }
         return price;
     }

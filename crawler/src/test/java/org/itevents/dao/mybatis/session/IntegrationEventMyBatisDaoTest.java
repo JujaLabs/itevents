@@ -35,7 +35,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class IntegrationEventMyBatisDaoTest extends SqlSessionDaoSupport {
     private static final String PATH =
-        "file:src/test/resources/dbunit/IntegrationEventMapperTest/";
+        "file:src/test/resources/dbunit/integrationEventMapperTest/";
     @Inject
     private SqlSessionFactoryBean sqlSessionFactoryBean;
 
@@ -48,11 +48,14 @@ public class IntegrationEventMyBatisDaoTest extends SqlSessionDaoSupport {
     }
 
     @Test
-    @DatabaseSetup(value = PATH + "shouldAddIntegrationEvent_initial.xml",
+    @DatabaseSetup(value = IntegrationEventMyBatisDaoTest.PATH +
+        "shouldAddIntegrationEvent_initial.xml",
         type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = PATH + "shouldAddIntegrationEvent_expected.xml",
+    @DatabaseTearDown(value = IntegrationEventMyBatisDaoTest.PATH +
+        "shouldAddIntegrationEvent_expected.xml",
         type = DatabaseOperation.DELETE_ALL)
-    @ExpectedDatabase(value = PATH + "shouldAddIntegrationEvent_expected.xml",
+    @ExpectedDatabase(value = IntegrationEventMyBatisDaoTest.PATH +
+        "shouldAddIntegrationEvent_expected.xml",
         assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
     public void shouldAddIntegrationEvent() throws Exception {
         final IntegrationEvent integrationEvent = new IntegrationEvent();
@@ -68,9 +71,11 @@ public class IntegrationEventMyBatisDaoTest extends SqlSessionDaoSupport {
     }
 
     @Test
-    @DatabaseSetup(value = PATH + "shouldGetIntegrationEventsByIntegrationName_initial.xml",
+    @DatabaseSetup(value = IntegrationEventMyBatisDaoTest.PATH +
+        "shouldGetIntegrationEventsByIntegrationName_initial.xml",
         type = DatabaseOperation.REFRESH)
-    @DatabaseTearDown(value = PATH + "shouldGetIntegrationEventsByIntegrationName_initial.xml",
+    @DatabaseTearDown(value = IntegrationEventMyBatisDaoTest.PATH +
+        "shouldGetIntegrationEventsByIntegrationName_initial.xml",
         type = DatabaseOperation.DELETE_ALL)
     public void shouldGetIntegrationEventsByIntegrationName() throws Exception {
         final IntegrationEvent integrationEvent = new IntegrationEvent();
