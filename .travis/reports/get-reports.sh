@@ -1,3 +1,3 @@
 #!/bin/bash
 
-find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd'
+find -name \*.html | grep reports | grep 'findbugs\|checkstyle\|pmd\|tests'
