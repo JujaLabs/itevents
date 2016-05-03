@@ -3,6 +3,7 @@ package org.itevents.service.crawler.integration;
 import org.itevents.service.crawler.interfaces.IntegrationEventData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 /**
  * Created by vaa25 on 06.04.2016.
@@ -55,8 +56,8 @@ public final class Parser {
     }
 
     private String getRegistrationLink() {
-        return document.select(":containsOwn(регистр) a")
-            .first().attr("href");
+        final Elements possibleLinks = document.select(":containsOwn(регистр) a");
+        return possibleLinks.first().attr("href");
     }
 
     private String getDescription() {
