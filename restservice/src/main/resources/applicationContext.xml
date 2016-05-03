@@ -13,6 +13,7 @@
     <mybatis:scan base-package="org.itevents.dao.mybatis.mapper"/>
     <context:component-scan base-package="org.itevents.service.transactional"/>
     <context:component-scan base-package="org.itevents.service.sendmail"/>
+    <context:component-scan base-package="org.itevents.service.geocoder"/>
     <context:component-scan base-package="org.itevents.util"/>
     <context:component-scan base-package="org.itevents.dao.mybatis.sql_session_dao"/>
     <context:property-placeholder  location="classpath:global.properties, classpath:local.properties"/>
@@ -35,4 +36,5 @@
     <bean id="sendgrid" class="com.sendgrid.SendGrid">
         <constructor-arg value="${sendgrid.api.key}"/>
     </bean>
+    <bean id="geocoder" class="com.yandex.geocoder.api.geocoder.Geocoder"/>
 </beans>

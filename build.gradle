@@ -46,6 +46,9 @@ subprojects {
         maven {
             url "http://download.osgeo.org/webdav/geotools/"
         }
+        maven {
+            url "https://jitpack.io"
+        }
     }
 
     sourceCompatibility = 1.8
@@ -62,6 +65,7 @@ subprojects {
         log4j
         swagger
         mailing
+        geocoder
         validating
         liquibase
         testing
@@ -94,6 +98,7 @@ subprojects {
         swagger 'org.jvnet.ws.wadl:wadl-client-plugin:1.1.6'
         swagger 'io.springfox:springfox-swagger2:2.1.1'
         mailing 'com.sendgrid:sendgrid-java:2.2.2'
+        geocoder 'com.github.ousenko:YandexGeocoder:-SNAPSHOT'
         validating 'org.hibernate:hibernate-validator:5.2.2.Final'
         validating 'javax.el:javax.el-api:3.0.0'
         liquibaseCommon 'org.liquibase:liquibase-core:3.4.1'
