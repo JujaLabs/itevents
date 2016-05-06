@@ -77,7 +77,7 @@ public class MailBuilderUtil {
 
     }
 
-    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException {
+    private String  buildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException {
 
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);

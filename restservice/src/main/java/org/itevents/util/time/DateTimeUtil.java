@@ -17,7 +17,7 @@ public class DateTimeUtil {
         return dateToString(futureDate, dateFormat);
     }
 
-    private static Date addDaysToDate(Date date, int daysCount) {
+    public static Date addDaysToDate(Date date, int daysCount) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, daysCount);
@@ -35,5 +35,16 @@ public class DateTimeUtil {
 
     public static Date getNowDate(){
         return Calendar.getInstance().getTime();
+    }
+
+    public static Date getDateWithoutTime(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY,0);
+        cal.clear(Calendar.AM_PM);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        return new Date(cal.getTime().getTime());
     }
 }
