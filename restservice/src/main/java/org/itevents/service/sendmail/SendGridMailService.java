@@ -28,7 +28,7 @@ public class SendGridMailService implements MailService {
         try {
             sendgrid.send(email);
         } catch (SendGridException e) {
-            LOGGER.error("Email sending error: ", email.getTos());
+            throw new NotificationServiceException(e.getMessage(), e);
         }
     }
 

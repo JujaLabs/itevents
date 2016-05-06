@@ -4,7 +4,6 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.NotificationServiceException;
 import org.itevents.test_utils.BuilderUtil;

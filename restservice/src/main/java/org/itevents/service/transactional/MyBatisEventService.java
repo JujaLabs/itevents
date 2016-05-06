@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -82,7 +80,7 @@ public class MyBatisEventService implements EventService {
         if (isAssigned(user, event)) {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
         } else {
-            String message=user.getLogin() + " already unassigned from "+event.getTitle();
+            String message=user.getLogin() + " already unassigned from " + event.getTitle();
             throw new ActionAlreadyDoneServiceException(message);
         }
     }

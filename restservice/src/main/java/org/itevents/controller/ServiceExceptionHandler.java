@@ -22,7 +22,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @ExceptionHandler(EntityNotFoundServiceException.class)
-    public ResponseEntity<String> handleEntityNotFoundControllerException(EntityNotFoundServiceException ex) {
+    public ResponseEntity<String> handleEntityNotFoundServiceException(EntityNotFoundServiceException ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
@@ -46,7 +46,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String>  handleConstrainViolationException(ConstraintViolationException ex) {
+    public ResponseEntity<String>  handleConstraintViolationException(ConstraintViolationException ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
@@ -58,7 +58,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NotificationServiceException.class)
-    public ResponseEntity<String> handleMailServiceException(NotificationServiceException ex){
+    public ResponseEntity<String> handleNotificationServiceException(NotificationServiceException ex){
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

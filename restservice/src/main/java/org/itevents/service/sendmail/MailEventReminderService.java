@@ -57,8 +57,8 @@ public class MailEventReminderService implements EventReminderService {
     private String buildMail(List<Event> events) {
         try {
             return mailBuilderUtil.buildHtmlFromEventsList(events);
-        } catch (Exception e) {
-            throw new MailBuilderUtilException("Build mail for user error:", e);
+        } catch (MailBuilderUtilException e) {
+            throw new NotificationServiceException(e.getMessage(), e);
         }
     }
 

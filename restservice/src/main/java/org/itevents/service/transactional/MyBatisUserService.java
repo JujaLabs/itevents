@@ -9,13 +9,11 @@ import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.AuthenticationServiceException;
-import org.itevents.service.exception.EntityAlreadyExistsServiceException;
-import org.itevents.service.exception.EntityNotFoundServiceException;
-import org.itevents.service.exception.OtpExpiredServiceException;
+import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.mail.MailBuilderUtilException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,8 +71,12 @@ public class MyBatisUserService implements UserService {
     }
 
     private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) {
-        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
-        mailService.sendMail(email, user.getLogin());
+        try {
+            String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+            mailService.sendMail(email, user.getLogin());
+        } catch (MailBuilderUtilException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
