@@ -42,7 +42,7 @@ public class MailBuilderUtil {
 
     public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword) {
         try{
-            return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
+            return buildMailFromXmlUserOtp(buildXmlFromUserOtp(user, oneTimePassword));
         } catch (JAXBException | TransformerException | IOException e) {
         throw new MailBuilderUtilException(e.getMessage(), e);
         }
