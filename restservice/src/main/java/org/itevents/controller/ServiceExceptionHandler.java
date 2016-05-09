@@ -46,7 +46,7 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String>  handleConstraintViolationException(ConstraintViolationException ex) {
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }

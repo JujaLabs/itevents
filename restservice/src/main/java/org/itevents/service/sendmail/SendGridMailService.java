@@ -12,7 +12,6 @@ import javax.inject.Inject;
 @Service("mailService")
 public class SendGridMailService implements MailService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
     private static final String FROM_MAIL = "events@juja.com.ua";
     private static final String SUBJECT_MAIL = "IT Events";
 
