@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.UserDao;
 import org.itevents.dao.exception.EntityAlreadyExistsDaoException;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
@@ -15,6 +13,7 @@ import org.itevents.service.exception.*;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.util.OneTimePassword.OneTimePassword;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.mail.MailBuilderUtilException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,8 +28,6 @@ import java.util.List;
 @Service("userService")
 @Transactional
 public class MyBatisUserService implements UserService {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject
     private EventService eventService;
@@ -51,7 +48,7 @@ public class MyBatisUserService implements UserService {
 
 
     @Override
-    public void addSubscriber(String username, String password) throws Exception  {
+    public void addSubscriber(String username, String password)  {
         String loginInLowerCase = username.toLowerCase();
         User user = UserBuilder.anUser()
                 .login(loginInLowerCase)
@@ -73,9 +70,13 @@ public class MyBatisUserService implements UserService {
         }
     }
 
-    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) throws Exception {
-        String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
-        mailService.sendMail(email, user.getLogin());
+    private void sendActivationEmailToUserLogin(User user, OneTimePassword otp) {
+        try {
+            String email = mailBuilderUtil.buildHtmlFromUserOtp(user, otp);
+            mailService.sendMail(email, user.getLogin());
+        } catch (MailBuilderUtilException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -83,7 +84,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUser(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
@@ -93,7 +93,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUserByName(name.toLowerCase());
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
@@ -183,7 +182,6 @@ public class MyBatisUserService implements UserService {
         try {
             return userDao.getUserByOtp(otp);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

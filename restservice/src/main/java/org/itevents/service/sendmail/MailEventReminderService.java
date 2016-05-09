@@ -7,6 +7,7 @@ import org.itevents.dao.UserDao;
 import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.util.mail.MailBuilderUtil;
+import org.itevents.util.mail.MailBuilderUtilException;
 import org.itevents.util.time.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,8 +57,8 @@ public class MailEventReminderService implements EventReminderService {
     private String buildMail(List<Event> events) {
         try {
             return mailBuilderUtil.buildHtmlFromEventsList(events);
-        } catch (Exception e) {
-            throw new BuildMailException("Build mail for user error:", e);
+        } catch (MailBuilderUtilException e) {
+            throw new NotificationServiceException(e.getMessage(), e);
         }
     }
 

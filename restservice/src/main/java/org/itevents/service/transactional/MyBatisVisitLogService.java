@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.VisitLogDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -21,8 +19,6 @@ import java.util.List;
 @Transactional
 public class MyBatisVisitLogService implements VisitLogService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private VisitLogDao visitLogDao;
 
@@ -41,7 +37,6 @@ public class MyBatisVisitLogService implements VisitLogService {
         try {
             return visitLogDao.getVisitLog(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

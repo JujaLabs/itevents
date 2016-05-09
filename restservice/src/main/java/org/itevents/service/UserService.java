@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    void addSubscriber(String name, String password) throws Exception;
+    void addSubscriber(String name, String password);
 
     User getUser(int userId);
 

@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.CurrencyDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Currency;
@@ -20,8 +18,6 @@ import java.util.List;
 @Transactional
 public class MyBatisCurrencyService implements CurrencyService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private CurrencyDao currencyDao;
 
@@ -30,7 +26,6 @@ public class MyBatisCurrencyService implements CurrencyService {
         try {
             return currencyDao.getCurrency(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

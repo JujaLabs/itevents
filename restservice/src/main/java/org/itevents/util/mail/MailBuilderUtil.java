@@ -32,19 +32,25 @@ public class MailBuilderUtil {
     @Value("classpath:utils/mailBuilder/UserOtpMail.xsl")
     private Resource emailUserOtpTemplateXslResource;
 
-    public String buildHtmlFromEventsList(List<Event> events) throws JAXBException, IOException,
-            TransformerException {
-        return buildMailFromXmlEvents(buildXmlFromEventList(events));
+    public String buildHtmlFromEventsList(List<Event> events) {
+        try {
+            return buildMailFromXmlEvents(buildXmlFromEventList(events));
+        } catch (JAXBException | TransformerException | IOException e) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
     }
 
-    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword)  throws Exception {
-        return buildMailFromXmlUserOtp(BuildXmlFromUserOtp(user, oneTimePassword));
+    public String buildHtmlFromUserOtp(User user, OneTimePassword oneTimePassword) {
+        try {
+            return buildMailFromXmlUserOtp(buildXmlFromUserOtp(user, oneTimePassword));
+        } catch (JAXBException | TransformerException | IOException e) {
+            throw new MailBuilderUtilException(e.getMessage(), e);
+        }
     }
 
     private String buildXmlFromEventList(List<Event> events) throws JAXBException {
         EventsXmlNodeWrapper eventsXmlNodeWrapper = new EventsXmlNodeWrapper();
         eventsXmlNodeWrapper.setEvents(events);
-
         Marshaller marshaller = JAXBContext.newInstance(EventsXmlNodeWrapper.class)
                 .createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -52,6 +58,7 @@ public class MailBuilderUtil {
 
         StringWriter eventsInXmlStringWriter = new StringWriter();
         marshaller.marshal(eventsXmlNodeWrapper, eventsInXmlStringWriter);
+
         return eventsInXmlStringWriter.toString();
     }
 
@@ -66,25 +73,23 @@ public class MailBuilderUtil {
                 new StreamSource(new StringReader(eventsInXml)),
                 new StreamResult(mailStringWriter)
         );
-
         return mailStringWriter.toString();
     }
 
-    private String BuildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException, IOException {
+    private String buildXmlFromUserOtp(User user, OneTimePassword oneTimePassword) throws JAXBException {
         UserOtpXmlWrapper userOtpXmlWrapper = new UserOtpXmlWrapper();
         userOtpXmlWrapper.setUser(user);
         userOtpXmlWrapper.setOneTimePassword(oneTimePassword);
-
         Marshaller marshaller = JAXBContext.newInstance(UserOtpXmlWrapper.class).createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-
         StringWriter userOtpInXmlStringWriter = new StringWriter();
         marshaller.marshal(userOtpXmlWrapper, userOtpInXmlStringWriter);
+
         return userOtpInXmlStringWriter.toString();
     }
 
-    private String buildMailFromXmlUserOtp(String userOtpUrl)  throws IOException, TransformerException {
+    private String buildMailFromXmlUserOtp(String userOtpUrl) throws IOException, TransformerException {
         StringReader stringReader = new StringReader(userOtpUrl);
         StringWriter mailStringWriter = new StringWriter();
         Transformer transformer =

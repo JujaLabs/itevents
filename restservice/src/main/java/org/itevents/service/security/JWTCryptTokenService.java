@@ -40,7 +40,7 @@ public class JWTCryptTokenService implements CryptTokenService {
 
             return new Token(username, role);
         } catch (SignatureException | MalformedJwtException e) {
-            throw new CryptTokenServiceException("Don't trust the JWT");
+            throw new CryptTokenServiceException(e.getMessage(), e);
         }
     }
 }

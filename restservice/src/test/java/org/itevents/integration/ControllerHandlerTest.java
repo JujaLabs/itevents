@@ -4,8 +4,8 @@ import org.itevents.dao.model.Event;
 import org.itevents.dao.model.User;
 import org.itevents.service.EventService;
 import org.itevents.service.UserService;
-import org.itevents.service.VisitLogService;
 import org.itevents.service.exception.*;
+import org.itevents.service.sendmail.NotificationServiceException;
 import org.itevents.test_utils.BuilderUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -161,7 +161,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldExpect404IfOtpNotValid() throws Exception {
+    public void shouldExpectNotFoundIfOtpNotValid() throws Exception {
         String otp = "NotValidOtp";
 
         doThrow(EntityNotFoundServiceException.class)
@@ -172,7 +172,7 @@ public class ControllerHandlerTest {
     }
 
     @Test
-    public void shouldExpect401WhenLoggingWithIncorrectPassword() throws Exception {
+    public void shouldExpectUnauthorizedWhenLoggingWithIncorrectPassword() throws Exception {
         String invalidPassword = "invalidPassword";
 
         User user = BuilderUtil.buildUserAnakin();
@@ -187,5 +187,31 @@ public class ControllerHandlerTest {
         .param("password", invalidPassword))
                 .andExpect(status().isUnauthorized());
 
+    }
+
+//    @TODO: this test is a MOCK for future implementation of issue 53 or/and issue 187
+//           and should be refactored after finishing this issues or within it
+//           https://github.com/JuniorsJava/itevents/issues/53
+//           https://github.com/JuniorsJava/itevents/issues/187
+    @Test
+    public void shouldExpectInternalServerErrorIfNotificationServiceException() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doThrow(NotificationServiceException.class).when(userService).activateUserSubscription(user);
+
+        mvc.perform(get("/users/subscribe"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void shouldExpectInternalServerErrorIfServiceException() throws Exception {
+        User user = BuilderUtil.buildUserAnakin();
+
+        when(userService.getAuthorizedUser()).thenReturn(user);
+        doThrow(ServiceException.class).when(userService).activateUserSubscription(user);
+
+        mvc.perform(get("/users/subscribe"))
+                .andExpect(status().isInternalServerError());
     }
 }

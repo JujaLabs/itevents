@@ -24,12 +24,10 @@ public class JWTCryptTokenServiceTest {
             "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhbWF4Iiwicm9s" +
             "ZSI6ImFkbWluIn0.4RdnMCRvtqUY_SDNmVJ_2VyPatbLtd-HPnf8hpk22AM";
     private final Token TOKEN = new Token("ramax","admin");
-
-    @InjectMocks
-    private CryptTokenService cryptTokenService = new JWTCryptTokenService(KEY);
-
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    @InjectMocks
+    private CryptTokenService cryptTokenService = new JWTCryptTokenService(KEY);
 
     @Test
     public void shouldEncryptToken() throws Exception {
@@ -48,7 +46,6 @@ public class JWTCryptTokenServiceTest {
     @Test
     public void shouldFailedDecryptToken() throws Exception {
         expectedException.expect(CryptTokenServiceException.class);
-        expectedException.expectMessage("Don't trust the JWT");
         String encodedToken = "someNotValidToken";
 
         cryptTokenService.decrypt(encodedToken);

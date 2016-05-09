@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.EventDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.Event;
@@ -27,8 +25,6 @@ import java.util.List;
 @Transactional
 public class MyBatisEventService implements EventService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private EventDao eventDao;
     @Inject
@@ -47,7 +43,6 @@ public class MyBatisEventService implements EventService {
         try {
             return eventDao.getEvent(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }
@@ -67,7 +62,6 @@ public class MyBatisEventService implements EventService {
     private void assignUserToEvent(User user, Event futureEvent) {
         if (isAssigned(user, futureEvent)) {
             String message=user.getLogin() + " already assigned to " + futureEvent.getTitle();
-            LOGGER.error(message);
             throw new ActionAlreadyDoneServiceException(message);
         } else {
             eventDao.assignUserToEvent(user, futureEvent);
@@ -86,8 +80,7 @@ public class MyBatisEventService implements EventService {
         if (isAssigned(user, event)) {
             eventDao.unassignUserFromEvent(user, event, unassignDate, unassignReason);
         } else {
-            String message=user.getLogin() + " already unassigned from "+ event.getTitle();
-            LOGGER.error(message);
+            String message=user.getLogin() + " already unassigned from " + event.getTitle();
             throw new ActionAlreadyDoneServiceException(message);
         }
     }
@@ -102,7 +95,6 @@ public class MyBatisEventService implements EventService {
         Event event = getEvent(eventId);
         if (event.getEventDate().before(new Date())) {
             String message = String.format("Try to get event id=%s with date %s as future event", eventId, event.getEventDate().toString());
-            LOGGER.error(message);
             throw new TimeCollisionServiceException(message);
         }
         return event;

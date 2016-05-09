@@ -3,6 +3,7 @@ package org.itevents.util.time;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class DateTimeUtil {
         return dateFormat.format(date);
     }
 
-    public static Date yyyyMMddStringToDate(String date) throws Exception {
+    public static Date yyyyMMddStringToDate(String date) throws ParseException {
         return new SimpleDateFormat("yyyy.MM.dd").parse(date);
     }
 

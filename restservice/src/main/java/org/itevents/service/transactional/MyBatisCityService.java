@@ -1,7 +1,5 @@
 package org.itevents.service.transactional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itevents.dao.CityDao;
 import org.itevents.dao.exception.EntityNotFoundDaoException;
 import org.itevents.dao.model.City;
@@ -17,8 +15,6 @@ import java.util.List;
 @Transactional
 public class MyBatisCityService implements CityService {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Inject
     private CityDao cityDao;
 
@@ -32,7 +28,6 @@ public class MyBatisCityService implements CityService {
         try {
             return cityDao.getCity(id);
         } catch (EntityNotFoundDaoException e) {
-            LOGGER.error(e.getMessage());
             throw new EntityNotFoundServiceException(e.getMessage(), e);
         }
     }

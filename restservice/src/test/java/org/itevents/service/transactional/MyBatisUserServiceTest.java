@@ -11,7 +11,10 @@ import org.itevents.dao.model.builder.UserBuilder;
 import org.itevents.service.EventService;
 import org.itevents.service.RoleService;
 import org.itevents.service.UserService;
-import org.itevents.service.exception.*;
+import org.itevents.service.exception.AuthenticationServiceException;
+import org.itevents.service.exception.EntityAlreadyExistsServiceException;
+import org.itevents.service.exception.EntityNotFoundServiceException;
+import org.itevents.service.exception.OtpExpiredServiceException;
 import org.itevents.service.sendmail.SendGridMailService;
 import org.itevents.test_utils.BuilderUtil;
 import org.itevents.util.OneTimePassword.OneTimePassword;
@@ -24,13 +27,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -162,7 +165,7 @@ public class MyBatisUserServiceTest {
 
         when(roleService.getRoleByName(GUEST_ROLE_NAME)).thenReturn(guestRole);
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
-        doThrow(new EntityAlreadyExistsDaoException("message", new SQLException()))
+        doThrow(new EntityAlreadyExistsDaoException("message", new DuplicateKeyException("message")))
                 .when(userDao).addUser(testUser, encodedPassword);
 
         userService.addSubscriber(testUser.getLogin(), password);
